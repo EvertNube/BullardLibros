@@ -1,0 +1,7 @@
+C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Data\bin\Debug\BullardLibros.Data.dll.config
+C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Data\bin\Debug\BullardLibros.Data.dll
+C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Data\bin\Debug\BullardLibros.Data.pdb
+C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Data\bin\Debug\EntityFramework.dll
+C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Data\bin\Debug\EntityFramework.xml
+C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Data\obj\Debug\BullardLibros.Data.dll
+C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Data\obj\Debug\BullardLibros.Data.pdb

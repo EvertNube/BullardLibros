@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullardLibros", "BullardLibros\BullardLibros.csproj", "{484A62F2-5DE2-4D64-8686-B53F4BDACC3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullardLibros.Core", "BullardLibros.Core\BullardLibros.Core.csproj", "{3486877D-8842-4774-8614-85CC69BFFBA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullardLibros.Data", "BullardLibros.Data\BullardLibros.Data.csproj", "{F4D8C75D-549F-48CF-B4EB-B431C22C12FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullardLibros.Helpers", "BullardLibros.Helpers\BullardLibros.Helpers.csproj", "{16309094-5AAB-483C-9302-766597C4A4A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullardLibros.Helpers.Razor", "BullardLibros.Helpers.Razor\BullardLibros.Helpers.Razor.csproj", "{D42A9C6B-50DB-4419-A9B5-72673B9A28E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{484A62F2-5DE2-4D64-8686-B53F4BDACC3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{484A62F2-5DE2-4D64-8686-B53F4BDACC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{484A62F2-5DE2-4D64-8686-B53F4BDACC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{484A62F2-5DE2-4D64-8686-B53F4BDACC3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3486877D-8842-4774-8614-85CC69BFFBA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3486877D-8842-4774-8614-85CC69BFFBA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3486877D-8842-4774-8614-85CC69BFFBA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3486877D-8842-4774-8614-85CC69BFFBA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D8C75D-549F-48CF-B4EB-B431C22C12FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D8C75D-549F-48CF-B4EB-B431C22C12FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D8C75D-549F-48CF-B4EB-B431C22C12FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D8C75D-549F-48CF-B4EB-B431C22C12FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16309094-5AAB-483C-9302-766597C4A4A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16309094-5AAB-483C-9302-766597C4A4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16309094-5AAB-483C-9302-766597C4A4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16309094-5AAB-483C-9302-766597C4A4A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D42A9C6B-50DB-4419-A9B5-72673B9A28E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D42A9C6B-50DB-4419-A9B5-72673B9A28E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D42A9C6B-50DB-4419-A9B5-72673B9A28E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D42A9C6B-50DB-4419-A9B5-72673B9A28E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

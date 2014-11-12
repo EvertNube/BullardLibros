@@ -1,0 +1,14 @@
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\BullardEncuestas.Core.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\BullardEncuestas.Core.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\obj\Debug\BullardEncuestas.Core.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\obj\Debug\BullardEncuestas.Core.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\obj\Debug\BullardEncuestas.Core.csprojResolveAssemblyReference.cache
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\BullardEncuestas.Core.dll.config
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\BullardEncuestas.Data.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\BullardEncuestas.Helpers.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\EntityFramework.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\EntityFramework.SqlServer.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\BullardEncuestas.Data.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\BullardEncuestas.Helpers.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\EntityFramework.xml
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Core\bin\Debug\EntityFramework.SqlServer.xml

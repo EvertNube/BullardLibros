@@ -1,0 +1,7 @@
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.Razor.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.Razor.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Helpers.Razor\obj\Debug\BullardEncuestas.Helpers.Razor.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Helpers.Razor\obj\Debug\BullardEncuestas.Helpers.Razor.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Helpers.Razor\obj\Debug\BullardEncuestas.Helpers.Razor.csprojResolveAssemblyReference.cache
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardProyecto\BullardEncuestas\BullardEncuestas.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.pdb
