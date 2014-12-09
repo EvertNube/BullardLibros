@@ -26,19 +26,24 @@
 <body>
     @Html.Partial("_showAlertMessages")
     <section id="content" class="m-t-lg wrapper-md animated fadeInUp">
-        <div class="container aside-xxl m-t-90">
-            <a class="text-center block"><img src="@Url.Content("~/Content/themes/admin/images/logo-rpd.png")" style="width: 30%;"></a>
-            <section class="panel m-t-lg panel-login">
+        <div class="container aside-xxl">
+            <a class="text-center block"><img src="@Url.Content("~/Content/themes/admin/images/bullard.jpg")" style="width: 100%;"></a>
+            @*<a class="navbar-brand block">Administrador</a>*@
+            <section class="panel panel-default bg-white m-t-sm">
+                <header class="panel-heading text-center">
+                    <strong>Ingresar</strong>
+                </header>
                 @using (Html.BeginForm("Login", "Admin", FormMethod.Post, new { @class = "panel-body wrapper-lg" }))
                 {
                     <div class="form-group">
-                        @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control input-md btn-rounded text-sm", @placeholder = "Usuario", @type = "text" })
+                        <label class="control-label">Usuario</label>
+                        @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control input-lg", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
                     </div>
                     <div class="form-group">
-                        @Html.TextBoxFor(u => u.Pass, new { @class = "form-control input-md btn-rounded text-sm", @placeholder = "Contraseña", @type = "password" })
+                        <label class="control-label">Contraseña</label>
+                        @Html.TextBoxFor(u => u.Pass, new { @class = "form-control input-lg", @placeholder = "Ingrese la contraseña", @type = "password" })
                     </div>
-                    <button type="submit" class="btn btn-dark btn-rounded btn-sm">Ingresar</button>
-                    @Html.ActionLink("Recuperar contraseña", "RecuperaContrasena", null, new { @class="recover"})
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
                 }
             </section>
         </div>
@@ -46,9 +51,8 @@
     <!-- footer -->
     <footer id="footer">
         <div class="text-center padder">
-            <p><a class="text-center block"><img src="@Url.Content("~/Content/themes/admin/images/logo-essac.png")" style="width: 20%;margin-top:10px; margin-bottom: 20px;"></a></p>
             <p>
-                <small>NubeLabs / Bullard Encuestas 1.0<br>&copy; 2014</small>
+                <small>NubeLabs / Bullard Libros 1.0<br>&copy; 2014</small>
             </p>
         </div>
     </footer>

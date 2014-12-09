@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BullardLibros.Core.DTO
+namespace BullardEncuestas.Core.DTO
 {
     [Serializable]
-    public class EmpresaDTO
+    public class EntidadResponsableDTO
     {
-        public int IdEmpresa { get; set; }
+        public int IdEntidadResponsable { get; set; }
         public string Nombre { get; set; }
-
-        public List<PersonaDTO> listaPersona { get; set; }
+        public bool Estado { get; set; }
     }
 }

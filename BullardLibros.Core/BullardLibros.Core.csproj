@@ -50,18 +50,13 @@
   <ItemGroup>
     <Compile Include="BL\Base.cs" />
     <Compile Include="BL\UsuariosBL.cs" />
-    <Compile Include="DTO\EncuestaDTO.cs" />
-    <Compile Include="DTO\EncuestaEvaluadorDTO.cs" />
-    <Compile Include="DTO\GrupoTrabajoDTO.cs" />
-    <Compile Include="DTO\OpcionesRespuestaDTO.cs" />
-    <Compile Include="DTO\PeriodoDTO.cs" />
-    <Compile Include="DTO\PersonaDTO.cs" />
-    <Compile Include="DTO\EmpresaDTO.cs" />
-    <Compile Include="DTO\PreguntaDTO.cs" />
-    <Compile Include="DTO\RespuestasDTO.cs" />
+    <Compile Include="DTO\CategoriaDTO.cs" />
+    <Compile Include="DTO\CuentaBancariaDTO.cs" />
+    <Compile Include="DTO\EntidadResponsableDTO.cs" />
+    <Compile Include="DTO\EstadoMovimientoDTO.cs" />
+    <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\RolDTO.cs" />
-    <Compile Include="DTO\SeccionDTO.cs" />
-    <Compile Include="DTO\TipoRepuestaDTO.cs" />
+    <Compile Include="DTO\TipoMovimientoDTO.cs" />
     <Compile Include="DTO\UsuarioDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

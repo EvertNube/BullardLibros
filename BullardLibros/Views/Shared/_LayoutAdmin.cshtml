@@ -29,7 +29,7 @@
                 <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
                     <i class="fa fa-bars"></i>
                 </a>
-                <a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="@Url.Content("~/Content/themes/admin/images/logo.png")"></a>
+                <a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="@Url.Content("~/Content/themes/admin/images/logo.jpg")"></a>
                 <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
                     <i class="fa fa-cog"></i>
                 </a>
@@ -79,26 +79,19 @@
                                                 <i class="fa fa-calendar icon">
                                                     <b class="bg-danger"></b>
                                                 </i>
-                                                <span>Calendario</span>
+                                                <span>Libros</span>
                                             </a>
                                         </li>
                                         <li class="">
-                                            <a href="@Url.Action("Tareas")" class="active">
+                                            <a href="@Url.Action("Categorias")" class="active">
                                                 <i class="fa fa-tasks icon">
                                                     <b class="bg-info"></b>
                                                 </i>
-                                                <span>Tareas</span>
+                                                <span>Categorias</span>
                                             </a>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Clientes")" class="active">
-                                                <i class="fa fa-building-o icon">
-                                                    <b class="bg-info"></b>
-                                                </i>
-                                                <span>Clientes</span>
-                                            </a>
-                                        </li>
-                                        @if (ViewBag.EsAdmin)
+                                        
+                                        @*@if (ViewBag.EsAdmin)
                                         {
                                             <li class="">
                                                 <a href="@Url.Action("Servicios")" class="active">
@@ -128,7 +121,7 @@
                                                     <span>Protocolos Asignados</span>
                                                 </a>
                                             </li>
-                                        }
+                                        }*@
                                     </ul>
                                 </nav>
                                 <!-- / nav -->
