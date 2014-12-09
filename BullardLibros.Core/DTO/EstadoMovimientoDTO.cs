@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BullardEncuestas.Core.DTO
+namespace BullardLibros.Core.DTO
 {
     [Serializable]
     public class EstadoMovimientoDTO

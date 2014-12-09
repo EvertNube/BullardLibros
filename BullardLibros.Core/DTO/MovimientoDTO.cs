@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BullardEncuestas.Core.DTO
+namespace BullardLibros.Core.DTO
 {
     [Serializable]
     public class MovimientoDTO
     {
-        public int IdMovimientoDTO { get; set; }
+        public int IdMovimiento { get; set; }
         public int IdCuentaBancaria { get; set; }
         public int IdEntidadResponsable { get; set; }
         public int IdTipoMovimiento { get; set; }

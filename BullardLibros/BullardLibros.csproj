@@ -782,6 +782,7 @@
     <Content Include="Views\Error\NoEncontrado.cshtml" />
     <Content Include="Views\Error\_showAlertMessages.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Categorias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -791,7 +792,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BullardLibros.Core\BullardLibros.Core.csproj">
-      <Project>{3486877d-8842-4774-8614-85cc69bffba5}</Project>
+      <Project>{da38a529-5afd-4665-8716-ee0b9a025394}</Project>
       <Name>BullardLibros.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\BullardLibros.Helpers.Razor\BullardLibros.Helpers.Razor.csproj">

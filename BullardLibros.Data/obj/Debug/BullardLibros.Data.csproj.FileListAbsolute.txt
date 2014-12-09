@@ -10,6 +10,12 @@ D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Data\bin\Debug\Bull
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Data\bin\Debug\BullardLibros.Data.pdb
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Data\bin\Debug\EntityFramework.dll
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Data\bin\Debug\EntityFramework.xml
-D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Data\obj\Debug\BullardLibros.Data.csprojResolveAssemblyReference.cache
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Data\obj\Debug\BullardLibros.Data.dll
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Data\obj\Debug\BullardLibros.Data.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Data\bin\Debug\BullardLibros.Data.dll.config
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Data\bin\Debug\BullardLibros.Data.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Data\bin\Debug\BullardLibros.Data.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Data\bin\Debug\EntityFramework.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Data\bin\Debug\EntityFramework.xml
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Data\obj\Debug\BullardLibros.Data.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Data\obj\Debug\BullardLibros.Data.pdb

@@ -1,6 +1,49 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Libros";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@model IList<BullardLibros.Core.DTO.CuentaBancariaDTO>
 
-<h2>Index</h2>
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <h2>Libros</h2>
+                @Html.Partial("_showAlertMessages")
+                <section class="panel panel-default">
+                    @if (ViewBag.EsAdmin)
+                    {
+                        <div class="row text-sm wrapper">
+
+                            <div class="col-sm-8">
+                                <div class="btn-group">
+
+                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Libro")"><i class="fa fa-plus"></i> Crear nuevo Libro</a>
+                            </div>
+
+                        </div>
+                    }
+                    <div class="table-responsive">
+                        <table class="table table-striped m-b-none">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Nombre</th>
+                                    <th class="text-center" width="20%">Fecha</th>
+                                    <th class="text-center" width="15%">Saldo Disponible</th>
+                                    <th class="text-center" width="15%">Saldo Bancario</th>
+                                    <th class="text-center" width="10%">Estado</th>
+                                    <th class="text-center" width="20%">Opciones</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>
