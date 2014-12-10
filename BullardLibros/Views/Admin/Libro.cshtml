@@ -1,0 +1,81 @@
+﻿@using BullardLibros.Core.DTO
+@model CuentaBancariaDTO
+@{
+    ViewBag.Title = "Libro";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                @if (Model == null || Model.IdCuentaBancaria == 0)
+                {
+                    <h2>Nuevo Libro</h2>
+                }
+                else
+                {   
+                    <h2>Actualizar Libro</h2>
+                }
+
+                @using (Html.BeginForm("AddLibro", "Admin", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="row m-b">
+                        <div class="col-xs-12 col-md-6">
+                            @Html.Partial("_showAlertMessages")
+
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                <div class="panel-body">
+                                    @*<h4>Información del Libro</h4>
+                                    <div class="line line-dashed line-lg pull-in"></div>*@
+                                    <div class="form-group">
+                                        <label>Nombre de Cuenta</label>
+                                        @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre del libro", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.NombreCuenta)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha de conciliación</label>
+                                        @Html.TextBoxFor(u => u.FechaConciliacion, new { @class = "form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.FechaConciliacion)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Saldo disponible</label>
+                                        @Html.TextBoxFor(u => u.SaldoDisponible, new { @class = "form-control", @placeholder = "Ingrese el saldo disponible", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.SaldoDisponible)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Saldo bancario</label>
+                                        @Html.TextBoxFor(u => u.SaldoBancario, new { @class = "form-control", @placeholder = "Ingrese el saldo bancario", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.SaldoBancario)
+                                    </div>
+
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCuentaBancaria > 0)
+                                    {
+                                        <div class="line line-dashed line-lg pull-in"></div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
+                                    <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Index")">Salir</a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</section>

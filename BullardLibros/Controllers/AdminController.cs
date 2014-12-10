@@ -92,6 +92,72 @@ namespace BullardLibros.Controllers
 
         public ActionResult Index()
         {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            return View(objBL.getCuentasBancarias());
+        }
+
+        public ActionResult Libro(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            ViewBag.IdCuentaBancaria = id;
+            var objSent = TempData["Libro"];
+            if (objSent != null) { TempData["Libro"] = null; return View(objSent); }
+            if (id != null)
+            {
+                CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
+                return View(obj);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddLibro(CuentaBancariaDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                CuentaBancariaBL objBL = new CuentaBancariaBL();
+                if (dto.IdCuentaBancaria == 0)
+                {
+                    if(objBL.add(dto))
+                    { 
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Index");
+                    }
+                }
+                else if (dto.IdCuentaBancaria != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch(Exception e)
+            {
+                if (dto.IdCuentaBancaria != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Libro"] = dto;
+            return RedirectToAction("Libro");
+        }
+
+        public ActionResult Categorias()
+        {
             return View();
         }
     }

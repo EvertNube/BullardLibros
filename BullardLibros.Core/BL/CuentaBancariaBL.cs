@@ -13,7 +13,7 @@ namespace BullardLibros.Core.BL
 {
     public class CuentaBancariaBL : Base
     {
-        public List<CuentaBancariaDTO> getCuentaBancarias()
+        public List<CuentaBancariaDTO> getCuentasBancarias()
         {
             using (var context = getContext())
             {
@@ -58,7 +58,8 @@ namespace BullardLibros.Core.BL
                     nuevo.FechaConciliacion = CuentaBancaria.FechaConciliacion;
                     nuevo.SaldoDisponible = CuentaBancaria.SaldoDisponible;
                     nuevo.SaldoBancario = CuentaBancaria.SaldoBancario;
-                    nuevo.Estado = CuentaBancaria.Estado;
+                    nuevo.Estado = true;
+                    context.CuentaBancaria.Add(nuevo);
                     context.SaveChanges();
                     return true;
                 }

@@ -40,8 +40,29 @@
                                     <th class="text-center" width="20%">Opciones</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach(var obj in Model)
+                                    {
+                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                        <tr @Html.Raw(classInactive)>
+                                            <td width="20%">@obj.NombreCuenta</td>
+                                            <td class="text-center" width="20%">@obj.FechaConciliacion</td>
+                                            <td class="text-center" width="15%">@obj.SaldoDisponible</td>
+                                            <td class="text-center" width="15%">@obj.SaldoBancario</td>
+                                            <td class="text-center" width="10%">@obj.Estado</td>
+                                            
+                                            @if (ViewBag.EsAdmin)
+                                            {
+                                                <td align="center"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
                         </table>
-                        </div>
+                    </div>
                 </section>
             </div>
         </div>
