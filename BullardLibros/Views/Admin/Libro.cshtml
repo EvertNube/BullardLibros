@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Fecha de conciliación</label>
-                                        @Html.TextBoxFor(u => u.FechaConciliacion, new { @class = "form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text" })
+                                        @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker" })
                                         @Html.ValidationMessageFor(u => u.FechaConciliacion)
                                     </div>
                                     <div class="form-group">

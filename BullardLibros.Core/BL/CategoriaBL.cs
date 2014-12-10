@@ -54,7 +54,7 @@ namespace BullardLibros.Core.BL
                     Categoria nuevo = new Categoria();
                     nuevo.Nombre = Categoria.Nombre;
                     nuevo.Orden = Categoria.Orden;
-                    nuevo.Estado = Categoria.Estado;
+                    nuevo.Estado = true;
                     nuevo.IdCategoriaPadre = Categoria.IdCategoriaPadre;
                     context.Categoria.Add(nuevo);
                     context.SaveChanges();

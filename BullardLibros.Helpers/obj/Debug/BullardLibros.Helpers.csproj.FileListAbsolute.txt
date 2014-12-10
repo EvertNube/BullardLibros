@@ -97,6 +97,5 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bi
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.Razor.xml
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.csprojResolveAssemblyReference.cache
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardEncuestas.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardEncuestas.Helpers.pdb

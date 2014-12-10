@@ -158,7 +158,69 @@ namespace BullardLibros.Controllers
 
         public ActionResult Categorias()
         {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            CategoriaBL objBL = new CategoriaBL();
+            return View(objBL.getCategorias());
+        }
+
+        public ActionResult Categoria(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            CategoriaBL objBL = new CategoriaBL();
+            ViewBag.IdCategoria = id;
+            var objSent = TempData["Categoria"];
+            if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
+            if (id != null)
+            {
+                CategoriaDTO obj = objBL.getCategoria((int)id);
+                return View(obj);
+            }
             return View();
         }
+
+        [HttpPost]
+        public ActionResult AddCategoria(CategoriaDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                CategoriaBL objBL = new CategoriaBL();
+                if (dto.IdCategoria == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Categorias");
+                    }
+                }
+                else if (dto.IdCategoria != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Categorias");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdCategoria != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Categoria"] = dto;
+            return RedirectToAction("Categoria");
+        }
+
     }
 }
