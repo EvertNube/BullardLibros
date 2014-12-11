@@ -286,5 +286,84 @@ namespace BullardLibros.Controllers
             TempData["Movimiento"] = dto;
             return RedirectToAction("Movimiento");
         }
+
+        public ActionResult Usuarios()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            UsuariosBL usuariosBL = new UsuariosBL();
+            UsuarioDTO currentUser = getCurrentUser();
+            return View(usuariosBL.getUsuarios(currentUser.IdRol));//(CONSTANTES.ROL_RESPONSABLE));
+        }
+
+        public ActionResult Usuario(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            UsuarioDTO currentUser = getCurrentUser();
+            if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
+            if (id == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+            UsuariosBL usuariosBL = new UsuariosBL();
+            IList<RolDTO> roles = usuariosBL.getRoles();
+            //var rolesList = roles.ToList();
+            roles.Insert(0, new RolDTO() { IdRol = 0, Nombre = "Seleccione un Rol" });
+            ViewBag.Roles = roles.ToList() ;//.AsEnumerable();
+            var objSent = TempData["Usuario"];
+            if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
+            if (id != null)
+            {
+                UsuarioDTO usuario = usuariosBL.getUsuario((int)id);
+                return View(usuario);
+            }
+            return View();
+        }
+
+        public ActionResult AddUser(UsuarioDTO user, string passUser = "", string passChange = "")
+        {
+
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            UsuarioDTO currentUser = getCurrentUser();
+            if (!this.isAdministrator() && user.IdUsuario != currentUser.IdUsuario) { return RedirectToAction("Index"); }
+            if (user.IdUsuario == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+            try
+            {
+                UsuariosBL usuariosBL = new UsuariosBL();
+                if (user.IdUsuario == 0 && usuariosBL.validateUsuario(user))
+                {
+                    usuariosBL.add(user);
+                    createResponseMessage(CONSTANTES.SUCCESS);
+                    return RedirectToAction("Usuarios");
+                }
+                else if (user.IdUsuario != 0)
+                {
+                    if (usuariosBL.update(user, passUser, passChange, this.getCurrentUser()))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        if (user.IdUsuario == this.getCurrentUser().IdUsuario)
+                        {
+                            System.Web.HttpContext.Current.Session["User"] = usuariosBL.getUsuario(user.IdUsuario);
+                            if (!this.getCurrentUser().Active) System.Web.HttpContext.Current.Session["User"] = null;
+                        }
+                        return RedirectToAction("Usuarios");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE + "<br>Si está intentando actualizar la contraseña, verifique que ha ingresado la contraseña actual correctamente.");
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch
+            {
+                if (user.IdUsuario != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Usuario"] = user;
+            return RedirectToAction("Usuario");
+        }
     }
 }

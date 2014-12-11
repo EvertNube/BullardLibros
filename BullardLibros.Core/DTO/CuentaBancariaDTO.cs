@@ -15,5 +15,6 @@ namespace BullardLibros.Core.DTO
         public Decimal SaldoDisponible { get; set; }
         public Decimal SaldoBancario { get; set; }
         public bool Estado { get; set; }
+        public List<MovimientoDTO> listaMovimiento { get; set; }
     }
 }

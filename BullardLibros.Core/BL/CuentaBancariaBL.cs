@@ -42,7 +42,23 @@ namespace BullardLibros.Core.BL
                         FechaConciliacion = r.FechaConciliacion,
                         SaldoDisponible = r.SaldoDisponible,
                         SaldoBancario = r.SaldoBancario,
-                        Estado = r.Estado
+                        Estado = r.Estado,
+                        listaMovimiento = r.Movimiento.Select(x => new MovimientoDTO {
+                            IdMovimiento = x.IdMovimiento,
+                            IdCuentaBancaria = x.IdCuentaBancaria,
+                            IdEntidadResponsable = x.IdEntidadResponsable,
+                            IdTipoMovimiento = x.IdTipoMovimiento,
+                            IdCategoria = x.IdCategoria,
+                            IdEstadoMovimiento = x.IdEstadoMovimiento,
+                            Nombre = x.Nombre,
+                            Fecha = x.Fecha,
+                            Monto = x.Monto,
+                            NumeroDocumento = x.NumeroDocumento,
+                            Comentario = x.Comentario,
+                            Estado = x.Estado,
+                            UsuarioCreacion = x.UsuarioCreacion,
+                            FechaCreacion = x.FechaCreacion
+                        }).ToList()
                     }).SingleOrDefault();
                 return result;
             }

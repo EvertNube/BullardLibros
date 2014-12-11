@@ -138,7 +138,7 @@ namespace BullardLibros.Core.BL
                 return false;
             }
         }
-        public IEnumerable<RolDTO> getRoles()
+        public IList<RolDTO> getRoles()
         {
             using (var context = getContext())
             {

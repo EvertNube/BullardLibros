@@ -791,6 +791,8 @@
     <Content Include="Views\Admin\Libro.cshtml" />
     <Content Include="Views\Admin\Movimiento.cshtml" />
     <Content Include="Views\Admin\Movimientos.cshtml" />
+    <Content Include="Views\Admin\Usuario.cshtml" />
+    <Content Include="Views\Admin\Usuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
