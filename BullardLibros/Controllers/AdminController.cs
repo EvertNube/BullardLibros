@@ -222,5 +222,69 @@ namespace BullardLibros.Controllers
             return RedirectToAction("Categoria");
         }
 
+        public ActionResult Movimientos()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            MovimientoBL objBL = new MovimientoBL();
+            return View(objBL.getMovimientos());
+        }
+
+        public ActionResult Movimiento(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            MovimientoBL objBL = new MovimientoBL();
+            ViewBag.IdMovimiento = id;
+            var objSent = TempData["Movimiento"];
+            if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
+            if (id != null)
+            {
+                MovimientoDTO obj = objBL.getMovimiento((int)id);
+                return View(obj);
+            }
+            return View();
+        }
+
+        public ActionResult AddMovimiento(MovimientoDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                MovimientoBL objBL = new MovimientoBL();
+                if (dto.IdMovimiento == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Movimientos");
+                    }
+                }
+                else if (dto.IdMovimiento != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Movimientos");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdMovimiento != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Movimiento"] = dto;
+            return RedirectToAction("Movimiento");
+        }
     }
 }

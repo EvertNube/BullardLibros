@@ -789,6 +789,8 @@
     <Content Include="Views\Admin\Categorias.cshtml" />
     <Content Include="Views\Admin\Categoria.cshtml" />
     <Content Include="Views\Admin\Libro.cshtml" />
+    <Content Include="Views\Admin\Movimiento.cshtml" />
+    <Content Include="Views\Admin\Movimientos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
