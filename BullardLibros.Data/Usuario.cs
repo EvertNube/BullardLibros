@@ -14,6 +14,11 @@ namespace BullardLibros.Data
     
     public partial class Usuario
     {
+        public Usuario()
+        {
+            this.Movimiento = new HashSet<Movimiento>();
+        }
+    
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
         public string InicialesNombre { get; set; }
@@ -26,5 +31,6 @@ namespace BullardLibros.Data
         public Nullable<int> IdCargo { get; set; }
     
         public virtual Rol Rol { get; set; }
+        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

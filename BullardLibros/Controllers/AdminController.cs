@@ -229,7 +229,7 @@ namespace BullardLibros.Controllers
             return View(objBL.getMovimientos());
         }
 
-        public ActionResult Movimiento(int? id = null)
+        public ActionResult Movimiento(int? id = null, int? idLibro = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
@@ -237,10 +237,29 @@ namespace BullardLibros.Controllers
             ViewBag.IdMovimiento = id;
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
-            if (id != null)
-            {
-                MovimientoDTO obj = objBL.getMovimiento((int)id);
-                return View(obj);
+            if(id == 0 && idLibro != null)
+            { 
+                MovimientoDTO nuevo = new MovimientoDTO();
+                nuevo.IdCuentaBancaria = (int)idLibro;
+                nuevo.Fecha = DateTime.Now;
+                nuevo.NumeroDocumento = null;
+                nuevo.Comentario = null;
+                nuevo.IdEntidadResponsable = 1;
+                nuevo.IdTipoMovimiento = 1;
+                nuevo.IdCategoria = 1;
+                nuevo.IdEstadoMovimiento = 1;
+                nuevo.Estado = true;
+                nuevo.UsuarioCreacion = 5;
+                nuevo.FechaCreacion = DateTime.Now;
+                return View(nuevo);
+            }
+            else
+            { 
+                if (id != null)
+                {
+                    MovimientoDTO obj = objBL.getMovimiento((int)id);
+                    return View(obj);
+                }
             }
             return View();
         }
@@ -256,7 +275,7 @@ namespace BullardLibros.Controllers
                     if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Movimientos");
+                        return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
                     }
                 }
                 else if (dto.IdMovimiento != 0)
@@ -264,7 +283,8 @@ namespace BullardLibros.Controllers
                     if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Movimientos");
+                        //return RedirectToAction("Movimientos");
+                        return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
                     }
                     else
                     {

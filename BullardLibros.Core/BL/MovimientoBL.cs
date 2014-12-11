@@ -42,7 +42,7 @@ namespace BullardLibros.Core.BL
         {
             using (var context = getContext())
             {
-                var result = context.Movimiento.Where(x => x.IdCategoria == id)
+                var result = context.Movimiento.Where(x => x.IdMovimiento == id)
                     .Select(r => new MovimientoDTO
                     {
                         IdMovimiento = r.IdMovimiento,
@@ -80,7 +80,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Monto = Movimiento.Monto;
                     nuevo.NumeroDocumento = Movimiento.NumeroDocumento;
                     nuevo.Comentario = Movimiento.Comentario;
-                    nuevo.Estado = Movimiento.Estado;
+                    nuevo.Estado = true;
                     nuevo.UsuarioCreacion = Movimiento.UsuarioCreacion;
                     nuevo.FechaCreacion = Movimiento.FechaCreacion;
                     context.Movimiento.Add(nuevo);

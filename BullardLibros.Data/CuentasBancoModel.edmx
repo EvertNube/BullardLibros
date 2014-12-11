@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BULLARD.CuentasBancoDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BULLARD.CuentasBancoDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categoria">
           <Key>
             <PropertyRef Name="IdCategoria" />
@@ -68,6 +68,16 @@
           <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TipoMovimiento">
           <Key>
@@ -152,6 +162,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Movimiento_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="UsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Rol">
           <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -171,6 +193,7 @@
           <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
@@ -193,13 +216,16 @@
             <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
             <End Role="Movimiento" EntitySet="Movimiento" />
           </AssociationSet>
+          <AssociationSet Name="FK_Movimiento_Usuario" Association="Self.FK_Movimiento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BULLARD.CuentasBancoDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -212,7 +238,7 @@
           <Property Name="Orden" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdCategoriaPadre" Type="Int32" />
-          <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_Categoria" FromRole="Categoria" ToRole="Movimiento" />
+          <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_Categoria" FromRole="Categoria" ToRole="Movimiento" />
         </EntityType>
         <EntityType Name="CuentaBancaria">
           <Key>
@@ -224,7 +250,7 @@
           <Property Name="SaldoDisponible" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="SaldoBancario" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Movimiento" />
+          <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Movimiento" />
         </EntityType>
         <EntityType Name="EntidadResponsable">
           <Key>
@@ -233,7 +259,7 @@
           <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
+          <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
         </EntityType>
         <EntityType Name="EstadoMovimiento">
           <Key>
@@ -242,31 +268,7 @@
           <Property Name="IdEstadoMovimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EstadoMovimiento" FromRole="EstadoMovimiento" ToRole="Movimiento" />
-        </EntityType>
-        <EntityType Name="Movimiento">
-          <Key>
-            <PropertyRef Name="IdMovimiento" />
-          </Key>
-          <Property Name="IdMovimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCuentaBancaria" Type="Int32" Nullable="false" />
-          <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
-          <Property Name="IdTipoMovimiento" Type="Int32" Nullable="false" />
-          <Property Name="IdCategoria" Type="Int32" Nullable="false" />
-          <Property Name="IdEstadoMovimiento" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Monto" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
-          <Property Name="NumeroDocumento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
-          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Categoria" Relationship="Self.FK_Movimiento_Categoria" FromRole="Movimiento" ToRole="Categoria" />
-          <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_Movimiento_CuentaBancaria" FromRole="Movimiento" ToRole="CuentaBancaria" />
-          <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="Movimiento" ToRole="EntidadResponsable" />
-          <NavigationProperty Name="EstadoMovimiento" Relationship="Self.FK_Movimiento_EstadoMovimiento" FromRole="Movimiento" ToRole="EstadoMovimiento" />
-          <NavigationProperty Name="TipoMovimiento" Relationship="Self.FK_Movimiento_TipoMovimiento" FromRole="Movimiento" ToRole="TipoMovimiento" />
+          <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_EstadoMovimiento" FromRole="EstadoMovimiento" ToRole="Movimiento" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -284,7 +286,7 @@
           <Property Name="IdTipoMovimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_TipoMovimiento" FromRole="TipoMovimiento" ToRole="Movimiento" />
+          <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_TipoMovimiento" FromRole="TipoMovimiento" ToRole="Movimiento" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -301,67 +303,8 @@
           <Property Name="IdRol" Type="Int32" Nullable="false" />
           <Property Name="IdCargo" Type="Int32" />
           <NavigationProperty Name="Rol" Relationship="Self.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
+          <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_Usuario" FromRole="Usuario" ToRole="Movimiento" />
         </EntityType>
-        <Association Name="FK_Movimiento_Categoria">
-          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
-          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categoria">
-              <PropertyRef Name="IdCategoria" />
-            </Principal>
-            <Dependent Role="Movimiento">
-              <PropertyRef Name="IdCategoria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Movimiento_CuentaBancaria">
-          <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="1" />
-          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CuentaBancaria">
-              <PropertyRef Name="IdCuentaBancaria" />
-            </Principal>
-            <Dependent Role="Movimiento">
-              <PropertyRef Name="IdCuentaBancaria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Movimiento_EntidadResponsable">
-          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
-          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntidadResponsable">
-              <PropertyRef Name="IdEntidadResponsable" />
-            </Principal>
-            <Dependent Role="Movimiento">
-              <PropertyRef Name="IdEntidadResponsable" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Movimiento_EstadoMovimiento">
-          <End Role="EstadoMovimiento" Type="Self.EstadoMovimiento" Multiplicity="1" />
-          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstadoMovimiento">
-              <PropertyRef Name="IdEstadoMovimiento" />
-            </Principal>
-            <Dependent Role="Movimiento">
-              <PropertyRef Name="IdEstadoMovimiento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Movimiento_TipoMovimiento">
-          <End Role="TipoMovimiento" Type="Self.TipoMovimiento" Multiplicity="1" />
-          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TipoMovimiento">
-              <PropertyRef Name="IdTipoMovimiento" />
-            </Principal>
-            <Dependent Role="Movimiento">
-              <PropertyRef Name="IdTipoMovimiento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Usuario_Rol">
           <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -379,36 +322,148 @@
           <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" />
           <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" />
           <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" />
-          <EntitySet Name="Movimiento" EntityType="Self.Movimiento" />
           <EntitySet Name="Rol" EntityType="Self.Rol" />
           <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
-          <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
-            <End Role="Categoria" EntitySet="Categoria" />
-            <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="Self.FK_Movimiento_CuentaBancaria">
-            <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
-            <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movimiento_EntidadResponsable" Association="Self.FK_Movimiento_EntidadResponsable">
-            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-            <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movimiento_EstadoMovimiento" Association="Self.FK_Movimiento_EstadoMovimiento">
-            <End Role="EstadoMovimiento" EntitySet="EstadoMovimiento" />
-            <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movimiento_TipoMovimiento" Association="Self.FK_Movimiento_TipoMovimiento">
-            <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
-            <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          <EntitySet Name="sysdiagrams" EntityType="BULLARD.CuentasBancoDbModel.sysdiagrams" />
+          <EntitySet Name="Movimiento" EntityType="BULLARD.CuentasBancoDbModel.Movimiento" />
+          <AssociationSet Name="FK_Movimiento_Categoria" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_Categoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria">
+            <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimiento_EntidadResponsable" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_EntidadResponsable">
+            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimiento_EstadoMovimiento" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_EstadoMovimiento">
+            <End Role="EstadoMovimiento" EntitySet="EstadoMovimiento" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimiento_TipoMovimiento" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_TipoMovimiento">
+            <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimiento_Usuario" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Movimiento">
+          <Key>
+            <PropertyRef Name="IdMovimiento" />
+          </Key>
+          <Property Name="IdMovimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCuentaBancaria" Type="Int32" Nullable="false" />
+          <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoMovimiento" Type="Int32" Nullable="false" />
+          <Property Name="IdCategoria" Type="Int32" Nullable="false" />
+          <Property Name="IdEstadoMovimiento" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="NumeroDocumento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comentario" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Categoria" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_Categoria" FromRole="Movimiento" ToRole="Categoria" />
+          <NavigationProperty Name="CuentaBancaria" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" FromRole="Movimiento" ToRole="CuentaBancaria" />
+          <NavigationProperty Name="EntidadResponsable" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_EntidadResponsable" FromRole="Movimiento" ToRole="EntidadResponsable" />
+          <NavigationProperty Name="EstadoMovimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_EstadoMovimiento" FromRole="Movimiento" ToRole="EstadoMovimiento" />
+          <NavigationProperty Name="TipoMovimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_TipoMovimiento" FromRole="Movimiento" ToRole="TipoMovimiento" />
+          <NavigationProperty Name="Usuario" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_Usuario" FromRole="Movimiento" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Movimiento_Categoria">
+          <End Type="BULLARD.CuentasBancoDbModel.Categoria" Role="Categoria" Multiplicity="1" />
+          <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimiento_CuentaBancaria">
+          <End Type="BULLARD.CuentasBancoDbModel.CuentaBancaria" Role="CuentaBancaria" Multiplicity="1" />
+          <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaBancaria">
+              <PropertyRef Name="IdCuentaBancaria" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="IdCuentaBancaria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimiento_EntidadResponsable">
+          <End Type="BULLARD.CuentasBancoDbModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="1" />
+          <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntidadResponsable">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimiento_EstadoMovimiento">
+          <End Type="BULLARD.CuentasBancoDbModel.EstadoMovimiento" Role="EstadoMovimiento" Multiplicity="1" />
+          <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoMovimiento">
+              <PropertyRef Name="IdEstadoMovimiento" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="IdEstadoMovimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimiento_TipoMovimiento">
+          <End Type="BULLARD.CuentasBancoDbModel.TipoMovimiento" Role="TipoMovimiento" Multiplicity="1" />
+          <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoMovimiento">
+              <PropertyRef Name="IdTipoMovimiento" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="IdTipoMovimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimiento_Usuario">
+          <End Type="BULLARD.CuentasBancoDbModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="UsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -455,26 +510,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Movimiento">
-            <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Movimiento">
-              <MappingFragment StoreEntitySet="Movimiento">
-                <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
-                <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
-                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-                <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
-                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-                <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Monto" ColumnName="Monto" />
-                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
-                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Rol">
             <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Rol">
               <MappingFragment StoreEntitySet="Rol">
@@ -506,6 +541,37 @@
                 <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="IdCargo" ColumnName="IdCargo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movimiento">
+            <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Movimiento">
+              <MappingFragment StoreEntitySet="Movimiento">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+                <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -29,9 +29,10 @@ namespace BullardLibros.Data
         public DbSet<CuentaBancaria> CuentaBancaria { get; set; }
         public DbSet<EntidadResponsable> EntidadResponsable { get; set; }
         public DbSet<EstadoMovimiento> EstadoMovimiento { get; set; }
-        public DbSet<Movimiento> Movimiento { get; set; }
         public DbSet<Rol> Rol { get; set; }
         public DbSet<TipoMovimiento> TipoMovimiento { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public DbSet<Movimiento> Movimiento { get; set; }
     }
 }

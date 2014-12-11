@@ -14,7 +14,7 @@
                     <h2>Nuevo Libro</h2>
                 }
                 else
-                {   
+                {
                     <h2>Actualizar Libro</h2>
                 }
 
@@ -22,14 +22,14 @@
                 {
                     @Html.ValidationSummary(true)
                     <div class="row m-b">
-                        <div class="col-xs-12 col-md-6">
+                        <div class="col-xs-12 col-md-12">
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
                                 <header class="panel-heading font-bold">Formulario de Registro</header>
                                 <div class="panel-body">
                                     @*<h4>Información del Libro</h4>
-                                    <div class="line line-dashed line-lg pull-in"></div>*@
+                                        <div class="line line-dashed line-lg pull-in"></div>*@
                                     <div class="form-group">
                                         <label>Nombre de Cuenta</label>
                                         @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre del libro", @type = "text" })
@@ -72,9 +72,65 @@
                                     <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Index")">Salir</a>
                                 </div>
                             </section>
+                            <section class="panel panel-default">
+                                @if (Model != null && Model.IdCuentaBancaria != 0)
+                                {
+                                    <header class="panel-heading font-bold">Movimmientos</header>
+                                                    <section class="panel panel-default">
+                                                        @if (ViewBag.EsAdmin)
+                                                        {
+                                                        <div class="row text-sm wrapper">
+                                                            <div class="col-sm-8">
+                                                                <div class="btn-group">
+                                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
+                                                            </div>
+                                                        </div>
+                                                        }
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped m-b-none">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th width="40%">Nombre</th>
+                                                                        <th class="text-center" width="20%">Fecha</th>
+                                                                        <th class="text-center" width="20%">Monto</th>
+                                                                        @*<th width="20%">Estado Movimiento</th>*@
+                                                                        <th class="text-center" width="20%">Opciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @if (Model != null)
+                                                                    {
+                                                                        foreach (var obj in Model.listaMovimiento)
+                                                                        {
+                                                                            var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                                    <tr @Html.Raw(classInactive)>
+                                                                        <td width="40%">@obj.Nombre</td>
+                                                                        <td class="text-center" width="20%">@obj.Fecha.ToString("dd/MM/yyyy")</td>
+                                                                        <td class="text-center" width="20%">S/. @obj.Monto.ToString("#.##")</td>
+                                                                        @if (ViewBag.EsAdmin)
+                                                                                {
+                                                                        <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
+                                                                                }
+                                                                    </tr>
+                                                                        }
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </section>
+                                }
+                            </section>
                         </div>
                     </div>
                 }
+            </div>
+        </div>
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
             </div>
         </div>
     </section>

@@ -34,5 +34,6 @@ namespace BullardLibros.Data
         public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual EstadoMovimiento EstadoMovimiento { get; set; }
         public virtual TipoMovimiento TipoMovimiento { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }
