@@ -12,5 +12,6 @@ namespace BullardLibros.Core.DTO
         public int IdEntidadResponsable { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
+        public Decimal? Detraccion { get; set; }
     }
 }

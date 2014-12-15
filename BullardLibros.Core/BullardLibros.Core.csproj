@@ -52,6 +52,7 @@
     <Compile Include="BL\Base.cs" />
     <Compile Include="BL\CategoriaBL.cs" />
     <Compile Include="BL\CuentaBancariaBL.cs" />
+    <Compile Include="BL\EntidadResponsableBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />
     <Compile Include="DTO\CategoriaDTO.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="DTO\EstadoMovimientoDTO.cs" />
     <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\RolDTO.cs" />
+    <Compile Include="DTO\TipoCambioDTO.cs" />
     <Compile Include="DTO\TipoMovimientoDTO.cs" />
     <Compile Include="DTO\UsuarioDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

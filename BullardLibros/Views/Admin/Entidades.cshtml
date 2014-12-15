@@ -1,14 +1,14 @@
 ﻿@{
-    ViewBag.Title = "Categorias";
+    ViewBag.Title = "Entidades";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IList<BullardLibros.Core.DTO.CategoriaDTO>
+@model IList<BullardLibros.Core.DTO.EntidadResponsableDTO>
 
 <section class="vbox">
     <section class="scrollable padder">
         <div class="row m-b">
             <div class="col-xs-12 col-md-10 col-md-offset-1">
-                <h2>Categorias</h2>
+                <h2>Entidades</h2>
                 @Html.Partial("_showAlertMessages")
                 <section class="panel panel-default">
                     @if (ViewBag.EsAdmin)
@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Categoria")"><i class="fa fa-plus"></i> Crear nueva Categoría</a>
+                                <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Entidad")"><i class="fa fa-plus"></i> Crear nueva Entidad</a>
                             </div>
                         </div>
                     }
@@ -29,8 +29,8 @@
                             <thead>
                                 <tr>
                                     <th width="40%">Nombre</th>
-                                    <th class="text-center" width="20%">Orden</th>
                                     <th class="text-center" width="20%">Estado</th>
+                                    <th class="text-center" width="20%">Detracción</th>
                                     <th class="text-center" width="20%">Opciones</th>
                                 </tr>
                             </thead>
@@ -42,16 +42,16 @@
                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
                                             <td width="40%">@obj.Nombre</td>
-                                            <td class="text-center" width="20%">@obj.Orden</td>
                                             @if (obj.Estado == true)
                                             {
                                                 <td class="text-center" width="20%">Activo</td>}
                                             else
                                             {
                                                 <td class="text-center" width="20%">Inactivo</td>}
+                                            <td class="text-center" width="20%">@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
                                             @if (ViewBag.EsAdmin)
                                             {
-                                                <td align="center"><a href="@Url.Action("Categoria", new { id = obj.IdCategoria })"><i class="fa fa-pencil"></i></a></td>
+                                                <td align="center"><a href="@Url.Action("Entidad", new { id = obj.IdEntidadResponsable })"><i class="fa fa-pencil"></i></a></td>
                                             }
                                         </tr>
                                     }

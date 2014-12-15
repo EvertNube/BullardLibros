@@ -4,10 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="913841610b424647b21ec54a6677422f" Name="Diagram1" ZoomLevel="86">
+      <Diagram DiagramId="913841610b424647b21ec54a6677422f" Name="Diagram1" ZoomLevel="85">
         <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.Categoria" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.CuentaBancaria" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.EntidadResponsable" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.EstadoMovimiento" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.Rol" Width="1.5" PointX="5.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.TipoMovimiento" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
@@ -16,11 +14,17 @@
         <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.sysdiagrams" Width="1.5" PointX="5.375" PointY="5.75" />
         <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.Movimiento" Width="1.5" PointX="3.375" PointY="5.5" />
         <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_Categoria" />
-        <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" />
-        <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_EntidadResponsable" />
         <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_EstadoMovimiento" />
         <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_TipoMovimiento" />
         <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_Usuario" />
+        <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.CuentaBancaria" Width="1.5" PointX="8.625" PointY="9.375" />
+        <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.Moneda" Width="1.5" PointX="5.75" PointY="10.5" />
+        <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.TipoCambio" Width="1.5" PointX="8.125" PointY="12.875" />
+        <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_CuentaBancaria_Moneda" />
+        <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" />
+        <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_TipoCambio_Moneda" />
+        <EntityTypeShape EntityType="BULLARD.CuentasBancoDbModel.EntidadResponsable" Width="1.5" PointX="0.75" PointY="5.875" />
+        <AssociationConnector Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_EntidadResponsable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

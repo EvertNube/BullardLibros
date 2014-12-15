@@ -25,7 +25,9 @@ namespace BullardLibros.Data
         public decimal SaldoDisponible { get; set; }
         public decimal SaldoBancario { get; set; }
         public bool Estado { get; set; }
+        public Nullable<int> IdMoneda { get; set; }
     
+        public virtual Moneda Moneda { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

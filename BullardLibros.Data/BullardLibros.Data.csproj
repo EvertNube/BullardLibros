@@ -73,6 +73,9 @@
     <Compile Include="EstadoMovimiento.cs">
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Moneda.cs">
+      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Movimiento.cs">
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>
@@ -81,6 +84,9 @@
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagrams.cs">
+      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoCambio.cs">
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoMovimiento.cs">

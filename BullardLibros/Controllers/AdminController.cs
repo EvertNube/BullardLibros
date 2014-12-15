@@ -385,5 +385,71 @@ namespace BullardLibros.Controllers
             TempData["Usuario"] = user;
             return RedirectToAction("Usuario");
         }
+
+        public ActionResult Entidades()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            EntidadResponsableBL objBL = new EntidadResponsableBL();
+            return View(objBL.getEntidadResponsables());
+        }
+
+        public ActionResult Entidad(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            EntidadResponsableBL objBL = new EntidadResponsableBL();
+            ViewBag.IdEntidad = id;
+            var objSent = TempData["Entidad"];
+            if (objSent != null) { TempData["Entidad"] = null; return View(objSent); }
+            if (id != null)
+            {
+                EntidadResponsableDTO obj = objBL.getEntidadResponsable((int)id);
+                return View(obj);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddEntidad(EntidadResponsableDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                EntidadResponsableBL objBL = new EntidadResponsableBL();
+                if (dto.IdEntidadResponsable == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Entidades");
+                    }
+                }
+                else if (dto.IdEntidadResponsable != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Entidades");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdEntidadResponsable != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Entidad"] = dto;
+            return RedirectToAction("Entidad");
+        }
     }
 }

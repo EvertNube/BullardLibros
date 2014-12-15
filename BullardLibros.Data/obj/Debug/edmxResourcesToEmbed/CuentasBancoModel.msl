@@ -12,27 +12,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CuentaBancaria">
-      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.CuentaBancaria">
-        <MappingFragment StoreEntitySet="CuentaBancaria">
-          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
-          <ScalarProperty Name="NombreCuenta" ColumnName="NombreCuenta" />
-          <ScalarProperty Name="FechaConciliacion" ColumnName="FechaConciliacion" />
-          <ScalarProperty Name="SaldoDisponible" ColumnName="SaldoDisponible" />
-          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EntidadResponsable">
-      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.EntidadResponsable">
-        <MappingFragment StoreEntitySet="EntidadResponsable">
-          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="EstadoMovimiento">
       <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.EstadoMovimiento">
         <MappingFragment StoreEntitySet="EstadoMovimiento">
@@ -104,6 +83,47 @@
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
           <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CuentaBancaria">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.CuentaBancaria">
+        <MappingFragment StoreEntitySet="CuentaBancaria">
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
+          <ScalarProperty Name="SaldoDisponible" ColumnName="SaldoDisponible" />
+          <ScalarProperty Name="FechaConciliacion" ColumnName="FechaConciliacion" />
+          <ScalarProperty Name="NombreCuenta" ColumnName="NombreCuenta" />
+          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Moneda">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Moneda">
+        <MappingFragment StoreEntitySet="Moneda">
+          <ScalarProperty Name="Moneda1" ColumnName="Moneda" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoCambio">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.TipoCambio">
+        <MappingFragment StoreEntitySet="TipoCambio">
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="IdTipoCambio" ColumnName="IdTipoCambio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EntidadResponsable">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.EntidadResponsable">
+        <MappingFragment StoreEntitySet="EntidadResponsable">
+          <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

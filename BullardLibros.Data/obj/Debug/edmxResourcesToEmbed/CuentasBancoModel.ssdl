@@ -20,6 +20,7 @@
     <Property Name="SaldoDisponible" Type="numeric" Precision="18" Scale="2" Nullable="false" />
     <Property Name="SaldoBancario" Type="numeric" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdMoneda" Type="int" />
   </EntityType>
   <EntityType Name="EntidadResponsable">
     <Key>
@@ -28,6 +29,7 @@
     <Property Name="IdEntidadResponsable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Detraccion" Type="numeric" Precision="18" Scale="2" />
   </EntityType>
   <EntityType Name="EstadoMovimiento">
     <Key>
@@ -36,6 +38,13 @@
     <Property Name="IdEstadoMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Moneda">
+    <Key>
+      <PropertyRef Name="IdMoneda" />
+    </Key>
+    <Property Name="IdMoneda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Moneda" Type="varchar" MaxLength="15" Nullable="false" />
   </EntityType>
   <EntityType Name="Movimiento">
     <Key>
@@ -74,6 +83,15 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
+  <EntityType Name="TipoCambio">
+    <Key>
+      <PropertyRef Name="IdTipoCambio" />
+    </Key>
+    <Property Name="IdTipoCambio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdMoneda" Type="int" Nullable="false" />
+    <Property Name="Fecha" Type="datetime" Nullable="false" />
+    <Property Name="Valor" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
   <EntityType Name="TipoMovimiento">
     <Key>
       <PropertyRef Name="IdTipoMovimiento" />
@@ -97,6 +115,18 @@
     <Property Name="IdRol" Type="int" Nullable="false" />
     <Property Name="IdCargo" Type="int" />
   </EntityType>
+  <Association Name="FK_CuentaBancaria_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="0..1" />
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="CuentaBancaria">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Movimiento_Categoria">
     <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
     <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
@@ -169,6 +199,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TipoCambio_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+    <End Role="TipoCambio" Type="Self.TipoCambio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="TipoCambio">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Usuario_Rol">
     <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -186,11 +228,17 @@
     <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoCambio" EntityType="Self.TipoCambio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CuentaBancaria_Moneda" Association="Self.FK_CuentaBancaria_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
     <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
       <End Role="Categoria" EntitySet="Categoria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
@@ -214,6 +262,10 @@
     <AssociationSet Name="FK_Movimiento_Usuario" Association="Self.FK_Movimiento_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoCambio_Moneda" Association="Self.FK_TipoCambio_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="TipoCambio" EntitySet="TipoCambio" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
       <End Role="Rol" EntitySet="Rol" />

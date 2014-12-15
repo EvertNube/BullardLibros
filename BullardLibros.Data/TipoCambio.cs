@@ -12,18 +12,13 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class EntidadResponsable
+    public partial class TipoCambio
     {
-        public EntidadResponsable()
-        {
-            this.Movimiento = new HashSet<Movimiento>();
-        }
+        public int IdTipoCambio { get; set; }
+        public int IdMoneda { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public decimal Valor { get; set; }
     
-        public int IdEntidadResponsable { get; set; }
-        public string Nombre { get; set; }
-        public bool Estado { get; set; }
-        public Nullable<decimal> Detraccion { get; set; }
-    
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
+        public virtual Moneda Moneda { get; set; }
     }
 }

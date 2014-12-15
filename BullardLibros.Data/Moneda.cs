@@ -12,18 +12,18 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class EntidadResponsable
+    public partial class Moneda
     {
-        public EntidadResponsable()
+        public Moneda()
         {
-            this.Movimiento = new HashSet<Movimiento>();
+            this.CuentaBancaria = new HashSet<CuentaBancaria>();
+            this.TipoCambio = new HashSet<TipoCambio>();
         }
     
-        public int IdEntidadResponsable { get; set; }
-        public string Nombre { get; set; }
-        public bool Estado { get; set; }
-        public Nullable<decimal> Detraccion { get; set; }
+        public int IdMoneda { get; set; }
+        public string Moneda1 { get; set; }
     
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
+        public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
+        public virtual ICollection<TipoCambio> TipoCambio { get; set; }
     }
 }
