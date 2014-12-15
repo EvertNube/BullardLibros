@@ -54,6 +54,7 @@
     <Compile Include="BL\CuentaBancariaBL.cs" />
     <Compile Include="BL\EntidadResponsableBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
+    <Compile Include="BL\TipoMovimientoBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />
     <Compile Include="DTO\CategoriaDTO.cs" />
     <Compile Include="DTO\CuentaBancariaDTO.cs" />

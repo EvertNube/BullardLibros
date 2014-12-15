@@ -37,7 +37,6 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
-
         public MovimientoDTO getMovimiento(int id)
         {
             using (var context = getContext())
@@ -122,5 +121,10 @@ namespace BullardLibros.Core.BL
                 }
             }
         }
+
+        /*public IList<TipoMovimientoDTO> getTiposMovimiento(bool AsSelectList = false)
+        {
+            
+        }*/
     }
 }
