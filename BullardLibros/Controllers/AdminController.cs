@@ -235,6 +235,7 @@ namespace BullardLibros.Controllers
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
+            ViewBag.TiposMovimientos = objBL.getTiposMovimientos(true);
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
             if(id == 0 && idLibro != null)
@@ -245,7 +246,7 @@ namespace BullardLibros.Controllers
                 nuevo.NumeroDocumento = null;
                 nuevo.Comentario = null;
                 nuevo.IdEntidadResponsable = 1;
-                nuevo.IdTipoMovimiento = 1;
+                //nuevo.IdTipoMovimiento = 1;
                 nuevo.IdCategoria = 1;
                 nuevo.IdEstadoMovimiento = 1;
                 nuevo.Estado = true;

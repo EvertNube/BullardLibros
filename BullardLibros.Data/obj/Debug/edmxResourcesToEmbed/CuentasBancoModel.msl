@@ -66,26 +66,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Movimiento">
-      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Movimiento">
-        <MappingFragment StoreEntitySet="Movimiento">
-          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
-          <ScalarProperty Name="Monto" ColumnName="Monto" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
-          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-          <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
-          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
-          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="CuentaBancaria">
       <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.CuentaBancaria">
         <MappingFragment StoreEntitySet="CuentaBancaria">
@@ -124,6 +104,26 @@
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Movimiento">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Movimiento">
+        <MappingFragment StoreEntitySet="Movimiento">
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

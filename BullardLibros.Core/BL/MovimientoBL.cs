@@ -122,9 +122,17 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        /*public IList<TipoMovimientoDTO> getTiposMovimiento(bool AsSelectList = false)
+        public IList<TipoMovimientoDTO> getTiposMovimientos(bool AsSelectList = false)
         {
-            
-        }*/
+            TipoMovimientoBL oBL = new TipoMovimientoBL();
+            if (!AsSelectList)
+                return oBL.getTiposMovimientos();
+            else
+            {
+                var lista = oBL.getTiposMovimientos();
+                lista.Insert(0, new TipoMovimientoDTO() { IdTipoMovimiento = 0, Nombre = "Seleccione el Tipo de Mov." });
+                return lista;
+            }
+        }
     }
 }

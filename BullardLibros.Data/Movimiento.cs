@@ -18,7 +18,7 @@ namespace BullardLibros.Data
         public int IdCuentaBancaria { get; set; }
         public int IdEntidadResponsable { get; set; }
         public int IdTipoMovimiento { get; set; }
-        public int IdCategoria { get; set; }
+        public Nullable<int> IdCategoria { get; set; }
         public int IdEstadoMovimiento { get; set; }
         public string Nombre { get; set; }
         public System.DateTime Fecha { get; set; }
@@ -30,10 +30,10 @@ namespace BullardLibros.Data
         public System.DateTime FechaCreacion { get; set; }
     
         public virtual Categoria Categoria { get; set; }
+        public virtual CuentaBancaria CuentaBancaria { get; set; }
+        public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual EstadoMovimiento EstadoMovimiento { get; set; }
         public virtual TipoMovimiento TipoMovimiento { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual CuentaBancaria CuentaBancaria { get; set; }
-        public virtual EntidadResponsable EntidadResponsable { get; set; }
     }
 }

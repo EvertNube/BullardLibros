@@ -54,7 +54,7 @@
     <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
     <Property Name="IdTipoMovimiento" Type="int" Nullable="false" />
-    <Property Name="IdCategoria" Type="int" Nullable="false" />
+    <Property Name="IdCategoria" Type="int" />
     <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Fecha" Type="datetime" Nullable="false" />
@@ -128,7 +128,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Movimiento_Categoria">
-    <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
     <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Categoria">

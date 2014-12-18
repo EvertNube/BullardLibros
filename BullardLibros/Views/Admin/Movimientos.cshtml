@@ -28,8 +28,9 @@
                         <table class="table table-striped m-b-none">
                             <thead>
                                 <tr>
-                                    <th width="40%">Nombre</th>
+                                    <th width="20%">Nombre</th>
                                     <th class="text-center" width="20%">Fecha</th>
+                                    <th class="text-center" width="20%">Tipo</th>
                                     <th class="text-center" width="20%">Monto</th>
                                     @*<th width="20%">Estado Movimiento</th>*@
                                     <th class="text-center" width="20%">Opciones</th>
@@ -44,6 +45,10 @@
                                         <tr @Html.Raw(classInactive)>
                                             <td width="40%">@obj.Nombre</td>
                                             <td class="text-center" width="20%">@obj.Fecha</td>
+                                            @if(obj.IdTipoMovimiento == 1)
+                                            {<td class="text-center" width="20%">Entrada</td>}
+                                            else {<td class="text-center" width="20%">Salida</td> }                                                                                      
+                                            
                                             <td class="text-center" width="20%">@obj.Monto</td>
                                             @if (ViewBag.EsAdmin)
                                             {
