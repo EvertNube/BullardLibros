@@ -1,0 +1,141 @@
+﻿@using BullardLibros.Core.DTO
+@model CuentaBancariaDTO
+@{
+    ViewBag.Title = "Libro";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                @if (Model == null || Model.IdCuentaBancaria == 0)
+                {
+                    <h2>Nuevo Libro</h2>
+                }
+                else
+                {
+                    <h2>Actualizar Libro</h2>
+                }
+
+                @using (Html.BeginForm("AddLibro", "Admin", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="row m-b">
+                        <div class="col-xs-12 col-md-12">
+                            @Html.Partial("_showAlertMessages")
+
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label>Nombre de Cuenta</label>
+                                        @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre del libro", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.NombreCuenta)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha de conciliación</label>
+                                        @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker" })
+                                        @Html.ValidationMessageFor(u => u.FechaConciliacion)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Saldo disponible</label>
+                                        @Html.TextBoxFor(u => u.SaldoDisponible, new { @class = "form-control", @placeholder = "Ingrese el saldo disponible", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.SaldoDisponible)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Saldo bancario</label>
+                                        @Html.TextBoxFor(u => u.SaldoBancario, new { @class = "form-control", @placeholder = "Ingrese el saldo bancario", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.SaldoBancario)
+                                    </div>
+
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCuentaBancaria > 0)
+                                    {
+                                        <div class="line line-dashed line-lg pull-in"></div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
+                                    <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Index")">Salir</a>
+                                </div>
+                            </section>
+                            <section class="panel panel-default">
+                                @if (Model != null && Model.IdCuentaBancaria != 0)
+                                {
+                                    <header class="panel-heading font-bold">Movimmientos</header>
+                                    <section class="panel panel-default">
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <div class="row text-sm wrapper">
+                                                <div class="col-sm-8">
+                                                    <div class="btn-group">
+                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="table-responsive">
+                                            <table class="table table-striped m-b-none">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="20%">Nombre</th>
+                                                        <th class="text-center" width="20%">Fecha</th>
+                                                        <th class="text-center" width="20%">Monto</th>
+                                                        <th class="text-center" width="20%">Tipo</th>
+                                                        <th class="text-center" width="20%">Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
+                                                    {
+                                                        foreach (var obj in Model.listaMovimiento)
+                                                        {
+                                                            var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                            <tr @Html.Raw(classInactive)>
+                                                                <td width="20%">@obj.Nombre</td>
+                                                                <td class="text-center" width="20%">@obj.Fecha.ToString("dd/MM/yyyy")</td>
+                                                                <td class="text-center" width="20%">S/. @obj.Monto.ToString("#.##")</td>
+                                                                @if (obj.IdTipoMovimiento == 1)
+                                                                {
+                                                                    <td class="text-center" width="20%" style="color:#8EC100;">Entrada</td>}
+                                                                else
+                                                                {
+                                                                    <td class="text-center" width="20%" style="color:red">Salida</td> }
+                                                                @if (ViewBag.EsAdmin)
+                                                                {
+                                                                    <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
+                                                                }
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+                                }
+                            </section>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+            </div>
+        </div>
+    </section>
+</section>

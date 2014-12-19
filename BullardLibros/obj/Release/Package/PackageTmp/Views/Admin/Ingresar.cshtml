@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+@model BullardLibros.Core.DTO.UsuarioDTO
+
+<!DOCTYPE html>
+<html lang="es" class="bg-gray">
+<head>
+    <meta charset="utf-8" />
+    <title>Bullard Libros</title>
+    <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    @Styles.Render("~/Content/themes/admin/css/bootstrap.css")
+    @Styles.Render("~/Content/themes/admin/css/animate.css")
+    @Styles.Render("~/Content/themes/admin/css/font-awesome.min.css")
+    @Styles.Render("~/Content/themes/admin/css/font.css")
+    @Styles.Render("~/Content/themes/admin/css/app.css")
+    @Styles.Render("~/Content/themes/admin/css/main.css")
+
+    <!--[if lt IE 9]>
+      @Scripts.Render("~/Content/themes/admin/js/html5shiv.js")
+      @Scripts.Render("~/Content/themes/admin/js/respond.min.js")
+      @Scripts.Render("~/Content/themes/admin/js/excanvas.js")
+    <![endif]-->
+</head>
+<body>
+    @Html.Partial("_showAlertMessages")
+    <section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+        <div class="container aside-xxl">
+            <a class="text-center block"><img src="@Url.Content("~/Content/themes/admin/images/bullard.jpg")" style="width: 100%;"></a>
+            @*<a class="navbar-brand block">Administrador</a>*@
+            <section class="panel panel-default bg-white m-t-sm">
+                <header class="panel-heading text-center">
+                    <strong>Ingresar</strong>
+                </header>
+                @using (Html.BeginForm("Login", "Admin", FormMethod.Post, new { @class = "panel-body wrapper-lg" }))
+                {
+                    <div class="form-group">
+                        <label class="control-label">Usuario</label>
+                        @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control input-lg", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Contraseña</label>
+                        @Html.TextBoxFor(u => u.Pass, new { @class = "form-control input-lg", @placeholder = "Ingrese la contraseña", @type = "password" })
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                }
+            </section>
+        </div>
+    </section>
+    <!-- footer -->
+    <footer id="footer">
+        <div class="text-center padder">
+            <p>
+                <small>NubeLabs / Bullard Libros 1.0<br>&copy; 2014</small>
+            </p>
+        </div>
+    </footer>
+    @Scripts.Render("~/Content/themes/admin/js/jquery.min.js")
+    <!-- Bootstrap -->
+    @Scripts.Render("~/Content/themes/admin/js/bootstrap.js")
+    <!-- App -->
+    @Scripts.Render("~/Content/themes/admin/js/app.js")
+    @Scripts.Render("~/Content/themes/admin/js/app.plugin.js")
+    @Scripts.Render("~/Content/themes/admin/js/slimscroll/jquery.slimscroll.min.js")
+
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿@using BullardLibros.Core.DTO
+@model EntidadResponsableDTO
+@{
+    ViewBag.Title = "Entidad";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                @if (Model == null || Model.IdEntidadResponsable == 0)
+                {
+                    <h2>Nueva Entidad Responsable</h2>
+                }
+                else
+                {
+                    <h2>Actualizar Entidad Responsable</h2>
+                }
+
+                @using (Html.BeginForm("AddEntidad", "Admin", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="row m-b">
+                        <div class="col-xs-12 col-md-6">
+                            @Html.Partial("_showAlertMessages")
+
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label>Nombre de la Entidad</label>
+                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la entidad", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.Nombre)
+                                    </div>
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
+                                    {
+                                        <div class="line line-dashed line-lg pull-in"></div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+                                    <div class="form-group">
+                                        <label>Detracción</label>
+                                        @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ingrese la destracción de la entidad", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.Detraccion)
+                                    </div>
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model != null ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
+                                    <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Entidades")">Salir</a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</section>

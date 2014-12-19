@@ -134,5 +134,18 @@ namespace BullardLibros.Core.BL
                 return lista;
             }
         }
+
+        public IList<EntidadResponsableDTO> getEntidadesResponsables(bool AsSelectList = false)
+        {
+            EntidadResponsableBL oBL = new EntidadResponsableBL();
+            if (!AsSelectList)
+                return oBL.getEntidadResponsables();
+            else
+            {
+                var lista = oBL.getEntidadResponsables();
+                lista.Insert(0, new EntidadResponsableDTO() { IdEntidadResponsable = 0, Nombre = "Seleccione la Entidad Responsable" });
+                return lista;
+            }
+        }
     }
 }
