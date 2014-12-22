@@ -163,7 +163,7 @@ namespace BullardLibros.Controllers
             return View(objBL.getCategoriasTree());
         }
 
-        public ActionResult Categoria(int? id = null)
+        public ActionResult Categoria(int? id = null, int? idPadre = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
@@ -171,8 +171,14 @@ namespace BullardLibros.Controllers
             ViewBag.IdCategoria = id;
             var objSent = TempData["Categoria"];
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
-            if (id != null)
+            if (id != null || id == 0)
             {
+                if(idPadre != null)
+                {
+                    CategoriaDTO objp = new CategoriaDTO();
+                    objp.IdCategoriaPadre = idPadre;
+                    return View(objp);
+                }
                 CategoriaDTO obj = objBL.getCategoria((int)id);
                 return View(obj);
             }
