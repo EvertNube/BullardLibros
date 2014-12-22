@@ -184,3 +184,7 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.WebHost.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Routing.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.WebHost.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Net.Http.Formatting.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Net.Http.Formatting.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.xml

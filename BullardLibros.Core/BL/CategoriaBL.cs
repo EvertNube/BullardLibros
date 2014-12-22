@@ -29,6 +29,30 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public IList<CategoriaDTO> getCategoriasTree(int? id = null)
+        {
+            using (var context = getContext())
+            {
+                var result = from r in context.Categoria
+                             where (id == null ? r.IdCategoriaPadre == null : r.IdCategoriaPadre == id)
+                             select new CategoriaDTO
+                             {
+                                 IdCategoria = r.IdCategoria,
+                                 Nombre = r.Nombre,
+                                 Orden = r.Orden,
+                                 Estado = r.Estado,
+                                 IdCategoriaPadre = r.IdCategoriaPadre
+                             };
+                IList<CategoriaDTO> categoriasTree = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
+
+                foreach (CategoriaDTO obj in categoriasTree)
+                {
+                    obj.Hijos = getCategoriasTree(obj.IdCategoria);
+                }
+                return categoriasTree;
+            }
+        }
+
         public CategoriaDTO getCategoria(int id)
         {
             using (var context = getContext())

@@ -135,6 +135,19 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public IList<EstadoMovimientoDTO> getEstadosMovimientos(bool AsSelectList = false)
+        {
+            EstadoMovimientoBL oBL = new EstadoMovimientoBL();
+            if (!AsSelectList)
+                return oBL.getEstadosMovimientos();
+            else
+            {
+                var lista = oBL.getEstadosMovimientos();
+                lista.Insert(0, new EstadoMovimientoDTO() { IdEstadoMovimiento = 0, Nombre = "Seleccione el Estado del Mov." });
+                return lista;
+            }
+        }
+
         public IList<EntidadResponsableDTO> getEntidadesResponsables(bool AsSelectList = false)
         {
             EntidadResponsableBL oBL = new EntidadResponsableBL();

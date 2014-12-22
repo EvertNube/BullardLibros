@@ -53,6 +53,7 @@
     <Compile Include="BL\CategoriaBL.cs" />
     <Compile Include="BL\CuentaBancariaBL.cs" />
     <Compile Include="BL\EntidadResponsableBL.cs" />
+    <Compile Include="BL\EstadoMovimientoBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
     <Compile Include="BL\TipoMovimientoBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />

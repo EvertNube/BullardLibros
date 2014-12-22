@@ -160,7 +160,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             CategoriaBL objBL = new CategoriaBL();
-            return View(objBL.getCategorias());
+            return View(objBL.getCategoriasTree());
         }
 
         public ActionResult Categoria(int? id = null)
@@ -236,6 +236,7 @@ namespace BullardLibros.Controllers
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
             ViewBag.TiposMovimientos = objBL.getTiposMovimientos(true);
+            ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(true);
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsables(true);
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
@@ -249,7 +250,7 @@ namespace BullardLibros.Controllers
                 //nuevo.IdEntidadResponsable = 1;
                 //nuevo.IdTipoMovimiento = 1;
                 nuevo.IdCategoria = 1;
-                nuevo.IdEstadoMovimiento = 1;
+                //nuevo.IdEstadoMovimiento = 1;
                 nuevo.Estado = true;
                 nuevo.UsuarioCreacion = 5;
                 nuevo.FechaCreacion = DateTime.Now;
