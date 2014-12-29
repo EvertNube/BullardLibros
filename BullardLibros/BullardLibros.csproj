@@ -444,6 +444,7 @@
     <Content Include="Content\themes\admin\js\ie\excanvas.js" />
     <Content Include="Content\themes\admin\js\ie\html5shiv.js" />
     <Content Include="Content\themes\admin\js\ie\respond.min.js" />
+    <Content Include="Content\themes\admin\js\jquery.js" />
     <Content Include="Content\themes\admin\js\jquery-ui-1.10.3.custom.min.js" />
     <Content Include="Content\themes\admin\js\jquery.min.js" />
     <Content Include="Content\themes\admin\js\jquery.ui.touch-punch.min.js" />
@@ -458,6 +459,14 @@
     <Content Include="Content\themes\admin\js\nestable\demo.js" />
     <Content Include="Content\themes\admin\js\nestable\jquery.nestable.js" />
     <Content Include="Content\themes\admin\js\nestable\nestable.css" />
+    <Content Include="Content\themes\admin\js\select2\select2-bootstrap.css" />
+    <Content Include="Content\themes\admin\js\select2\select2-spinner.gif" />
+    <Content Include="Content\themes\admin\js\select2\select2.css" />
+    <Content Include="Content\themes\admin\js\select2\select2.js" />
+    <Content Include="Content\themes\admin\js\select2\select2.min.js" />
+    <Content Include="Content\themes\admin\js\select2\select2.png" />
+    <Content Include="Content\themes\admin\js\select2\select2x2.png" />
+    <Content Include="Content\themes\admin\js\select2\select2_locale_es.js" />
     <Content Include="Content\themes\admin\js\slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Content\themes\admin\js\sortable\jquery.sortable.js" />
     <Content Include="Content\themes\admin\js\uploader\jquery.fileupload.js" />

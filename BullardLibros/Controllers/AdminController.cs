@@ -169,6 +169,7 @@ namespace BullardLibros.Controllers
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
+            ViewBag.Categorias = objBL.getCategoriasPadre(true);
             var objSent = TempData["Categoria"];
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
             if (id != null || id == 0)
@@ -460,5 +461,43 @@ namespace BullardLibros.Controllers
             TempData["Entidad"] = dto;
             return RedirectToAction("Entidad");
         }
+
+        #region APIs adicionales
+        public JsonResult CategoriasJson()
+        {
+            List<Select2DTO> ListaCategorias = new List<Select2DTO>();
+
+            CategoriaBL objBL = new CategoriaBL();
+            var listaCat = CategoriasBucle(null, null);
+
+            return Json(new { listaCat }, JsonRequestBehavior.AllowGet);
+        }
+
+        public IList<Select2DTO> CategoriasBucle(int? id = null, IList<CategoriaDTO> lista = null)
+        {
+            var listaCat = lista;
+            if(id == null && lista == null)
+            {
+                CategoriaBL objBL = new CategoriaBL();
+                listaCat = objBL.getCategoriasTree();
+            }
+            List<Select2DTO> selectTree = new List<Select2DTO>();
+            
+            foreach (var item in listaCat)
+            {
+                Select2DTO selectItem = new Select2DTO();
+                selectItem.id = item.IdCategoria;
+                selectItem.text = item.Nombre;
+                if (item.Hijos != null && item.Hijos.Count != 0)
+                {
+                    selectItem.children = CategoriasBucle(item.IdCategoria, item.Hijos);
+                }
+                selectTree.Add(selectItem);
+            }
+            return selectTree;
+        }
+
+        #endregion
+
     }
 }

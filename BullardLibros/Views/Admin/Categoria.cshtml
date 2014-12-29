@@ -4,6 +4,50 @@
     ViewBag.Title = "Categoria";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section Styles{
+@Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+@Styles.Render("~/Content/themes/admin/js/select2/select2-bootstrap.css")
+    }
+
+@section Scripts{
+    @*@Scripts.Render("~/Content/themes/admin/js/jquery.js")*@
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.js")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#comboCategoria').select2({
+                placeholder: "Seleccione una categoría",
+                allowClear: true,
+                //minimumInputLength: 2,  // minimumInputLength for sending ajax request to server
+                minimumResultsForSearch: -1,
+                width: 'resolve',   // to adjust proper width of select2 wrapped elements
+                ajax: {
+                    url: "/Admin/CategoriasJson", // Controller - Select2Demo and Action -AccessRemoteData
+                    type: "POST",
+                    dataType: 'json',
+                    //quietMillis: 250,
+                    data: function () {
+                        return JSON.stringify();
+                    },
+                    results: function (data, page) {
+                        return { results: data.listaCat }; // data.CountryList returning json data from Controlle
+                    },
+                },
+                formatResult: format,
+                formatSelection: format
+            })            
+        });
+
+        function format(res) {
+            var markup = null;
+            if(res.children == null)
+                markup = '<font color="#27ae60">' + res.text + '</font>';
+            else
+                markup = '<font color="black">' + res.text + '</font>';
+            return markup;
+        }
+    </script>
+}
 
 <section class="vbox">
     <section class="scrollable padder">
@@ -26,6 +70,7 @@
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
+                                
                                 <header class="panel-heading font-bold">Formulario de Registro</header>
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -38,27 +83,44 @@
                                         @Html.TextBoxFor(u => u.Orden, new { @class = "form-control", @placeholder = "Ingrese el orden de la categoría", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Orden)
                                     </div>
-
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
-                                    {
+                                    @*<div class="form-group">
+                                            <label>Categoria Padre</label>
+                                            @Html.DropDownListFor(u => u.IdCategoriaPadre, new SelectList(ViewBag.Categorias, "IdCategoria", "Nombre", Model != null ? (Model.IdCategoriaPadre != null ? Model.IdCategoriaPadre : 0) : 0), new { @class = "form-control parsley-validated" })
+                                            @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
+                                        </div>*@
+                                    @*<div class="form-group">
+                                        <select id="enusel">
+                                            <option>Lima</option>
+                                            <option>Piura</option>
+                                            <option>Ica</option>
+                                            <option>Nazca</option>
+                                        </select>
+                                        </div>*@
+                                        <div class="form-group">
+                <label>Categoria Padre</label>
+                @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @id = "comboCategoria" })
+                @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
+            </div>
+                                        @if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
+                                        {
+                                            <div class="line line-dashed line-lg pull-in"></div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor(u => u.Estado)
+                                                    Activo
+                                                </label>
+                                                @Html.ValidationMessageFor(u => u.Estado)
+                                            </div>}
+                                        else
+                                        {
+                                            @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                        }
                                         <div class="line line-dashed line-lg pull-in"></div>
-                                        <div class="checkbox">
-                                            <label>
-                                                @Html.CheckBoxFor(u => u.Estado)
-                                                Activo
-                                            </label>
-                                            @Html.ValidationMessageFor(u => u.Estado)
-                                        </div>}
-                                    else
-                                    {
-                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                    }
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
-                                    @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
-                                    <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Categorias")">Salir</a>
-                                </div>
+                                        @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
+                                        @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
+                                        <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
+                                        <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Categorias")">Salir</a>
+                                    </div>
                             </section>
                         </div>
                     </div>

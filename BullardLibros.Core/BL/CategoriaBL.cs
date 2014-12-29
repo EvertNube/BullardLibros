@@ -53,6 +53,18 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public IList<CategoriaDTO> getCategoriasPadre(bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+                return getCategoriasTree();
+            else
+            {
+                var lista = getCategoriasTree();
+                lista.Insert(0, new CategoriaDTO() { IdCategoria = 0, Nombre = "Seleccione la Categoría Padre" });
+                return lista;
+            }
+        }
+
         public CategoriaDTO getCategoria(int id)
         {
             using (var context = getContext())
