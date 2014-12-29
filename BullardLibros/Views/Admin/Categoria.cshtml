@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
-@Styles.Render("~/Content/themes/admin/js/select2/select2.css")
-@Styles.Render("~/Content/themes/admin/js/select2/select2-bootstrap.css")
-    }
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/select2-bootstrap.css")
+}
 
 @section Scripts{
     @*@Scripts.Render("~/Content/themes/admin/js/jquery.js")*@
@@ -35,16 +35,26 @@
                 },
                 formatResult: format,
                 formatSelection: format
-            })            
+            })
         });
 
         function format(res) {
             var markup = null;
-            if(res.children == null)
+            if (res.children == null)
                 markup = '<font color="#27ae60">' + res.text + '</font>';
             else
                 markup = '<font color="black">' + res.text + '</font>';
             return markup;
+        }
+
+        function validarCategoria() {
+            var myIdSelect2 = document.getElementById('comboCategoria').value; 
+            //var myIdSelect2 = $('#comboCategoria').select2.('data').id;
+            var myId = $('#IdCategoria').val();
+            if(myIdSelect2 == myId)
+            {alert("El padre de la categoría no puede ser él mismo");
+            return false;
+            }
         }
     </script>
 }
@@ -70,7 +80,7 @@
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
-                                
+
                                 <header class="panel-heading font-bold">Formulario de Registro</header>
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -96,31 +106,38 @@
                                             <option>Nazca</option>
                                         </select>
                                         </div>*@
+                                    @if (Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
+                                    {
+                                        @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @value = Model != null ? Model.IdCategoriaPadre : 0, @type = "hidden" })
+                                    }
+                                    else
+                                    {
                                         <div class="form-group">
-                <label>Categoria Padre</label>
-                @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @id = "comboCategoria" })
-                @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
-            </div>
-                                        @if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
-                                        {
-                                            <div class="line line-dashed line-lg pull-in"></div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    @Html.CheckBoxFor(u => u.Estado)
-                                                    Activo
-                                                </label>
-                                                @Html.ValidationMessageFor(u => u.Estado)
-                                            </div>}
-                                        else
-                                        {
-                                            @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                        }
+                                            <label>Categoria Padre</label>
+                                            @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @id = "comboCategoria", @class = "form-control" })
+                                            @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
+                                        </div>
+                                    }
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
+                                    {
                                         <div class="line line-dashed line-lg pull-in"></div>
-                                        @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
-                                        @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
-                                        <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
-                                        <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Categorias")">Salir</a>
-                                    </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded" onclick="return validarCategoria()">@btnName</button>
+                                    <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Categorias")">Salir</a>
+                                </div>
                             </section>
                         </div>
                     </div>

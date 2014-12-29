@@ -24,7 +24,7 @@ namespace BullardLibros.Core.BL
                         Orden = x.Orden,
                         Estado = x.Estado,
                         IdCategoriaPadre = x.IdCategoriaPadre
-                }).ToList();
+                    }).ToList();
                 return result;
             }
         }
@@ -120,6 +120,26 @@ namespace BullardLibros.Core.BL
                 {
                     throw e;
                 }
+            }
+        }
+
+        public int getUltimoHijo(int idPadre)
+        {
+            using (var context = getContext())
+            {
+                var result = from r in context.Categoria.Where(x => x.IdCategoriaPadre == idPadre)
+                             select new CategoriaDTO
+                             {
+                                 IdCategoria = r.IdCategoria,
+                                 Nombre = r.Nombre,
+                                 Orden = r.Orden,
+                                 Estado = r.Estado,
+                                 IdCategoriaPadre = r.IdCategoriaPadre
+                             };
+                IList<CategoriaDTO> lstCategorias = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
+                if (lstCategorias.Count == 0)
+                    return 1;
+                return lstCategorias.Last().Orden + 1;
             }
         }
     }

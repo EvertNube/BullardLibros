@@ -177,7 +177,9 @@ namespace BullardLibros.Controllers
                 if(idPadre != null)
                 {
                     CategoriaDTO objp = new CategoriaDTO();
+                    objp.IdCategoria = 0;
                     objp.IdCategoriaPadre = idPadre;
+                    objp.Orden = objBL.getUltimoHijo(idPadre.GetValueOrDefault());
                     return View(objp);
                 }
                 CategoriaDTO obj = objBL.getCategoria((int)id);

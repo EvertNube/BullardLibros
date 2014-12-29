@@ -24,7 +24,7 @@
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
                 output.AppendFormat("<li class='dd-item " + classInactive + "' data-id='{0}' " + styleI + "><div class='dd-handle'>{1} <b class='badge bg-warning dot {2}'></b></div>", obj.IdCategoria, obj.Nombre, obj.Estado ? "green" : "red");
                 if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-edit' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
-                if (nivel < 4) { output.AppendFormat("<a class='btn-edit btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, obj.IdCategoria })); }
+                if (nivel < 4) { output.AppendFormat("<a class='btn-edit btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
                 if (obj.Hijos != null && obj.Hijos.Count != 0) { output.Append(printTree(obj.Hijos, nivel + 1)); }
                 output.Append("</li>");
             }
