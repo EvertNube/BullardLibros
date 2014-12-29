@@ -160,5 +160,15 @@ namespace BullardLibros.Core.BL
                 return lista;
             }
         }
+
+        public string getNombreCategoria(int id)
+        {
+            if(id != 0 && id != null)
+            { 
+            CategoriaBL oBL = new CategoriaBL();
+            return oBL.getCategoria(id).Nombre;
+            }
+            return "Sin Categoría";
+        }
     }
 }

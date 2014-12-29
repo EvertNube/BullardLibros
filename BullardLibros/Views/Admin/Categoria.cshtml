@@ -51,6 +51,8 @@
             var myIdSelect2 = document.getElementById('comboCategoria').value; 
             //var myIdSelect2 = $('#comboCategoria').select2.('data').id;
             var myId = $('#IdCategoria').val();
+            if (myId == 0)
+                return true;
             if(myIdSelect2 == myId)
             {alert("El padre de la categoría no puede ser él mismo");
             return false;
@@ -88,25 +90,12 @@
                                         @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la categoría", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
-                                    <div class="form-group">
+                                    @*<div class="form-group">
                                         <label>Orden de la Categoria</label>
                                         @Html.TextBoxFor(u => u.Orden, new { @class = "form-control", @placeholder = "Ingrese el orden de la categoría", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Orden)
-                                    </div>
-                                    @*<div class="form-group">
-                                            <label>Categoria Padre</label>
-                                            @Html.DropDownListFor(u => u.IdCategoriaPadre, new SelectList(ViewBag.Categorias, "IdCategoria", "Nombre", Model != null ? (Model.IdCategoriaPadre != null ? Model.IdCategoriaPadre : 0) : 0), new { @class = "form-control parsley-validated" })
-                                            @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
-                                        </div>*@
-                                    @*<div class="form-group">
-                                        <select id="enusel">
-                                            <option>Lima</option>
-                                            <option>Piura</option>
-                                            <option>Ica</option>
-                                            <option>Nazca</option>
-                                        </select>
-                                        </div>*@
-                                    @if (Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
+                                    </div>*@
+                                    @if (Model != null && Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
                                     {
                                         @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @value = Model != null ? Model.IdCategoriaPadre : 0, @type = "hidden" })
                                     }
@@ -134,6 +123,7 @@
                                     }
                                     <div class="line line-dashed line-lg pull-in"></div>
                                     @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
+                                    @*@Html.TextBoxFor(u => u.Orden, new { @value = Model != null ? Model.Orden : 1, @type = "hidden" })*@
                                     @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-primary btn-rounded" onclick="return validarCategoria()">@btnName</button>
                                     <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Categorias")">Salir</a>

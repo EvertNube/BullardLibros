@@ -89,7 +89,11 @@ namespace BullardLibros.Core.BL
                 {
                     Categoria nuevo = new Categoria();
                     nuevo.Nombre = Categoria.Nombre;
-                    nuevo.Orden = Categoria.Orden;
+                    if (Categoria.IdCategoriaPadre != 0 && Categoria.IdCategoriaPadre != null)
+                        nuevo.Orden = getUltimoHijo(Categoria.IdCategoriaPadre.GetValueOrDefault());
+                    else
+                        nuevo.Orden = 1;
+                    //nuevo.Orden = Categoria.Orden;
                     nuevo.Estado = true;
                     nuevo.IdCategoriaPadre = Categoria.IdCategoriaPadre;
                     context.Categoria.Add(nuevo);
@@ -110,7 +114,11 @@ namespace BullardLibros.Core.BL
                 {
                     var datoRow = context.Categoria.Where(x => x.IdCategoria == Categoria.IdCategoria).SingleOrDefault();
                     datoRow.Nombre = Categoria.Nombre;
-                    datoRow.Orden = Categoria.Orden;
+                    //datoRow.Orden = Categoria.Orden;
+                    if (Categoria.IdCategoriaPadre != 0 && Categoria.IdCategoriaPadre != null)
+                        datoRow.Orden = getUltimoHijo(Categoria.IdCategoriaPadre.GetValueOrDefault());
+                    else
+                        datoRow.Orden = 1;
                     datoRow.Estado = Categoria.Estado;
                     datoRow.IdCategoriaPadre = Categoria.IdCategoriaPadre;
                     context.SaveChanges();

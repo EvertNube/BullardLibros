@@ -83,6 +83,12 @@
     <Compile Include="Rol.cs">
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>

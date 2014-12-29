@@ -91,6 +91,7 @@ namespace BullardLibros.Core.BL
             {
                 try
                 {
+                    //var miSaldoDisponible = context.SP_GetTotalIngresos(CuentaBancaria.IdCuentaBancaria).AsQueryable().First() as Decimal?;
                     var datoRow = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == CuentaBancaria.IdCuentaBancaria).SingleOrDefault();
                     datoRow.NombreCuenta = CuentaBancaria.NombreCuenta;
                     datoRow.FechaConciliacion = CuentaBancaria.FechaConciliacion;
@@ -106,5 +107,20 @@ namespace BullardLibros.Core.BL
                 }
             }
         }
+
+        //public bool updateMontos(int id)
+        //{
+        //    using (var context = getContext())
+        //    {
+        //        try
+        //        {
+        //            var result1 = context.SP_GetTotalIngresos(id);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw e;
+        //        }
+        //    }
+        //}
     }
 }

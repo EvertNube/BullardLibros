@@ -247,6 +247,7 @@ namespace BullardLibros.Controllers
             ViewBag.TiposMovimientos = objBL.getTiposMovimientos(true);
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(true);
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsables(true);
+            ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
             if(id == 0 && idLibro != null)
@@ -258,7 +259,7 @@ namespace BullardLibros.Controllers
                 nuevo.Comentario = null;
                 //nuevo.IdEntidadResponsable = 1;
                 //nuevo.IdTipoMovimiento = 1;
-                nuevo.IdCategoria = 1;
+                //nuevo.IdCategoria = 1;
                 //nuevo.IdEstadoMovimiento = 1;
                 nuevo.Estado = true;
                 nuevo.UsuarioCreacion = 5;
@@ -270,6 +271,7 @@ namespace BullardLibros.Controllers
                 if (id != null)
                 {
                     MovimientoDTO obj = objBL.getMovimiento((int)id);
+                    ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoria.GetValueOrDefault());
                     return View(obj);
                 }
             }
