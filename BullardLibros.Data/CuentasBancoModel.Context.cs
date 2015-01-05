@@ -95,15 +95,6 @@ namespace BullardLibros.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
         }
     
-        public virtual ObjectResult<Nullable<decimal>> SP_GetTotalSalidas(Nullable<int> idCuentaBancaria)
-        {
-            var idCuentaBancariaParameter = idCuentaBancaria.HasValue ?
-                new ObjectParameter("IdCuentaBancaria", idCuentaBancaria) :
-                new ObjectParameter("IdCuentaBancaria", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("SP_GetTotalSalidas", idCuentaBancariaParameter);
-        }
-    
         public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
         {
             var diagramnameParameter = diagramname != null ?
@@ -152,13 +143,13 @@ namespace BullardLibros.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
     
-        public virtual ObjectResult<Nullable<decimal>> SP_GetTotalIngresos(Nullable<int> idCuentaBancaria)
+        public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {
-            var idCuentaBancariaParameter = idCuentaBancaria.HasValue ?
-                new ObjectParameter("IdCuentaBancaria", idCuentaBancaria) :
-                new ObjectParameter("IdCuentaBancaria", typeof(int));
+            var idCuentaBParameter = idCuentaB.HasValue ?
+                new ObjectParameter("IdCuentaB", idCuentaB) :
+                new ObjectParameter("IdCuentaB", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("SP_GetTotalIngresos", idCuentaBancariaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ActualizarMontos", idCuentaBParameter);
         }
     }
 }

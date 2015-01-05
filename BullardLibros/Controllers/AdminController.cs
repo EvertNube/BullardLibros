@@ -288,6 +288,7 @@ namespace BullardLibros.Controllers
                 {
                     if (objBL.add(dto))
                     {
+                        objBL.ActualizarSaldos(dto.IdCuentaBancaria);
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
                     }
@@ -296,8 +297,8 @@ namespace BullardLibros.Controllers
                 {
                     if (objBL.update(dto))
                     {
-                        createResponseMessage(CONSTANTES.SUCCESS);
-                        //return RedirectToAction("Movimientos");
+                        objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        //createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
                     }
                     else

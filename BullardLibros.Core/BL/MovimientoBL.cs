@@ -8,6 +8,8 @@ using System.Data.Objects.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//required for sql function access
+using System.Data.Entity.Core.Objects.DataClasses;
 
 namespace BullardLibros.Core.BL
 {
@@ -170,5 +172,31 @@ namespace BullardLibros.Core.BL
             }
             return "Sin Categoría";
         }
+
+        public void ActualizarSaldos(int idCuentaB)
+        {
+            if (idCuentaB != 0 && idCuentaB != null)
+            {
+                CuentaBancariaBL oBL = new CuentaBancariaBL();
+                oBL.updateSaldoDisponible(idCuentaB);
+            }
+        }
+
+        //public bool ActualizarSaldoDisponible(int idCuentaB)
+        //{
+        //    using (var context = getContext())
+        //    {
+        //        try
+        //        {
+        //            var dataRow = from p in context.CuentaBancaria
+        //                          where 
+        //            return true;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw e;
+        //        }
+        //    }
+        //}
     }
 }

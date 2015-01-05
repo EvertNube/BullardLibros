@@ -131,9 +131,6 @@
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="SP_GetTotalSalidas" ReturnType="Collection(Decimal)">
-      <Parameter Name="IdCuentaBancaria" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(BULLARD.CuentasBancoDbModel.sp_helpdiagramdefinition_Result)">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -148,8 +145,8 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
-    <FunctionImport Name="SP_GetTotalIngresos" ReturnType="Collection(Decimal)">
-      <Parameter Name="IdCuentaBancaria" Mode="In" Type="Int32" />
+    <FunctionImport Name="SP_ActualizarMontos">
+      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <EntityType Name="sysdiagrams">

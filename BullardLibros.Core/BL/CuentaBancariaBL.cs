@@ -8,6 +8,8 @@ using System.Data.Objects.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//required for sql function access
+using System.Data.Entity.Core.Objects.DataClasses;
 
 namespace BullardLibros.Core.BL
 {
@@ -108,19 +110,27 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        //public bool updateMontos(int id)
+        //[EdmFunction("BULLARD.CuentasBancoDbModel.Store", "FN_GetTotalIngresosLibro")]
+        //public static decimal? FN_GetTotalIngresosLibro(int IdCuentaBancaria)
         //{
-        //    using (var context = getContext())
-        //    {
-        //        try
-        //        {
-        //            var result1 = context.SP_GetTotalIngresos(id);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            throw e;
-        //        }
-        //    }
+        //    throw new NotSupportedException("Direct calls are not supported.");
         //}
+        public bool updateSaldoDisponible(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    //dataRow.SaldoDisponible = FN_GetTotalIngresosLibro(id).GetValueOrDefault();
+                    context.SP_ActualizarMontos(id);
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    string miCadena = e.Message;
+                    throw e;
+                }
+            }
+        }
     }
 }
