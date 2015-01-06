@@ -305,7 +305,6 @@ namespace BullardLibros.Controllers
                     {
                         createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
                     }
-
                 }
                 else
                 {

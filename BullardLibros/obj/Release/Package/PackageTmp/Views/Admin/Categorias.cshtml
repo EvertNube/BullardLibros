@@ -4,6 +4,38 @@
 }
 @model IList<BullardLibros.Core.DTO.CategoriaDTO>
 
+@section styles{
+    @Styles.Render("~/Content/themes/admin/js/nestable/nestable.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/nestable/jquery.nestable.js")
+    @Scripts.Render("~/Content/themes/admin/js/nestable/demo.js")
+}
+@functions{
+    public string printTree(IList<BullardLibros.Core.DTO.CategoriaDTO> categorias, int nivel)
+    {
+        if (categorias != null && categorias.Count != 0)
+        {
+            System.Text.StringBuilder output = new System.Text.StringBuilder("<ol class='dd-list'>");
+
+            foreach (BullardLibros.Core.DTO.CategoriaDTO obj in categorias)
+            {
+                var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "inactive" : "";
+                var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
+                output.AppendFormat("<li class='dd-item " + classInactive + "' data-id='{0}' " + styleI + "><div class='dd-handle'>{1} <b class='badge bg-warning dot {2}'></b></div>", obj.IdCategoria, obj.Nombre, obj.Estado ? "green" : "red");
+                if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-edit' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
+                if (nivel < 4) { output.AppendFormat("<a class='btn-edit btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
+                if (obj.Hijos != null && obj.Hijos.Count != 0) { output.Append(printTree(obj.Hijos, nivel + 1)); }
+                output.Append("</li>");
+            }
+
+            output.Append("</ol>");
+            return output.ToString();
+        }
+        else return "";
+    }
+}
+
 <section class="vbox">
     <section class="scrollable padder">
         <div class="row m-b">
@@ -19,45 +51,38 @@
                                     <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                 </div>
                             </div>
+                            @*<div class="col-sm-4">
+                                <button id="nestable-menu" class="btn btn-xs btn-default" data-toggle="class:show">
+                                    <i class="fa fa-minus text"></i> <span class="text">Colapsar</span> <i class="fa fa-plus text-active"></i>
+                                    <span class="text-active">Expandir</span>
+                                </button>
+                            </div>*@
                             <div class="col-sm-4">
                                 <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Categoria")"><i class="fa fa-plus"></i> Crear nueva Categoría</a>
                             </div>
                         </div>
+                        
+                        @*<div class="row text-sm wrapper">
+                            
+                            </div>*@
                     }
-                    <div class="table-responsive">
-                        <table class="table table-striped m-b-none">
-                            <thead>
-                                <tr>
-                                    <th width="40%">Nombre</th>
-                                    <th class="text-center" width="20%">Orden</th>
-                                    <th class="text-center" width="20%">Estado</th>
-                                    <th class="text-center" width="20%">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null)
-                                {
-                                    foreach (var obj in Model)
-                                    {
-                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                        <tr @Html.Raw(classInactive)>
-                                            <td width="40%">@obj.Nombre</td>
-                                            <td class="text-center" width="20%">@obj.Orden</td>
-                                            @if (obj.Estado == true)
-                                            {
-                                                <td class="text-center" width="20%">Activo</td>}
-                                            else
-                                            {
-                                                <td class="text-center" width="20%">Inactivo</td>}
-                                            @if (ViewBag.EsAdmin)
-                                            {
-                                                <td align="center"><a href="@Url.Action("Categoria", new { id = obj.IdCategoria })"><i class="fa fa-pencil"></i></a></td>
-                                            }
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
+                    <button id="nestable-menu" class="btn btn-xs btn-default" data-toggle="class:show" style="margin-left:30px;">
+                        <i class="fa fa-minus text"></i> <span class="text">Colapsar</span> <i class="fa fa-plus text-active"></i>
+                        <span class="text-active">Expandir</span>
+                    </button>
+                    <div class="panel-body">
+                        <div class="col-md-10">
+                            <div class="dd" id="nestable1">
+                                @Html.Raw(printTree(Model, 1))
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <blockquote class="leyend" style="padding:10px;">
+                                <h4>Leyenda</h4>
+                                <p><b class='badge bg-warning dot'></b> Activo</p>
+                                <p><b class='badge bg-warning dot red'></b> Inactivo</p>
+                            </blockquote>
+                        </div>
                     </div>
                 </section>
             </div>

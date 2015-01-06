@@ -17,12 +17,12 @@
                 {
                     <h2>Actualizar Libro</h2>
                 }
+                <div class="row m-b">
+                    <div class="col-xs-12 col-md-12">
+                        @using (Html.BeginForm("AddLibro", "Admin", FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true)
 
-                @using (Html.BeginForm("AddLibro", "Admin", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <div class="row m-b">
-                        <div class="col-xs-12 col-md-12">
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Saldo disponible</label>
-                                        @Html.TextBoxFor(u => u.SaldoDisponible, new { @class = "form-control", @placeholder = "Ingrese el saldo disponible", @type = "text" })
+                                        @Html.TextBoxFor(u => u.SaldoDisponible, "{0:0.00}", new { @class = "form-control", @placeholder = "Ingrese el saldo disponible", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.SaldoDisponible)
                                     </div>
                                     <div class="form-group">
@@ -70,68 +70,70 @@
                                     <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Index")">Salir</a>
                                 </div>
                             </section>
-                            <section class="panel panel-default">
-                                @if (Model != null && Model.IdCuentaBancaria != 0)
-                                {
-                                    <header class="panel-heading font-bold">Movimmientos</header>
-                                    <section class="panel panel-default">
-                                        @if (ViewBag.EsAdmin)
-                                        {
-                                            <div class="row text-sm wrapper">
-                                                <div class="col-sm-8">
-                                                    <div class="btn-group">
-                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
+                        }
+                        <section class="panel panel-default">
+                            @if (Model != null && Model.IdCuentaBancaria != 0)
+                            {
+                                <header class="panel-heading font-bold">Movimmientos</header>
+                                <section class="panel panel-default">
+                                    @if (ViewBag.EsAdmin)
+                                    {
+                                        <div class="row text-sm wrapper">
+                                            <div class="col-sm-8">
+                                                <div class="btn-group">
+                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                                 </div>
                                             </div>
-                                        }
-                                        <div class="table-responsive">
-                                            <table class="table table-striped m-b-none">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="20%">Nombre</th>
-                                                        <th class="text-center" width="20%">Fecha</th>
-                                                        <th class="text-center" width="20%">Monto</th>
-                                                        <th class="text-center" width="20%">Tipo</th>
-                                                        <th class="text-center" width="20%">Opciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (Model != null)
-                                                    {
-                                                        foreach (var obj in Model.listaMovimiento)
-                                                        {
-                                                            var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                                            <tr @Html.Raw(classInactive)>
-                                                                <td width="20%">@obj.Nombre</td>
-                                                                <td class="text-center" width="20%">@obj.Fecha.ToString("dd/MM/yyyy")</td>
-                                                                <td class="text-center" width="20%">S/. @obj.Monto.ToString("#.##")</td>
-                                                                @if (obj.IdTipoMovimiento == 1)
-                                                                {
-                                                                    <td class="text-center" width="20%" style="color:#8EC100;">Entrada</td>}
-                                                                else
-                                                                {
-                                                                    <td class="text-center" width="20%" style="color:red">Salida</td> }
-                                                                @if (ViewBag.EsAdmin)
-                                                                {
-                                                                    <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
-                                                                }
-                                                            </tr>
-                                                        }
-                                                    }
-                                                </tbody>
-                                            </table>
+                                            <div class="col-sm-4">
+                                                <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
+                                            </div>
                                         </div>
-                                    </section>
-                                }
-                            </section>
-                        </div>
+                                    }
+                                    <div class="table-responsive">
+                                        <table class="table table-striped m-b-none">
+                                            <thead>
+                                                <tr>
+                                                    <th width="20%">Nombre</th>
+                                                    <th class="text-center" width="20%">Fecha</th>
+                                                    <th class="text-center" width="20%">Monto</th>
+                                                    <th class="text-center" width="20%">Tipo</th>
+                                                    <th class="text-center" width="20%">Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.listaMovimiento != null)
+                                                {
+                                                    foreach (var obj in Model.listaMovimiento)
+                                                    {
+                                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                        <tr @Html.Raw(classInactive)>
+                                                            <td width="20%">@obj.Nombre</td>
+                                                            <td class="text-center" width="20%">@obj.Fecha.ToString("dd/MM/yyyy")</td>
+                                                            <td class="text-center" width="20%">S/. @obj.Monto.ToString("#.##")</td>
+                                                            @if (obj.IdTipoMovimiento == 1)
+                                                            {
+                                                                <td class="text-center" width="20%" style="color:#8EC100;">Entrada</td>}
+                                                            else
+                                                            {
+                                                                <td class="text-center" width="20%" style="color:red">Salida</td> }
+                                                            @if (ViewBag.EsAdmin)
+                                                            {
+                                                                <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                            }
+                        </section>
                     </div>
-                }
+                </div>
+
             </div>
+
         </div>
         <div class="row m-b">
             <div class="col-xs-12 col-md-10 col-md-offset-1">
