@@ -24,28 +24,20 @@
 </head>
 <body>
     <section class="vbox">
-        <header class="bg-gray dk header navbar navbar-fixed-top-xs">
+        <header class="dk header navbar navbar-fixed-top-xs" style="background-color:#428bca">
             <div class="navbar-header aside-md">
                 <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
                     <i class="fa fa-bars"></i>
                 </a>
-                <a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="@Url.Content("~/Content/themes/admin/images/logo.jpg")"></a>
+                @*<a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="@Url.Content("~/Content/themes/admin/images/logo.jpg")"></a>*@
+                <a href="#" class="navbar-brand" data-toggle="fullscreen" style="color:white">@*<img src="images/logo.png" class="m-r-sm">*@BFE +</a>
                 <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
                     <i class="fa fa-cog"></i>
                 </a>
             </div>
-            @using (Html.BeginForm("Busqueda", "Admin", FormMethod.Post))
-            {
-                <div class="input-group m-t-sm m-b-sm" style="width: 30%; float: left;">
-                    <input type="text" class="form-control input-sm" id="search-note-global" name="search" placeholder="Buscar..." />
-                    <div class="input-group-btn" id="BuscarTareasGlobal">
-                        <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            }
             <ul class="nav navbar-nav navbar-right hidden-xs nav-user">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white">
                         @{ var user = (BullardLibros.Core.DTO.UsuarioDTO)HttpContext.Current.Session["User"]; }
                         @user.Nombre <b class="caret"></b>
                     </a>
@@ -65,7 +57,7 @@
         <section>
             <section class="hbox stretch">
                 <!-- .aside -->
-                <aside class="bg-dark lter aside-md hidden-print" id="nav">
+                <aside class="bg-light b-r lter aside-md hidden-print" id="nav">
                     <section class="vbox">
 
                         <section class="w-f scrollable">
@@ -73,11 +65,11 @@
 
                                 <!-- nav -->
                                 <nav class="nav-primary hidden-xs">
-                                    <ul class="nav">
-                                        <li class="active">
+                                    <ul class="nav lt">
+                                        <li class="">
                                             <a href="@Url.Action("Index")" class="active">
                                                 <i class="fa fa-book icon">
-                                                    <b class="bg-danger"></b>
+                                                    <b class="bg-primary" style="background-color:#428bca"></b>
                                                 </i>
                                                 <span>Libros</span>
                                             </a>
@@ -85,7 +77,7 @@
                                         <li class="">
                                             <a href="@Url.Action("Categorias")" class="active">
                                                 <i class="fa fa-list-ul icon">
-                                                    <b class="bg-info"></b>
+                                                    <b class="bg-primary" style="background-color:#428bca"></b>
                                                 </i>
                                                 <span>Categorias</span>
                                             </a>
@@ -93,7 +85,7 @@
                                         <li class="">
                                             <a href="@Url.Action("Entidades")" class="active">
                                                 <i class="fa fa-eye icon">
-                                                    <b class="bg-warning"></b>
+                                                    <b class="bg-primary" style="background-color:#428bca"></b>
                                                 </i>
                                                 <span>Entidades</span>
                                             </a>
@@ -101,7 +93,7 @@
                                         <li class="">
                                             <a href="@Url.Action("Usuarios")" class="active">
                                                 <i class="fa fa-user icon">
-                                                    <b class="bg-primary"></b>
+                                                    <b class="bg-primary" style="background-color:#428bca"></b>
                                                 </i>
                                                 <span>Usuarios</span>
                                             </a>
@@ -143,8 +135,8 @@
                             </div>
                         </section>
 
-                        <footer class="footer lt hidden-xs b-t b-dark">
-                            <a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-dark btn-icon">
+                        <footer class="footer lt hidden-xs b-t b-light">
+                            <a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-default btn-icon">
                                 <i class="fa fa-angle-left text"></i>
                                 <i class="fa fa-angle-right text-active"></i>
                             </a>
