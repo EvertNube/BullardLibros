@@ -90,19 +90,15 @@
                                         @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la categoría", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
-                                    @*<div class="form-group">
-                                        <label>Orden de la Categoria</label>
-                                        @Html.TextBoxFor(u => u.Orden, new { @class = "form-control", @placeholder = "Ingrese el orden de la categoría", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Orden)
-                                    </div>*@
                                     @if (Model != null && Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
                                     {
+                                        <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
                                         @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @value = Model != null ? Model.IdCategoriaPadre : 0, @type = "hidden" })
                                     }
                                     else
                                     {
                                         <div class="form-group">
-                                            <label>Categoria Padre</label>
+                                            <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
                                             @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @id = "comboCategoria", @class = "form-control" })
                                             @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
                                         </div>

@@ -1,6 +1,3 @@
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\BullardEncuestas.Helpers.dll.config
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\BullardEncuestas.Helpers.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\BullardEncuestas.Helpers.pdb
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\Microsoft.Web.Infrastructure.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\System.Web.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\System.Web.Mvc.dll
@@ -17,5 +14,8 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bi
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\System.Web.WebPages.Deployment.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\System.Web.WebPages.Razor.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Release\BullardLibros.Helpers.csprojResolveAssemblyReference.cache
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Release\BullardEncuestas.Helpers.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Release\BullardEncuestas.Helpers.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\BullardLibros.Helpers.dll.config
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\BullardLibros.Helpers.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Release\BullardLibros.Helpers.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Release\BullardLibros.Helpers.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Release\BullardLibros.Helpers.pdb

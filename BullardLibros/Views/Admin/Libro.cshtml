@@ -38,41 +38,33 @@
                                         @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker" })
                                         @Html.ValidationMessageFor(u => u.FechaConciliacion)
                                     </div>
-                                    <div class="form-group">
-                                        <div class="row m-l-none m-r-none bg-light lter">
-                                            <div class="col-sm-6 col-md-6 padder-v b-r b-light text-center">
-                                                <span class="fa-stack fa-2x pull-right m-r-sm">
-                                                    <i class="fa fa-circle fa-stack-2x text-success"></i>
-                                                    <i class="fa fa-money fa-stack-1x text-white"></i>
-                                                </span> 
+                                    @if (Model != null)
+                                    {
+                                        <div class="form-group">
+                                            <div class="row m-l-none m-r-none bg-light lter">
+                                                <div class="col-sm-6 col-md-6 padder-v b-r b-light text-center">
+                                                    <span class="fa-stack fa-2x pull-right m-r-sm">
+                                                        <i class="fa fa-circle fa-stack-2x text-success"></i>
+                                                        <i class="fa fa-money fa-stack-1x text-white"></i>
+                                                    </span>
                                                     <small class="h3 text-muted text"><strong>Saldo Disponible</strong></small>
                                                     <span class="h3 block m-t-xs">
                                                         @Model.SaldoDisponible
                                                     </span>
-                                                    
-                                                
-                                            </div>
-                                            <div class="col-sm-6 col-md-6 padder-v b-l b-light text-center"> 
-                                                <span class="fa-stack fa-2x pull-left m-r-sm">
-                                                    <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                                                    <i class="fa fa-credit-card fa-stack-1x text-white"></i>
-                                                </span> 
-                                                <small class="h3 text-muted text"><strong>Saldo Bancario</strong></small>    
-                                                <span class="h3 block m-t-xs">
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 padder-v b-l b-light text-center">
+                                                    <span class="fa-stack fa-2x pull-left m-r-sm">
+                                                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                                                        <i class="fa fa-credit-card fa-stack-1x text-white"></i>
+                                                    </span>
+                                                    <small class="h3 text-muted text"><strong>Saldo Bancario</strong></small>
+                                                    <span class="h3 block m-t-xs">
                                                         @Model.SaldoBancario
                                                     </span>
+                                                </div>
                                             </div>
                                         </div>
-                                        @*<div class="panel panel-body col-lg-6" style="border-color:#d9d9d9">
-                                            <span class="text-muted">Saldo disponible:</span>
-                                            <span class="h3 block">@Model.SaldoDisponible</span>
-                                        </div>
-
-                                        <div class="panel panel-body col-lg-6" style="border-color:#d9d9d9">
-                                            <span class="text-muted">Saldo bancario:</span>
-                                            <span class="h3 block">@Model.SaldoBancario</span>
-                                        </div>*@
-                                    </div>
+                                    }
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdCuentaBancaria > 0)
                                     {
                                         @*<div class="line line-dashed line-lg pull-in"></div>*@
@@ -98,9 +90,10 @@
                                 </div>
                             </section>
                         }
-                        <section class="panel panel-default">
-                            @if (Model != null && Model.IdCuentaBancaria != 0)
-                            {
+
+                        @if (Model != null && Model.IdCuentaBancaria != 0)
+                        {
+                            <section class="panel panel-default">
                                 <header class="panel-heading font-bold">Movimmientos</header>
                                 <section class="panel panel-default">
                                     @if (ViewBag.EsAdmin)
@@ -154,8 +147,9 @@
                                         </table>
                                     </div>
                                 </section>
-                            }
-                        </section>
+                            </section>
+                        }
+
                     </div>
                 </div>
 

@@ -7,8 +7,8 @@
     <ProjectGuid>{D42A9C6B-50DB-4419-A9B5-72673B9A28E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BullardEncuestas.Helpers.Razor</RootNamespace>
-    <AssemblyName>BullardEncuestas.Helpers.Razor</AssemblyName>
+    <RootNamespace>BullardLibros.Helpers.Razor</RootNamespace>
+    <AssemblyName>BullardLibros.Helpers.Razor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

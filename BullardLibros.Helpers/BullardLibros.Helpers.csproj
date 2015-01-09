@@ -7,8 +7,8 @@
     <ProjectGuid>{16309094-5AAB-483C-9302-766597C4A4A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BullardEncuestas.Helpers</RootNamespace>
-    <AssemblyName>BullardEncuestas.Helpers</AssemblyName>
+    <RootNamespace>BullardLibros.Helpers</RootNamespace>
+    <AssemblyName>BullardLibros.Helpers</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

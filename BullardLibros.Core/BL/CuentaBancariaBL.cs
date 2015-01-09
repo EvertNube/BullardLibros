@@ -111,18 +111,12 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        //[EdmFunction("BULLARD.CuentasBancoDbModel.Store", "FN_GetTotalIngresosLibro")]
-        //public static decimal? FN_GetTotalIngresosLibro(int IdCuentaBancaria)
-        //{
-        //    throw new NotSupportedException("Direct calls are not supported.");
-        //}
         public bool updateSaldoDisponible(int id)
         {
             using (var context = getContext())
             {
                 try
                 {
-                    //dataRow.SaldoDisponible = FN_GetTotalIngresosLibro(id).GetValueOrDefault();
                     context.SP_ActualizarMontos(id);
                     return true;
                 }

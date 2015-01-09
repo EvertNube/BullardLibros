@@ -13,7 +13,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:40</publishTime>
     </File>
     <File Include="bin/BullardEncuestas.dll">
-      <publishTime>01/06/2015 11:14:18</publishTime>
+      <publishTime>01/08/2015 11:35:00</publishTime>
     </File>
     <File Include="bin/BullardEncuestas.Helpers.dll">
       <publishTime>12/18/2014 16:13:32</publishTime>
@@ -22,10 +22,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2014 16:13:32</publishTime>
     </File>
     <File Include="bin/BullardLibros.Core.dll">
-      <publishTime>01/06/2015 11:14:18</publishTime>
+      <publishTime>01/08/2015 15:31:12</publishTime>
     </File>
     <File Include="bin/BullardLibros.Data.dll">
-      <publishTime>01/06/2015 11:14:17</publishTime>
+      <publishTime>01/08/2015 14:12:50</publishTime>
+    </File>
+    <File Include="bin/BullardLibros.dll">
+      <publishTime>01/08/2015 15:31:13</publishTime>
+    </File>
+    <File Include="bin/BullardLibros.Helpers.dll">
+      <publishTime>01/08/2015 12:51:35</publishTime>
+    </File>
+    <File Include="bin/BullardLibros.Helpers.Razor.dll">
+      <publishTime>01/08/2015 12:51:35</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/05/2015 16:10:26</publishTime>
@@ -153,6 +162,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/themes/admin/images/avatar_default_female.jpg">
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
+    <File Include="Content/themes/admin/images/bullard.jpg">
+      <publishTime>12/09/2014 07:36:38</publishTime>
+    </File>
     <File Include="Content/themes/admin/images/circle_Blue.png">
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
@@ -169,6 +181,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Content/themes/admin/images/Logo-rpd.png">
+      <publishTime>12/09/2014 07:36:38</publishTime>
+    </File>
+    <File Include="Content/themes/admin/images/logo.jpg">
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Content/themes/admin/images/logo.png">
@@ -1978,10 +1993,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Views/Admin/Categoria.cshtml">
-      <publishTime>12/29/2014 10:55:32</publishTime>
+      <publishTime>01/08/2015 11:33:34</publishTime>
     </File>
     <File Include="Views/Admin/Categorias.cshtml">
-      <publishTime>12/28/2014 22:24:20</publishTime>
+      <publishTime>01/08/2015 11:27:53</publishTime>
     </File>
     <File Include="Views/Admin/Entidad.cshtml">
       <publishTime>12/15/2014 16:41:21</publishTime>
@@ -1996,7 +2011,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 11:34:28</publishTime>
     </File>
     <File Include="Views/Admin/Libro.cshtml">
-      <publishTime>01/05/2015 16:26:18</publishTime>
+      <publishTime>01/08/2015 12:48:18</publishTime>
     </File>
     <File Include="Views/Admin/Movimiento.cshtml">
       <publishTime>01/05/2015 22:11:51</publishTime>
@@ -2029,7 +2044,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutAdmin.cshtml">
-      <publishTime>12/23/2014 16:47:48</publishTime>
+      <publishTime>01/06/2015 16:52:39</publishTime>
     </File>
     <File Include="Views/Shared/_showAlertMessages.cshtml">
       <publishTime>12/09/2014 07:36:38</publishTime>
@@ -2041,7 +2056,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/06/2015 11:14:22</publishTime>
+      <publishTime>01/08/2015 14:12:51</publishTime>
     </File>
   </ItemGroup>
 </Project>

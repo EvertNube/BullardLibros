@@ -86,6 +86,8 @@ namespace BullardLibros.Core.BL
                     nuevo.FechaCreacion = Movimiento.FechaCreacion;
                     context.Movimiento.Add(nuevo);
                     context.SaveChanges();
+                    //Actualizar saldos del Libro
+                    ActualizarSaldos(Movimiento.IdCuentaBancaria);
                     return true;
                 }
                 catch (Exception e)
@@ -115,6 +117,8 @@ namespace BullardLibros.Core.BL
                     datoRow.UsuarioCreacion = Movimiento.UsuarioCreacion;
                     datoRow.FechaCreacion = Movimiento.FechaCreacion;
                     context.SaveChanges();
+                    //Actualizar saldos del Libro
+                    ActualizarSaldos(Movimiento.IdCuentaBancaria);
                     return true;
                 }
                 catch (Exception e)
@@ -165,7 +169,7 @@ namespace BullardLibros.Core.BL
 
         public string getNombreCategoria(int id)
         {
-            if(id != 0 && id != null)
+            if(id != 0)
             { 
             CategoriaBL oBL = new CategoriaBL();
             return oBL.getCategoria(id).Nombre;
@@ -175,7 +179,7 @@ namespace BullardLibros.Core.BL
 
         public void ActualizarSaldos(int idCuentaB)
         {
-            if (idCuentaB != 0 && idCuentaB != null)
+            if (idCuentaB != 0)
             {
                 CuentaBancariaBL oBL = new CuentaBancariaBL();
                 oBL.updateSaldoDisponible(idCuentaB);

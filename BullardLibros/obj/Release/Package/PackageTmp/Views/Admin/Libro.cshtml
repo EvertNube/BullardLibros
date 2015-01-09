@@ -38,42 +38,62 @@
                                         @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker" })
                                         @Html.ValidationMessageFor(u => u.FechaConciliacion)
                                     </div>
-                                    <div class="form-group">
-                                        <label>Saldo disponible</label>
-                                        @Html.TextBoxFor(u => u.SaldoDisponible, "{0:0.00}", new { @class = "form-control", @placeholder = "Ingrese el saldo disponible", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.SaldoDisponible)
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Saldo bancario</label>
-                                        @Html.TextBoxFor(u => u.SaldoBancario, new { @class = "form-control", @placeholder = "Ingrese el saldo bancario", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.SaldoBancario)
-                                    </div>
-
+                                    @if (Model != null)
+                                    {
+                                        <div class="form-group">
+                                            <div class="row m-l-none m-r-none bg-light lter">
+                                                <div class="col-sm-6 col-md-6 padder-v b-r b-light text-center">
+                                                    <span class="fa-stack fa-2x pull-right m-r-sm">
+                                                        <i class="fa fa-circle fa-stack-2x text-success"></i>
+                                                        <i class="fa fa-money fa-stack-1x text-white"></i>
+                                                    </span>
+                                                    <small class="h3 text-muted text"><strong>Saldo Disponible</strong></small>
+                                                    <span class="h3 block m-t-xs">
+                                                        @Model.SaldoDisponible
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 padder-v b-l b-light text-center">
+                                                    <span class="fa-stack fa-2x pull-left m-r-sm">
+                                                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                                                        <i class="fa fa-credit-card fa-stack-1x text-white"></i>
+                                                    </span>
+                                                    <small class="h3 text-muted text"><strong>Saldo Bancario</strong></small>
+                                                    <span class="h3 block m-t-xs">
+                                                        @Model.SaldoBancario
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdCuentaBancaria > 0)
                                     {
-                                        <div class="line line-dashed line-lg pull-in"></div>
-                                        <div class="checkbox">
+                                        @*<div class="line line-dashed line-lg pull-in"></div>*@
+                                        <div class="form-group">
                                             <label>
                                                 @Html.CheckBoxFor(u => u.Estado)
-                                                Activo
                                             </label>
+                                            Activo
                                             @Html.ValidationMessageFor(u => u.Estado)
                                         </div>}
                                     else
                                     {
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
                                     }
+
                                     <div class="line line-dashed line-lg pull-in"></div>
                                     @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.SaldoDisponible, new { @value = Model != null ? Model.SaldoDisponible : 0, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.SaldoBancario, new { @value = Model != null ? Model.SaldoBancario : 0, @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
                                     <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Index")">Salir</a>
                                 </div>
                             </section>
                         }
-                        <section class="panel panel-default">
-                            @if (Model != null && Model.IdCuentaBancaria != 0)
-                            {
+
+                        @if (Model != null && Model.IdCuentaBancaria != 0)
+                        {
+                            <section class="panel panel-default">
                                 <header class="panel-heading font-bold">Movimmientos</header>
                                 <section class="panel panel-default">
                                     @if (ViewBag.EsAdmin)
@@ -127,8 +147,9 @@
                                         </table>
                                     </div>
                                 </section>
-                            }
-                        </section>
+                            </section>
+                        }
+
                     </div>
                 </div>
 

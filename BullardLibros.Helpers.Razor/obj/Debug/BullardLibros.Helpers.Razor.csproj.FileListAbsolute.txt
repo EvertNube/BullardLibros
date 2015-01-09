@@ -90,10 +90,6 @@ D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Helpers.Razor\bin\
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Helpers.Razor\obj\Debug\BullardLibros.Helpers.Razor.csprojResolveAssemblyReference.cache
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Helpers.Razor\obj\Debug\BullardEncuestas.Helpers.Razor.dll
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Helpers.Razor\obj\Debug\BullardEncuestas.Helpers.Razor.pdb
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.Razor.dll.config
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.Razor.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.Razor.pdb
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\Microsoft.Web.Infrastructure.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.Mvc.dll
@@ -102,7 +98,6 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Ra
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.WebPages.Deployment.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.WebPages.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.WebPages.Razor.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardEncuestas.Helpers.pdb
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.Helpers.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.Mvc.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.Mvc.Extensions.xml
@@ -111,5 +106,10 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Ra
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\obj\Debug\BullardLibros.Helpers.Razor.csprojResolveAssemblyReference.cache
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\obj\Debug\BullardEncuestas.Helpers.Razor.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\obj\Debug\BullardEncuestas.Helpers.Razor.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardLibros.Helpers.Razor.dll.config
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardLibros.Helpers.Razor.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardLibros.Helpers.Razor.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardLibros.Helpers.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\bin\Debug\BullardLibros.Helpers.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\obj\Debug\BullardLibros.Helpers.Razor.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers.Razor\obj\Debug\BullardLibros.Helpers.Razor.pdb

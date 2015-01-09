@@ -170,6 +170,7 @@ namespace BullardLibros.Controllers
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
             ViewBag.Categorias = objBL.getCategoriasPadre(true);
+            ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Categoria"];
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
             if (id != null || id == 0)
@@ -180,9 +181,11 @@ namespace BullardLibros.Controllers
                     objp.IdCategoria = 0;
                     objp.IdCategoriaPadre = idPadre;
                     objp.Orden = objBL.getUltimoHijo(idPadre.GetValueOrDefault());
+                    ViewBag.NombreCategoria = objBL.getNombreCategoria(objp.IdCategoriaPadre.GetValueOrDefault());
                     return View(objp);
                 }
                 CategoriaDTO obj = objBL.getCategoria((int)id);
+                ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoriaPadre.GetValueOrDefault());
                 return View(obj);
             }
             return View();
@@ -288,7 +291,7 @@ namespace BullardLibros.Controllers
                 {
                     if (objBL.add(dto))
                     {
-                        objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
                     }
@@ -297,8 +300,8 @@ namespace BullardLibros.Controllers
                 {
                     if (objBL.update(dto))
                     {
-                        objBL.ActualizarSaldos(dto.IdCuentaBancaria);
-                        //createResponseMessage(CONSTANTES.SUCCESS);
+                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
                     }
                     else
