@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "ReporteCategorias";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <h2>Reporte</h2>
+                <div class="row m-b">
+                    <div class="col-xs-12 col-md-12">
+                        @using (Html.BeginForm("GenerarReporte", "Admin", FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true)
+
+                            @Html.Partial("_showAlertMessages")
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Resumen de Categorías</header>
+                                <div class="panel-body">
+                                    <div class="form-group col-lg-4">
+                                        <label>Tipo de Movimiento</label>
+                                        @Html.DropDownList("IdCuentaB", new SelectList(ViewBag.Libros, "IdCuentaBancaria", "NombreCuenta", 0), new { @class = "form-control parsley-validated" })
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label for="FechaInicio">Fecha Inicio:</label>
+                                        @Html.TextBox("FechaInicio", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label for="FechaFin">Fecha Fin:</label>
+                                        @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                    </div>
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">Generar Reporte</button>
+                                </div>
+                            </section>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

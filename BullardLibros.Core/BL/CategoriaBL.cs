@@ -160,5 +160,19 @@ namespace BullardLibros.Core.BL
             }
             return "Sin Categoría";
         }
+
+        public IList<CategoriaR_DTO> getReporteCategorias(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_GetReporteResumenCategorias(IdCuentaB, FechaInicio, FechaFin).Select(r => new CategoriaR_DTO
+                {
+                    IdCategoria = r.IdCategoria,
+                    Nombre = r.Nombre,
+                    MontoTotal = r.MontoTotal.GetValueOrDefault()
+                }).ToList();
+                return result;
+            }
+        }
     }
 }

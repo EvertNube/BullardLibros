@@ -152,5 +152,14 @@
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_ActualizarMontos" />
+    <FunctionImportMapping FunctionImportName="SP_GetReporteResumenCategorias" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteResumenCategorias">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result">
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

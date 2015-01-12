@@ -235,6 +235,12 @@
         <Function Name="FN_GetSaldoDisponibleLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
         </Function>
+        <Function Name="FN_GetSumaMovsCatEnLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+          <Parameter Name="IdCategoria" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="SP_ActualizarMontos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCuentaB" Type="int" Mode="In" />
         </Function>
@@ -253,6 +259,11 @@
         <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GetReporteResumenCategorias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -467,7 +478,12 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="SP_ActualizarMontos">
+          <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetReporteResumenCategorias" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result)">
             <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="sysdiagrams">
@@ -655,6 +671,11 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="SP_GetReporteResumenCategorias_Result">
+          <Property Type="Int32" Name="IdCategoria" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -812,6 +833,15 @@
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_ActualizarMontos" />
+          <FunctionImportMapping FunctionImportName="SP_GetReporteResumenCategorias" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteResumenCategorias">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

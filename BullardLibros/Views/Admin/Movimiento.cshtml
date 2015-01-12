@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="form-group col-md-4" style="padding-left:0px;">
                                         <label>Fecha</label>
-                                        @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", value = "" })
+                                        @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @value = "", @readonly = "true" })
                                         @Html.ValidationMessageFor(u => u.Fecha)
                                     </div>
                                     <div class="form-group col-md-4">

@@ -127,5 +127,17 @@ namespace BullardLibros.Core.BL
                 }
             }
         }
+
+        public IList<CuentaBancariaDTO> getCuentasBancariasBag(bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+                return getCuentasBancarias();
+            else
+            {
+                var lista = getCuentasBancarias();
+                lista.Insert(0, new CuentaBancariaDTO() { IdCuentaBancaria = 0, NombreCuenta = "Seleccione un Libro" });
+                return lista;
+            }
+        }
     }
 }

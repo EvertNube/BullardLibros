@@ -185,22 +185,5 @@ namespace BullardLibros.Core.BL
                 oBL.updateSaldoDisponible(idCuentaB);
             }
         }
-
-        //public bool ActualizarSaldoDisponible(int idCuentaB)
-        //{
-        //    using (var context = getContext())
-        //    {
-        //        try
-        //        {
-        //            var dataRow = from p in context.CuentaBancaria
-        //                          where 
-        //            return true;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            throw e;
-        //        }
-        //    }
-        //}
     }
 }

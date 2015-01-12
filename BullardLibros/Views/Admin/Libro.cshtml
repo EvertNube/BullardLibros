@@ -38,7 +38,7 @@
                                         @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker" })
                                         @Html.ValidationMessageFor(u => u.FechaConciliacion)
                                     </div>
-                                    @if (Model != null)
+                                    @if (Model != null && Model.IdCuentaBancaria != 0)
                                     {
                                         <div class="form-group">
                                             <div class="row m-l-none m-r-none bg-light lter">
@@ -155,10 +155,6 @@
 
             </div>
 
-        </div>
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-            </div>
         </div>
     </section>
 </section>

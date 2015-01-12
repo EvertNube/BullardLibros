@@ -11,7 +11,10 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 using PagedList;
+using System.Globalization;
 
 namespace BullardLibros.Controllers
 {
@@ -505,6 +508,66 @@ namespace BullardLibros.Controllers
         }
 
         #endregion
+        public ActionResult ReporteCategorias()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            ViewBag.Libros = objBL.getCuentasBancariasBag(true);
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult GenerarReporte(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if(IdCuentaB == null || FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
+                return RedirectToAction("ReporteCategorias");
+            }
+
+            CategoriaBL objBL = new CategoriaBL();
+            var data = objBL.getReporteCategorias(IdCuentaB, FechaInicio, FechaFin);
+            
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Montos Totales");
+            dt.Columns.Add("Categorias");
+
+            foreach (var item in data)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Montos Totales"] = item.MontoTotal.ToString(CultureInfo.InvariantCulture);
+                row["Categorias"] = item.Nombre;
+
+                dt.Rows.Add(row);
+            }
+
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if(dt.Rows.Count > 0)
+            {
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=Reporte de Categorias.xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+
+            return View();
+        }
     }
 }
