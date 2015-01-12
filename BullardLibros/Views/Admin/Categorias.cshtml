@@ -22,7 +22,7 @@
             {
                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "inactive" : "";
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
-                output.AppendFormat("<li class='dd-item " + classInactive + "' data-id='{0}' " + styleI + "><div class='dd-handle' style='{1}'>{2} <b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
+                output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content' style='{1}'>{2} <b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
                 if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-edit' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
                 if (nivel < 3) { output.AppendFormat("<a class='btn-edit btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
                 if (obj.Hijos != null && obj.Hijos.Count != 0) { output.Append(printTree(obj.Hijos, nivel + 1)); }
@@ -51,28 +51,18 @@
                                     <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                 </div>
                             </div>
-                            @*<div class="col-sm-4">
-                                <button id="nestable-menu" class="btn btn-xs btn-default" data-toggle="class:show">
-                                    <i class="fa fa-minus text"></i> <span class="text">Colapsar</span> <i class="fa fa-plus text-active"></i>
-                                    <span class="text-active">Expandir</span>
-                                </button>
-                            </div>*@
                             <div class="col-sm-4">
                                 <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Categoria")"><i class="fa fa-plus"></i> Crear nueva Categoría</a>
                             </div>
                         </div>
-                        
-                        @*<div class="row text-sm wrapper">
-                            
-                            </div>*@
                     }
-                    <button id="nestable-menu" class="btn btn-xs btn-default" data-toggle="class:show" style="margin-left:30px;">
-                        <i class="fa fa-minus text"></i> <span class="text">Colapsar</span> <i class="fa fa-plus text-active"></i>
-                        <span class="text-active">Expandir</span>
+                    <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
+                        <i class="fa fa-plus text"></i> <span class="text">Expandir</span> 
+                        <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
                     </button>
                     <div class="panel-body">
                         <div class="col-md-10">
-                            <div class="dd" id="nestable1">
+                            <div class="dd" id="nestable3">
                                 @Html.Raw(printTree(Model, 1))
                             </div>
                         </div>

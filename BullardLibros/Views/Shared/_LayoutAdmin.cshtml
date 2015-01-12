@@ -98,37 +98,14 @@
                                                 <span>Usuarios</span>
                                             </a>
                                         </li>
-                                        @*@if (ViewBag.EsAdmin)
-                                        {
-                                            <li class="">
-                                                <a href="@Url.Action("Servicios")" class="active">
-                                                    <i class="fa fa-gear icon">
-                                                        <b class="bg-info"></b>
-                                                    </i>
-                                                    <span>Servicios</span>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="@Url.Action("Usuarios")">
-                                                    <i class="fa fa-user icon">
-                                                        <b class="bg-warning"></b>
-                                                    </i>
-                                                    <span>Usuarios</span>
-                                                </a>
-                                            </li>
-                                        }
-                                        @if (ViewBag.IdRol == CONSTANTES.ROL_RESPONSABLE)
-                                        {
-                                            <li class="">
-                                                <a href="@Url.Action("Protocolos")" class="active">
-                                                    <i class="fa fa-gear icon">
-                                                        <b class="bg-info"></b>
-                                                    </i>
-                                                    <span>Protocolos Asignados</span>
-                                                </a>
-                                            </li>
-                                        }*@
+                                        <li class="">
+                                            <a href="@Url.Action("Reportes")" class="active">
+                                                <i class="fa fa-bar-chart-o icon">
+                                                    <b class="bg-primary" style="background-color:#428bca"></b>
+                                                </i>
+                                                <span>Reportes</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </nav>
                                 <!-- / nav -->
