@@ -14,6 +14,7 @@ using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using PagedList;
+using PagedList.Mvc;
 using System.Globalization;
 
 namespace BullardLibros.Controllers
@@ -100,7 +101,7 @@ namespace BullardLibros.Controllers
             return View(objBL.getCuentasBancarias());
         }
 
-        public ActionResult Libro(int? id = null)
+        public ActionResult Libro(int? id = null, int? page = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
@@ -111,6 +112,9 @@ namespace BullardLibros.Controllers
             if (id != null)
             {
                 CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
+                int pageSize = 3;
+                int pageNumber = (page ?? 1);
+                obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
                 return View(obj);
             }
             return View();

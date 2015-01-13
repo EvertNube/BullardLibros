@@ -46,3 +46,7 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\obj\D
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.pdb
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\BullardLibros.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\BullardLibros.Helpers.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\PagedList.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\PagedList.Mvc.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\PagedList.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\PagedList.Mvc.xml

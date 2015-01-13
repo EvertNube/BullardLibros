@@ -55,6 +55,9 @@
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -431,9 +434,11 @@
     <Content Include="Content\themes\admin\js\colpick\colpick.css" />
     <Content Include="Content\themes\admin\js\colpick\colpick.js" />
     <Content Include="Content\themes\admin\js\datatables\datatables.css" />
+    <Content Include="Content\themes\admin\js\datatables\demo.js" />
     <Content Include="Content\themes\admin\js\datatables\jquery.dataTables.min.js" />
     <Content Include="Content\themes\admin\js\datepicker\bootstrap-datepicker.js" />
     <Content Include="Content\themes\admin\js\datepicker\datepicker.css" />
+    <Content Include="Content\themes\admin\js\fuelux\demo.datagrid.js" />
     <Content Include="Content\themes\admin\js\fuelux\fuelux.css" />
     <Content Include="Content\themes\admin\js\fuelux\fuelux.js" />
     <Content Include="Content\themes\admin\js\fullcalendar\demo.js" />

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BullardLibros.Core.DTO
 {
@@ -16,6 +18,7 @@ namespace BullardLibros.Core.DTO
         public Decimal SaldoBancario { get; set; }
         public bool Estado { get; set; }
         public int IdMoneda { get; set; }
-        public List<MovimientoDTO> listaMovimiento { get; set; }
+        public IList<MovimientoDTO> listaMovimiento { get; set; }
+        public IPagedList<MovimientoDTO> listaMovimientoPL { get; set; }
     }
 }

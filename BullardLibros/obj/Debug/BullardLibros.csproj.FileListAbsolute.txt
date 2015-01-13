@@ -188,3 +188,5 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\Bullar
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\BullardLibros.Helpers.pdb
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\obj\Debug\BullardLibros.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\obj\Debug\BullardLibros.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\PagedList.Mvc.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\PagedList.Mvc.xml
