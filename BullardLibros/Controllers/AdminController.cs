@@ -112,7 +112,7 @@ namespace BullardLibros.Controllers
             if (id != null)
             {
                 CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
-                int pageSize = 3;
+                int pageSize = 20;
                 int pageNumber = (page ?? 1);
                 obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
                 return View(obj);
@@ -129,8 +129,8 @@ namespace BullardLibros.Controllers
                 CuentaBancariaBL objBL = new CuentaBancariaBL();
                 if (dto.IdCuentaBancaria == 0)
                 {
-                    if(objBL.add(dto))
-                    { 
+                    if (objBL.add(dto))
+                    {
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Index");
                     }
@@ -153,7 +153,7 @@ namespace BullardLibros.Controllers
                     createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 if (dto.IdCuentaBancaria != 0)
                     createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
@@ -182,7 +182,7 @@ namespace BullardLibros.Controllers
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
             if (id != null || id == 0)
             {
-                if(idPadre != null)
+                if (idPadre != null)
                 {
                     CategoriaDTO objp = new CategoriaDTO();
                     objp.IdCategoria = 0;
@@ -260,24 +260,24 @@ namespace BullardLibros.Controllers
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
-            if(id == 0 && idLibro != null)
-            { 
+            if (id == 0 && idLibro != null)
+            {
                 MovimientoDTO nuevo = new MovimientoDTO();
                 nuevo.IdCuentaBancaria = (int)idLibro;
                 nuevo.Fecha = DateTime.Now;
                 nuevo.NumeroDocumento = null;
-                nuevo.Comentario = null;
+                nuevo.Comentario = "No existe comentario";
                 //nuevo.IdEntidadResponsable = 1;
                 //nuevo.IdTipoMovimiento = 1;
                 //nuevo.IdCategoria = 1;
                 //nuevo.IdEstadoMovimiento = 1;
                 nuevo.Estado = true;
-                nuevo.UsuarioCreacion = 5;
+                nuevo.UsuarioCreacion = getCurrentUser().IdUsuario;
                 nuevo.FechaCreacion = DateTime.Now;
                 return View(nuevo);
             }
             else
-            { 
+            {
                 if (id != null)
                 {
                     MovimientoDTO obj = objBL.getMovimiento((int)id);
@@ -350,7 +350,7 @@ namespace BullardLibros.Controllers
             IList<RolDTO> roles = usuariosBL.getRoles();
             //var rolesList = roles.ToList();
             roles.Insert(0, new RolDTO() { IdRol = 0, Nombre = "Seleccione un Rol" });
-            ViewBag.Roles = roles.ToList() ;//.AsEnumerable();
+            ViewBag.Roles = roles.ToList();//.AsEnumerable();
             var objSent = TempData["Usuario"];
             if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
             if (id != null)
@@ -490,23 +490,26 @@ namespace BullardLibros.Controllers
         public IList<Select2DTO> CategoriasBucle(int? id = null, IList<CategoriaDTO> lista = null)
         {
             var listaCat = lista;
-            if(id == null && lista == null)
+            if (id == null && lista == null)
             {
                 CategoriaBL objBL = new CategoriaBL();
                 listaCat = objBL.getCategoriasTree();
             }
             List<Select2DTO> selectTree = new List<Select2DTO>();
-            
+
             foreach (var item in listaCat)
             {
-                Select2DTO selectItem = new Select2DTO();
-                selectItem.id = item.IdCategoria;
-                selectItem.text = item.Nombre;
-                if (item.Hijos != null && item.Hijos.Count != 0)
+                if (item.IdCategoria != 1)
                 {
-                    selectItem.children = CategoriasBucle(item.IdCategoria, item.Hijos);
+                    Select2DTO selectItem = new Select2DTO();
+                    selectItem.id = item.IdCategoria;
+                    selectItem.text = item.Nombre;
+                    if (item.Hijos != null && item.Hijos.Count != 0)
+                    {
+                        selectItem.children = CategoriasBucle(item.IdCategoria, item.Hijos);
+                    }
+                    selectTree.Add(selectItem);
                 }
-                selectTree.Add(selectItem);
             }
             return selectTree;
         }
@@ -523,7 +526,7 @@ namespace BullardLibros.Controllers
         [HttpPost]
         public ActionResult GenerarReporte(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
         {
-            if(IdCuentaB == null || FechaInicio == null || FechaFin == null)
+            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
                 return RedirectToAction("ReporteCategorias");
@@ -531,7 +534,7 @@ namespace BullardLibros.Controllers
 
             CategoriaBL objBL = new CategoriaBL();
             var data = objBL.getReporteCategorias(IdCuentaB, FechaInicio, FechaFin);
-            
+
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
 
@@ -553,7 +556,7 @@ namespace BullardLibros.Controllers
             gv.AllowPaging = false;
             gv.DataBind();
 
-            if(dt.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
                 Response.ClearContent();
                 Response.Buffer = true;
@@ -570,8 +573,9 @@ namespace BullardLibros.Controllers
                 htw.Close();
                 sw.Close();
             }
-
-            return View();
+            createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_REPORTE_NO_MOVS);
+            return RedirectToAction("ReporteCategorias");
+            //return View();
         }
     }
 }

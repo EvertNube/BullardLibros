@@ -74,7 +74,8 @@ namespace BullardLibros.Core.BL
                     nuevo.IdCuentaBancaria = Movimiento.IdCuentaBancaria;
                     nuevo.IdEntidadResponsable = Movimiento.IdEntidadResponsable;
                     nuevo.IdTipoMovimiento = Movimiento.IdTipoMovimiento;
-                    nuevo.IdCategoria = Movimiento.IdCategoria;
+                    //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
+                    nuevo.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     nuevo.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     nuevo.Nombre = Movimiento.Nombre;
                     nuevo.Fecha = Movimiento.Fecha;
@@ -106,7 +107,8 @@ namespace BullardLibros.Core.BL
                     datoRow.IdCuentaBancaria = Movimiento.IdCuentaBancaria;
                     datoRow.IdEntidadResponsable = Movimiento.IdEntidadResponsable;
                     datoRow.IdTipoMovimiento = Movimiento.IdTipoMovimiento;
-                    datoRow.IdCategoria = Movimiento.IdCategoria;
+                    //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
+                    datoRow.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     datoRow.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     datoRow.Nombre = Movimiento.Nombre;
                     datoRow.Fecha = Movimiento.Fecha;

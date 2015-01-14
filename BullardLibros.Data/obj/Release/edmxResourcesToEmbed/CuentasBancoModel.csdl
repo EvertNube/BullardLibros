@@ -148,6 +148,11 @@
     <FunctionImport Name="SP_ActualizarMontos">
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_GetReporteResumenCategorias" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result)">
+      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -333,5 +338,10 @@
     <Property Type="Int32" Name="ID" Nullable="false" />
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_GetReporteResumenCategorias_Result">
+    <Property Type="Int32" Name="IdCategoria" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
 </Schema>

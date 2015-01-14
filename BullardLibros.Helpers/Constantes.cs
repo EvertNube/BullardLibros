@@ -14,6 +14,7 @@ namespace BullardLibros.Helpers
         public static int SUPER_ADMIN_ROL = 1;
         
         public static string ERROR_MESSAGE = "<strong>Hubo un error.</strong> Por favor, llene todos los campos.";
+        public static string ERROR_REPORTE_NO_MOVS = "<strong>Hubo un error.</strong> No se encontraron movimientos realizados para el periodo seleccionado, seleccione otro periodo";
         public static string SUCCESS_MESSAGE = "<strong>Actualizado.</strong> Los datos se han guardado correctamente.";
         public static string SUCCESS = "success";
         public static string ERROR = "error";

@@ -1,4 +1,6 @@
 ﻿@using BullardLibros.Core.DTO
+@using PagedList;
+@using PagedList.Mvc;
 @model CuentaBancariaDTO
 @{
     ViewBag.Title = "Libro";
@@ -38,28 +40,23 @@
                                         @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker" })
                                         @Html.ValidationMessageFor(u => u.FechaConciliacion)
                                     </div>
-                                    @if (Model != null)
+                                    <div class="form-group">
+                                        <label>Saldo Bancario</label>
+                                        @Html.TextBoxFor(u => u.SaldoBancario, new { @class = "form-control", @placeholder = "Ingrese el saldo bancario", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.SaldoBancario)
+                                    </div>
+                                    @if (Model != null && Model.IdCuentaBancaria != 0)
                                     {
                                         <div class="form-group">
                                             <div class="row m-l-none m-r-none bg-light lter">
-                                                <div class="col-sm-6 col-md-6 padder-v b-r b-light text-center">
-                                                    <span class="fa-stack fa-2x pull-right m-r-sm">
+                                                <div class="padder-v b-light text-center">
+                                                    <span class="fa-stack fa-2x pull-in m-r-sm">
                                                         <i class="fa fa-circle fa-stack-2x text-success"></i>
                                                         <i class="fa fa-money fa-stack-1x text-white"></i>
                                                     </span>
-                                                    <small class="h3 text-muted text"><strong>Saldo Disponible</strong></small>
-                                                    <span class="h3 block m-t-xs">
+                                                    <small class="h3 text-muted text m-r-sm"><strong>Saldo Disponible:</strong></small>
+                                                    <span class="h3">
                                                         @Model.SaldoDisponible
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm-6 col-md-6 padder-v b-l b-light text-center">
-                                                    <span class="fa-stack fa-2x pull-left m-r-sm">
-                                                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                                                        <i class="fa fa-credit-card fa-stack-1x text-white"></i>
-                                                    </span>
-                                                    <small class="h3 text-muted text"><strong>Saldo Bancario</strong></small>
-                                                    <span class="h3 block m-t-xs">
-                                                        @Model.SaldoBancario
                                                     </span>
                                                 </div>
                                             </div>
@@ -94,7 +91,7 @@
                         @if (Model != null && Model.IdCuentaBancaria != 0)
                         {
                             <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Movimmientos</header>
+                                <header class="panel-heading font-bold">Movimientos</header>
                                 <section class="panel panel-default">
                                     @if (ViewBag.EsAdmin)
                                     {
@@ -123,7 +120,7 @@
                                             <tbody>
                                                 @if (Model.listaMovimiento != null)
                                                 {
-                                                    foreach (var obj in Model.listaMovimiento)
+                                                    foreach (var obj in Model.listaMovimientoPL)
                                                     {
                                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                         <tr @Html.Raw(classInactive)>
@@ -146,6 +143,18 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <footer class="panel-footer">
+                                        <div class="row">
+                                            <div class="col-sm-4"></div>
+                                            <div class="col-sm-4 text-center">
+                                                <small class="text-muted inline m-t-sm m-b-sm">Página @(Model.listaMovimientoPL.PageCount < Model.listaMovimientoPL.PageNumber ? 0 : Model.listaMovimientoPL.PageNumber) de @Model.listaMovimientoPL.PageCount</small>
+                                            </div>
+                                            <div class="col-sm-4 text-right text-center-xs">
+                                                @Html.PagedListPager(Model.listaMovimientoPL, page => Url.Action("Libro", new { id = ViewBag.IdCuentaBancaria, page }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
+                                            </div>
+                                        </div>
+                                    </footer>
+                                    
                                 </section>
                             </section>
                         }
@@ -155,10 +164,6 @@
 
             </div>
 
-        </div>
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-            </div>
         </div>
     </section>
 </section>

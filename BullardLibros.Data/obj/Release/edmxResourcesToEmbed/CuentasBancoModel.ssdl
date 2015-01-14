@@ -230,6 +230,12 @@
   <Function Name="FN_GetSaldoDisponibleLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
   </Function>
+  <Function Name="FN_GetSumaMovsCatEnLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="SP_ActualizarMontos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCuentaB" Type="int" Mode="In" />
   </Function>
@@ -248,6 +254,11 @@
   <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
     <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GetReporteResumenCategorias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
   <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
