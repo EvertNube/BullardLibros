@@ -35,7 +35,7 @@ namespace BullardLibros.Core.BL
                     Estado = x.Estado,
                     UsuarioCreacion = x.UsuarioCreacion,
                     FechaCreacion = x.FechaCreacion
-                }).ToList();
+                }).OrderBy(x => x.Fecha).ToList();
                 return result;
             }
         }
