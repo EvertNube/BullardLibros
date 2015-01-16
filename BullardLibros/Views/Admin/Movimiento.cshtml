@@ -45,6 +45,10 @@
                 markup = '<font color="black">' + res.text + '</font>';
             return markup;
         }
+
+        //$('.datepicker-input').datepicker({
+        //    format: 'dd/mm/yyyy'
+        //});
     </script>
 }
 <section class="vbox">
@@ -75,9 +79,17 @@
                                         @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del movimiento", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
+                                    @{
+                    var value = "";
+                    if (Model != null)
+                    {
+                        value = String.Format("{0:d}", Model.Fecha.ToString("dd/MM/yyyy"));
+                    }
+                                    }
+
                                     <div class="form-group col-md-4" style="padding-left:0px;">
                                         <label>Fecha</label>
-                                        @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @value = "", @readonly = "true" })
+                                        @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @readonly = "true" })
                                         @Html.ValidationMessageFor(u => u.Fecha)
                                     </div>
                                     <div class="form-group col-md-4">
@@ -92,7 +104,7 @@
                                     </div>
                                     <div class="form-group col-md-4" style="padding-left:0px;">
                                         <label>Categoria : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
-                                        @Html.TextBoxFor(u => u.IdCategoria, new { @id = "comboCategoria", @class = "form-control"})
+                                        @Html.TextBoxFor(u => u.IdCategoria, new { @id = "comboCategoria", @class = "form-control" })
                                         @Html.ValidationMessageFor(u => u.IdCategoria)
                                     </div>
                                     <div class="form-group col-md-4">
@@ -107,7 +119,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Monto</label>
-                                        @Html.TextBoxFor(u => u.Monto, new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text" })
+                                        @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Monto)
                                     </div>
                                     <div class="form-group">

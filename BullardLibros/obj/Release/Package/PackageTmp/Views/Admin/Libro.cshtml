@@ -1,6 +1,7 @@
 ﻿@using BullardLibros.Core.DTO
 @using PagedList;
 @using PagedList.Mvc;
+@using System.Globalization;
 @model CuentaBancariaDTO
 @{
     ViewBag.Title = "Libro";
@@ -56,7 +57,7 @@
                                                     </span>
                                                     <small class="h3 text-muted text m-r-sm"><strong>Saldo Disponible:</strong></small>
                                                     <span class="h3">
-                                                        @Model.SaldoDisponible
+                                                        S/. @Model.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)
                                                     </span>
                                                 </div>
                                             </div>
@@ -111,10 +112,12 @@
                                             <thead>
                                                 <tr>
                                                     <th width="20%">Nombre</th>
-                                                    <th class="text-center" width="20%">Fecha</th>
+                                                    <th width="10%">Entidad</th>
+                                                    <th class="text-center" width="10%">Fecha</th>
                                                     <th class="text-center" width="20%">Monto</th>
                                                     <th class="text-center" width="20%">Tipo</th>
-                                                    <th class="text-center" width="20%">Opciones</th>
+                                                    <th class="text-center" width="10%">Estado</th>
+                                                    <th class="text-center" width="10%">Opciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -125,14 +128,21 @@
                                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                         <tr @Html.Raw(classInactive)>
                                                             <td width="20%">@obj.Nombre</td>
+                                                            <td class="text-center" width="10%">@obj.NombreEntidadR</td>
                                                             <td class="text-center" width="20%">@obj.Fecha.ToString("dd/MM/yyyy")</td>
-                                                            <td class="text-center" width="20%">S/. @obj.Monto.ToString("#.##")</td>
+                                                            <td class="text-right" width="20%">S/. @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                             @if (obj.IdTipoMovimiento == 1)
                                                             {
                                                                 <td class="text-center" width="20%" style="color:#8EC100;">Entrada</td>}
                                                             else
                                                             {
                                                                 <td class="text-center" width="20%" style="color:red">Salida</td> }
+                                                            @if (obj.IdEstadoMovimiento == 1)
+                                                            {
+                                                                <td class="text-center" width="10%">Pendiente</td>}
+                                                            else
+                                                            {
+                                                                <td class="text-center" width="10%" style="color:#8EC100; ">Realizado</td> }
                                                             @if (ViewBag.EsAdmin)
                                                             {
                                                                 <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>

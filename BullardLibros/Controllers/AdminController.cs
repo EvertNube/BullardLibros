@@ -114,6 +114,9 @@ namespace BullardLibros.Controllers
                 CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
                 int pageSize = 20;
                 int pageNumber = (page ?? 1);
+                //Guardar Paginado
+                TempData["PagMovs"] = (page ?? 1);
+
                 obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
                 return View(obj);
             }
@@ -254,8 +257,8 @@ namespace BullardLibros.Controllers
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
-            ViewBag.TiposMovimientos = objBL.getTiposMovimientos(true);
-            ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(true);
+            ViewBag.TiposMovimientos = objBL.getTiposMovimientos(false);
+            ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsables(true);
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Movimiento"];
@@ -300,7 +303,7 @@ namespace BullardLibros.Controllers
                     {
                         //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
+                        return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
                     }
                 }
                 else if (dto.IdMovimiento != 0)
@@ -309,7 +312,7 @@ namespace BullardLibros.Controllers
                     {
                         //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria });
+                        return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
                     }
                     else
                     {
@@ -515,11 +518,25 @@ namespace BullardLibros.Controllers
         }
 
         #endregion
-        public ActionResult ReporteCategorias()
+        public ActionResult ReporteCategorias(int? message = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             ViewBag.Libros = objBL.getCuentasBancariasBag(true);
+
+            if(message != null)
+            {
+                switch(message)
+                {
+                    case 1:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
+                        break;
+                    case 2:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_REPORTE_NO_MOVS);
+                        break;
+                }
+            }
+
             return View();
         }
 
@@ -528,8 +545,8 @@ namespace BullardLibros.Controllers
         {
             if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
             {
-                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
-                return RedirectToAction("ReporteCategorias");
+
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
             }
 
             CategoriaBL objBL = new CategoriaBL();
@@ -573,8 +590,7 @@ namespace BullardLibros.Controllers
                 htw.Close();
                 sw.Close();
             }
-            createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_REPORTE_NO_MOVS);
-            return RedirectToAction("ReporteCategorias");
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
             //return View();
         }
     }

@@ -23,5 +23,6 @@ namespace BullardLibros.Core.DTO
         public bool Estado { get; set; }
         public int UsuarioCreacion { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public string NombreEntidadR { get; set; }
     }
 }

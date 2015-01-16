@@ -78,13 +78,15 @@ namespace BullardLibros.Core.BL
                     nuevo.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     nuevo.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     nuevo.Nombre = Movimiento.Nombre;
-                    nuevo.Fecha = Movimiento.Fecha;
+                    //nuevo.Fecha = Movimiento.Fecha;
+                    nuevo.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     nuevo.Monto = Movimiento.Monto;
                     nuevo.NumeroDocumento = Movimiento.NumeroDocumento;
                     nuevo.Comentario = Movimiento.Comentario;
                     nuevo.Estado = true;
                     nuevo.UsuarioCreacion = Movimiento.UsuarioCreacion;
-                    nuevo.FechaCreacion = Movimiento.FechaCreacion;
+                    //nuevo.FechaCreacion = Movimiento.FechaCreacion;
+                    nuevo.FechaCreacion = Convert.ToDateTime(Movimiento.FechaCreacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     context.Movimiento.Add(nuevo);
                     context.SaveChanges();
                     //Actualizar saldos del Libro
@@ -111,13 +113,15 @@ namespace BullardLibros.Core.BL
                     datoRow.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     datoRow.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     datoRow.Nombre = Movimiento.Nombre;
-                    datoRow.Fecha = Movimiento.Fecha;
+                    //datoRow.Fecha = Movimiento.Fecha;
+                    datoRow.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     datoRow.Monto = Movimiento.Monto;
                     datoRow.NumeroDocumento = Movimiento.NumeroDocumento;
                     datoRow.Comentario = Movimiento.Comentario;
                     datoRow.Estado = Movimiento.Estado;
                     datoRow.UsuarioCreacion = Movimiento.UsuarioCreacion;
-                    datoRow.FechaCreacion = Movimiento.FechaCreacion;
+                    //datoRow.FechaCreacion = Movimiento.FechaCreacion;
+                    datoRow.FechaCreacion = Convert.ToDateTime(Movimiento.FechaCreacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     context.SaveChanges();
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
@@ -134,7 +138,11 @@ namespace BullardLibros.Core.BL
         {
             TipoMovimientoBL oBL = new TipoMovimientoBL();
             if (!AsSelectList)
-                return oBL.getTiposMovimientos();
+            {
+                //return oBL.getTiposMovimientos();
+                var lista = oBL.getTiposMovimientos().OrderByDescending(x => x.IdTipoMovimiento).ToList();
+                return lista;
+            }
             else
             {
                 var lista = oBL.getTiposMovimientos();

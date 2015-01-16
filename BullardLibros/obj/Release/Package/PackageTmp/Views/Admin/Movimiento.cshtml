@@ -107,7 +107,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Monto</label>
-                                        @Html.TextBoxFor(u => u.Monto, new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text" })
+                                        @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Monto)
                                     </div>
                                     <div class="form-group">
@@ -115,7 +115,7 @@
                                         @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Ingrese el comentario del movimiento", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Comentario)
                                     </div>
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdMovimiento > 0)
                                     {
                                         <div class="line line-dashed line-lg pull-in"></div>
                                         <div class="checkbox">
@@ -131,12 +131,11 @@
                                     }
                                     <div class="line line-dashed line-lg pull-in"></div>
                                     @Html.TextBoxFor(u => u.IdMovimiento, new { @value = Model != null ? Model.IdMovimiento.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model != null ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdTipoMovimiento, new { @value = Model != null ? Model.IdTipoMovimiento.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdEstadoMovimiento, new { @value = Model != null ? Model.IdEstadoMovimiento.ToString() : "", @type = "hidden" })
+                                    @*@Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model != null ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })*@
+                                    @*@Html.TextBoxFor(u => u.IdTipoMovimiento, new { @value = Model != null ? Model.IdTipoMovimiento.ToString() : "", @type = "hidden" })*@
+                                    @*@Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })*@
+                                    @*@Html.TextBoxFor(u => u.IdEstadoMovimiento, new { @value = Model != null ? Model.IdEstadoMovimiento.ToString() : "", @type = "hidden" })*@
                                     @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}

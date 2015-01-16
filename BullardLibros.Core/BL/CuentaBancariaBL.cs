@@ -60,7 +60,8 @@ namespace BullardLibros.Core.BL
                             Comentario = x.Comentario,
                             Estado = x.Estado,
                             UsuarioCreacion = x.UsuarioCreacion,
-                            FechaCreacion = x.FechaCreacion
+                            FechaCreacion = x.FechaCreacion,
+                            NombreEntidadR = x.EntidadResponsable.Nombre
                         }).OrderByDescending(x => x.Fecha).ToList()
                     }).SingleOrDefault();
                 return result;
@@ -74,7 +75,8 @@ namespace BullardLibros.Core.BL
                 {
                     CuentaBancaria nuevo = new CuentaBancaria();
                     nuevo.NombreCuenta = CuentaBancaria.NombreCuenta;
-                    nuevo.FechaConciliacion = CuentaBancaria.FechaConciliacion;
+                    nuevo.FechaConciliacion = Convert.ToDateTime(CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
+                    //nuevo.FechaConciliacion = CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd H:mm:ss");
                     nuevo.SaldoDisponible = CuentaBancaria.SaldoDisponible;
                     nuevo.SaldoBancario = CuentaBancaria.SaldoBancario;
                     nuevo.Estado = true;
@@ -97,7 +99,8 @@ namespace BullardLibros.Core.BL
                     //var miSaldoDisponible = context.SP_GetTotalIngresos(CuentaBancaria.IdCuentaBancaria).AsQueryable().First() as Decimal?;
                     var datoRow = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == CuentaBancaria.IdCuentaBancaria).SingleOrDefault();
                     datoRow.NombreCuenta = CuentaBancaria.NombreCuenta;
-                    datoRow.FechaConciliacion = CuentaBancaria.FechaConciliacion;
+                    //datoRow.FechaConciliacion = CuentaBancaria.FechaConciliacion;
+                    datoRow.FechaConciliacion = Convert.ToDateTime(CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     datoRow.SaldoDisponible = CuentaBancaria.SaldoDisponible;
                     datoRow.SaldoBancario = CuentaBancaria.SaldoBancario;
                     datoRow.Estado = CuentaBancaria.Estado;

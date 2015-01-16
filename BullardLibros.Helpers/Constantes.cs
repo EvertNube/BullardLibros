@@ -16,6 +16,7 @@ namespace BullardLibros.Helpers
         public static string ERROR_MESSAGE = "<strong>Hubo un error.</strong> Por favor, llene todos los campos.";
         public static string ERROR_REPORTE_NO_MOVS = "<strong>Hubo un error.</strong> No se encontraron movimientos realizados para el periodo seleccionado, seleccione otro periodo";
         public static string SUCCESS_MESSAGE = "<strong>Actualizado.</strong> Los datos se han guardado correctamente.";
+        public static string SUCCESS_REPORT = "<strong>Generado.</strong> El reporte se ha generado con éxito.";
         public static string SUCCESS = "success";
         public static string ERROR = "error";
         public static string ERROR_UPDATE_MESSAGE = "<strong>Hubo un error al actualizar.</strong> Por favor, verifique la información a actualizar.";
