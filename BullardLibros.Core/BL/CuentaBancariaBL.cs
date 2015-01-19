@@ -35,6 +35,8 @@ namespace BullardLibros.Core.BL
 
         public CuentaBancariaDTO getCuentaBancaria(int id)
         {
+            //Actualizar Saldo Disponible
+            updateSaldoDisponible(id);
             using (var context = getContext())
             {
                 var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id)

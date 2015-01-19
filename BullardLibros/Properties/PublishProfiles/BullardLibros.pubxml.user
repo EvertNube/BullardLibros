@@ -22,19 +22,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2014 16:13:32</publishTime>
     </File>
     <File Include="bin/BullardLibros.Core.dll">
-      <publishTime>01/15/2015 15:30:30</publishTime>
+      <publishTime>01/19/2015 08:47:44</publishTime>
     </File>
     <File Include="bin/BullardLibros.Data.dll">
       <publishTime>01/14/2015 12:50:56</publishTime>
     </File>
     <File Include="bin/BullardLibros.dll">
-      <publishTime>01/15/2015 15:30:30</publishTime>
+      <publishTime>01/19/2015 08:47:45</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.dll">
-      <publishTime>01/15/2015 15:30:29</publishTime>
+      <publishTime>01/19/2015 08:47:43</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.Razor.dll">
-      <publishTime>01/15/2015 15:30:30</publishTime>
+      <publishTime>01/19/2015 08:47:43</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/05/2015 16:10:26</publishTime>
@@ -991,7 +991,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Content/themes/admin/js/datepicker/bootstrap-datepicker.js">
-      <publishTime>12/09/2014 07:36:38</publishTime>
+      <publishTime>01/16/2015 12:18:26</publishTime>
     </File>
     <File Include="Content/themes/admin/js/datepicker/datepicker.css">
       <publishTime>12/09/2014 07:36:38</publishTime>
@@ -2020,10 +2020,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 11:34:28</publishTime>
     </File>
     <File Include="Views/Admin/Libro.cshtml">
-      <publishTime>01/15/2015 14:22:25</publishTime>
+      <publishTime>01/16/2015 18:04:38</publishTime>
     </File>
     <File Include="Views/Admin/Movimiento.cshtml">
-      <publishTime>01/15/2015 12:28:18</publishTime>
+      <publishTime>01/16/2015 15:19:51</publishTime>
     </File>
     <File Include="Views/Admin/Movimientos.cshtml">
       <publishTime>12/16/2014 12:50:40</publishTime>
@@ -2068,7 +2068,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/14/2015 12:50:57</publishTime>
+      <publishTime>01/19/2015 08:47:50</publishTime>
     </File>
   </ItemGroup>
 </Project>

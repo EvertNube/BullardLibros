@@ -129,20 +129,20 @@
                                                         <tr @Html.Raw(classInactive)>
                                                             <td width="20%">@obj.Nombre</td>
                                                             <td class="text-center" width="10%">@obj.NombreEntidadR</td>
-                                                            <td class="text-center" width="20%">@obj.Fecha.ToString("dd/MM/yyyy")</td>
+                                                            <td class="text-center" width="20%">@obj.Fecha.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                                             <td class="text-right" width="20%">S/. @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                             @if (obj.IdTipoMovimiento == 1)
                                                             {
-                                                                <td class="text-center" width="20%" style="color:#8EC100;">Entrada</td>}
+                                                                <td class="text-right" width="20%" style="color:#8EC100;">Entrada</td>}
                                                             else
                                                             {
-                                                                <td class="text-center" width="20%" style="color:red">Salida</td> }
+                                                                <td class="text-left" width="20%" style="color:red">Salida</td> }
                                                             @if (obj.IdEstadoMovimiento == 1)
                                                             {
-                                                                <td class="text-center" width="10%">Pendiente</td>}
+                                                                <td class="text-center" width="10%" style="color:red">Pendiente</td>}
                                                             else
                                                             {
-                                                                <td class="text-center" width="10%" style="color:#8EC100; ">Realizado</td> }
+                                                                <td class="text-center" width="10%">Realizado</td> }
                                                             @if (ViewBag.EsAdmin)
                                                             {
                                                                 <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
@@ -164,7 +164,7 @@
                                             </div>
                                         </div>
                                     </footer>
-                                    
+
                                 </section>
                             </section>
                         }

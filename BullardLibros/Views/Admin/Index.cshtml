@@ -2,6 +2,7 @@
     ViewBag.Title = "Libros";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@using System.Globalization;
 @model IList<BullardLibros.Core.DTO.CuentaBancariaDTO>
 
 <section class="vbox">
@@ -48,9 +49,9 @@
                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
                                             <td width="20%">@obj.NombreCuenta</td>
-                                            <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("dd/MM/yyyy")</td>
-                                            <td class="text-center" width="15%">S/. @obj.SaldoDisponible</td>
-                                            <td class="text-center" width="15%">S/. @obj.SaldoBancario</td>
+                                            <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                            <td class="text-right" width="15%">S/. @obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                            <td class="text-right" width="15%">S/. @obj.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
                                             @if(obj.Estado == true)
                                             {<td class="text-center" width="10%">Activo</td>}
                                             else{<td class="text-center" width="10%">Inactivo</td>}
