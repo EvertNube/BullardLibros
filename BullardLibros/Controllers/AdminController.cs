@@ -350,10 +350,9 @@ namespace BullardLibros.Controllers
             if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
             if (id == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
             UsuariosBL usuariosBL = new UsuariosBL();
-            IList<RolDTO> roles = usuariosBL.getRoles();
-            //var rolesList = roles.ToList();
-            roles.Insert(0, new RolDTO() { IdRol = 0, Nombre = "Seleccione un Rol" });
-            ViewBag.Roles = roles.ToList();//.AsEnumerable();
+            
+            ViewBag.Roles = usuariosBL.getRolesViewBag(true);
+
             var objSent = TempData["Usuario"];
             if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
             if (id != null)
@@ -579,7 +578,7 @@ namespace BullardLibros.Controllers
                 dt.Rows.Add(row);
             }
 
-            lstCategorias = BucleBuscarCategoriasPadre(lstCategorias, 0);
+            //lstCategorias = BucleBuscarCategoriasPadre(lstCategorias, 0);
 
 
             GridView gv = new GridView();
@@ -597,7 +596,7 @@ namespace BullardLibros.Controllers
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 3, "Fecha de conciliación actual: " + obj.FechaConciliacion.ToShortDateString());
+                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
                 AddWhiteHeader(gv, 4, "");
 
                 Response.ClearContent();
@@ -652,32 +651,32 @@ namespace BullardLibros.Controllers
             return new TableHeaderCell() { ColumnSpan = span, Text = text ?? string.Empty, CssClass = "table-header" };
         }
 
-        private List<CategoriaR_DTO> BucleBuscarCategoriasPadre(List<CategoriaR_DTO> lista, int? nivel = null)
-        {
-            //Conseguir los Ids padres de las categorias
-            while (nivel < 3)
-            {
-                if (nivel == 0)
-                {
-                    CategoriaBL oBL = new CategoriaBL();
-                    List<CategoriaR_DTO> listaPadre;
-                    listaPadre = oBL.getCategoriasPadreEnviandoLista(lista);
+        //private List<CategoriaR_DTO> BucleBuscarCategoriasPadre(List<CategoriaR_DTO> lista, int? nivel = null)
+        //{
+        //    //Conseguir los Ids padres de las categorias
+        //    while (nivel < 3)
+        //    {
+        //        if (nivel == 0)
+        //        {
+        //            CategoriaBL oBL = new CategoriaBL();
+        //            List<CategoriaR_DTO> listaPadre;
+        //            listaPadre = oBL.getCategoriasPadreEnviandoLista(lista);
 
-                    for (int i = 0; i < lista.Count(); i++)
-                    {
-                        lista[i].Padre = listaPadre[i];
-                    }
-                }
-                else
-                {
-                    //Verificar si los padres son diferente de Null
+        //            for (int i = 0; i < lista.Count(); i++)
+        //            {
+        //                lista[i].Padre = listaPadre[i];
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //Verificar si los padres son diferente de Null
 
-                }
-                nivel++;
-            }
+        //        }
+        //        nivel++;
+        //    }
 
 
-            return lista;
-        }
+        //    return lista;
+        //}
     }
 }

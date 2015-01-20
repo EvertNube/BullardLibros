@@ -5,10 +5,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 //using System.Data.Objects.SqlClient;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//required for sql function access
+using System.Data.Entity.Core.Objects.DataClasses;
 
 namespace BullardLibros.Core.BL
 {
@@ -139,35 +140,57 @@ namespace BullardLibros.Core.BL
                 return false;
             }
         }
-        public IList<RolDTO> getRoles()
-        {
-            using (var context = getContext())
-            {
-                var result = from r in context.Rol
-                             where r.IdRol != CONSTANTES.SUPER_ADMIN_ROL
-                             select new RolDTO
-                             {
-                                 IdRol = r.IdRol,
-                                 Nombre = r.Nombre
-                             };
-                return result.ToList<RolDTO>();
-            }
-        }
-        //public IList<CargoDTO> getCargos()
+        //public IList<RolDTO> getRoles()
         //{
         //    using (var context = getContext())
         //    {
-        //        var result = (from r in context.Cargo
-        //                      where r.Active == true
-        //                      select new CargoDTO
+        //        var result = from r in context.Rol
+        //                     where r.IdRol != CONSTANTES.SUPER_ADMIN_ROL
+        //                     select new RolDTO
         //                     {
-        //                         IdCargo = r.IdCargo,
+        //                         IdRol = r.IdRol,
         //                         Nombre = r.Nombre
-        //                     }).ToList();
-        //        result.Insert(0, new CargoDTO() { IdCargo = 0, Nombre = "Seleccione un Cargo" });
-        //        return result;
+        //                     };
+        //        return result.ToList<RolDTO>();
         //    }
         //}
+
+        public List<RolDTO> getRoles()
+        {
+            using (var context = getContext())
+            {
+                //var result = from r in context.Rol
+                //             where r.IdRol != CONSTANTES.SUPER_ADMIN_ROL
+                //             select new RolDTO
+                //             {
+                //                 IdRol = r.IdRol,
+                //                 Nombre = r.Nombre
+                //             };
+                //return result.ToList();
+
+                var result = context.Rol.Where(x => x.IdRol != CONSTANTES.SUPER_ADMIN_ROL).Select(r => new RolDTO
+                {
+                    IdRol = r.IdRol,
+                    Nombre = r.Nombre
+                }).ToList();
+
+                return result;
+            }
+        }
+
+        public IList<RolDTO> getRolesViewBag(bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+            {
+                return getRoles();
+            }
+            else
+            {
+                var lista = getRoles();
+                lista.Insert(0, new RolDTO() { IdRol = 0, Nombre = "Seleccione el Tipo de Usuario." });
+                return lista;
+            }
+        }
 
         public UsuarioDTO getUsuarioByCuenta(UsuarioDTO user)
         {
@@ -210,21 +233,35 @@ namespace BullardLibros.Core.BL
         {
             using (var context = getContext())
             {
-                var result = from r in context.Usuario
-                             where r.IdUsuario == id
-                             select new UsuarioDTO
-                             {
-                                 Cuenta = r.Cuenta,
-                                 Email = r.Email,
-                                 Active = r.Estado,
-                                 IdRol = r.IdRol,// ?? 0,
-                                 IdCargo = r.IdCargo ?? 0,
-                                 IdUsuario = r.IdUsuario,
-                                 Nombre = r.Nombre,
-                                 InicialesNombre = r.InicialesNombre,
-                                 Pass = r.Pass
-                             };
-                return result.SingleOrDefault();
+                //var result = from r in context.Usuario
+                //             where r.IdUsuario == id
+                //             select new UsuarioDTO
+                //             {
+                //                 Cuenta = r.Cuenta,
+                //                 Email = r.Email,
+                //                 Active = r.Estado,
+                //                 IdRol = r.IdRol,// ?? 0,
+                //                 IdCargo = r.IdCargo ?? 0,
+                //                 IdUsuario = r.IdUsuario,
+                //                 Nombre = r.Nombre,
+                //                 InicialesNombre = r.InicialesNombre,
+                //                 Pass = r.Pass
+                //             };
+                //return result.SingleOrDefault();
+
+                var result = context.Usuario.Where(x => x.IdUsuario == id).Select(r => new UsuarioDTO
+                    {
+                        IdUsuario = r.IdUsuario,
+                        Nombre = r.Nombre,
+                        InicialesNombre = r.InicialesNombre,
+                        Email = r.Email,
+                        Cuenta = r.Cuenta,
+                        Pass = r.Pass,
+                        Active = r.Estado,
+                        IdRol = r.IdRol,
+                        IdCargo = r.IdCargo
+                    }).SingleOrDefault();
+                return result;
             }
         }
 
