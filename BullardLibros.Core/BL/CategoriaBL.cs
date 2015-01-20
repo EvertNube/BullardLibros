@@ -174,5 +174,22 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
+
+        public List<CategoriaR_DTO> getCategoriasPadreEnviandoLista(List<CategoriaR_DTO> idsCategorias)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    
+                }
+                catch(Exception e)
+                {
+                    return 0;
+                }
+            }
+
+            return idsCategorias;
+        }
     }
 }

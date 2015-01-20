@@ -524,9 +524,9 @@ namespace BullardLibros.Controllers
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             ViewBag.Libros = objBL.getCuentasBancariasBag(true);
 
-            if(message != null)
+            if (message != null)
             {
-                switch(message)
+                switch (message)
                 {
                     case 1:
                         createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
@@ -552,20 +552,35 @@ namespace BullardLibros.Controllers
             CategoriaBL objBL = new CategoriaBL();
             var data = objBL.getReporteCategorias(IdCuentaB, FechaInicio, FechaFin);
 
+            if (data == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
 
             dt.Columns.Add("Montos Totales");
             dt.Columns.Add("Categorias");
 
+            //Lista de Ids de categorias
+            List<CategoriaR_DTO> lstCategorias = new List<CategoriaR_DTO>();
+
             foreach (var item in data)
             {
                 System.Data.DataRow row = dt.NewRow();
+
+                CategoriaR_DTO nuevo = new CategoriaR_DTO();
+                nuevo.IdCategoria = item.IdCategoria;
+                nuevo.Nombre = item.Nombre;
+                lstCategorias.Add(nuevo);
+
                 row["Montos Totales"] = item.MontoTotal.ToString(CultureInfo.InvariantCulture);
                 row["Categorias"] = item.Nombre;
 
                 dt.Rows.Add(row);
             }
+
+            lstCategorias = BucleBuscarCategoriasPadre(lstCategorias, 0);
+
 
             GridView gv = new GridView();
 
@@ -575,6 +590,16 @@ namespace BullardLibros.Controllers
 
             if (dt.Rows.Count > 0)
             {
+                CuentaBancariaBL oBL = new CuentaBancariaBL();
+                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
+
+                AddSuperHeader(gv, "RESUMEN DE MOVIMIENTOS EN CATEGORIAS - Libro:" + obj.NombreCuenta);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Fecha de conciliación actual: " + obj.FechaConciliacion.ToShortDateString());
+                AddWhiteHeader(gv, 4, "");
+
                 Response.ClearContent();
                 Response.Buffer = true;
                 Response.AddHeader("content-disposition", "attachment; filename=Reporte de Categorias.xls");
@@ -592,6 +617,67 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
             //return View();
+        }
+
+        private static void AddSuperHeader(GridView gridView, string text = null)
+        {
+            var myTable = (Table)gridView.Controls[0];
+            var myNewRow = new GridViewRow(0, -1, DataControlRowType.Header, DataControlRowState.Normal);
+            myNewRow.Cells.Add(MakeCell(text, gridView.HeaderRow.Cells.Count));//gridView.Columns.Count
+            myNewRow.Cells[0].Style.Add("background-color", "#cbcfd6");
+            myTable.Rows.AddAt(0, myNewRow);
+            //myTable.EnableViewState = false;
+        }
+        private static void AddHeader(GridView gridView, int index, string text = null)
+        {
+            var myTable = (Table)gridView.Controls[0];
+            var myNewRow = new GridViewRow(0, -1, DataControlRowType.Header, DataControlRowState.Normal);
+            myNewRow.Cells.Add(MakeCell(text, gridView.HeaderRow.Cells.Count));//gridView.Columns.Count
+            myNewRow.Cells[0].Style.Add("background-color", "#cbcfd6");
+            myNewRow.Cells[0].HorizontalAlign = HorizontalAlign.Left;
+            myTable.Rows.AddAt(index, myNewRow);
+            //myTable.EnableViewState = false;
+        }
+        private static void AddWhiteHeader(GridView gridView, int index, string text = null)
+        {
+            var myTable = (Table)gridView.Controls[0];
+            var myNewRow = new GridViewRow(0, -1, DataControlRowType.Header, DataControlRowState.Normal);
+            myNewRow.Cells.Add(MakeCell(text, gridView.HeaderRow.Cells.Count));//gridView.Columns.Count
+            myNewRow.Cells[0].Style.Add("background-color", "#ffffff");
+            myNewRow.Cells[0].HorizontalAlign = HorizontalAlign.Left;
+            myTable.Rows.AddAt(index, myNewRow);
+        }
+        private static TableHeaderCell MakeCell(string text = null, int span = 1)
+        {
+            return new TableHeaderCell() { ColumnSpan = span, Text = text ?? string.Empty, CssClass = "table-header" };
+        }
+
+        private List<CategoriaR_DTO> BucleBuscarCategoriasPadre(List<CategoriaR_DTO> lista, int? nivel = null)
+        {
+            //Conseguir los Ids padres de las categorias
+            while (nivel < 3)
+            {
+                if (nivel == 0)
+                {
+                    CategoriaBL oBL = new CategoriaBL();
+                    List<CategoriaR_DTO> listaPadre;
+                    listaPadre = oBL.getCategoriasPadreEnviandoLista(lista);
+
+                    for (int i = 0; i < lista.Count(); i++)
+                    {
+                        lista[i].Padre = listaPadre[i];
+                    }
+                }
+                else
+                {
+                    //Verificar si los padres son diferente de Null
+
+                }
+                nivel++;
+            }
+
+
+            return lista;
         }
     }
 }

@@ -12,6 +12,6 @@ namespace BullardLibros.Core.DTO
         public int IdCategoria { get; set; }
         public string Nombre { get; set; }
         public Decimal MontoTotal { get; set; }
-        public List<CategoriaR_DTO> Hijos { get; set; }
+        public CategoriaR_DTO Padre { get; set; }
     }
 }
