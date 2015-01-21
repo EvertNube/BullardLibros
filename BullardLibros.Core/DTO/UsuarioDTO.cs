@@ -18,5 +18,7 @@ namespace BullardLibros.Core.DTO
         public bool Active { get; set; }
         public int IdRol { get; set; }
         public int? IdCargo { get; set; }
+
+        
     }
 }

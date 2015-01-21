@@ -16,5 +16,6 @@ namespace BullardLibros.Data
         public int IdCategoria { get; set; }
         public string Nombre { get; set; }
         public Nullable<decimal> MontoTotal { get; set; }
+        public Nullable<int> IdCategoriaPadre { get; set; }
     }
 }

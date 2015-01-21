@@ -169,27 +169,35 @@ namespace BullardLibros.Core.BL
                 {
                     IdCategoria = r.IdCategoria,
                     Nombre = r.Nombre,
-                    MontoTotal = r.MontoTotal.GetValueOrDefault()
+                    MontoTotal = r.MontoTotal.GetValueOrDefault(),
+                    IdCategoriaPadre = r.IdCategoriaPadre
                 }).ToList();
                 return result;
             }
         }
 
-        //public List<CategoriaR_DTO> getCategoriasPadreEnviandoLista(List<CategoriaR_DTO> idsCategorias)
-        //{
-        //    using (var context = getContext())
-        //    {
-        //        try
-        //        {
-                    
-        //        }
-        //        catch(Exception e)
-        //        {
-        //            return 0;
-        //        }
-        //    }
+        public CategoriaR_DTO obtenerPadreEntidadReporte(CategoriaR_DTO obj, List<CategoriaDTO> lstCategorias, int Nivel)
+        {
+            if (obj.IdCategoriaPadre != null)
+            {
+                CategoriaR_DTO nuevo = new CategoriaR_DTO();
+                CategoriaDTO aux = lstCategorias.Find(x => x.IdCategoria == obj.IdCategoriaPadre);
+                nuevo.IdCategoria = aux.IdCategoria;
+                nuevo.Nombre = aux.Nombre;
+                nuevo.IdCategoriaPadre = aux.IdCategoriaPadre;
+                
+                if (nuevo.IdCategoriaPadre != null)
+                { 
+                    obtenerPadreEntidadReporte(nuevo, lstCategorias, obj.Nivel);
+                    if(CONSTANTES.NivelCat < Nivel)
+                        CONSTANTES.NivelCat = Nivel;
+                }
 
-        //    return idsCategorias;
-        //}
+                nuevo.Nivel = Nivel;
+                obj.Padre = nuevo;
+                obj.Nivel = obj.Nivel + 1;
+            }
+            return obj;
+        }
     }
 }

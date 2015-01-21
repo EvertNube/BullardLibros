@@ -351,13 +351,14 @@ namespace BullardLibros.Controllers
             if (id == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
             UsuariosBL usuariosBL = new UsuariosBL();
             
-            ViewBag.Roles = usuariosBL.getRolesViewBag(true);
-
+            //ViewBag.vbRoles = usuariosBL.getRolesViewBag(true);
+            ViewBag.vbRls = usuariosBL.getRolesViewBag(true);
+            
             var objSent = TempData["Usuario"];
             if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
             if (id != null)
             {
-                UsuarioDTO usuario = usuariosBL.getUsuario((int)id);
+                UsuarioDTO usuario = usuariosBL.getUsuario(id.GetValueOrDefault());
                 return View(usuario);
             }
             return View();
@@ -551,6 +552,9 @@ namespace BullardLibros.Controllers
             CategoriaBL objBL = new CategoriaBL();
             var data = objBL.getReporteCategorias(IdCuentaB, FechaInicio, FechaFin);
 
+            //Lista de Categorias
+            List<CategoriaDTO> lstCats = objBL.getCategorias();
+
             if (data == null)
                 return RedirectToAction("ReporteCategorias", new { message = 2 });
 
@@ -560,26 +564,27 @@ namespace BullardLibros.Controllers
             dt.Columns.Add("Montos Totales");
             dt.Columns.Add("Categorias");
 
-            //Lista de Ids de categorias
-            List<CategoriaR_DTO> lstCategorias = new List<CategoriaR_DTO>();
-
-            foreach (var item in data)
+            /*foreach (var item in data)
             {
                 System.Data.DataRow row = dt.NewRow();
-
-                CategoriaR_DTO nuevo = new CategoriaR_DTO();
-                nuevo.IdCategoria = item.IdCategoria;
-                nuevo.Nombre = item.Nombre;
-                lstCategorias.Add(nuevo);
 
                 row["Montos Totales"] = item.MontoTotal.ToString(CultureInfo.InvariantCulture);
                 row["Categorias"] = item.Nombre;
 
                 dt.Rows.Add(row);
+            }*/
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                //Llenado de padres
+                data[i] = objBL.obtenerPadreEntidadReporte(data[i], lstCats, 0);
+
+                row["Montos Totales"] = data[i].MontoTotal.ToString(CultureInfo.InvariantCulture);
+                row["Categorias"] = data[i].Nombre;
+                
+                dt.Rows.Add(row);
             }
-
-            //lstCategorias = BucleBuscarCategoriasPadre(lstCategorias, 0);
-
 
             GridView gv = new GridView();
 

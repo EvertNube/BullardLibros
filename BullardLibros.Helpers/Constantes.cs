@@ -12,7 +12,8 @@ namespace BullardLibros.Helpers
         public static string DATETIME_HUMAN_FORMAT = "ddd dd de MMMM del yyyy, a las HH:mm:ss";
 
         public static int SUPER_ADMIN_ROL = 1;
-        
+        public static int NivelCat = 0;
+   
         public static string ERROR_MESSAGE = "<strong>Hubo un error.</strong> Por favor, llene todos los campos.";
         public static string ERROR_REPORTE_NO_MOVS = "<strong>Hubo un error.</strong> No se encontraron movimientos realizados para el periodo seleccionado, seleccione otro periodo";
         public static string SUCCESS_MESSAGE = "<strong>Actualizado.</strong> Los datos se han guardado correctamente.";

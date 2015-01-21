@@ -140,34 +140,11 @@ namespace BullardLibros.Core.BL
                 return false;
             }
         }
-        //public IList<RolDTO> getRoles()
-        //{
-        //    using (var context = getContext())
-        //    {
-        //        var result = from r in context.Rol
-        //                     where r.IdRol != CONSTANTES.SUPER_ADMIN_ROL
-        //                     select new RolDTO
-        //                     {
-        //                         IdRol = r.IdRol,
-        //                         Nombre = r.Nombre
-        //                     };
-        //        return result.ToList<RolDTO>();
-        //    }
-        //}
 
         public List<RolDTO> getRoles()
         {
             using (var context = getContext())
             {
-                //var result = from r in context.Rol
-                //             where r.IdRol != CONSTANTES.SUPER_ADMIN_ROL
-                //             select new RolDTO
-                //             {
-                //                 IdRol = r.IdRol,
-                //                 Nombre = r.Nombre
-                //             };
-                //return result.ToList();
-
                 var result = context.Rol.Where(x => x.IdRol != CONSTANTES.SUPER_ADMIN_ROL).Select(r => new RolDTO
                 {
                     IdRol = r.IdRol,
@@ -178,16 +155,29 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public IList<RolDTO> getRolesViewBag(bool AsSelectList = false)
+        public List<SelectDTO> getSelectRoles()
+        {
+            using (var context = getContext())
+            {
+                var result = context.Rol.Where(x => x.IdRol != CONSTANTES.SUPER_ADMIN_ROL).Select(r => new SelectDTO
+                    {
+                        SelectItemId = r.IdRol,
+                        SelectItemName = r.Nombre
+                    }).ToList();
+                return result;
+            }
+        }
+
+        public IList<SelectDTO> getRolesViewBag(bool AsSelectList = false)
         {
             if (!AsSelectList)
             {
-                return getRoles();
+                return getSelectRoles();
             }
             else
             {
-                var lista = getRoles();
-                lista.Insert(0, new RolDTO() { IdRol = 0, Nombre = "Seleccione el Tipo de Usuario." });
+                var lista = getSelectRoles();
+                lista.Insert(0, new SelectDTO() { SelectItemId = 0, SelectItemName = "Seleccione el Tipo de Usuario." });
                 return lista;
             }
         }
@@ -233,22 +223,6 @@ namespace BullardLibros.Core.BL
         {
             using (var context = getContext())
             {
-                //var result = from r in context.Usuario
-                //             where r.IdUsuario == id
-                //             select new UsuarioDTO
-                //             {
-                //                 Cuenta = r.Cuenta,
-                //                 Email = r.Email,
-                //                 Active = r.Estado,
-                //                 IdRol = r.IdRol,// ?? 0,
-                //                 IdCargo = r.IdCargo ?? 0,
-                //                 IdUsuario = r.IdUsuario,
-                //                 Nombre = r.Nombre,
-                //                 InicialesNombre = r.InicialesNombre,
-                //                 Pass = r.Pass
-                //             };
-                //return result.SingleOrDefault();
-
                 var result = context.Usuario.Where(x => x.IdUsuario == id).Select(r => new UsuarioDTO
                     {
                         IdUsuario = r.IdUsuario,

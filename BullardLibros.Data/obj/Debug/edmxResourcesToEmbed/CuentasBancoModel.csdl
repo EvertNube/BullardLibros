@@ -343,5 +343,6 @@
     <Property Type="Int32" Name="IdCategoria" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
   </ComplexType>
 </Schema>
