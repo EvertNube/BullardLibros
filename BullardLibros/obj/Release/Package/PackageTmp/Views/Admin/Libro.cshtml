@@ -83,8 +83,8 @@
                                     @Html.TextBoxFor(u => u.SaldoDisponible, new { @value = Model != null ? Model.SaldoDisponible : 0, @type = "hidden" })
                                     @Html.TextBoxFor(u => u.SaldoBancario, new { @value = Model != null ? Model.SaldoBancario : 0, @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName</button>
-                                    <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Index")">Salir</a>
+                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Index")">Salir</a>
                                 </div>
                             </section>
                         }
@@ -103,7 +103,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <a class="btn btn-sm btn-success pull-right btn-rounded" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
+                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
                                             </div>
                                         </div>
                                     }

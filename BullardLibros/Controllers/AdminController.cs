@@ -400,14 +400,14 @@ namespace BullardLibros.Controllers
                 }
                 else
                 {
-                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_ACCOUNT);
                 }
             }
             catch
             {
                 if (user.IdUsuario != 0)
                     createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
-                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_ACCOUNT);
             }
             TempData["Usuario"] = user;
             return RedirectToAction("Usuario");

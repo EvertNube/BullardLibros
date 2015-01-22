@@ -151,8 +151,8 @@
                                     @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-primary btn-rounded">@btnName </button>
-                                    <a class="btn btn-sm btn-danger btn-rounded" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Salir</a>
+                                    <button type="submit" class="btn btn-sm btn-success">@btnName </button>
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Salir</a>
                                 </div>
                             </section>
                         </div>

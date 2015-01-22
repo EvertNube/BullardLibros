@@ -158,6 +158,7 @@
           <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+          <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

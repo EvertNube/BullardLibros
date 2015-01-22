@@ -21,7 +21,8 @@ namespace BullardLibros.Helpers
         public static string SUCCESS = "success";
         public static string ERROR = "error";
         public static string ERROR_UPDATE_MESSAGE = "<strong>Hubo un error al actualizar.</strong> Por favor, verifique la información a actualizar.";
-        public static string ERROR_INSERT_MESSAGE = "<strong>Hubo un error al insertar.</strong> Por favor, verifique que la información ingresada posiblementa ya exista otra cuenta con ese nombre y correo.";
+        public static string ERROR_INSERT_MESSAGE = "<strong>Hubo un error al insertar.</strong> Por favor, verifique que la información ingresada.";
+        public static string ERROR_INSERT_ACCOUNT = "<strong>Hubo un error al insertar.</strong> Por favor, verifique que la información ingresada posiblementa ya exista otra cuenta con ese nombre y correo.";
         public static string ERROR_RECOVERY_PASSWORD = "<strong>La cuenta o correo ingresado no existe.</strong> Por favor, verifique la información.";
         public static string SUCCESS_RECOVERY_PASSWORD = "<strong>Se ha enviado un correo con la contraseña.</strong>";
 

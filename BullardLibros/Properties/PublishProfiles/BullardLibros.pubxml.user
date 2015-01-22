@@ -22,19 +22,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2014 16:13:32</publishTime>
     </File>
     <File Include="bin/BullardLibros.Core.dll">
-      <publishTime>01/19/2015 08:47:44</publishTime>
+      <publishTime>01/22/2015 16:24:20</publishTime>
     </File>
     <File Include="bin/BullardLibros.Data.dll">
-      <publishTime>01/14/2015 12:50:56</publishTime>
+      <publishTime>01/22/2015 10:46:48</publishTime>
     </File>
     <File Include="bin/BullardLibros.dll">
-      <publishTime>01/19/2015 08:47:45</publishTime>
+      <publishTime>01/22/2015 16:24:20</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.dll">
-      <publishTime>01/19/2015 08:47:43</publishTime>
+      <publishTime>01/22/2015 16:24:20</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.Razor.dll">
-      <publishTime>01/19/2015 08:47:43</publishTime>
+      <publishTime>01/22/2015 16:24:20</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/05/2015 16:10:26</publishTime>
@@ -2002,40 +2002,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 07:36:38</publishTime>
     </File>
     <File Include="Views/Admin/Categoria.cshtml">
-      <publishTime>01/08/2015 11:33:34</publishTime>
+      <publishTime>01/19/2015 16:15:27</publishTime>
     </File>
     <File Include="Views/Admin/Categorias.cshtml">
-      <publishTime>01/09/2015 15:29:42</publishTime>
+      <publishTime>01/19/2015 16:15:37</publishTime>
     </File>
     <File Include="Views/Admin/Entidad.cshtml">
-      <publishTime>01/09/2015 12:17:16</publishTime>
+      <publishTime>01/19/2015 16:17:27</publishTime>
     </File>
     <File Include="Views/Admin/Entidades.cshtml">
-      <publishTime>12/15/2014 16:03:37</publishTime>
+      <publishTime>01/19/2015 16:17:40</publishTime>
     </File>
     <File Include="Views/Admin/Index.cshtml">
-      <publishTime>12/11/2014 19:07:13</publishTime>
+      <publishTime>01/19/2015 16:12:12</publishTime>
     </File>
     <File Include="Views/Admin/Ingresar.cshtml">
-      <publishTime>12/09/2014 11:34:28</publishTime>
+      <publishTime>01/19/2015 16:19:33</publishTime>
     </File>
     <File Include="Views/Admin/Libro.cshtml">
-      <publishTime>01/16/2015 18:04:38</publishTime>
+      <publishTime>01/19/2015 16:14:40</publishTime>
     </File>
     <File Include="Views/Admin/Movimiento.cshtml">
-      <publishTime>01/16/2015 15:19:51</publishTime>
+      <publishTime>01/20/2015 16:32:49</publishTime>
     </File>
     <File Include="Views/Admin/Movimientos.cshtml">
-      <publishTime>12/16/2014 12:50:40</publishTime>
+      <publishTime>01/19/2015 16:18:08</publishTime>
     </File>
     <File Include="Views/Admin/ReporteCategorias.cshtml">
-      <publishTime>01/12/2015 17:24:56</publishTime>
+      <publishTime>01/19/2015 16:22:27</publishTime>
     </File>
     <File Include="Views/Admin/Usuario.cshtml">
-      <publishTime>12/15/2014 12:23:48</publishTime>
+      <publishTime>01/21/2015 15:39:56</publishTime>
     </File>
     <File Include="Views/Admin/Usuarios.cshtml">
-      <publishTime>12/11/2014 14:31:00</publishTime>
+      <publishTime>01/19/2015 16:18:25</publishTime>
     </File>
     <File Include="Views/Error/Error.cshtml">
       <publishTime>12/09/2014 07:36:38</publishTime>
