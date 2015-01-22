@@ -190,13 +190,14 @@ namespace BullardLibros.Core.BL
                 {
                     nuevo = obtenerPadreEntidadReporte(nuevo, lstCategorias, Nivel);
                     nuevo.Nivel = nuevo.Padre.Nivel + 1;
-                    if (CONSTANTES.NivelCat < Nivel)
-                        CONSTANTES.NivelCat = Nivel;
                 }
                 else
                 { nuevo.Nivel = Nivel; }
                 obj.Padre = nuevo;
                 obj.Nivel = nuevo.Nivel + 1;
+                
+                if (CONSTANTES.NivelCat < obj.Nivel)
+                    CONSTANTES.NivelCat = obj.Nivel;
             }
             return obj;
         }

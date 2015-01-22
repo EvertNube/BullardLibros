@@ -562,26 +562,28 @@ namespace BullardLibros.Controllers
             dt.Clear();
 
             dt.Columns.Add("Montos Totales");
-            dt.Columns.Add("Categorias");
+            //dt.Columns.Add("Categorias");
 
-            /*foreach (var item in data)
+            //Llenado de Padres
+            for (int i = 0; i < data.Count; i++)
             {
-                System.Data.DataRow row = dt.NewRow();
+                data[i] = objBL.obtenerPadreEntidadReporte(data[i], lstCats, 0);
+            }
 
-                row["Montos Totales"] = item.MontoTotal.ToString(CultureInfo.InvariantCulture);
-                row["Categorias"] = item.Nombre;
+            //Columnas de Categorias
+            for (int i = CONSTANTES.NivelCat; i >= 0; i--)
+            {
+                dt.Columns.Add("Categoria N." + i.ToString());
+            }
 
-                dt.Rows.Add(row);
-            }*/
-
+            //Pintado de Padres
             for (int i = 0; i < data.Count; i++)
             {
                 System.Data.DataRow row = dt.NewRow();
-                //Llenado de padres
-                data[i] = objBL.obtenerPadreEntidadReporte(data[i], lstCats, 0);
 
-                row["Montos Totales"] = data[i].MontoTotal.ToString(CultureInfo.InvariantCulture);
-                row["Categorias"] = data[i].Nombre;
+                row = DameRowPintarPadres(row, data[i]);
+                row["Montos Totales"] = data[i].MontoTotal.ToString("N2",CultureInfo.InvariantCulture);
+                //row["Categorias"] = data[i].Nombre;
                 
                 dt.Rows.Add(row);
             }
@@ -621,6 +623,16 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
             //return View();
+        }
+
+        private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
+        {
+            if(categoria.Padre != null)
+            {
+                row = DameRowPintarPadres(row, categoria.Padre);
+            }
+            row["Categoria N." + categoria.Nivel.ToString()] = categoria.Nombre;
+            return row;
         }
 
         private static void AddSuperHeader(GridView gridView, string text = null)
