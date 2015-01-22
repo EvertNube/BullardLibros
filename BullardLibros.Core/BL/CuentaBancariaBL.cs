@@ -63,7 +63,9 @@ namespace BullardLibros.Core.BL
                             Estado = x.Estado,
                             UsuarioCreacion = x.UsuarioCreacion,
                             FechaCreacion = x.FechaCreacion,
-                            NombreEntidadR = x.EntidadResponsable.Nombre
+                            NombreEntidadR = x.EntidadResponsable.Nombre,
+                            NombreCategoria = x.Categoria.Nombre,
+                            NombreUsuario = x.Usuario.Cuenta
                         }).OrderByDescending(x => x.Fecha).ToList()
                     }).SingleOrDefault();
                 return result;
