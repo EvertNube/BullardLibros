@@ -185,17 +185,18 @@ namespace BullardLibros.Core.BL
                 nuevo.IdCategoria = aux.IdCategoria;
                 nuevo.Nombre = aux.Nombre;
                 nuevo.IdCategoriaPadre = aux.IdCategoriaPadre;
-                
+
                 if (nuevo.IdCategoriaPadre != null)
-                { 
-                    obtenerPadreEntidadReporte(nuevo, lstCategorias, obj.Nivel);
-                    if(CONSTANTES.NivelCat < Nivel)
+                {
+                    nuevo = obtenerPadreEntidadReporte(nuevo, lstCategorias, Nivel);
+                    nuevo.Nivel = nuevo.Padre.Nivel + 1;
+                    if (CONSTANTES.NivelCat < Nivel)
                         CONSTANTES.NivelCat = Nivel;
                 }
-
-                nuevo.Nivel = Nivel;
+                else
+                { nuevo.Nivel = Nivel; }
                 obj.Padre = nuevo;
-                obj.Nivel = obj.Nivel + 1;
+                obj.Nivel = nuevo.Nivel + 1;
             }
             return obj;
         }
