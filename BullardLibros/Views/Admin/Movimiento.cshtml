@@ -46,9 +46,17 @@
             return markup;
         }
 
-        //$('.datepicker-input').datepicker({
-        //    format: 'dd/mm/yyyy'
-        //});
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar un numero decimal");
+                return false;
+            }
+        }
     </script>
 }
 <section class="vbox">
@@ -119,7 +127,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Monto</label>
-                                        @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text" })
+                                        @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                                         @Html.ValidationMessageFor(u => u.Monto)
                                     </div>
                                     <div class="form-group">

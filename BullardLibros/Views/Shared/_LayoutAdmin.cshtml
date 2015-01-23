@@ -90,14 +90,17 @@
                                                 <span>Entidades</span>
                                             </a>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Usuarios")" class="active">
-                                                <i class="fa fa-user icon">
-                                                    <b class="bg-primary" style="background-color:#428bca"></b>
-                                                </i>
-                                                <span>Usuarios</span>
-                                            </a>
-                                        </li>
+                                        @if (ViewBag.EsSuperAdmin)
+                                        { 
+                                            <li class="">
+                                                <a href="@Url.Action("Usuarios")" class="active">
+                                                    <i class="fa fa-user icon">
+                                                        <b class="bg-primary" style="background-color:#428bca"></b>
+                                                    </i>
+                                                    <span>Usuarios</span>
+                                                </a>
+                                            </li>
+                                        }
                                         <li class="">
                                             <a href="@Url.Action("ReporteCategorias")" class="active">
                                                 <i class="fa fa-bar-chart-o icon">

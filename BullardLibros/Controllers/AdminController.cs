@@ -347,8 +347,10 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             UsuarioDTO currentUser = getCurrentUser();
-            if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
-            if (id == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+            //if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
+            if (!this.isSuperAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
+            //if (id == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+            if (id == 1 && currentUser.IdUsuario != 1) { return RedirectToAction("Index"); }
             UsuariosBL usuariosBL = new UsuariosBL();
             
             //ViewBag.vbRoles = usuariosBL.getRolesViewBag(true);
@@ -364,6 +366,7 @@ namespace BullardLibros.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult AddUser(UsuarioDTO user, string passUser = "", string passChange = "")
         {
 

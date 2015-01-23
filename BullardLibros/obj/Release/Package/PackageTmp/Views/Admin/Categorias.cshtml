@@ -20,7 +20,7 @@
 
             foreach (BullardLibros.Core.DTO.CategoriaDTO obj in categorias)
             {
-                var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "inactive" : "";
+                var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? " inactive" : "";
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
                 output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content' style='{1}'>{2} <b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
                 if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-edit' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }

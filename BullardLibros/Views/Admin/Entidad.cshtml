@@ -4,6 +4,21 @@
     ViewBag.Title = "Entidad";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section Scripts{
+    <script type="text/javascript">
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar un numero decimal");
+                return false;
+            }
+        }
+    </script>
+}
 
 <section class="vbox">
     <section class="scrollable padder">
@@ -49,7 +64,7 @@
                                     }
                                     <div class="form-group">
                                         <label>Detracción</label>
-                                        @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ingrese la detracción de la entidad", @type = "text" })
+                                        @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ingrese la detracción de la entidad", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                                         @Html.ValidationMessageFor(u => u.Detraccion)
                                     </div>
                                     <div class="line line-dashed line-lg pull-in"></div>
