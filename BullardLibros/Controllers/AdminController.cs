@@ -502,7 +502,7 @@ namespace BullardLibros.Controllers
 
             foreach (var item in listaCat)
             {
-                if (item.IdCategoria != 1)
+                if (item.IdCategoria != 1 && item.Estado)
                 {
                     Select2DTO selectItem = new Select2DTO();
                     selectItem.id = item.IdCategoria;
@@ -571,9 +571,18 @@ namespace BullardLibros.Controllers
             }
 
             //Columnas de Categorias
-            for (int i = CONSTANTES.NivelCat; i >= 0; i--)
+            for (int i = 0; i <= CONSTANTES.NivelCat; i++)
             {
-                dt.Columns.Add("Categoria N." + i.ToString());
+                //dt.Columns.Add("Categoria N." + i.ToString());
+                switch(i)
+                {
+                    case 0:
+                        dt.Columns.Add("Categoria");
+                        break;
+                    default:
+                        dt.Columns.Add("Categoria Sub " + i.ToString());
+                        break;
+                }
             }
 
             //Pintado de Padres
@@ -582,7 +591,7 @@ namespace BullardLibros.Controllers
                 System.Data.DataRow row = dt.NewRow();
 
                 row = DameRowPintarPadres(row, data[i]);
-                row["Montos Totales"] = data[i].MontoTotal.ToString("N2",CultureInfo.InvariantCulture);
+                row["Montos Totales"] = data[i].MontoTotal.ToString("N2", CultureInfo.InvariantCulture);
                 //row["Categorias"] = data[i].Nombre;
                 
                 dt.Rows.Add(row);
@@ -631,7 +640,16 @@ namespace BullardLibros.Controllers
             {
                 row = DameRowPintarPadres(row, categoria.Padre);
             }
-            row["Categoria N." + categoria.Nivel.ToString()] = categoria.Nombre;
+            //row["Categoria N." + categoria.Nivel.ToString()] = categoria.Nombre;
+            switch (categoria.Nivel)
+            {
+                case 0:
+                    row["Categoria"] = categoria.Nombre;
+                    break;
+                default:
+                    row["Categoria Sub " + categoria.Nivel.ToString()] = categoria.Nombre;
+                    break;
+            }
             return row;
         }
 
@@ -667,33 +685,5 @@ namespace BullardLibros.Controllers
         {
             return new TableHeaderCell() { ColumnSpan = span, Text = text ?? string.Empty, CssClass = "table-header" };
         }
-
-        //private List<CategoriaR_DTO> BucleBuscarCategoriasPadre(List<CategoriaR_DTO> lista, int? nivel = null)
-        //{
-        //    //Conseguir los Ids padres de las categorias
-        //    while (nivel < 3)
-        //    {
-        //        if (nivel == 0)
-        //        {
-        //            CategoriaBL oBL = new CategoriaBL();
-        //            List<CategoriaR_DTO> listaPadre;
-        //            listaPadre = oBL.getCategoriasPadreEnviandoLista(lista);
-
-        //            for (int i = 0; i < lista.Count(); i++)
-        //            {
-        //                lista[i].Padre = listaPadre[i];
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //Verificar si los padres son diferente de Null
-
-        //        }
-        //        nivel++;
-        //    }
-
-
-        //    return lista;
-        //}
     }
 }
