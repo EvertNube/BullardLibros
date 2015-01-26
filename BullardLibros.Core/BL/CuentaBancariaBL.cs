@@ -33,6 +33,23 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public List<CuentaBancariaDTO> getCuentasBancariasViewBag()
+        {
+            using (var context = getContext())
+            {
+                var result = context.CuentaBancaria.Where(x => x.Estado).Select(x => new CuentaBancariaDTO
+                {
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    NombreCuenta = x.NombreCuenta,
+                    FechaConciliacion = x.FechaConciliacion,
+                    SaldoDisponible = x.SaldoDisponible,
+                    SaldoBancario = x.SaldoBancario,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
+
         public CuentaBancariaDTO getCuentaBancaria(int id)
         {
             //Actualizar Saldo Disponible
@@ -138,10 +155,10 @@ namespace BullardLibros.Core.BL
         public IList<CuentaBancariaDTO> getCuentasBancariasBag(bool AsSelectList = false)
         {
             if (!AsSelectList)
-                return getCuentasBancarias();
+                return getCuentasBancariasViewBag();
             else
             {
-                var lista = getCuentasBancarias();
+                var lista = getCuentasBancariasViewBag();
                 lista.Insert(0, new CuentaBancariaDTO() { IdCuentaBancaria = 0, NombreCuenta = "Seleccione un Libro" });
                 return lista;
             }

@@ -130,12 +130,16 @@
                                                     <th width="15%">Nombre</th>
                                                     <th class="text-center" width="10%">Categoria</th>
                                                     <th class="text-center" width="10%">Entidad</th>
-                                                    <th class="text-center" width="10%">Fecha</th>
+                                                    
+                                                    <th class="text-center" width="7%">Fecha</th>
+                                                    <th class="text-center" width="10%">N° Doc</th>
                                                     <th class="text-center" width="15%">Monto</th>
-                                                    <th class="text-center" width="15%">Tipo</th>
-                                                    <th class="text-center" width="10%">Estado</th>
+                                                    <th class="text-center" width="13%">Tipo</th>
+                                                    
+                                                    <th class="text-center" width="5%">Est.</th>
                                                     <th class="text-center" width="10%">Usuario</th>
-                                                    <th class="text-center" width="5%">Opciones</th>
+                                                    
+                                                    <th class="text-center">Opc.</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -148,24 +152,34 @@
                                                             <td width="15%">@obj.Nombre</td>
                                                             <td class="text-center" width="10%" style="color:#428bca;">@obj.NombreCategoria</td>
                                                             <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
-                                                            <td class="text-center" width="10%">@obj.Fecha.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                            <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                            @if(obj.NumeroDocumento != "0")
+                                                            {
+                                                                <td class="text-center" width="10%">@obj.NumeroDocumento</td>    
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center" width="10%">N/A</td> 
+                                                            }
+
+                                                            
                                                             <td class="text-right" width="15%">S/. @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                             @if (obj.IdTipoMovimiento == 1)
                                                             {
-                                                                <td class="text-right" width="15%" style="color:#8EC100;">Entrada</td>}
+                                                                <td class="text-right" width="13%" style="color:#8EC100;">Entrada</td>}
                                                             else
                                                             {
-                                                                <td class="text-left" width="15%" style="color:red">Salida</td> }
+                                                                <td class="text-left" width="13%" style="color:red">Salida</td> }
                                                             @if (obj.IdEstadoMovimiento == 1)
                                                             {
-                                                                <td class="text-center" width="10%" style="color:red">Pendiente</td>}
+                                                                <td class="text-center" width="5%" style="color:red">Pen.</td>}
                                                             else
                                                             {
-                                                                <td class="text-center" width="10%">Realizado</td> }
+                                                                <td class="text-center" width="5%">Rea.</td> }
                                                             <td class="text-center" width="10%">@obj.NombreUsuario</td>
                                                             @if (ViewBag.EsAdmin)
                                                             {
-                                                                <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
+                                                                <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil" title="Editar"></i></a></td>
                                                             }
                                                         </tr>
                                                     }

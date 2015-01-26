@@ -168,6 +168,19 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public List<SelectDTO> getSelectAllRoles()
+        {
+            using (var context = getContext())
+            {
+                var result = context.Rol.Select(r => new SelectDTO
+                {
+                    SelectItemId = r.IdRol,
+                    SelectItemName = r.Nombre
+                }).ToList();
+                return result;
+            }
+        }
+
         public IList<SelectDTO> getRolesViewBag(bool AsSelectList = false)
         {
             if (!AsSelectList)
@@ -177,6 +190,20 @@ namespace BullardLibros.Core.BL
             else
             {
                 var lista = getSelectRoles();
+                lista.Insert(0, new SelectDTO() { SelectItemId = 0, SelectItemName = "Seleccione el Tipo de Usuario." });
+                return lista;
+            }
+        }
+
+        public IList<SelectDTO> getAllRolesViewBag(bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+            {
+                return getSelectAllRoles();
+            }
+            else
+            {
+                var lista = getSelectAllRoles();
                 lista.Insert(0, new SelectDTO() { SelectItemId = 0, SelectItemName = "Seleccione el Tipo de Usuario." });
                 return lista;
             }

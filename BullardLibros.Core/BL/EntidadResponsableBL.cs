@@ -24,7 +24,22 @@ namespace BullardLibros.Core.BL
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion
-                }).ToList();
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+
+        public List<EntidadResponsableDTO> getEntidadResponsablesViewBag()
+        {
+            using (var context = getContext())
+            {
+                var result = context.EntidadResponsable.Where(x => x.Estado).Select(x => new EntidadResponsableDTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Detraccion = x.Detraccion
+                }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }
