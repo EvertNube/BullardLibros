@@ -567,7 +567,7 @@ namespace BullardLibros.Controllers
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
 
-            dt.Columns.Add("Montos Totales");
+            
             //dt.Columns.Add("Categorias");
 
             //Llenado de Padres
@@ -590,6 +590,7 @@ namespace BullardLibros.Controllers
                         break;
                 }
             }
+            dt.Columns.Add("Montos Totales");
 
             //Pintado de Padres
             for (int i = 0; i < data.Count; i++)
