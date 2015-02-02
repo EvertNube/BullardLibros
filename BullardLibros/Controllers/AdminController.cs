@@ -355,16 +355,16 @@ namespace BullardLibros.Controllers
             UsuariosBL usuariosBL = new UsuariosBL();
             
             //ViewBag.vbRoles = usuariosBL.getRolesViewBag(true);
-            if(this.isSuperAdministrator())
-                ViewBag.vbRls = usuariosBL.getAllRolesViewBag(true);
-            else
-                ViewBag.vbRls = usuariosBL.getRolesViewBag(true);
+            ViewBag.vbRls = usuariosBL.getRolesViewBag(false);
             
             var objSent = TempData["Usuario"];
             if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
             if (id != null)
             {
                 UsuarioDTO usuario = usuariosBL.getUsuario(id.GetValueOrDefault());
+                if(usuario.IdRol == 1)
+                    ViewBag.vbRls = usuariosBL.getAllRolesViewBag(false);
+
                 return View(usuario);
             }
             return View();
