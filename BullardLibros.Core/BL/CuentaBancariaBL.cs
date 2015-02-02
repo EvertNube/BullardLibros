@@ -27,7 +27,8 @@ namespace BullardLibros.Core.BL
                     FechaConciliacion = x.FechaConciliacion,
                     SaldoDisponible = x.SaldoDisponible,
                     SaldoBancario = x.SaldoBancario,
-                    Estado = x.Estado
+                    Estado = x.Estado,
+                    SimboloMoneda = x.Moneda.Simbolo
                 }).ToList();
                 return result;
             }
@@ -53,7 +54,7 @@ namespace BullardLibros.Core.BL
         public CuentaBancariaDTO getCuentaBancaria(int id)
         {
             //Actualizar Saldo Disponible
-            updateSaldoDisponible(id);
+            updateSaldos(id);
             using (var context = getContext())
             {
                 var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id)
@@ -65,6 +66,9 @@ namespace BullardLibros.Core.BL
                         SaldoDisponible = r.SaldoDisponible,
                         SaldoBancario = r.SaldoBancario,
                         Estado = r.Estado,
+                        IdMoneda = r.IdMoneda,
+                        NombreMoneda = r.Moneda.Nombre,
+                        SimboloMoneda = r.Moneda.Simbolo,
                         listaMovimiento = r.Movimiento.Select(x => new MovimientoDTO {
                             IdMovimiento = x.IdMovimiento,
                             IdCuentaBancaria = x.IdCuentaBancaria,
@@ -101,6 +105,7 @@ namespace BullardLibros.Core.BL
                     nuevo.SaldoDisponible = CuentaBancaria.SaldoDisponible;
                     nuevo.SaldoBancario = CuentaBancaria.SaldoBancario;
                     nuevo.Estado = true;
+                    nuevo.IdMoneda = CuentaBancaria.IdMoneda;
                     context.CuentaBancaria.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -125,6 +130,7 @@ namespace BullardLibros.Core.BL
                     datoRow.SaldoDisponible = CuentaBancaria.SaldoDisponible;
                     datoRow.SaldoBancario = CuentaBancaria.SaldoBancario;
                     datoRow.Estado = CuentaBancaria.Estado;
+                    datoRow.IdMoneda = CuentaBancaria.IdMoneda;
                     context.SaveChanges();
                     return true;
                 }
@@ -135,7 +141,7 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public bool updateSaldoDisponible(int id)
+        public bool updateSaldos(int id)
         {
             using (var context = getContext())
             {
@@ -160,6 +166,32 @@ namespace BullardLibros.Core.BL
             {
                 var lista = getCuentasBancariasViewBag();
                 lista.Insert(0, new CuentaBancariaDTO() { IdCuentaBancaria = 0, NombreCuenta = "Seleccione un Libro" });
+                return lista;
+            }
+        }
+
+        public List<MonedaDTO> getMonedasViewBag()
+        {
+            using (var context = getContext())
+            {
+                var result = context.Moneda.Select(x => new MonedaDTO
+                {
+                    IdMoneda = x.IdMoneda,
+                    Nombre = x.Nombre,
+                    Simbolo = x.Simbolo
+                }).ToList();
+                return result;
+            }
+        }
+
+        public IList<MonedaDTO> getMonedasBag(bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+                return getMonedasViewBag();
+            else
+            {
+                var lista = getMonedasViewBag();
+                lista.Insert(0, new MonedaDTO() { IdMoneda = 0, Nombre = "Seleccione una Moneda" });
                 return lista;
             }
         }

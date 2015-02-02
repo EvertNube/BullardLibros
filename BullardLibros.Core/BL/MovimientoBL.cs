@@ -192,7 +192,7 @@ namespace BullardLibros.Core.BL
             if (idCuentaB != 0)
             {
                 CuentaBancariaBL oBL = new CuentaBancariaBL();
-                oBL.updateSaldoDisponible(idCuentaB);
+                oBL.updateSaldos(idCuentaB);
             }
         }
     }

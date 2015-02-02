@@ -107,6 +107,7 @@ namespace BullardLibros.Controllers
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             ViewBag.IdCuentaBancaria = id;
+            ViewBag.Monedas = objBL.getMonedasBag(false);
             var objSent = TempData["Libro"];
             if (objSent != null) { TempData["Libro"] = null; return View(objSent); }
             if (id != null)
@@ -620,11 +621,11 @@ namespace BullardLibros.Controllers
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
                 AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
-                AddWhiteHeader(gv, 4, "");
+                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=Reporte de Categorias.xls");
+                Response.AddHeader("content-disposition", "attachment; filename="+ obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy")  + ".xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 

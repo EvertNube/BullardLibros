@@ -30,10 +30,10 @@ namespace BullardLibros.Data
         public System.DateTime FechaCreacion { get; set; }
     
         public virtual Categoria Categoria { get; set; }
-        public virtual CuentaBancaria CuentaBancaria { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual EstadoMovimiento EstadoMovimiento { get; set; }
         public virtual TipoMovimiento TipoMovimiento { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual CuentaBancaria CuentaBancaria { get; set; }
     }
 }

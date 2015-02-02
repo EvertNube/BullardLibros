@@ -69,6 +69,7 @@
     <Compile Include="DTO\CuentaBancariaDTO.cs" />
     <Compile Include="DTO\EntidadResponsableDTO.cs" />
     <Compile Include="DTO\EstadoMovimientoDTO.cs" />
+    <Compile Include="DTO\MonedaDTO.cs" />
     <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\RolDTO.cs" />
     <Compile Include="DTO\Select2DTO.cs" />

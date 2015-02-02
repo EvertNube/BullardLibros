@@ -17,8 +17,11 @@ namespace BullardLibros.Core.DTO
         public Decimal SaldoDisponible { get; set; }
         public Decimal SaldoBancario { get; set; }
         public bool Estado { get; set; }
-        public int IdMoneda { get; set; }
+        public int? IdMoneda { get; set; }
         public IList<MovimientoDTO> listaMovimiento { get; set; }
         public IPagedList<MovimientoDTO> listaMovimientoPL { get; set; }
+
+        public string NombreMoneda { get; set; }
+        public string SimboloMoneda { get; set; }
     }
 }

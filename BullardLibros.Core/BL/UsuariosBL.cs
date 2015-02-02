@@ -231,6 +231,9 @@ namespace BullardLibros.Core.BL
 
         public bool isValidUser(UsuarioDTO user)
         {
+            if (user.Cuenta == null || user.Pass == null)
+                return false;
+
             using (var context = getContext())
             {
                 var result = from r in context.Usuario

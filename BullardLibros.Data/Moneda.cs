@@ -21,7 +21,8 @@ namespace BullardLibros.Data
         }
     
         public int IdMoneda { get; set; }
-        public string Moneda1 { get; set; }
+        public string Nombre { get; set; }
+        public string Simbolo { get; set; }
     
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual ICollection<TipoCambio> TipoCambio { get; set; }

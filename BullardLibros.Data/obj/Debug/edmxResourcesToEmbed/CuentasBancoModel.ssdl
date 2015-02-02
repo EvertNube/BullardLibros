@@ -44,7 +44,8 @@
       <PropertyRef Name="IdMoneda" />
     </Key>
     <Property Name="IdMoneda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Moneda" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Simbolo" Type="varchar" MaxLength="5" />
   </EntityType>
   <EntityType Name="Movimiento">
     <Key>

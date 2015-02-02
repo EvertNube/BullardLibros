@@ -58,22 +58,42 @@
                                         @Html.ValidationMessageFor(u => u.FechaConciliacion)
                                     </div>
                                     <div class="form-group">
+                                        <label>Moneda</label>
+                                        @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.Monedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "form-control parsley-validated" })
+                                        @Html.ValidationMessageFor(u => u.IdMoneda)
+                                    </div>
+                                    @*<div class="form-group">
                                         <label>Saldo Bancario</label>
                                         @Html.TextBoxFor(u => u.SaldoBancario, new { @class = "form-control", @placeholder = "Ingrese el saldo bancario", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                                         @Html.ValidationMessageFor(u => u.SaldoBancario)
-                                    </div>
+                                    </div>*@
                                     @if (Model != null && Model.IdCuentaBancaria != 0)
                                     {
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
                                             <div class="row m-l-none m-r-none bg-light lter">
-                                                <div class="padder-v b-light text-center">
+                                                <div class="padder-v b-light text-right">
                                                     <span class="fa-stack fa-2x pull-in m-r-sm">
                                                         <i class="fa fa-circle fa-stack-2x text-success"></i>
                                                         <i class="fa fa-money fa-stack-1x text-white"></i>
                                                     </span>
-                                                    <small class="h3 text-muted text m-r-sm"><strong>Saldo Disponible:</strong></small>
-                                                    <span class="h3">
-                                                        S/. @Model.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)
+                                                    <small class="h4 text-muted text m-r-sm"><strong>Saldo Disponible:</strong></small>
+                                                    <span class="h4">
+                                                        @Model.SimboloMoneda @Model.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6">
+                                            <div class="row m-l-none m-r-none bg-light lter">
+                                                <div class="padder-v b-light text-left">
+                                                    <span class="fa-stack fa-2x pull-in m-r-sm">
+                                                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                                                        <i class="fa fa-info-circle fa-stack-1x text-white"></i>
+                                                    </span>
+                                                    <small class="h4 text-muted text m-r-sm"><strong>Saldo Bancario:</strong></small>
+                                                    <span class="h4">
+                                                        @Model.SimboloMoneda @Model.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)
                                                     </span>
                                                 </div>
                                             </div>
@@ -163,7 +183,7 @@
                                                             }
 
                                                             
-                                                            <td class="text-right" width="15%">S/. @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                            <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                             @if (obj.IdTipoMovimiento == 1)
                                                             {
                                                                 <td class="text-right" width="13%" style="color:#8EC100;">Entrada</td>}
