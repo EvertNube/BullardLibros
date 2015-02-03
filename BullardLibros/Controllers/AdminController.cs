@@ -74,16 +74,18 @@ namespace BullardLibros.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioDTO user)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 UsuariosBL usuariosBL = new UsuariosBL();
                 if (usuariosBL.isValidUser(user))
                 {
                     System.Web.HttpContext.Current.Session["User"] = usuariosBL.getUsuarioByCuenta(user);//new UsuarioDTO() { Nombre = "NubeLabs", IdUsuario = 1, IdRol = 1 }; //{ Nombre = "Responsable 1", IdUsuario = 2, IdRol = 3 };  //usuariosBL.getUsuarioByCuenta(user);
                     return RedirectToAction("Index");
                 }
-            }
-            return RedirectToAction("Ingresar");
+                else
+                    return RedirectToAction("Ingresar");
+            //}
+            
         }
         public ActionResult Logout()
         {
@@ -373,7 +375,6 @@ namespace BullardLibros.Controllers
         [HttpPost]
         public ActionResult AddUser(UsuarioDTO user, string passUser = "", string passChange = "")
         {
-
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             UsuarioDTO currentUser = getCurrentUser();
             if (!this.isAdministrator() && user.IdUsuario != currentUser.IdUsuario) { return RedirectToAction("Index"); }
@@ -397,11 +398,16 @@ namespace BullardLibros.Controllers
                             System.Web.HttpContext.Current.Session["User"] = usuariosBL.getUsuario(user.IdUsuario);
                             if (!this.getCurrentUser().Active) System.Web.HttpContext.Current.Session["User"] = null;
                         }
-                        return RedirectToAction("Usuarios");
+                        if (getCurrentUser().IdRol == 1)
+                            return RedirectToAction("Usuarios");
+                        else
+                            return RedirectToAction("Index");
                     }
                     else
                     {
                         createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE + "<br>Si está intentando actualizar la contraseña, verifique que ha ingresado la contraseña actual correctamente.");
+                        TempData["Usuario"] = user;
+                        return RedirectToAction("Usuario", new { id = user.IdUsuario });
                     }
 
                 }

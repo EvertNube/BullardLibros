@@ -263,7 +263,8 @@ namespace BullardLibros.Core.BL
                         Pass = r.Pass,
                         Active = r.Estado,
                         IdRol = r.IdRol,
-                        IdCargo = r.IdCargo
+                        IdCargo = r.IdCargo,
+                        NombreRol = r.Rol.Nombre
                     }).SingleOrDefault();
                 return result;
             }
