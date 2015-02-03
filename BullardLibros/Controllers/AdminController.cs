@@ -169,9 +169,33 @@ namespace BullardLibros.Controllers
             return RedirectToAction("Libro");
         }
 
+        public ActionResult LibroVista(int? id = null, int? page = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            ViewBag.IdCuentaBancaria = id;
+            ViewBag.Monedas = objBL.getMonedasBag(false);
+            
+            if (id != null)
+            {
+                CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
+                int pageSize = 20;
+                int pageNumber = (page ?? 1);
+                //Guardar Paginado
+                TempData["PagMovs"] = (page ?? 1);
+
+                obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
+                return View(obj);
+            }
+            return View();
+        }
+
         public ActionResult Categorias()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+            
             CategoriaBL objBL = new CategoriaBL();
             return View(objBL.getCategoriasTree());
         }
@@ -429,6 +453,7 @@ namespace BullardLibros.Controllers
         public ActionResult Entidades()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             return View(objBL.getEntidadResponsables());
         }

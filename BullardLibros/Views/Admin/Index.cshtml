@@ -60,6 +60,10 @@
                                             {
                                                 <td align="center"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
                                             }
+                                            else
+                                            {
+                                                <td align="center"><a href="@Url.Action("LibroVista", new { id = obj.IdCuentaBancaria })"><i class="fa fa-search"></i></a></td>
+                                            }
                                         </tr>
                                     }
                                 }
