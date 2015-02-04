@@ -120,7 +120,9 @@
                                                                 <td class="text-center" width="10%" style="color:red">Pendiente</td>}
                                                             else
                                                             {
-                                                                <td class="text-center" width="10%">Realizado</td> }
+                                                                @*<td class="text-center" width="10%">Realizado</td>*@
+                                                                <td class="text-center"><a class="btn btn-sm btn-success" href="@Url.Action("GenerarReporte", new { id = Model.IdCuentaBancaria, FechaInicio = obj.Fecha, FechaFin = Model.FechaConciliacion })"></a></td>
+                                                            }
                                                         </tr>
                                                     }
                                                 }
