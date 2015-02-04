@@ -2,35 +2,35 @@
     ViewBag.Title = "ReporteCategorias";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@{
-    string IdCuentaB = "";
-    string FechaInicio = "";
-    string FechaFin = "";
-}
-
 @section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#Reporte1').click(function () {
-                var IdCuentaB = $('#IdCuentaB').val();
-                var FechaInicio = $('#FechaInicio').val();
-                var FechaFin = $('#FechaFin').val();
+    $(document).ready(function () {
+        $('.Reporte1').click(function () {
+            var IdCuentaB = $("#IdCuentaB").val();
+            var FechaInicio = $("#FechaInicio").val();
+            var FechaFinal = $("#FechaFinal").val();
 
-                $.ajax({
-                    url: '/Admin/GenerarReporte',
-                    type: 'GET',
-                    data: { IdCuentaB : IdCuentaB, FechaInicio : FechaInicio, FechaFin : FechaFin },
-                    success: function(data){}
-                });
+            this.href = this.href.replace("val1", IdCuentaB);
+            this.href = this.href.replace("val2", FechaInicio);
+            this.href = this.href.replace("valor3", FechaFinal);
+                //$.ajax({
+                //    url: '/Admin/GenerarReporte',
+                //    type: 'GET',
+                //    data: { IdCuentaB: IdCuentaB, FechaInicio: FechaInicio, FechaFin: FechaFin },
+                //    cache: false,
+
+                //    success: function (returnValue) { window.location = '/Downloads?file=' + returnValue; }
+                //});
             });
         });
-            
-                $('#miboton').click(function () {
-                    @IdCuentaB = $('#IdCuentaB').val();
-                    @FechaInicio = $('#FechaInicio').val();
-                    @FechaFin = $('#FechaFin').val();
-                });
-            
+
+        //$(function () {
+        //    $('.link').click(function () {
+        //        var ipvalue = $("#IdCuentaB").val();
+        //        this.href = this.href.replace("val1", ipvalue);
+        //    });
+        //});
+
     </script>
 }
 
@@ -57,15 +57,15 @@
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <label for="FechaFin">Fecha Fin:</label>
-                                    @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                    @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @id = "FechaFinal", @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                 </div>
                                 <div class="form-group m-md">
                                     <label>Reporte por Categorías </label>
-                                    <button id="Reporte1" type="submit" class="btn btn-sm btn-success" style="margin-left:76px;">Generar Reporte</button>
-                                    <a class="btn btn-default" id="miboton" href="@Url.Action("GenerarReporte", "Admin", new { IdCuentaB = IdCuentaB })"><i class="fa fa-table"></i>&nbsp; Imprimir Excel</a>
-                                    <a class="btn btn-sm btn-success" data-toggle="tooltip" id="Reporte7">
+                                    @*<button id="Reporte1" type="submit" class="btn btn-sm btn-success" style="margin-left:76px;">Generar Reporte</button>*@
+                                    <a class="btn btn-sm btn-success Reporte1" href="@Url.Action("GenerarReporte", "Admin", new { IdCuentaB = "val1", FechaInicio = "val2", FechaFin = "valor3" })">
                                         <i class="fa fa-envelope"></i>
                                     </a>
+                                    @*<a class="btn btn-default" id="miboton" href="@Url.Action("GenerarReporte", "Admin", new { IdCuentaB = IdCuentaB })"><i class="fa fa-table"></i>&nbsp; Imprimir Excel</a>*@
                                 </div>
                                 <div class="form-group m-md">
                                     <label>Reporte Detalle de Movimientos </label>
