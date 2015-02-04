@@ -46,7 +46,7 @@
                                 {
                                     foreach(var obj in Model)
                                     {
-                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                        var classInactive = (!obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
                                             <td width="20%">@obj.NombreCuenta</td>
                                             <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>

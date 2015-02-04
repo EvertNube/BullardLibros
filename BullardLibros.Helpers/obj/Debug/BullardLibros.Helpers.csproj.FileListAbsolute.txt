@@ -39,9 +39,6 @@ C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLi
 C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Helpers\obj\Debug\BullardEncuestas.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\PlantillasProyectos\MVC\BullardLibro\BullardLibros.Helpers\obj\Debug\BullardEncuestas.Helpers.pdb
-D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\BullardEncuestas.Helpers.dll.config
-D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\BullardEncuestas.Helpers.dll
-D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\BullardEncuestas.Helpers.pdb
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.Helpers.dll
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.Mvc.dll
@@ -57,8 +54,6 @@ D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\S
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.xml
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.Razor.xml
-D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardEncuestas.Helpers.dll
-D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardEncuestas.Helpers.pdb
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Helpers\bin\Debug\BullardEncuestas.Helpers.dll.config
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Helpers\bin\Debug\BullardEncuestas.Helpers.dll
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros2\BullardLibros.Helpers\bin\Debug\BullardEncuestas.Helpers.pdb
@@ -100,3 +95,9 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bi
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.pdb
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.csprojResolveAssemblyReference.cache
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\BullardLibros.Helpers.dll.config
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\BullardLibros.Helpers.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\bin\Debug\BullardLibros.Helpers.pdb
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.csprojResolveAssemblyReference.cache
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.dll
+D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.pdb

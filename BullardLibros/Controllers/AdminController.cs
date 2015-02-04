@@ -578,7 +578,7 @@ namespace BullardLibros.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult GenerarReporte(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (IdCuentaB == null || FechaInicio == null || FechaFin == null)

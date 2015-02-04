@@ -2,6 +2,37 @@
     ViewBag.Title = "ReporteCategorias";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@{
+    string IdCuentaB = "";
+    string FechaInicio = "";
+    string FechaFin = "";
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Reporte1').click(function () {
+                var IdCuentaB = $('#IdCuentaB').val();
+                var FechaInicio = $('#FechaInicio').val();
+                var FechaFin = $('#FechaFin').val();
+
+                $.ajax({
+                    url: '/Admin/GenerarReporte',
+                    type: 'GET',
+                    data: { IdCuentaB : IdCuentaB, FechaInicio : FechaInicio, FechaFin : FechaFin },
+                    success: function(data){}
+                });
+            });
+        });
+            
+                $('#miboton').click(function () {
+                    @IdCuentaB = $('#IdCuentaB').val();
+                    @FechaInicio = $('#FechaInicio').val();
+                    @FechaFin = $('#FechaFin').val();
+                });
+            
+    </script>
+}
 
 <section class="vbox">
     <section class="scrollable padder">
@@ -10,31 +41,42 @@
                 <h2>Reporte</h2>
                 <div class="row m-b">
                     <div class="col-xs-12 col-md-12">
-                        @using (Html.BeginForm("GenerarReporte", "Admin", FormMethod.Post))
-                        {
-                            @Html.ValidationSummary(true)
+                        @Html.ValidationSummary(true)
 
-                            @Html.Partial("_showAlertMessages")
-                            <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Resumen de Categorías</header>
-                                <div class="panel-body">
-                                    <div class="form-group col-lg-4">
-                                        <label>Tipo de Movimiento</label>
-                                        @Html.DropDownList("IdCuentaB", new SelectList(ViewBag.Libros, "IdCuentaBancaria", "NombreCuenta", 0), new { @class = "form-control parsley-validated" })
-                                    </div>
-                                    <div class="form-group col-lg-4">
-                                        <label for="FechaInicio">Fecha Inicio:</label>
-                                        @Html.TextBox("FechaInicio", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
-                                    </div>
-                                    <div class="form-group col-lg-4">
-                                        <label for="FechaFin">Fecha Fin:</label>
-                                        @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
-                                    </div>
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    <button type="submit" class="btn btn-sm btn-success" style="margin-left:15px;">Generar Reporte</button>
+                        @Html.Partial("_showAlertMessages")
+                        <section class="panel panel-default">
+                            <header class="panel-heading font-bold">Resumen de Categorías</header>
+                            <div class="panel-body">
+                                <div class="form-group col-lg-4">
+                                    <label>Tipo de Movimiento</label>
+                                    @Html.DropDownList("IdCuentaB", new SelectList(ViewBag.Libros, "IdCuentaBancaria", "NombreCuenta", 0), new { @class = "form-control parsley-validated" })
                                 </div>
-                            </section>
-                        }
+                                <div class="form-group col-lg-4">
+                                    <label for="FechaInicio">Fecha Inicio:</label>
+                                    @Html.TextBox("FechaInicio", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label for="FechaFin">Fecha Fin:</label>
+                                    @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                </div>
+                                <div class="form-group m-md">
+                                    <label>Reporte por Categorías </label>
+                                    <button id="Reporte1" type="submit" class="btn btn-sm btn-success" style="margin-left:76px;">Generar Reporte</button>
+                                    <a class="btn btn-default" id="miboton" href="@Url.Action("GenerarReporte", "Admin", new { IdCuentaB = IdCuentaB })"><i class="fa fa-table"></i>&nbsp; Imprimir Excel</a>
+                                    <a class="btn btn-sm btn-success" data-toggle="tooltip" id="Reporte7">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                </div>
+                                <div class="form-group m-md">
+                                    <label>Reporte Detalle de Movimientos </label>
+                                    <button id="Reporte2" type="submit" class="btn btn-sm btn-success" style="margin-left:15px;">Generar Reporte</button>
+                                </div>
+                                <div class="form-group m-md">
+                                    <label>Reporte por Entidades </label>
+                                    <button id="Reporte3" type="submit" class="btn btn-sm btn-success" style="margin-left:81px;">Generar Reporte</button>
+                                </div>
+                                </div>
+                        </section>
                     </div>
                 </div>
             </div>
