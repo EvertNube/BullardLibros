@@ -752,6 +752,73 @@ namespace BullardLibros.Controllers
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
 
+        public ActionResult GenerarReporteResumenEntidadesR(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EntidadResponsableBL objBL = new EntidadResponsableBL();
+
+            var data = objBL.getReporteResumenEntidadesR(IdCuentaB, FechaInicio, FechaFin);
+
+            if (data == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Entidad Responsable");
+            dt.Columns.Add("Detracción");
+            dt.Columns.Add("Montos Totales");
+
+            foreach(var item in data)
+            {
+                System.Data.DataRow row = dt.NewRow();
+
+                row["Entidad Responsable"] = item.Nombre;
+                row["Detracción"] = item.Detraccion;
+                row["Montos Totales"] = item.Monto;
+
+                dt.Rows.Add(row);
+            }
+
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                CuentaBancariaBL oBL = new CuentaBancariaBL();
+                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
+
+                AddSuperHeader(gv, "RESUMEN DE MOVIMIENTOS EN ENTIDADES - Libro:" + obj.NombreCuenta);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
+                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
 
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
         {

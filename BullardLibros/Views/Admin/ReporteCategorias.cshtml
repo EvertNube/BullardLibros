@@ -6,21 +6,13 @@
     <script type="text/javascript">
     $(document).ready(function () {
         $('#reporte1').click(function () {
-            //var IdCuentaB = $("#IdCuentaB").val();
-
-            //var FechaInicio = $("#FechaInicio").val().split("/");
-            
-            //FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
-
-            //var FechaFin = $("#FechaFin").val().split("/");
-            //FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
-
-            //this.href = "/Admin/GenerarReporte/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
-
             this.href = GenerarReporte(1);
         });
         $('#reporte2').click(function () {
             this.href = GenerarReporte(2);
+        });
+        $('#reporte3').click(function () {
+            this.href = GenerarReporte(3);
         });
 
     });
@@ -45,6 +37,7 @@
                 return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
             case 3:
+                return "/Admin/GenerarReporteResumenEntidadesR/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
         }
     }

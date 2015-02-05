@@ -98,5 +98,20 @@ namespace BullardLibros.Core.BL
                 }
             }
         }
+
+        public IList<EntidadResponsableR_DTO> getReporteResumenEntidadesR(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_GetReporteResumenEntidadesRes(IdCuentaB, FechaInicio, FechaFin).Select(x => new EntidadResponsableR_DTO
+                    {
+                        IdEntidadResponsable = x.IdEntidadResponsable,
+                        Nombre = x.Nombre,
+                        Detraccion = x.Detraccion,
+                        Monto = x.MontoTotal.GetValueOrDefault()
+                    }).ToList();
+                return result;
+            }
+        }
     }
 }
