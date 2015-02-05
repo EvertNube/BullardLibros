@@ -130,11 +130,6 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
-    <FunctionImport Name="SP_GetReporteResumenCategorias" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result)">
-      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
-      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-    </FunctionImport>
     <FunctionImport Name="SP_ActualizarMontos">
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -153,6 +148,21 @@
       <End Role="Moneda" EntitySet="Moneda" />
       <End Role="TipoCambio" EntitySet="TipoCambio" />
     </AssociationSet>
+    <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteDetalleMovimientos_Result)">
+      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetReporteResumenCategorias" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result)">
+      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetReporteResumenEntidadesRes" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenEntidadesRes_Result)">
+      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -270,12 +280,6 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
-  <ComplexType Name="SP_GetReporteResumenCategorias_Result">
-    <Property Type="Int32" Name="IdCategoria" Nullable="false" />
-    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
-    <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
-    <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
-  </ComplexType>
   <EntityType Name="CuentaBancaria">
     <Key>
       <PropertyRef Name="IdCuentaBancaria" />
@@ -346,4 +350,35 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
+    <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
+    <Property Type="Int32" Name="IdCuentaBancaria" Nullable="false" />
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="Int32" Name="IdTipoMovimiento" Nullable="false" />
+    <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+    <Property Type="Int32" Name="IdEstadoMovimiento" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="String" Name="NumeroDocumento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Comentario" Nullable="false" />
+    <Property Type="Boolean" Name="Estado" Nullable="false" />
+    <Property Type="Int32" Name="UsuarioCreacion" Nullable="false" />
+    <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="EntidadResNombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CategoriaNombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="UsuarioNombre" Nullable="false" MaxLength="40" />
+  </ComplexType>
+  <ComplexType Name="SP_GetReporteResumenCategorias_Result">
+    <Property Type="Int32" Name="IdCategoria" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetReporteResumenEntidadesRes_Result">
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
 </Schema>

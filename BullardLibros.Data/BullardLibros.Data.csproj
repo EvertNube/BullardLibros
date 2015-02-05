@@ -86,7 +86,13 @@
     <Compile Include="Rol.cs">
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GetReporteDetalleMovimientos_Result.cs">
+      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GetReporteResumenCategorias_Result.cs">
+      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetReporteResumenEntidadesRes_Result.cs">
       <DependentUpon>CuentasBancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagramdefinition_Result.cs">

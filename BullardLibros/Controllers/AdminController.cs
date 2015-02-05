@@ -115,7 +115,7 @@ namespace BullardLibros.Controllers
             if (id != null)
             {
                 CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
-                int pageSize = 20;
+                int pageSize = 100;
                 int pageNumber = (page ?? 1);
                 //Guardar Paginado
                 TempData["PagMovs"] = (page ?? 1);
@@ -579,7 +579,7 @@ namespace BullardLibros.Controllers
         }
 
         [HttpGet]
-        public ActionResult GenerarReporte(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        public ActionResult GenerarReporteCategorias(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
             {
@@ -672,6 +672,86 @@ namespace BullardLibros.Controllers
             return RedirectToAction("ReporteCategorias", new { message = 2 });
             //return View();
         }
+
+        public ActionResult GenerarReporteDetalleMovimientos(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
+            {
+
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            MovimientoBL objBL = new MovimientoBL();
+
+            var data = objBL.getReporteDetalleLibro(IdCuentaB, FechaInicio, FechaFin);
+
+            if (data == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Categoria");
+            dt.Columns.Add("Entidad");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("N° Doc");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Tipo");
+            dt.Columns.Add("Estado");
+
+            foreach(var item in data)
+            {
+                System.Data.DataRow row = dt.NewRow();
+
+                row["Nombre"] = item.Nombre;
+                row["Categoria"] = item.NombreCategoria;
+                row["Entidad"] = item.NombreEntidadR;
+                row["Fecha"] = item.Fecha.ToShortDateString();
+                row["N° Doc"] = (item.NumeroDocumento != null && item.NumeroDocumento != "0") ? item.NumeroDocumento : "N/A";
+                row["Monto"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Tipo"] = item.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
+                row["Estado"] = item.IdEstadoMovimiento == 1 ? "Pendiente" : "Realizado";
+
+                dt.Rows.Add(row);
+            }
+
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                CuentaBancariaBL oBL = new CuentaBancariaBL();
+                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
+
+                AddSuperHeader(gv, "DETALLE DE MOVIMIENTOS - Libro:" + obj.NombreCuenta);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
+                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+
 
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
         {

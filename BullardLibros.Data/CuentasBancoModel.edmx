@@ -242,6 +242,12 @@
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="FN_GetSumaMovsEntResEnLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+          <Parameter Name="IdEntidadResponsable" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="SP_ActualizarMontos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCuentaB" Type="int" Mode="In" />
         </Function>
@@ -261,7 +267,17 @@
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_GetReporteDetalleMovimientos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="SP_GetReporteResumenCategorias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_GetReporteResumenEntidadesRes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCuentaB" Type="int" Mode="In" />
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
@@ -463,11 +479,6 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <FunctionImport Name="SP_GetReporteResumenCategorias" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result)">
-            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
-            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="SP_ActualizarMontos">
           <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -486,6 +497,21 @@
             <End Role="Moneda" EntitySet="Moneda" />
             <End Role="TipoCambio" EntitySet="TipoCambio" />
           </AssociationSet>
+          <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteDetalleMovimientos_Result)">
+            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetReporteResumenCategorias" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result)">
+            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetReporteResumenEntidadesRes" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenEntidadesRes_Result)">
+            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -603,12 +629,6 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="SP_GetReporteResumenCategorias_Result">
-          <Property Type="Int32" Name="IdCategoria" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
-          <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
-        </ComplexType>
         <EntityType Name="CuentaBancaria">
           <Key>
             <PropertyRef Name="IdCuentaBancaria" />
@@ -679,6 +699,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
+          <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
+          <Property Type="Int32" Name="IdCuentaBancaria" Nullable="false" />
+          <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+          <Property Type="Int32" Name="IdTipoMovimiento" Nullable="false" />
+          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+          <Property Type="Int32" Name="IdEstadoMovimiento" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="String" Name="NumeroDocumento" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Comentario" Nullable="false" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="Int32" Name="UsuarioCreacion" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+          <Property Type="String" Name="EntidadResNombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CategoriaNombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UsuarioNombre" Nullable="false" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="SP_GetReporteResumenCategorias_Result">
+          <Property Type="Int32" Name="IdCategoria" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GetReporteResumenEntidadesRes_Result">
+          <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -804,16 +855,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_upgraddiagrams" />
-          <FunctionImportMapping FunctionImportName="SP_GetReporteResumenCategorias" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteResumenCategorias">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result">
-                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
-                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_ActualizarMontos" />
           <EntitySetMapping Name="CuentaBancaria">
             <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.CuentaBancaria">
@@ -847,6 +888,49 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetReporteDetalleMovimientos" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteDetalleMovimientos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteDetalleMovimientos_Result">
+                <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+                <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="EntidadResNombre" ColumnName="EntidadResNombre" />
+                <ScalarProperty Name="CategoriaNombre" ColumnName="CategoriaNombre" />
+                <ScalarProperty Name="UsuarioNombre" ColumnName="UsuarioNombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetReporteResumenCategorias" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteResumenCategorias">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetReporteResumenEntidadesRes" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteResumenEntidadesRes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteResumenEntidadesRes_Result">
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

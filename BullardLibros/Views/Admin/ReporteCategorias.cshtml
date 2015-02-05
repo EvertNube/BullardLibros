@@ -6,57 +6,48 @@
     <script type="text/javascript">
     $(document).ready(function () {
         $('#reporte1').click(function () {
-            var IdCuentaB = $("#IdCuentaB").val();
-            //var FechaInicio = $("#FechaInicio").val();
+            //var IdCuentaB = $("#IdCuentaB").val();
 
-            //var FechaInicio = $('#FechaInicio').datepicker({ dateFormat: 'mm/dd/yy' }).val();
-
-            var FechaInicio = $("#FechaInicio").val().split("/");
-            //f = new Date(from[2], from[1] - 1, from[0]);
-            FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
-
-            //var FechaInicio = $('#FechaInicio').datepicker("option", "dateformat", "mm/dd/yy").val();
-
-            //var FechaInicio = $.datepicker.formatDate('mm/dd/yy', new Date($("#FechaInicio").val()));
-
-
-            //FechaInicio = (FechaInicio.getDate() + 1) + '/' + FechaInicio.getMonth() + '/' + FechaInicio.getFullYear();
-            var FechaFin = $("#FechaFin").val().split("/");
-            FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
-
-            ///Admin/GenerarReporte?IdCuentaB=val1&amp;FechaInicio=val2&amp;FechaFin=valor3
-            //"/Admin/GenerarReporte?IdCuentaB=" + IdCuentaB + "&amp;" + "FechaInicio=" + FechaInicio + "&amp;" + "FechaFin=" + FechaFin + "&amp;";
-            this.href = "/Admin/GenerarReporte/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
-
+            //var FechaInicio = $("#FechaInicio").val().split("/");
             
+            //FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
 
-            @*var actionUrl = '@Url.Action("GenerarReporte", "Admin", new { IdCuentaB = "placeh1", FechaInicio = "placeh2", FechaFin = "placeh3" })';
-            window.open(actionUrl.replace('placeh1', IdCuentaB));
-            window.open(actionUrl.replace('placeh2', FechaInicio));
-            window.open(actionUrl.replace('placeh3', FechaFin));
+            //var FechaFin = $("#FechaFin").val().split("/");
+            //FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
-            this.href = actionUrl;*@
+            //this.href = "/Admin/GenerarReporte/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
 
-            //this.href = this.href.replace("val1", IdCuentaB);
-            //this.href = this.href.replace("val2", FechaInicio);
-            //this.href = this.href.replace("valor3", FechaFinal);
-                //$.ajax({
-                //    url: '/Admin/GenerarReporte',
-                //    type: 'GET',
-                //    data: { IdCuentaB: IdCuentaB, FechaInicio: FechaInicio, FechaFin: FechaFin },
-                //    cache: false,
-
-                //    success: function (returnValue) { window.location = '/Downloads?file=' + returnValue; }
-                //});
-            });
+            this.href = GenerarReporte(1);
+        });
+        $('#reporte2').click(function () {
+            this.href = GenerarReporte(2);
         });
 
-        //$(function () {
-        //    $('.link').click(function () {
-        //        var ipvalue = $("#IdCuentaB").val();
-        //        this.href = this.href.replace("val1", ipvalue);
-        //    });
-        //});
+    });
+
+    function GenerarReporte(nrep)
+    {
+        var IdCuentaB = $("#IdCuentaB").val();
+
+        var FechaInicio = $("#FechaInicio").val().split("/");
+
+        FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+
+        var FechaFin = $("#FechaFin").val().split("/");
+        FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+        switch(nrep)
+        {
+            case 1:
+                return "/Admin/GenerarReporteCategorias/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            case 2:
+                return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            case 3:
+                break;
+        }
+    }
 
     </script>
 }
@@ -88,19 +79,21 @@
                                 </div>
                                 <div class="form-group m-md">
                                     <label>Reporte por Categorías </label>
-                                    @*<button id="Reporte1" type="submit" class="btn btn-sm btn-success" style="margin-left:76px;">Generar Reporte</button>*@
-                                    <a class="btn btn-sm btn-success" id="reporte1" >
-                                        <i class="fa fa-envelope"></i>
+                                    <a class="btn btn-sm btn-success" id="reporte1" style="margin-left:76px;" >
+                                        Generar Reporte
                                     </a>
-                                    @*<a class="btn btn-default" id="miboton" href="@Url.Action("GenerarReporte", "Admin", new { IdCuentaB = IdCuentaB })"><i class="fa fa-table"></i>&nbsp; Imprimir Excel</a>*@
                                 </div>
                                 <div class="form-group m-md">
                                     <label>Reporte Detalle de Movimientos </label>
-                                    <button id="Reporte2" type="submit" class="btn btn-sm btn-success" style="margin-left:15px;">Generar Reporte</button>
+                                    <a class="btn btn-sm btn-success" id="reporte2" style="margin-left:15px;">
+                                        Generar Reporte
+                                    </a>
                                 </div>
                                 <div class="form-group m-md">
                                     <label>Reporte por Entidades </label>
-                                    <button id="Reporte3" type="submit" class="btn btn-sm btn-success" style="margin-left:81px;">Generar Reporte</button>
+                                    <a class="btn btn-sm btn-success" id="reporte3" style="margin-left:81px;">
+                                        Generar Reporte
+                                    </a>
                                 </div>
                                 </div>
                         </section>

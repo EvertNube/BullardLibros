@@ -195,5 +195,33 @@ namespace BullardLibros.Core.BL
                 oBL.updateSaldos(idCuentaB);
             }
         }
+
+        public IList<MovimientoDTO> getReporteDetalleLibro(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_GetReporteDetalleMovimientos(IdCuentaB, FechaInicio, FechaFin).Select(x => new MovimientoDTO
+                {
+                    IdMovimiento = x.IdMovimiento,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoMovimiento = x.IdTipoMovimiento,
+                    IdCategoria = x.IdCategoria,
+                    IdEstadoMovimiento = x.IdEstadoMovimiento,
+                    Nombre = x.Nombre,
+                    Fecha = x.Fecha,
+                    Monto = x.Monto,
+                    NumeroDocumento = x.NumeroDocumento,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    FechaCreacion = x.FechaCreacion,
+                    NombreEntidadR = x.EntidadResNombre,
+                    NombreCategoria = x.CategoriaNombre,
+                    NombreUsuario = x.UsuarioNombre
+                }).ToList();
+                return result;
+            }
+        }
     }
 }

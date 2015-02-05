@@ -175,7 +175,7 @@
                                                             <td class="text-center" width="10%" style="color:#428bca;">@obj.NombreCategoria</td>
                                                             <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
                                                             <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                            @if (obj.NumeroDocumento != "0")
+                                                            @if (obj.NumeroDocumento != null)
                                                             {
                                                                 <td class="text-center" width="10%">@obj.NumeroDocumento</td>
                                                             }
