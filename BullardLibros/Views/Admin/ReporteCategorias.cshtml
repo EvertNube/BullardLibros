@@ -7,10 +7,22 @@
     $(document).ready(function () {
         $('#reporte1').click(function () {
             var IdCuentaB = $("#IdCuentaB").val();
-            //var FechaInicio = new Date($("#FechaInicio").val());
-            var FechaInicio = $('#FechaInicio').datepicker("option", "dateformat", "mm/dd/yy").val();
+            //var FechaInicio = $("#FechaInicio").val();
+
+            //var FechaInicio = $('#FechaInicio').datepicker({ dateFormat: 'mm/dd/yy' }).val();
+
+            var FechaInicio = $("#FechaInicio").val().split("/");
+            //f = new Date(from[2], from[1] - 1, from[0]);
+            FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+
+            //var FechaInicio = $('#FechaInicio').datepicker("option", "dateformat", "mm/dd/yy").val();
+
+            //var FechaInicio = $.datepicker.formatDate('mm/dd/yy', new Date($("#FechaInicio").val()));
+
+
             //FechaInicio = (FechaInicio.getDate() + 1) + '/' + FechaInicio.getMonth() + '/' + FechaInicio.getFullYear();
-            var FechaFin = $("#FechaFin").val();
+            var FechaFin = $("#FechaFin").val().split("/");
+            FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
             ///Admin/GenerarReporte?IdCuentaB=val1&amp;FechaInicio=val2&amp;FechaFin=valor3
             //"/Admin/GenerarReporte?IdCuentaB=" + IdCuentaB + "&amp;" + "FechaInicio=" + FechaInicio + "&amp;" + "FechaFin=" + FechaFin + "&amp;";
