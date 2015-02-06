@@ -16,17 +16,17 @@
                 <div class="row m-b">
                     <div class="col-xs-12 col-md-12">
                         <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Formulario de Detalle</header>
+                                @*<header class="panel-heading font-bold">Formulario de Detalle</header>*@
                                 <div class="panel-body">
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
                                         <label>Nombre de Cuenta</label>
                                         @Html.Label(@Model.NombreCuenta, new { @class = "form-control", @type = "text" })
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
                                         <label>Fecha de conciliación</label>
                                         @Html.Label(@Model.FechaConciliacion.ToShortDateString(), new { @class = "form-control", @type = "text" })
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-4">
                                         <label>Moneda</label>
                                         @Html.Label(@Model.NombreMoneda, new { @class = "form-control", @type = "text" })
                                     </div>

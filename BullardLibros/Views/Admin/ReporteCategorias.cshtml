@@ -56,7 +56,7 @@
 
                         @Html.Partial("_showAlertMessages")
                         <section class="panel panel-default">
-                            <header class="panel-heading font-bold">Resumen de Categorías</header>
+                            <header class="panel-heading font-bold">Generar Reportes</header>
                             <div class="panel-body">
                                 <div class="form-group col-lg-4">
                                     <label>Tipo de Movimiento</label>
@@ -70,21 +70,21 @@
                                     <label for="FechaFin">Fecha Fin:</label>
                                     @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                 </div>
-                                <div class="form-group m-md">
+                                <div class="form-group col-md-4 text-center">
                                     <label>Reporte por Categorías </label>
-                                    <a class="btn btn-sm btn-success" id="reporte1" style="margin-left:76px;" >
+                                    <a class="btn btn-sm btn-success" id="reporte1">
                                         Generar Reporte
                                     </a>
                                 </div>
-                                <div class="form-group m-md">
+                                <div class="form-group col-md-4 text-center">
                                     <label>Reporte Detalle de Movimientos </label>
-                                    <a class="btn btn-sm btn-success" id="reporte2" style="margin-left:15px;">
+                                    <a class="btn btn-sm btn-success" id="reporte2">
                                         Generar Reporte
                                     </a>
                                 </div>
-                                <div class="form-group m-md">
+                                <div class="form-group col-md-4 text-center">
                                     <label>Reporte por Entidades </label>
-                                    <a class="btn btn-sm btn-success" id="reporte3" style="margin-left:81px;">
+                                    <a class="btn btn-sm btn-success" id="reporte3">
                                         Generar Reporte
                                     </a>
                                 </div>

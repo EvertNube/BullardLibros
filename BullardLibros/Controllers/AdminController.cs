@@ -656,7 +656,7 @@ namespace BullardLibros.Controllers
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename="+ obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy")  + ".xls");
+                Response.AddHeader("content-disposition", "attachment; filename="+ obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy")  + "_RCategorias.xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 
@@ -736,7 +736,7 @@ namespace BullardLibros.Controllers
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + "DMovimientos.xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 
@@ -804,7 +804,7 @@ namespace BullardLibros.Controllers
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + "REntidades.xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 
