@@ -66,37 +66,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CuentaBancaria">
-      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.CuentaBancaria">
-        <MappingFragment StoreEntitySet="CuentaBancaria">
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
-          <ScalarProperty Name="SaldoDisponible" ColumnName="SaldoDisponible" />
-          <ScalarProperty Name="FechaConciliacion" ColumnName="FechaConciliacion" />
-          <ScalarProperty Name="NombreCuenta" ColumnName="NombreCuenta" />
-          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Moneda">
-      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Moneda">
-        <MappingFragment StoreEntitySet="Moneda">
-          <ScalarProperty Name="Moneda1" ColumnName="Moneda" />
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TipoCambio">
-      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.TipoCambio">
-        <MappingFragment StoreEntitySet="TipoCambio">
-          <ScalarProperty Name="Valor" ColumnName="Valor" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-          <ScalarProperty Name="IdTipoCambio" ColumnName="IdTipoCambio" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="EntidadResponsable">
       <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.EntidadResponsable">
         <MappingFragment StoreEntitySet="EntidadResponsable">
@@ -152,6 +121,61 @@
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BULLARD.CuentasBancoDbModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_ActualizarMontos" />
+    <EntitySetMapping Name="CuentaBancaria">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.CuentaBancaria">
+        <MappingFragment StoreEntitySet="CuentaBancaria">
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
+          <ScalarProperty Name="SaldoDisponible" ColumnName="SaldoDisponible" />
+          <ScalarProperty Name="FechaConciliacion" ColumnName="FechaConciliacion" />
+          <ScalarProperty Name="NombreCuenta" ColumnName="NombreCuenta" />
+          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoCambio">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.TipoCambio">
+        <MappingFragment StoreEntitySet="TipoCambio">
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="IdTipoCambio" ColumnName="IdTipoCambio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Moneda">
+      <EntityTypeMapping TypeName="BULLARD.CuentasBancoDbModel.Moneda">
+        <MappingFragment StoreEntitySet="Moneda">
+          <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_GetReporteDetalleMovimientos" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteDetalleMovimientos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteDetalleMovimientos_Result">
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="EntidadResNombre" ColumnName="EntidadResNombre" />
+          <ScalarProperty Name="CategoriaNombre" ColumnName="CategoriaNombre" />
+          <ScalarProperty Name="UsuarioNombre" ColumnName="UsuarioNombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_GetReporteResumenCategorias" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteResumenCategorias">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result">
@@ -159,6 +183,16 @@
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
           <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_GetReporteResumenEntidadesRes" FunctionName="BULLARD.CuentasBancoDbModel.Store.SP_GetReporteResumenEntidadesRes">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BULLARD.CuentasBancoDbModel.SP_GetReporteResumenEntidadesRes_Result">
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+          <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

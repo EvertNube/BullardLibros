@@ -57,6 +57,16 @@
                 return false;
             }
         }
+
+        function ModificarCombos() {
+            if ($('#Nombre').val() == 'INGRESOS' || $('#Nombre').val() == 'ingresos')
+            {
+                $('#IdTipoMovimiento').prop('selectedIndex', 1);
+                $('#IdEstadoMovimiento').prop('selectedIndex', 1);
+                //document.getElementById("IdTipoMovimiento").selectedIndex = 1;
+            }
+        }
+        
     </script>
 }
 <section class="vbox">
@@ -80,11 +90,11 @@
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                @*<header class="panel-heading font-bold">Formulario de Registro</header>*@
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label>Nombre</label>
-                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del movimiento", @type = "text" })
+                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
                                     @{

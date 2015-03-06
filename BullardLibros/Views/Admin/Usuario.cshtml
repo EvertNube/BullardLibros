@@ -53,12 +53,18 @@
                                         @Html.ValidationMessageFor(u => u.Email)
                                     </div>
                                     @if (ViewBag.EsSuperAdmin)
-                                    { 
+                                    {
+                                        var rol = "Sin Rol";
+                                        if(Model != null)
+                                        {
+                                            rol = Model.NombreRol;
+                                        }
                                         <div class="form-group">
-                                            <label>Rol Actual : <font color="#3498db">@Model.NombreRol</font></label>
+                                            <label>Rol Actual : <font color="#3498db">@rol</font></label>
                                             @Html.DropDownListFor(u => u.IdRol, new SelectList(ViewBag.vbRls, "SelectItemId", "SelectItemName", Model != null ? (Model.IdRol != null ? Model.IdRol : 0) : 0), new { @class = "form-control parsley-validated" })
                                             @Html.ValidationMessageFor(u => u.IdRol)
                                         </div>
+                                        
                                     }
                                     else
                                     {

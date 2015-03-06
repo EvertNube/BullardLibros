@@ -46,12 +46,12 @@
                                 {
                                     foreach(var obj in Model)
                                     {
-                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                        var classInactive = (!obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
                                             <td width="20%">@obj.NombreCuenta</td>
                                             <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                            <td class="text-right" width="15%">S/. @obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                            <td class="text-right" width="15%">S/. @obj.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                            <td class="text-right" width="15%">@obj.SimboloMoneda @obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                            <td class="text-right" width="15%">@obj.SimboloMoneda @obj.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
                                             @if(obj.Estado == true)
                                             {<td class="text-center" width="10%">Activo</td>}
                                             else{<td class="text-center" width="10%">Inactivo</td>}
@@ -59,6 +59,10 @@
                                             @if (ViewBag.EsAdmin)
                                             {
                                                 <td align="center"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
+                                            }
+                                            else
+                                            {
+                                                <td align="center"><a href="@Url.Action("LibroVista", new { id = obj.IdCuentaBancaria })"><i class="fa fa-search"></i></a></td>
                                             }
                                         </tr>
                                     }

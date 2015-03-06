@@ -180,7 +180,7 @@ namespace BullardLibros.Controllers
             if (id != null)
             {
                 CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
-                int pageSize = 20;
+                int pageSize = 100;
                 int pageNumber = (page ?? 1);
                 //Guardar Paginado
                 TempData["PagMovs"] = (page ?? 1);
@@ -297,10 +297,6 @@ namespace BullardLibros.Controllers
                 nuevo.Fecha = DateTime.Now;
                 nuevo.NumeroDocumento = null;
                 nuevo.Comentario = "No existe comentario";
-                //nuevo.IdEntidadResponsable = 1;
-                //nuevo.IdTipoMovimiento = 1;
-                //nuevo.IdCategoria = 1;
-                //nuevo.IdEstadoMovimiento = 1;
                 nuevo.Estado = true;
                 nuevo.UsuarioCreacion = getCurrentUser().IdUsuario;
                 nuevo.FechaCreacion = DateTime.Now;
@@ -311,6 +307,7 @@ namespace BullardLibros.Controllers
                 if (id != null)
                 {
                     MovimientoDTO obj = objBL.getMovimiento((int)id);
+                    obj.UsuarioCreacion = getCurrentUser().IdUsuario;
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoria.GetValueOrDefault());
                     return View(obj);
                 }

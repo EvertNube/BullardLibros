@@ -137,7 +137,6 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\Antlr3
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\BullardLibros.Core.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\EntityFramework.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\Microsoft.Web.Infrastructure.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\Newtonsoft.Json.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\PagedList.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Mvc.dll
@@ -163,13 +162,9 @@ C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\obj\Debug\
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\EntityFramework.SqlServer.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\EntityFramework.SqlServer.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Abstractions.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.WebHost.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Routing.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.WebHost.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Net.Http.Formatting.dll
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Net.Http.Formatting.xml
-C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.xml
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\BullardLibros.dll.config
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\BullardLibros.dll
 C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\BullardLibros.pdb
@@ -202,3 +197,12 @@ D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.WebHost.xml
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\obj\Debug\BullardLibros.dll
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\obj\Debug\BullardLibros.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Helpers.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.WebHost.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\Antlr3.Runtime.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Helpers.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Http.WebHost.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Optimization.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros\bin\System.Web.Providers.xml

@@ -78,25 +78,10 @@
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
     <EntitySet Name="sysdiagrams" EntityType="BULLARD.CuentasBancoDbModel.sysdiagrams" />
-    <EntitySet Name="CuentaBancaria" EntityType="BULLARD.CuentasBancoDbModel.CuentaBancaria" />
-    <EntitySet Name="Moneda" EntityType="BULLARD.CuentasBancoDbModel.Moneda" />
-    <EntitySet Name="TipoCambio" EntityType="BULLARD.CuentasBancoDbModel.TipoCambio" />
-    <AssociationSet Name="FK_CuentaBancaria_Moneda" Association="BULLARD.CuentasBancoDbModel.FK_CuentaBancaria_Moneda">
-      <End Role="Moneda" EntitySet="Moneda" />
-      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TipoCambio_Moneda" Association="BULLARD.CuentasBancoDbModel.FK_TipoCambio_Moneda">
-      <End Role="Moneda" EntitySet="Moneda" />
-      <End Role="TipoCambio" EntitySet="TipoCambio" />
-    </AssociationSet>
     <EntitySet Name="EntidadResponsable" EntityType="BULLARD.CuentasBancoDbModel.EntidadResponsable" />
     <EntitySet Name="Movimiento" EntityType="BULLARD.CuentasBancoDbModel.Movimiento" />
     <AssociationSet Name="FK_Movimiento_Categoria" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_Categoria">
       <End Role="Categoria" EntitySet="Categoria" />
-      <End Role="Movimiento" EntitySet="Movimiento" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria">
-      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_EntidadResponsable" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_EntidadResponsable">
@@ -148,7 +133,32 @@
     <FunctionImport Name="SP_ActualizarMontos">
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
     </FunctionImport>
+    <EntitySet Name="CuentaBancaria" EntityType="BULLARD.CuentasBancoDbModel.CuentaBancaria" />
+    <EntitySet Name="TipoCambio" EntityType="BULLARD.CuentasBancoDbModel.TipoCambio" />
+    <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria">
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <EntitySet Name="Moneda" EntityType="BULLARD.CuentasBancoDbModel.Moneda" />
+    <AssociationSet Name="FK_CuentaBancaria_Moneda" Association="BULLARD.CuentasBancoDbModel.FK_CuentaBancaria_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoCambio_Moneda" Association="BULLARD.CuentasBancoDbModel.FK_TipoCambio_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="TipoCambio" EntitySet="TipoCambio" />
+    </AssociationSet>
+    <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteDetalleMovimientos_Result)">
+      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
     <FunctionImport Name="SP_GetReporteResumenCategorias" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenCategorias_Result)">
+      <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetReporteResumenEntidadesRes" ReturnType="Collection(BULLARD.CuentasBancoDbModel.SP_GetReporteResumenEntidadesRes_Result)">
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
@@ -164,63 +174,6 @@
     <Property Name="version" Type="Int32" />
     <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
-  <EntityType Name="CuentaBancaria">
-    <Key>
-      <PropertyRef Name="IdCuentaBancaria" />
-    </Key>
-    <Property Name="IdCuentaBancaria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="NombreCuenta" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-    <Property Name="FechaConciliacion" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="SaldoDisponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-    <Property Name="SaldoBancario" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
-    <Property Name="IdMoneda" Type="Int32" />
-    <NavigationProperty Name="Moneda" Relationship="BULLARD.CuentasBancoDbModel.FK_CuentaBancaria_Moneda" FromRole="CuentaBancaria" ToRole="Moneda" />
-    <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Movimiento" />
-  </EntityType>
-  <EntityType Name="Moneda">
-    <Key>
-      <PropertyRef Name="IdMoneda" />
-    </Key>
-    <Property Name="IdMoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Moneda1" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="CuentaBancaria" Relationship="BULLARD.CuentasBancoDbModel.FK_CuentaBancaria_Moneda" FromRole="Moneda" ToRole="CuentaBancaria" />
-    <NavigationProperty Name="TipoCambio" Relationship="BULLARD.CuentasBancoDbModel.FK_TipoCambio_Moneda" FromRole="Moneda" ToRole="TipoCambio" />
-  </EntityType>
-  <EntityType Name="TipoCambio">
-    <Key>
-      <PropertyRef Name="IdTipoCambio" />
-    </Key>
-    <Property Name="IdTipoCambio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdMoneda" Type="Int32" Nullable="false" />
-    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="Valor" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-    <NavigationProperty Name="Moneda" Relationship="BULLARD.CuentasBancoDbModel.FK_TipoCambio_Moneda" FromRole="TipoCambio" ToRole="Moneda" />
-  </EntityType>
-  <Association Name="FK_CuentaBancaria_Moneda">
-    <End Type="BULLARD.CuentasBancoDbModel.Moneda" Role="Moneda" Multiplicity="0..1" />
-    <End Type="BULLARD.CuentasBancoDbModel.CuentaBancaria" Role="CuentaBancaria" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Moneda">
-        <PropertyRef Name="IdMoneda" />
-      </Principal>
-      <Dependent Role="CuentaBancaria">
-        <PropertyRef Name="IdMoneda" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TipoCambio_Moneda">
-    <End Type="BULLARD.CuentasBancoDbModel.Moneda" Role="Moneda" Multiplicity="1" />
-    <End Type="BULLARD.CuentasBancoDbModel.TipoCambio" Role="TipoCambio" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Moneda">
-        <PropertyRef Name="IdMoneda" />
-      </Principal>
-      <Dependent Role="TipoCambio">
-        <PropertyRef Name="IdMoneda" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="EntidadResponsable">
     <Key>
       <PropertyRef Name="IdEntidadResponsable" />
@@ -250,11 +203,11 @@
     <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Categoria" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_Categoria" FromRole="Movimiento" ToRole="Categoria" />
-    <NavigationProperty Name="CuentaBancaria" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" FromRole="Movimiento" ToRole="CuentaBancaria" />
     <NavigationProperty Name="EntidadResponsable" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_EntidadResponsable" FromRole="Movimiento" ToRole="EntidadResponsable" />
     <NavigationProperty Name="EstadoMovimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_EstadoMovimiento" FromRole="Movimiento" ToRole="EstadoMovimiento" />
     <NavigationProperty Name="TipoMovimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_TipoMovimiento" FromRole="Movimiento" ToRole="TipoMovimiento" />
     <NavigationProperty Name="Usuario" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_Usuario" FromRole="Movimiento" ToRole="Usuario" />
+    <NavigationProperty Name="CuentaBancaria" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" FromRole="Movimiento" ToRole="CuentaBancaria" />
   </EntityType>
   <Association Name="FK_Movimiento_Categoria">
     <End Type="BULLARD.CuentasBancoDbModel.Categoria" Role="Categoria" Multiplicity="0..1" />
@@ -265,18 +218,6 @@
       </Principal>
       <Dependent Role="Movimiento">
         <PropertyRef Name="IdCategoria" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Movimiento_CuentaBancaria">
-    <End Type="BULLARD.CuentasBancoDbModel.CuentaBancaria" Role="CuentaBancaria" Multiplicity="1" />
-    <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaBancaria">
-        <PropertyRef Name="IdCuentaBancaria" />
-      </Principal>
-      <Dependent Role="Movimiento">
-        <PropertyRef Name="IdCuentaBancaria" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -339,10 +280,105 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
+  <EntityType Name="CuentaBancaria">
+    <Key>
+      <PropertyRef Name="IdCuentaBancaria" />
+    </Key>
+    <Property Name="IdCuentaBancaria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreCuenta" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="FechaConciliacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="SaldoDisponible" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="SaldoBancario" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="IdMoneda" Type="Int32" />
+    <NavigationProperty Name="Movimiento" Relationship="BULLARD.CuentasBancoDbModel.FK_Movimiento_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Movimiento" />
+    <NavigationProperty Name="Moneda" Relationship="BULLARD.CuentasBancoDbModel.FK_CuentaBancaria_Moneda" FromRole="CuentaBancaria" ToRole="Moneda" />
+  </EntityType>
+  <EntityType Name="TipoCambio">
+    <Key>
+      <PropertyRef Name="IdTipoCambio" />
+    </Key>
+    <Property Name="IdTipoCambio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdMoneda" Type="Int32" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Valor" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <NavigationProperty Name="Moneda" Relationship="BULLARD.CuentasBancoDbModel.FK_TipoCambio_Moneda" FromRole="TipoCambio" ToRole="Moneda" />
+  </EntityType>
+  <Association Name="FK_Movimiento_CuentaBancaria">
+    <End Type="BULLARD.CuentasBancoDbModel.CuentaBancaria" Role="CuentaBancaria" Multiplicity="1" />
+    <End Type="BULLARD.CuentasBancoDbModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaBancaria">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Moneda">
+    <Key>
+      <PropertyRef Name="IdMoneda" />
+    </Key>
+    <Property Name="IdMoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Simbolo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CuentaBancaria" Relationship="BULLARD.CuentasBancoDbModel.FK_CuentaBancaria_Moneda" FromRole="Moneda" ToRole="CuentaBancaria" />
+    <NavigationProperty Name="TipoCambio" Relationship="BULLARD.CuentasBancoDbModel.FK_TipoCambio_Moneda" FromRole="Moneda" ToRole="TipoCambio" />
+  </EntityType>
+  <Association Name="FK_CuentaBancaria_Moneda">
+    <End Type="BULLARD.CuentasBancoDbModel.Moneda" Role="Moneda" Multiplicity="0..1" />
+    <End Type="BULLARD.CuentasBancoDbModel.CuentaBancaria" Role="CuentaBancaria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="CuentaBancaria">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoCambio_Moneda">
+    <End Type="BULLARD.CuentasBancoDbModel.Moneda" Role="Moneda" Multiplicity="1" />
+    <End Type="BULLARD.CuentasBancoDbModel.TipoCambio" Role="TipoCambio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="TipoCambio">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
+    <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
+    <Property Type="Int32" Name="IdCuentaBancaria" Nullable="false" />
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="Int32" Name="IdTipoMovimiento" Nullable="false" />
+    <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+    <Property Type="Int32" Name="IdEstadoMovimiento" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="String" Name="NumeroDocumento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Comentario" Nullable="false" />
+    <Property Type="Boolean" Name="Estado" Nullable="false" />
+    <Property Type="Int32" Name="UsuarioCreacion" Nullable="false" />
+    <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="EntidadResNombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CategoriaNombre" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="UsuarioNombre" Nullable="false" MaxLength="40" />
+  </ComplexType>
   <ComplexType Name="SP_GetReporteResumenCategorias_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
     <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetReporteResumenEntidadesRes_Result">
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
   </ComplexType>
 </Schema>

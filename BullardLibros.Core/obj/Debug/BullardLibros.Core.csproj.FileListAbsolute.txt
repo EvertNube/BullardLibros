@@ -54,3 +54,11 @@ D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\Page
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\BullardLibros.Helpers.pdb
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\PagedList.xml
 D:\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\PagedList.Mvc.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.Razor.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.Razor.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Archivos\Personal_Pro\NubeLabs\Bullard\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.Deployment.xml

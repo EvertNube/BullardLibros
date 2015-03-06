@@ -74,24 +74,28 @@
                                                 <span>Libros</span>
                                             </a>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Categorias")" class="active">
-                                                <i class="fa fa-list-ul icon">
-                                                    <b class="bg-primary" style="background-color:#428bca"></b>
-                                                </i>
-                                                <span>Categorias</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Entidades")" class="active">
-                                                <i class="fa fa-eye icon">
-                                                    <b class="bg-primary" style="background-color:#428bca"></b>
-                                                </i>
-                                                <span>Entidades</span>
-                                            </a>
-                                        </li>
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <li class="">
+                                                <a href="@Url.Action("Categorias")" class="active">
+                                                    <i class="fa fa-list-ul icon">
+                                                        <b class="bg-primary" style="background-color:#428bca"></b>
+                                                    </i>
+                                                    <span>Categorias</span>
+                                                </a>
+                                            </li>
+                                            <li class="">
+                                                <a href="@Url.Action("Entidades")" class="active">
+                                                    <i class="fa fa-eye icon">
+                                                        <b class="bg-primary" style="background-color:#428bca"></b>
+                                                    </i>
+                                                    <span>Entidades</span>
+                                                </a>
+                                            </li>
+                                        }
+
                                         @if (ViewBag.EsSuperAdmin)
-                                        { 
+                                        {
                                             <li class="">
                                                 <a href="@Url.Action("Usuarios")" class="active">
                                                     <i class="fa fa-user icon">

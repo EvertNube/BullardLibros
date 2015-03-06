@@ -35,6 +35,7 @@
                 </header>
                 @using (Html.BeginForm("Login", "Admin", FormMethod.Post, new { @class = "panel-body wrapper-lg" }))
                 {
+                    @Html.ValidationSummary(true)
                     <div class="form-group">
                         <label class="control-label">Usuario</label>
                         @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control input-lg", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
