@@ -39,7 +39,8 @@ namespace BullardLibros.Core.BL
             using (var context = getContext())
             {
                 var result = from r in context.Usuario.AsEnumerable()
-                             where getRoleKeys(IdRol).Contains(r.IdRol)//& r.IdRol != CONSTANTES.SUPER_ADMIN_ROL & r.Estado == true
+                             //where getRoleKeys(IdRol).Contains(r.IdRol)//& r.IdRol != CONSTANTES.SUPER_ADMIN_ROL & r.Estado == true
+                             where getRoleKeys(IdRol).Contains(r.IdRol) && r.IdUsuario != 1
                              select new UsuarioDTO
                              {
                                  IdUsuario = r.IdUsuario,
@@ -47,7 +48,8 @@ namespace BullardLibros.Core.BL
                                  Email = r.Email,
                                  Cuenta = r.Cuenta,
                                  Active = r.Estado,
-                                 IdRol = r.IdRol //?? 0
+                                 IdRol = r.IdRol, //?? 0
+                                 NombreRol = r.Rol.Nombre
                              };
                 return result.ToList<UsuarioDTO>();//.AsEnumerable<UsuarioDTO>().OrderByDescending(x => x.Nombre).ToList<UsuarioDTO>();
             }
@@ -56,7 +58,7 @@ namespace BullardLibros.Core.BL
         public int[] getRoleKeys(int IdRol)
         {
             var roles = new int[1];
-            if (IdRol == CONSTANTES.SUPER_ADMIN_ROL) roles = new int[] { CONSTANTES.ROL_ADMIN, CONSTANTES.ROL_RESPONSABLE };
+            if (IdRol == CONSTANTES.SUPER_ADMIN_ROL) roles = new int[] { CONSTANTES.SUPER_ADMIN_ROL, CONSTANTES.ROL_ADMIN, CONSTANTES.ROL_RESPONSABLE };
             if (IdRol == CONSTANTES.ROL_ADMIN) roles = new int[] { CONSTANTES.ROL_RESPONSABLE };
             if (IdRol == CONSTANTES.ROL_RESPONSABLE) roles = new int[] { CONSTANTES.ROL_RESPONSABLE };
             return roles;

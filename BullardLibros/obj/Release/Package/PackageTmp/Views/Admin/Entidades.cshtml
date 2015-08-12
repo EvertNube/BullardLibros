@@ -28,9 +28,10 @@
                         <table class="table table-striped m-b-none">
                             <thead>
                                 <tr>
-                                    <th width="40%">Nombre</th>
-                                    <th class="text-center" width="20%">Estado</th>
+                                    <th width="30%">Nombre</th>
+                                    <th class="text-center" width="20%">Tipo de Bien o Servicio</th>
                                     <th class="text-center" width="20%">Detracción</th>
+                                    <th class="text-center" width="10%">Estado</th>
                                     <th class="text-center" width="20%">Opciones</th>
                                 </tr>
                             </thead>
@@ -41,14 +42,15 @@
                                     {
                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
-                                            <td width="40%">@obj.Nombre</td>
+                                            <td width="30%">@obj.Nombre</td>
+                                            <td class="text-center" width="20%">@obj.Tipo</td>
+                                            <td class="text-center" width="20%">@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
                                             @if (obj.Estado == true)
                                             {
-                                                <td class="text-center" width="20%">Activo</td>}
+                                                <td class="text-center" width="10%">Activo</td>}
                                             else
                                             {
-                                                <td class="text-center" width="20%">Inactivo</td>}
-                                            <td class="text-center" width="20%">@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
+                                                <td class="text-center" width="10%">Inactivo</td>}
                                             @if (ViewBag.EsAdmin)
                                             {
                                                 <td align="center"><a href="@Url.Action("Entidad", new { id = obj.IdEntidadResponsable })"><i class="fa fa-pencil"></i></a></td>

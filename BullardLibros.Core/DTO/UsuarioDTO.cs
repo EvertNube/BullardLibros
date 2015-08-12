@@ -12,8 +12,6 @@ namespace BullardLibros.Core.DTO
     {
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
-        //[Required]
-        //[StringLength(10)]
         public string InicialesNombre { get; set; }
         public string Email { get; set; }
         
@@ -22,6 +20,7 @@ namespace BullardLibros.Core.DTO
         public bool Active { get; set; }
         public int IdRol { get; set; }
         public int? IdCargo { get; set; }
+        public int? IdEmpresa { get; set; }
 
         public string NombreRol { get; set; }
         

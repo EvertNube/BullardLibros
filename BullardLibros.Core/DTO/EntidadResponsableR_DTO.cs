@@ -14,5 +14,7 @@ namespace BullardLibros.Core.DTO
         public bool Estado { get; set; }
         public Decimal? Detraccion { get; set; }
         public Decimal Monto { get; set; }
+        public string Tipo { get; set; }
+        public int? IdEmpresa { get; set; }
     }
 }

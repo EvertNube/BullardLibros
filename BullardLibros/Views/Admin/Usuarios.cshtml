@@ -29,7 +29,7 @@
                                 <tr>
                                     <th width="10%">ID</th>
                                     <th width="30%">Nombre</th>
-                                    <th width="30%">Email</th>
+                                    <th width="30%">Tipo de Usuario</th>
                                     <th width="20%">Cuenta</th>
                                     @if (ViewBag.EsAdmin)
                                     {
@@ -50,7 +50,7 @@
                                             {@cont}
                                         </td>
                                         <td>@usuario.Nombre</td>
-                                        <td>@usuario.Email</td>
+                                        <td>@usuario.NombreRol</td>
                                         <td>@usuario.Cuenta</td>
                                         @if (ViewBag.EsAdmin)
                                         {

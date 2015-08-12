@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
-//using System.Data.Objects.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +22,8 @@ namespace BullardLibros.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
-                    Detraccion = x.Detraccion
+                    Detraccion = x.Detraccion,
+                    Tipo = x.Tipo
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -38,7 +38,8 @@ namespace BullardLibros.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
-                    Detraccion = x.Detraccion
+                    Detraccion = x.Detraccion,
+                    Tipo = x.Tipo
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -54,7 +55,8 @@ namespace BullardLibros.Core.BL
                         IdEntidadResponsable = r.IdEntidadResponsable,
                         Nombre = r.Nombre,
                         Estado = r.Estado,
-                        Detraccion = r.Detraccion
+                        Detraccion = r.Detraccion,
+                        Tipo = r.Tipo
                     }).SingleOrDefault();
                 return result;
             }
@@ -69,6 +71,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Nombre = EntidadResponsable.Nombre;
                     nuevo.Estado = true;
                     nuevo.Detraccion = EntidadResponsable.Detraccion;
+                    nuevo.Tipo = EntidadResponsable.Tipo;
                     context.EntidadResponsable.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -89,6 +92,7 @@ namespace BullardLibros.Core.BL
                     datoRow.Nombre = EntidadResponsable.Nombre;
                     datoRow.Estado = EntidadResponsable.Estado;
                     datoRow.Detraccion = EntidadResponsable.Detraccion;
+                    datoRow.Tipo = EntidadResponsable.Tipo;
                     context.SaveChanges();
                     return true;
                 }
@@ -108,7 +112,8 @@ namespace BullardLibros.Core.BL
                         IdEntidadResponsable = x.IdEntidadResponsable,
                         Nombre = x.Nombre,
                         Detraccion = x.Detraccion,
-                        Monto = x.MontoTotal.GetValueOrDefault()
+                        Monto = x.MontoTotal.GetValueOrDefault(),
+                        Tipo = x.Tipo
                     }).ToList();
                 return result;
             }

@@ -12,9 +12,9 @@ namespace BullardLibros.Core.BL
 {
     public class Base
     {
-        protected CuentasBancoEntities getContext()
+        protected LibrosDBEntities getContext()
         {
-            return new CuentasBancoEntities();
+            return new LibrosDBEntities();
         }
     }
 }

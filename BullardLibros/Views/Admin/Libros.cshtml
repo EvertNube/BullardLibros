@@ -1,9 +1,9 @@
-﻿@{
+﻿@using System.Globalization;
+@model IList<BullardLibros.Core.DTO.CuentaBancariaDTO>
+@{
     ViewBag.Title = "Libros";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@using System.Globalization;
-@model IList<BullardLibros.Core.DTO.CuentaBancariaDTO>
 
 @section scripts{
     <script type="text/javascript">
@@ -15,20 +15,15 @@
                 value = 1;
                 $("#idTipoCambio").val('1.00');
             }
-            //var valor1 = parseFloat($("#idTotalSoles").text()).toFixed(2);
+
             var valorSoles = parseFloat(@ViewBag.TotalSoles);
             var valorDolares = parseFloat(@ViewBag.TotalDolares);
 
-            //if ($('#idMonedaSoles').hasClass('active')) {
             var totalConSoles = (valorDolares * value + valorSoles).toFixed(2);
             cadenaSoles = 'S/. ' + totalConSoles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //$("#idTotalConsolidado").html(cadenaSoles);
-            //}
-            //else if ($('#idMonedaDolares').hasClass('active')) {
+
             var totalConDolares = (valorSoles / value + valorDolares).toFixed(2);
             cadenaDolares = 'US$ ' + totalConDolares.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //$("#idTotalConsolidado").html(cadenaDolares);
-            //}
         };
         function funcTipoCambioSoles() {
             $("#idTotalConsolidado").html(cadenaSoles);

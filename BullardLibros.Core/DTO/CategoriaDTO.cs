@@ -14,6 +14,7 @@ namespace BullardLibros.Core.DTO
         public int Orden { get; set; }
         public bool Estado { get; set; }
         public int? IdCategoriaPadre { get; set; }
+        public int? IdEmpresa { get; set; }
         public IList<CategoriaDTO> Hijos { get; set; }
     }
 }

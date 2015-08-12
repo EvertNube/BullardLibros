@@ -50,90 +50,82 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Categoria.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CuentaBancaria.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="CuentasBancoModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CuentasBancoModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CuentasBancoModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CuentasBancoModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CuentasBancoModel.edmx</DependentUpon>
+    <Compile Include="Empresa.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntidadResponsable.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EstadoMovimiento.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibrosModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibrosModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibrosModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibrosModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Moneda.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Movimiento.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rol.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetReporteDetalleMovimientos_Result.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetReporteResumenCategorias_Result.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetReporteResumenEntidadesRes_Result.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoCambio.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoMovimiento.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Usuario.cs">
-      <DependentUpon>CuentasBancoModel.tt</DependentUpon>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="CuentasBancoModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CuentasBancoModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="CuentasBancoModel.Context.tt">
+    <EntityDeploy Include="LibrosModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LibrosModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="LibrosModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CuentasBancoModel.edmx</DependentUpon>
-      <LastGenOutput>CuentasBancoModel.Context.cs</LastGenOutput>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+      <LastGenOutput>LibrosModel.Context.cs</LastGenOutput>
     </None>
-    <None Include="CuentasBancoModel.edmx.diagram">
-      <DependentUpon>CuentasBancoModel.edmx</DependentUpon>
+    <None Include="LibrosModel.edmx.diagram">
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
     </None>
-    <None Include="CuentasBancoModel.tt">
+    <None Include="LibrosModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CuentasBancoModel.edmx</DependentUpon>
-      <LastGenOutput>CuentasBancoModel.cs</LastGenOutput>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+      <LastGenOutput>LibrosModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

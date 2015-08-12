@@ -13,6 +13,7 @@ namespace BullardLibros.Core.DTO
         public string Nombre { get; set; }
         public Decimal MontoTotal { get; set; }
         public int? IdCategoriaPadre { get; set; }
+        public int? IdEmpresa { get; set; }
         public int Nivel { get; set; }
         public CategoriaR_DTO Padre { get; set; }
     }

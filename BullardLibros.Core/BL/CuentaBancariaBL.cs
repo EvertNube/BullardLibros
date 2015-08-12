@@ -16,6 +16,42 @@ namespace BullardLibros.Core.BL
 {
     public class CuentaBancariaBL : Base
     {
+        public List<CuentaBancariaDTO> getCuentasBancariasEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.CuentaBancaria.Where(x => x.IdEmpresa == idEmpresa).Select(x => new CuentaBancariaDTO
+                {
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    NombreCuenta = x.NombreCuenta,
+                    FechaConciliacion = x.FechaConciliacion,
+                    SaldoDisponible = x.SaldoDisponible,
+                    SaldoBancario = x.SaldoBancario,
+                    Estado = x.Estado,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    IdMoneda = x.IdMoneda
+                }).ToList();
+                return result;
+            }
+        }
+        public List<CuentaBancariaDTO> getCuentasBancariasActivasEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.CuentaBancaria.Where(x => x.Estado && x.IdEmpresa == idEmpresa).Select(x => new CuentaBancariaDTO
+                {
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    NombreCuenta = x.NombreCuenta,
+                    FechaConciliacion = x.FechaConciliacion,
+                    SaldoDisponible = x.SaldoDisponible,
+                    SaldoBancario = x.SaldoBancario,
+                    Estado = x.Estado,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    IdMoneda = x.IdMoneda
+                }).ToList();
+                return result;
+            }
+        }
         public List<CuentaBancariaDTO> getCuentasBancarias()
         {
             using (var context = getContext())
@@ -28,7 +64,8 @@ namespace BullardLibros.Core.BL
                     SaldoDisponible = x.SaldoDisponible,
                     SaldoBancario = x.SaldoBancario,
                     Estado = x.Estado,
-                    SimboloMoneda = x.Moneda.Simbolo
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    IdMoneda = x.IdMoneda
                 }).ToList();
                 return result;
             }
@@ -45,7 +82,9 @@ namespace BullardLibros.Core.BL
                     FechaConciliacion = x.FechaConciliacion,
                     SaldoDisponible = x.SaldoDisponible,
                     SaldoBancario = x.SaldoBancario,
-                    Estado = x.Estado
+                    Estado = x.Estado,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    IdMoneda = x.IdMoneda
                 }).ToList();
                 return result;
             }
@@ -165,6 +204,18 @@ namespace BullardLibros.Core.BL
             else
             {
                 var lista = getCuentasBancariasViewBag();
+                lista.Insert(0, new CuentaBancariaDTO() { IdCuentaBancaria = 0, NombreCuenta = "Seleccione un Libro" });
+                return lista;
+            }
+        }
+
+        public IList<CuentaBancariaDTO> getCuentasBancariasEnEmpresaBag(int idEmpresa, bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+                return getCuentasBancariasActivasEnEmpresa(idEmpresa);
+            else
+            {
+                var lista = getCuentasBancariasActivasEnEmpresa(idEmpresa);
                 lista.Insert(0, new CuentaBancariaDTO() { IdCuentaBancaria = 0, NombreCuenta = "Seleccione un Libro" });
                 return lista;
             }

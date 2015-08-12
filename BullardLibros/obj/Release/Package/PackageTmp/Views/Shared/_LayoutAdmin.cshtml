@@ -24,13 +24,13 @@
 </head>
 <body>
     <section class="vbox">
-        <header class="dk header navbar navbar-fixed-top-xs" style="background-color:#428bca">
+        <header class="dk header navbar navbar-fixed-top-xs" style="background-color:#34495e">
             <div class="navbar-header aside-md">
                 <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
                     <i class="fa fa-bars"></i>
                 </a>
                 @*<a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="@Url.Content("~/Content/themes/admin/images/logo.jpg")"></a>*@
-                <a href="#" class="navbar-brand" data-toggle="fullscreen" style="color:white">@*<img src="images/logo.png" class="m-r-sm">*@BFE +</a>
+                <a href="#" class="navbar-brand" data-toggle="fullscreen" style="color:white">NubeLabs</a>
                 <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
                     <i class="fa fa-cog"></i>
                 </a>
@@ -66,28 +66,28 @@
                                 <!-- nav -->
                                 <nav class="nav-primary hidden-xs">
                                     <ul class="nav lt">
-                                        <li class="">
+                                        <li class="@ViewBag.navbar.dangerActive">
                                             <a href="@Url.Action("Index")" class="active">
                                                 <i class="fa fa-book icon">
-                                                    <b class="bg-primary" style="background-color:#428bca"></b>
+                                                    <b class="bg-success"></b>
                                                 </i>
                                                 <span>Libros</span>
                                             </a>
                                         </li>
                                         @if (ViewBag.EsAdmin)
                                         {
-                                            <li class="">
+                                            <li class="@ViewBag.navbar.infoActive">
                                                 <a href="@Url.Action("Categorias")" class="active">
                                                     <i class="fa fa-list-ul icon">
-                                                        <b class="bg-primary" style="background-color:#428bca"></b>
+                                                        <b class="bg-danger"></b>
                                                     </i>
                                                     <span>Categorias</span>
                                                 </a>
                                             </li>
-                                            <li class="">
+                                            <li class="@ViewBag.navbar.primaryActive">
                                                 <a href="@Url.Action("Entidades")" class="active">
                                                     <i class="fa fa-eye icon">
-                                                        <b class="bg-primary" style="background-color:#428bca"></b>
+                                                        <b class="bg-info"></b>
                                                     </i>
                                                     <span>Entidades</span>
                                                 </a>
@@ -96,19 +96,19 @@
 
                                         @if (ViewBag.EsSuperAdmin)
                                         {
-                                            <li class="">
+                                            <li class="@ViewBag.navbar.warningActive">
                                                 <a href="@Url.Action("Usuarios")" class="active">
                                                     <i class="fa fa-user icon">
-                                                        <b class="bg-primary" style="background-color:#428bca"></b>
+                                                        <b class="bg-warning"></b>
                                                     </i>
                                                     <span>Usuarios</span>
                                                 </a>
                                             </li>
                                         }
-                                        <li class="">
+                                        <li class="@ViewBag.navbar.successActive">
                                             <a href="@Url.Action("ReporteCategorias")" class="active">
                                                 <i class="fa fa-bar-chart-o icon">
-                                                    <b class="bg-primary" style="background-color:#428bca"></b>
+                                                    <b class="bg-primary"></b>
                                                 </i>
                                                 <span>Reportes</span>
                                             </a>
