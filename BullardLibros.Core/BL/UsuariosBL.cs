@@ -15,12 +15,34 @@ namespace BullardLibros.Core.BL
 {
     public class UsuariosBL : Base
     {
+        public List<UsuarioDTO> getUsuariosEnEmpresa(int idEmpresa, int IdRol)
+        {
+            using (var context = getContext())
+            {
+                var result = from r in context.Usuario.AsEnumerable()
+                             where getRoleKeys(IdRol).Contains(r.IdRol) && r.IdUsuario != 1 && r.IdEmpresa == idEmpresa
+                             select new UsuarioDTO
+                             {
+                                 IdUsuario = r.IdUsuario,
+                                 Nombre = r.Nombre,
+                                 Email = r.Email,
+                                 Cuenta = r.Cuenta,
+                                 Active = r.Estado,
+                                 IdRol = r.IdRol, //?? 0
+                                 NombreRol = r.Rol.Nombre,
+                                 IdCargo = r.IdCargo,
+                                 IdEmpresa = r.IdEmpresa
+                             };
+                return result.ToList<UsuarioDTO>();
+            }
+        }
+
         public IList<UsuarioDTO> getUsuarios()
         {
             using (var context = getContext())
             {
                 var result = from r in context.Usuario
-                             where r.Estado == true & r.IdRol != CONSTANTES.SUPER_ADMIN_ROL
+                             where r.Estado == true && r.IdRol != CONSTANTES.SUPER_ADMIN_ROL
                              select new UsuarioDTO
                              {
                                  IdUsuario = r.IdUsuario,
@@ -29,7 +51,9 @@ namespace BullardLibros.Core.BL
                                  Cuenta = r.Cuenta,
                                  Pass = r.Pass,
                                  Active = r.Estado,
-                                 IdRol = r.IdRol //?? 0
+                                 IdRol = r.IdRol, //?? 0
+                                 IdCargo = r.IdCargo,
+                                 IdEmpresa = r.IdEmpresa
                              };
                 return result.AsEnumerable<UsuarioDTO>().OrderByDescending(x => x.IdUsuario).ToList<UsuarioDTO>();
             }
@@ -49,7 +73,9 @@ namespace BullardLibros.Core.BL
                                  Cuenta = r.Cuenta,
                                  Active = r.Estado,
                                  IdRol = r.IdRol, //?? 0
-                                 NombreRol = r.Rol.Nombre
+                                 NombreRol = r.Rol.Nombre,
+                                 IdCargo = r.IdCargo,
+                                 IdEmpresa = r.IdEmpresa
                              };
                 return result.ToList<UsuarioDTO>();//.AsEnumerable<UsuarioDTO>().OrderByDescending(x => x.Nombre).ToList<UsuarioDTO>();
             }
@@ -77,7 +103,9 @@ namespace BullardLibros.Core.BL
                                  Email = r.Email,
                                  Cuenta = r.Cuenta,
                                  Active = r.Estado,
-                                 IdRol = r.IdRol //?? 0
+                                 IdRol = r.IdRol, //?? 0
+                                 IdCargo = r.IdCargo,
+                                 IdEmpresa = r.IdEmpresa
                              };
                 return result.AsEnumerable<UsuarioDTO>().OrderByDescending(x => x.Nombre).ToList<UsuarioDTO>();
             }
@@ -115,6 +143,8 @@ namespace BullardLibros.Core.BL
                     //usuario.IdCargo = user.IdCargo;
                     usuario.Estado = true;
                     usuario.FechaRegistro = DateTime.Now;
+                    usuario.IdCargo = user.IdCargo;
+                    usuario.IdEmpresa = user.IdEmpresa;
                     context.Usuario.Add(usuario);
                     context.SaveChanges();
                     return true;
@@ -225,7 +255,9 @@ namespace BullardLibros.Core.BL
                                  Active = r.Estado,
                                  Email = r.Email,
                                  Pass = r.Pass,
-                                 Cuenta = r.Cuenta
+                                 Cuenta = r.Cuenta,
+                                 IdCargo = r.IdCargo,
+                                 IdEmpresa = r.IdEmpresa
                              };
                 return result.SingleOrDefault<UsuarioDTO>();
             }
@@ -251,6 +283,27 @@ namespace BullardLibros.Core.BL
             return false;
         }
 
+        public UsuarioDTO getUsuarioEnEmpresa(int idEmpresa, int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Usuario.Where(x => x.IdUsuario == id && x.IdEmpresa == idEmpresa).Select(r => new UsuarioDTO
+                {
+                    IdUsuario = r.IdUsuario,
+                    Nombre = r.Nombre,
+                    InicialesNombre = r.InicialesNombre,
+                    Email = r.Email,
+                    Cuenta = r.Cuenta,
+                    Pass = r.Pass,
+                    Active = r.Estado,
+                    IdRol = r.IdRol,
+                    IdCargo = r.IdCargo,
+                    NombreRol = r.Rol.Nombre,
+                    IdEmpresa = r.IdEmpresa
+                }).SingleOrDefault();
+                return result;
+            }
+        }
         public UsuarioDTO getUsuario(int id)
         {
             using (var context = getContext())
@@ -266,7 +319,8 @@ namespace BullardLibros.Core.BL
                         Active = r.Estado,
                         IdRol = r.IdRol,
                         IdCargo = r.IdCargo,
-                        NombreRol = r.Rol.Nombre
+                        NombreRol = r.Rol.Nombre,
+                        IdEmpresa = r.IdEmpresa
                     }).SingleOrDefault();
                 return result;
             }
@@ -285,9 +339,10 @@ namespace BullardLibros.Core.BL
                         usuario.InicialesNombre = user.InicialesNombre;
                         usuario.Email = user.Email;
                         usuario.IdRol = user.IdRol;// >= 2 ? user.IdRol : 3;
-                        //usuario.IdCargo = user.IdCargo;
                         usuario.Cuenta = user.Cuenta;
                         usuario.Estado = user.Active;
+                        usuario.IdCargo = user.IdCargo;
+                        usuario.IdEmpresa = user.IdEmpresa;
                         if (!String.IsNullOrWhiteSpace(passUser) && !String.IsNullOrWhiteSpace(passChange))
                         {
                             if ((currentUser.IdRol <= 2 || currentUser.IdUsuario == user.IdUsuario)

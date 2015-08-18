@@ -23,9 +23,35 @@ namespace BullardLibros.Core.BL
                         Nombre = x.Nombre,
                         Orden = x.Orden,
                         Estado = x.Estado,
-                        IdCategoriaPadre = x.IdCategoriaPadre
+                        IdCategoriaPadre = x.IdCategoriaPadre,
+                        IdEmpresa = x.IdEmpresa
                     }).ToList();
                 return result;
+            }
+        }
+
+        public List<CategoriaDTO> getCategoriasTreeEnEmpresa(int idEmpresa, int? id = null)
+        {
+            using (var context = getContext())
+            {
+                var result = from r in context.Categoria
+                             where (id == null ? r.IdCategoriaPadre == null : r.IdCategoriaPadre == id && r.IdEmpresa == idEmpresa)
+                             select new CategoriaDTO
+                             {
+                                 IdCategoria = r.IdCategoria,
+                                 Nombre = r.Nombre,
+                                 Orden = r.Orden,
+                                 Estado = r.Estado,
+                                 IdCategoriaPadre = r.IdCategoriaPadre,
+                                 IdEmpresa = r.IdEmpresa
+                             };
+                List<CategoriaDTO> categoriasTree = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
+
+                foreach (CategoriaDTO obj in categoriasTree)
+                {
+                    obj.Hijos = getCategoriasTreeEnEmpresa(idEmpresa, obj.IdCategoria);
+                }
+                return categoriasTree;
             }
         }
 
@@ -41,7 +67,8 @@ namespace BullardLibros.Core.BL
                                  Nombre = r.Nombre,
                                  Orden = r.Orden,
                                  Estado = r.Estado,
-                                 IdCategoriaPadre = r.IdCategoriaPadre
+                                 IdCategoriaPadre = r.IdCategoriaPadre,
+                                 IdEmpresa = r.IdEmpresa
                              };
                 IList<CategoriaDTO> categoriasTree = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
 
@@ -53,6 +80,17 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public IList<CategoriaDTO> getCategoriasPadreEnEmpresa(int idEmpresa, bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+                return getCategoriasTreeEnEmpresa(idEmpresa);
+            else
+            {
+                var lista = getCategoriasTreeEnEmpresa(idEmpresa);
+                lista.Insert(0, new CategoriaDTO() { IdCategoria = 0, Nombre = "Seleccione la Categoría Padre" });
+                return lista;
+            }
+        }
         public IList<CategoriaDTO> getCategoriasPadre(bool AsSelectList = false)
         {
             if (!AsSelectList)
@@ -76,7 +114,8 @@ namespace BullardLibros.Core.BL
                         Nombre = r.Nombre,
                         Orden = r.Orden,
                         Estado = r.Estado,
-                        IdCategoriaPadre = r.IdCategoriaPadre
+                        IdCategoriaPadre = r.IdCategoriaPadre,
+                        IdEmpresa = r.IdEmpresa
                     }).SingleOrDefault();
                 return result;
             }
@@ -96,6 +135,7 @@ namespace BullardLibros.Core.BL
                     //nuevo.Orden = Categoria.Orden;
                     nuevo.Estado = true;
                     nuevo.IdCategoriaPadre = Categoria.IdCategoriaPadre;
+                    nuevo.IdEmpresa = Categoria.IdEmpresa;
                     context.Categoria.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -121,6 +161,7 @@ namespace BullardLibros.Core.BL
                         datoRow.Orden = 1;
                     datoRow.Estado = Categoria.Estado;
                     datoRow.IdCategoriaPadre = Categoria.IdCategoriaPadre;
+                    datoRow.IdEmpresa = Categoria.IdEmpresa;
                     context.SaveChanges();
                     return true;
                 }
@@ -142,7 +183,8 @@ namespace BullardLibros.Core.BL
                                  Nombre = r.Nombre,
                                  Orden = r.Orden,
                                  Estado = r.Estado,
-                                 IdCategoriaPadre = r.IdCategoriaPadre
+                                 IdCategoriaPadre = r.IdCategoriaPadre,
+                                 IdEmpresa = r.IdEmpresa
                              };
                 IList<CategoriaDTO> lstCategorias = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
                 if (lstCategorias.Count == 0)

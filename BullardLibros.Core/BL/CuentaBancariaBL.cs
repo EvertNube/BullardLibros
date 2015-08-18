@@ -29,7 +29,8 @@ namespace BullardLibros.Core.BL
                     SaldoBancario = x.SaldoBancario,
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
-                    IdMoneda = x.IdMoneda
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa
                 }).ToList();
                 return result;
             }
@@ -47,7 +48,8 @@ namespace BullardLibros.Core.BL
                     SaldoBancario = x.SaldoBancario,
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
-                    IdMoneda = x.IdMoneda
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa
                 }).ToList();
                 return result;
             }
@@ -65,7 +67,8 @@ namespace BullardLibros.Core.BL
                     SaldoBancario = x.SaldoBancario,
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
-                    IdMoneda = x.IdMoneda
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa
                 }).ToList();
                 return result;
             }
@@ -84,7 +87,8 @@ namespace BullardLibros.Core.BL
                     SaldoBancario = x.SaldoBancario,
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
-                    IdMoneda = x.IdMoneda
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa
                 }).ToList();
                 return result;
             }
@@ -108,6 +112,7 @@ namespace BullardLibros.Core.BL
                         IdMoneda = r.IdMoneda,
                         NombreMoneda = r.Moneda.Nombre,
                         SimboloMoneda = r.Moneda.Simbolo,
+                        IdEmpresa = r.IdEmpresa,
                         listaMovimiento = r.Movimiento.Select(x => new MovimientoDTO {
                             IdMovimiento = x.IdMovimiento,
                             IdCuentaBancaria = x.IdCuentaBancaria,
@@ -145,6 +150,7 @@ namespace BullardLibros.Core.BL
                     nuevo.SaldoBancario = CuentaBancaria.SaldoBancario;
                     nuevo.Estado = true;
                     nuevo.IdMoneda = CuentaBancaria.IdMoneda;
+                    nuevo.IdEmpresa = CuentaBancaria.IdEmpresa;
                     context.CuentaBancaria.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -170,6 +176,7 @@ namespace BullardLibros.Core.BL
                     datoRow.SaldoBancario = CuentaBancaria.SaldoBancario;
                     datoRow.Estado = CuentaBancaria.Estado;
                     datoRow.IdMoneda = CuentaBancaria.IdMoneda;
+                    datoRow.IdEmpresa = CuentaBancaria.IdEmpresa;
                     context.SaveChanges();
                     return true;
                 }

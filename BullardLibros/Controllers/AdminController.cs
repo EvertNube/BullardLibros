@@ -106,6 +106,12 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
+            if(isSuperAdministrator())
+            {
+                MenuNavBarSelected(0);
+                return View();
+            }
+
             MenuNavBarSelected(1);
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
@@ -114,13 +120,42 @@ namespace BullardLibros.Controllers
             ViewBag.TotalSoles = DameTotalSoles(listaLibros);
             ViewBag.TotalDolares = DameTotalDolares(listaLibros);
             ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
-            return View(listaLibros);
+
+            return View("Libros", listaLibros);
+        }
+
+        public ActionResult Libros()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+
+            MenuNavBarSelected(1);
+
+            UsuarioDTO miUsuario = getCurrentUser();
+
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
+            if(miUsuario.IdEmpresa.GetValueOrDefault() != 0)
+            {
+                listaLibros = objBL.getCuentasBancariasEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault());
+                ViewBag.TotalSoles = DameTotalSoles(listaLibros);
+                ViewBag.TotalDolares = DameTotalDolares(listaLibros);
+                ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
+            }
+            else
+            {
+                ViewBag.TotalSoles = 0.0;
+                ViewBag.TotalDolares = 0.0;
+                ViewBag.TotalConsolidado = 0.0;
+            }
+
+            return View("Libros", listaLibros);
         }
 
         public ActionResult Libro(int? id = null, int? page = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            
             MenuNavBarSelected(1);
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
@@ -129,8 +164,11 @@ namespace BullardLibros.Controllers
             var objSent = TempData["Libro"];
             if (objSent != null) { TempData["Libro"] = null; return View(objSent); }
             if (id != null)
-            {
+            { 
                 CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
+                if (obj == null) return RedirectToAction("Index");
+                if (obj.IdEmpresa != getCurrentUser().IdEmpresa) return RedirectToAction("Index");
+
                 int pageSize = 100;
                 int pageNumber = (page ?? 1);
                 //Guardar Paginado
@@ -198,6 +236,9 @@ namespace BullardLibros.Controllers
             if (id != null)
             {
                 CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
+                if (obj == null) return RedirectToAction("Index");
+                if (obj.IdEmpresa != getCurrentUser().IdEmpresa) return RedirectToAction("Index");
+
                 int pageSize = 100;
                 int pageNumber = (page ?? 1);
                 //Guardar Paginado
@@ -215,9 +256,16 @@ namespace BullardLibros.Controllers
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
             MenuNavBarSelected(2);
+            UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
-            return View(objBL.getCategoriasTree());
+            List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
+            if(miUsuario.IdEmpresa != null)
+            {
+                listaCategorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault());
+            }
+            
+            return View(listaCategorias);
         }
 
         public ActionResult Categoria(int? id = null, int? idPadre = null)
@@ -225,10 +273,11 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MenuNavBarSelected(2);
+            UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
-            ViewBag.Categorias = objBL.getCategoriasPadre(true);
+            ViewBag.Categorias = objBL.getCategoriasPadreEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault(), true);
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Categoria"];
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
@@ -237,13 +286,18 @@ namespace BullardLibros.Controllers
                 if (idPadre != null)
                 {
                     CategoriaDTO objp = new CategoriaDTO();
+
                     objp.IdCategoria = 0;
                     objp.IdCategoriaPadre = idPadre;
                     objp.Orden = objBL.getUltimoHijo(idPadre.GetValueOrDefault());
+
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(objp.IdCategoriaPadre.GetValueOrDefault());
                     return View(objp);
                 }
                 CategoriaDTO obj = objBL.getCategoria((int)id);
+                if (obj == null) return RedirectToAction("Categorias");
+                if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Categorias");
+
                 ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoriaPadre.GetValueOrDefault());
                 return View(obj);
             }
@@ -388,10 +442,16 @@ namespace BullardLibros.Controllers
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
 
             MenuNavBarSelected(4);
+            UsuarioDTO currentUser = getCurrentUser();
 
             UsuariosBL usuariosBL = new UsuariosBL();
-            UsuarioDTO currentUser = getCurrentUser();
-            return View(usuariosBL.getUsuarios(currentUser.IdRol));//(CONSTANTES.ROL_RESPONSABLE));
+            List<UsuarioDTO> listaUsuarios = new List<UsuarioDTO>();
+            if(currentUser.IdEmpresa != null)
+            {
+                listaUsuarios = usuariosBL.getUsuariosEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault(), currentUser.IdRol);
+            }
+
+            return View(listaUsuarios);
         }
 
         public ActionResult Usuario(int? id = null)
@@ -414,7 +474,10 @@ namespace BullardLibros.Controllers
             if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
             if (id != null)
             {
-                UsuarioDTO usuario = usuariosBL.getUsuario(id.GetValueOrDefault());
+                UsuarioDTO usuario = usuariosBL.getUsuarioEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault(), id.GetValueOrDefault());
+                if (usuario == null) return RedirectToAction("Usuarios");
+                if (usuario.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Usuarios");
+                
                 if (usuario.IdRol == 1)
                     ViewBag.vbRls = usuariosBL.getAllRolesViewBag(false);
 
@@ -483,9 +546,16 @@ namespace BullardLibros.Controllers
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
             MenuNavBarSelected(3);
+            UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
-            return View(objBL.getEntidadResponsables());
+            List<EntidadResponsableDTO> listaEntidades = new List<EntidadResponsableDTO>();
+            
+            if(currentUser.IdEmpresa != null)
+            {
+                listaEntidades = objBL.getEntidadResponsablesEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault());
+            }
+            return View(listaEntidades);
         }
 
         public ActionResult Entidad(int? id = null)
@@ -493,6 +563,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MenuNavBarSelected(3);
+            UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             ViewBag.IdEntidad = id;
@@ -500,7 +571,9 @@ namespace BullardLibros.Controllers
             if (objSent != null) { TempData["Entidad"] = null; return View(objSent); }
             if (id != null)
             {
-                EntidadResponsableDTO obj = objBL.getEntidadResponsable((int)id);
+                EntidadResponsableDTO obj = objBL.getEntidadResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Entidades");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Entidades");
                 return View(obj);
             }
             return View();
@@ -566,7 +639,7 @@ namespace BullardLibros.Controllers
             if (id == null && lista == null)
             {
                 CategoriaBL objBL = new CategoriaBL();
-                listaCat = objBL.getCategoriasTree();
+                listaCat = objBL.getCategoriasTreeEnEmpresa(getCurrentUser().IdEmpresa.GetValueOrDefault());
             }
             List<Select2DTO> selectTree = new List<Select2DTO>();
 
@@ -1194,6 +1267,8 @@ namespace BullardLibros.Controllers
                     break;
                 case 5:
                     navbar.successActive = "active";
+                    break;
+                default:
                     break;
             }
 

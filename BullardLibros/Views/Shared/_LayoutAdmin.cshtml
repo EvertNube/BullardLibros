@@ -29,8 +29,8 @@
                 <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
                     <i class="fa fa-bars"></i>
                 </a>
-                @*<a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="@Url.Content("~/Content/themes/admin/images/logo.jpg")"></a>*@
-                <a href="#" class="navbar-brand" data-toggle="fullscreen" style="color:white">NubeLabs</a>
+                @*<a href="#" class="navbar-brand" data-toggle="fullscreen" style="color:white">NubeLabs</a>*@
+                <a href="@Url.Action("Index")" class="navbar-brand" style="color:white">NubeLabs</a>
                 <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
                     <i class="fa fa-cog"></i>
                 </a>
@@ -59,6 +59,8 @@
                 <!-- .aside -->
                 <aside class="bg-light b-r lter aside-md hidden-print" id="nav">
                     <section class="vbox">
+                        @if (ViewBag.EsSuperAdmin)
+                        { 
                         <header class="header bg-primary lter text-center clearfix">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-dark btn-icon" title="Nueva Empresa">
@@ -75,6 +77,7 @@
                                 </div>
                             </div>
                         </header>
+                        }
                         <section class="w-f scrollable">
                             <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="5px" data-color="#333333">
 
@@ -82,7 +85,7 @@
                                 <nav class="nav-primary hidden-xs">
                                     <ul class="nav lt">
                                         <li class="@ViewBag.navbar.dangerActive">
-                                            <a href="@Url.Action("Index")" class="active">
+                                            <a href="@Url.Action("Libros")" class="active">
                                                 <i class="fa fa-book icon">
                                                     <b class="bg-success"></b>
                                                 </i>
