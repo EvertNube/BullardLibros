@@ -58,7 +58,6 @@ namespace BullardLibros.Controllers
 
         public AdminController()
         {
-
             UsuarioDTO user = getCurrentUser();
             if (user != null)
             {
@@ -68,6 +67,9 @@ namespace BullardLibros.Controllers
                 ViewBag.EsAdmin = isAdministrator();
                 ViewBag.EsSuperAdmin = isSuperAdministrator();
                 ViewBag.IdRol = user.IdRol;
+
+                EmpresaBL empBL = new EmpresaBL();
+                ViewBag.Empresas = empBL.getEmpresasViewBag();
             }
             else { ViewBag.EsAdmin = false; ViewBag.EsSuperAdmin = false; }
         }
@@ -109,7 +111,12 @@ namespace BullardLibros.Controllers
             if(isSuperAdministrator())
             {
                 MenuNavBarSelected(0);
-                return View();
+
+                EmpresaBL empBL = new EmpresaBL();
+                List<EmpresaDTO> listaEmpresas = new List<EmpresaDTO>();
+                listaEmpresas = empBL.getEmpresas();
+
+                return View(listaEmpresas);
             }
 
             MenuNavBarSelected(1);
@@ -122,6 +129,69 @@ namespace BullardLibros.Controllers
             ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
 
             return View("Libros", listaLibros);
+        }
+        public ActionResult Empresa(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+            MenuNavBarSelected(0);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            EmpresaBL objBL = new EmpresaBL();
+            ViewBag.IdEmpresa = id;
+
+            var objSent = TempData["Empresa"];
+            if (objSent != null) { TempData["Empresa"] = null; return View(objSent); }
+            if(id != null)
+            {
+                EmpresaDTO obj = objBL.getEmpresa((int)id);
+                if (obj == null) return RedirectToAction("Index");
+                return View(obj);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddEmpresa(EmpresaDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                EmpresaBL objBL = new EmpresaBL();
+                if (dto.IdEmpresa == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Index");
+                    }
+                }
+                else if (dto.IdEmpresa != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdEmpresa != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Empresa"] = dto;
+            return RedirectToAction("Empresa");
         }
 
         public ActionResult Libros()

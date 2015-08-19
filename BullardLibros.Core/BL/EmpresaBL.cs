@@ -66,7 +66,7 @@ namespace BullardLibros.Core.BL
                 {
                     Empresa nuevo = new Empresa();
                     nuevo.Nombre = Empresa.Nombre;
-                    nuevo.Estado = Empresa.Estado;
+                    nuevo.Estado = true;
                     nuevo.Descripcion = Empresa.Descripcion;
                     context.Empresa.Add(nuevo);
                     context.SaveChanges();
@@ -95,6 +95,19 @@ namespace BullardLibros.Core.BL
                 {
                     throw e;
                 }
+            }
+        }
+
+        public List<EmpresaDTO> getEmpresasViewBag()
+        {
+            using (var context = getContext())
+            {
+                var lista = context.Empresa.Where(x => x.Estado).Select(x => new EmpresaDTO
+                {
+                    IdEmpresa = x.IdEmpresa,
+                    Nombre = x.Nombre
+                }).ToList();
+                return lista;
             }
         }
     }

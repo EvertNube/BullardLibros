@@ -26,7 +26,7 @@ namespace BullardLibros.Data
         public string Tipo { get; set; }
         public Nullable<int> IdEmpresa { get; set; }
     
-        public virtual Empresa Empresa { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
+        public virtual Empresa Empresa { get; set; }
     }
 }

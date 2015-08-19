@@ -808,6 +808,7 @@
     <Content Include="Views\Admin\ReporteCategorias.cshtml" />
     <Content Include="Views\Admin\LibroVista.cshtml" />
     <Content Include="Views\Admin\Libros.cshtml" />
+    <Content Include="Views\Admin\Empresa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

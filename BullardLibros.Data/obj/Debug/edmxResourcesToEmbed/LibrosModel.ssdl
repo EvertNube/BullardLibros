@@ -28,7 +28,7 @@
     <Key>
       <PropertyRef Name="IdEmpresa" />
     </Key>
-    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />

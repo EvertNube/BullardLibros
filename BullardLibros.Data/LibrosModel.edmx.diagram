@@ -16,19 +16,19 @@
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_TipoMovimiento" ManuallyRouted="false" />
         <EntityTypeShape EntityType="LibrosDBModel.Categoria" Width="1.5" PointX="3" PointY="2.25" />
         <EntityTypeShape EntityType="LibrosDBModel.CuentaBancaria" Width="1.5" PointX="3" PointY="24.125" />
-        <EntityTypeShape EntityType="LibrosDBModel.Empresa" Width="1.5" PointX="0.75" PointY="13.5" />
         <EntityTypeShape EntityType="LibrosDBModel.EntidadResponsable" Width="1.5" PointX="3" PointY="9" />
         <EntityTypeShape EntityType="LibrosDBModel.Usuario" Width="1.5" PointX="3" PointY="19.625" />
-        <AssociationConnector Association="LibrosDBModel.FK_Categoria_Empresa" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Categoria" />
-        <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_Empresa" />
         <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_Moneda" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_CuentaBancaria" />
-        <AssociationConnector Association="LibrosDBModel.FK_EntidadResponsable_Empresa" />
-        <AssociationConnector Association="LibrosDBModel.FK_Usuario_Empresa" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_EntidadResponsable" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Usuario" />
         <AssociationConnector Association="LibrosDBModel.FK_Usuario_Rol" />
+        <EntityTypeShape EntityType="LibrosDBModel.Empresa" Width="1.5" PointX="0.75" PointY="13.5" />
+        <AssociationConnector Association="LibrosDBModel.FK_Categoria_Empresa" />
+        <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_Empresa" />
+        <AssociationConnector Association="LibrosDBModel.FK_EntidadResponsable_Empresa" />
+        <AssociationConnector Association="LibrosDBModel.FK_Usuario_Empresa" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
