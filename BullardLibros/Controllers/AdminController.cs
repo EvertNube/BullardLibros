@@ -264,7 +264,7 @@ namespace BullardLibros.Controllers
                     if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Libros", "Admin");
                     }
                 }
                 else if (dto.IdCuentaBancaria != 0)
@@ -272,7 +272,7 @@ namespace BullardLibros.Controllers
                     if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Libros", "Admin");
                     }
                     else
                     {
@@ -740,7 +740,7 @@ namespace BullardLibros.Controllers
             MenuNavBarSelected(5);
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
-            ViewBag.Libros = objBL.getCuentasBancariasBag(true);
+            ViewBag.Libros = objBL.getCuentasBancariasEnEmpresaBag((int)getCurrentUser().IdEmpresa, true);
 
             if (message != null)
             {

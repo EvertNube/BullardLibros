@@ -23,7 +23,8 @@ namespace BullardLibros.Core.BL
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
-                    Tipo = x.Tipo
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }

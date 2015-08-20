@@ -35,7 +35,7 @@ namespace BullardLibros.Core.BL
             using (var context = getContext())
             {
                 var result = from r in context.Categoria
-                             where (id == null ? r.IdCategoriaPadre == null : r.IdCategoriaPadre == id && r.IdEmpresa == idEmpresa)
+                             where ((id == null ? r.IdCategoriaPadre == null : r.IdCategoriaPadre == id) && r.IdEmpresa == idEmpresa)
                              select new CategoriaDTO
                              {
                                  IdCategoria = r.IdCategoria,
