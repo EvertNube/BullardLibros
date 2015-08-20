@@ -31,7 +31,8 @@ namespace BullardLibros.Core.BL
                                  IdRol = r.IdRol, //?? 0
                                  NombreRol = r.Rol.Nombre,
                                  IdCargo = r.IdCargo,
-                                 IdEmpresa = r.IdEmpresa
+                                 IdEmpresa = r.IdEmpresa,
+                                 nombreEmpresa = r.Empresa.Nombre ?? "N/A"
                              };
                 return result.ToList<UsuarioDTO>();
             }
@@ -257,7 +258,8 @@ namespace BullardLibros.Core.BL
                                  Pass = r.Pass,
                                  Cuenta = r.Cuenta,
                                  IdCargo = r.IdCargo,
-                                 IdEmpresa = r.IdEmpresa
+                                 IdEmpresa = r.IdEmpresa,
+                                 nombreEmpresa = r.Empresa.Nombre ?? "N/A"
                              };
                 return result.SingleOrDefault<UsuarioDTO>();
             }
@@ -299,7 +301,8 @@ namespace BullardLibros.Core.BL
                     IdRol = r.IdRol,
                     IdCargo = r.IdCargo,
                     NombreRol = r.Rol.Nombre,
-                    IdEmpresa = r.IdEmpresa
+                    IdEmpresa = r.IdEmpresa,
+                    nombreEmpresa = r.Empresa.Nombre ?? "N/A"
                 }).SingleOrDefault();
                 return result;
             }
@@ -320,7 +323,8 @@ namespace BullardLibros.Core.BL
                         IdRol = r.IdRol,
                         IdCargo = r.IdCargo,
                         NombreRol = r.Rol.Nombre,
-                        IdEmpresa = r.IdEmpresa
+                        IdEmpresa = r.IdEmpresa,
+                        nombreEmpresa = r.Empresa.Nombre ?? "N/A"
                     }).SingleOrDefault();
                 return result;
             }
@@ -413,6 +417,25 @@ namespace BullardLibros.Core.BL
             string body = "Sr(a). " + user.Nombre + " su contraseña es : " + passChange;
             MailHandler.Send(to, "", subject, body);
         }
+
+        public bool actualizarEmpresaSuperAdmin(int id, int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    Usuario usuario = context.Usuario.Where(x => x.IdUsuario == id).SingleOrDefault();
+                    usuario.IdEmpresa = idEmpresa;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
         #region
         public IList<UsuarioDTO> searchResponsables(string busqueda)
         {

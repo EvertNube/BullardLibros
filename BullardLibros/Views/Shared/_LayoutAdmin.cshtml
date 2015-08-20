@@ -68,8 +68,8 @@
                                         <i class="fa fa-plus"></i>
                                     </a>
                                     <div class="btn-group hidden-nav-xs">
-                                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-                                            Empresas<span class="caret"></span>
+                                        <button id="botonEmpresas" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                                            @ViewBag.NombreEmpresa<span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu text-left empresa">
                                             @foreach (var item in (List<EmpresaDTO>)ViewBag.Empresas)
@@ -87,7 +87,7 @@
 
                                 <!-- nav -->
                                 <nav class="nav-primary hidden-xs">
-                                    <ul class="nav lt">
+                                    <ul class="nav lt mimenu">
                                         <li class="@ViewBag.navbar.dangerActive">
                                             <a href="@Url.Action("Libros")" class="active">
                                                 <i class="fa fa-book icon">
@@ -160,21 +160,55 @@
             </section>
         </section>
     </section>
-    @section Scripts{
-    <script type="text/javascript">
-        $(function () {
-            $('.empresa li').click(function () {
-                var idEmpresa = $(this).attr('id');
-            });
-
-            function postEmpresa() {
-
-            }
-        });
-    </script>
-    }
-
+    <!-- JQuery -->
     @Scripts.Render("~/Content/themes/admin/js/jquery.min.js")
+
+    <script type="text/javascript">
+    $(function () {
+        $('.empresa li').click(function () {
+            var posMenu = $('.mimenu li.active').index();
+            //alert(posMenu);
+
+            var idEmpresa = $(this).attr('id').substr(3);
+            var nombreEmpresa = $(this).text();
+            $('#botonEmpresas').text(nombreEmpresa);
+            //alert(idEmpresa.substr(3));
+            $.ajax({
+                url: "/Admin/CambiarEmpresaSuperAdmin",
+                type: "POST",
+                cache: false,
+                data: { idEmpresa: idEmpresa },
+                dataType: "text"
+            }).success(function () {
+                switch (posMenu) {
+                    case 0:
+                        window.location.href = '@Url.Action("Libros", "Admin")';
+                        break;
+                    case 1:
+                        window.location.href = '@Url.Action("Categorias", "Admin")';
+                        break;
+                    case 2:
+                        window.location.href = '@Url.Action("Entidades", "Admin")';
+                        break;
+                    case 3:
+                        window.location.href = '@Url.Action("Usuarios", "Admin")';
+                        break;
+                    case 4:
+                        window.location.href = '@Url.Action("ReporteCategorias", "Admin")';
+                        break;
+                    default:
+                        window.location.href = '@Url.Action("Index", "Admin")';
+                        break;
+                }
+
+            });
+        });
+
+        function postEmpresa() {
+
+        }
+    });
+</script>
     <!-- Bootstrap -->
     @Scripts.Render("~/Content/themes/admin/js/bootstrap.js")
     <!-- App -->

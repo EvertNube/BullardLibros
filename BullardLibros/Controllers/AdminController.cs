@@ -63,6 +63,7 @@ namespace BullardLibros.Controllers
             {
                 this.navbar = new Navbar();
                 ViewBag.currentUser = user;
+                ViewBag.NombreEmpresa = user.nombreEmpresa;
                 ViewBag.Title = "NubeLabs SCI";
 
                 ViewBag.EsAdmin = isAdministrator();
@@ -1317,6 +1318,19 @@ namespace BullardLibros.Controllers
             }
 
             return Total;
+        }
+
+        [HttpPost]
+        public string CambiarEmpresaSuperAdmin(int idEmpresa)
+        {
+            if (!this.currentUser() || !isSuperAdministrator()) { return "false"; }
+            
+            UsuariosBL objBL = new UsuariosBL();
+            if(objBL.actualizarEmpresaSuperAdmin(getCurrentUser().IdUsuario, idEmpresa))
+            {
+                System.Web.HttpContext.Current.Session["User"] = objBL.getUsuario(getCurrentUser().IdUsuario);
+            }
+            return "true";;
         }
 
         public void MenuNavBarSelected(int num)
