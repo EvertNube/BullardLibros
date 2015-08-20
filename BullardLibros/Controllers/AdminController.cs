@@ -63,6 +63,7 @@ namespace BullardLibros.Controllers
             {
                 this.navbar = new Navbar();
                 ViewBag.currentUser = user;
+                ViewBag.Title = "NubeLabs SCI";
 
                 ViewBag.EsAdmin = isAdministrator();
                 ViewBag.EsSuperAdmin = isSuperAdministrator();
