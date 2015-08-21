@@ -118,8 +118,8 @@
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
                                     }
                                     <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
-                                    @*@Html.TextBoxFor(u => u.Orden, new { @value = Model != null ? Model.Orden : 1, @type = "hidden" })*@
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model.IdCategoria != 0 ? Model.IdCategoria.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-success" onclick="return validarCategoria()">@btnName</button>
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Categorias")">Salir</a>

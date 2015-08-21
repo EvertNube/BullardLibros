@@ -45,6 +45,22 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public List<EntidadResponsableDTO> getEntidadResponsablesEnEmpresaViewBag(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.EntidadResponsable.Where(x => x.Estado && x.IdEmpresa == idEmpresa).Select(x => new EntidadResponsableDTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Detraccion = x.Detraccion,
+                    Tipo = x.Tipo
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+
         public List<EntidadResponsableDTO> getEntidadResponsablesViewBag()
         {
             using (var context = getContext())
@@ -105,6 +121,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Estado = true;
                     nuevo.Detraccion = EntidadResponsable.Detraccion;
                     nuevo.Tipo = EntidadResponsable.Tipo;
+                    nuevo.IdEmpresa = EntidadResponsable.IdEmpresa;
                     context.EntidadResponsable.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -126,6 +143,7 @@ namespace BullardLibros.Core.BL
                     datoRow.Estado = EntidadResponsable.Estado;
                     datoRow.Detraccion = EntidadResponsable.Detraccion;
                     datoRow.Tipo = EntidadResponsable.Tipo;
+                    datoRow.IdEmpresa = EntidadResponsable.IdEmpresa;
                     context.SaveChanges();
                     return true;
                 }

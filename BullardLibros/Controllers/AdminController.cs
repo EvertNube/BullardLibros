@@ -125,7 +125,7 @@ namespace BullardLibros.Controllers
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
-            listaLibros = objBL.getCuentasBancarias();
+            listaLibros = objBL.getCuentasBancariasEnEmpresa(getCurrentUser().IdEmpresa.GetValueOrDefault());
             ViewBag.TotalSoles = DameTotalSoles(listaLibros);
             ViewBag.TotalDolares = DameTotalDolares(listaLibros);
             ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
@@ -229,17 +229,20 @@ namespace BullardLibros.Controllers
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             
             MenuNavBarSelected(1);
+            UsuarioDTO miUsuario = getCurrentUser();
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             ViewBag.IdCuentaBancaria = id;
             ViewBag.Monedas = objBL.getMonedasBag(false);
             var objSent = TempData["Libro"];
             if (objSent != null) { TempData["Libro"] = null; return View(objSent); }
+
+            CuentaBancariaDTO obj;
             if (id != null)
             { 
-                CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
+                obj = objBL.getCuentaBancaria((int)id);
                 if (obj == null) return RedirectToAction("Index");
-                if (obj.IdEmpresa != getCurrentUser().IdEmpresa) return RedirectToAction("Index");
+                if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
 
                 int pageSize = 100;
                 int pageNumber = (page ?? 1);
@@ -249,7 +252,11 @@ namespace BullardLibros.Controllers
                 obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
                 return View(obj);
             }
-            return View();
+
+            obj = new CuentaBancariaDTO();
+            obj.IdEmpresa = miUsuario.IdEmpresa;
+
+            return View(obj);
         }
 
         [HttpPost]
@@ -353,6 +360,8 @@ namespace BullardLibros.Controllers
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Categoria"];
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
+
+            CategoriaDTO obj;
             if (id != null || id == 0)
             {
                 if (idPadre != null)
@@ -366,14 +375,17 @@ namespace BullardLibros.Controllers
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(objp.IdCategoriaPadre.GetValueOrDefault());
                     return View(objp);
                 }
-                CategoriaDTO obj = objBL.getCategoria((int)id);
+                obj = objBL.getCategoria((int)id);
                 if (obj == null) return RedirectToAction("Categorias");
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Categorias");
 
                 ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoriaPadre.GetValueOrDefault());
                 return View(obj);
             }
-            return View();
+            obj = new CategoriaDTO();
+            obj.IdEmpresa = miUsuario.IdEmpresa;
+
+            return View(obj);
         }
 
         [HttpPost]
@@ -431,12 +443,13 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MenuNavBarSelected(1);
+            UsuarioDTO miUsuario = getCurrentUser();
 
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
             ViewBag.TiposMovimientos = objBL.getTiposMovimientos(false);
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
-            ViewBag.EntidadesResponsables = objBL.getEntidadesResponsables(true);
+            ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault(), true);
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
@@ -448,7 +461,7 @@ namespace BullardLibros.Controllers
                 nuevo.NumeroDocumento = null;
                 nuevo.Comentario = "No existe comentario";
                 nuevo.Estado = true;
-                nuevo.UsuarioCreacion = getCurrentUser().IdUsuario;
+                nuevo.UsuarioCreacion = miUsuario.IdUsuario;
                 nuevo.FechaCreacion = DateTime.Now;
                 return View(nuevo);
             }
@@ -457,7 +470,7 @@ namespace BullardLibros.Controllers
                 if (id != null)
                 {
                     MovimientoDTO obj = objBL.getMovimiento((int)id);
-                    obj.UsuarioCreacion = getCurrentUser().IdUsuario;
+                    obj.UsuarioCreacion = miUsuario.IdUsuario;
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoria.GetValueOrDefault());
                     return View(obj);
                 }
@@ -544,9 +557,10 @@ namespace BullardLibros.Controllers
 
             var objSent = TempData["Usuario"];
             if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
+            UsuarioDTO usuario;
             if (id != null)
             {
-                UsuarioDTO usuario = usuariosBL.getUsuarioEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault(), id.GetValueOrDefault());
+                usuario = usuariosBL.getUsuarioEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault(), id.GetValueOrDefault());
                 if (usuario == null) return RedirectToAction("Usuarios");
                 if (usuario.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Usuarios");
                 
@@ -555,7 +569,9 @@ namespace BullardLibros.Controllers
 
                 return View(usuario);
             }
-            return View();
+            usuario = new UsuarioDTO();
+            usuario.IdEmpresa = currentUser.IdEmpresa;
+            return View(usuario);
         }
 
         [HttpPost]
@@ -641,14 +657,19 @@ namespace BullardLibros.Controllers
             ViewBag.IdEntidad = id;
             var objSent = TempData["Entidad"];
             if (objSent != null) { TempData["Entidad"] = null; return View(objSent); }
+
+            EntidadResponsableDTO obj;
             if (id != null)
             {
-                EntidadResponsableDTO obj = objBL.getEntidadResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                obj = objBL.getEntidadResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Entidades");
                 if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Entidades");
                 return View(obj);
             }
-            return View();
+            obj = new EntidadResponsableDTO();
+            obj.IdEmpresa = currentUser.IdEmpresa;
+
+            return View(obj);
         }
 
         [HttpPost]
@@ -826,17 +847,20 @@ namespace BullardLibros.Controllers
 
                     string miCadena = (string)row["Categoria"];
                     string miCadena2 = (string)rowFutura["Categoria"];
-                    if (miCadena != "OTROS" && miCadena != "INGRESOS")
-                    {
+                    //if (miCadena != "OTROS" && miCadena != "INGRESOS")
+                    //{
                         MontoCategoria += data[i].MontoTotal;
                         MontoSubCategoria += data[i].MontoTotal;
-                        if (row["Categoria Sub 1"] != rowFutura["Categoria Sub 1"])
-                        {
-                            System.Data.DataRow aux1 = dt.NewRow();
-                            aux1["Categoria Sub 1"] = "TOTAL :";
-                            aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                            dt.Rows.Add(aux1);
-                            MontoSubCategoria = 0;
+                        if (CONSTANTES.NivelCat > 0)
+                        { 
+                            if (row["Categoria Sub 1"] != rowFutura["Categoria Sub 1"])
+                            {
+                                System.Data.DataRow aux1 = dt.NewRow();
+                                aux1["Categoria Sub 1"] = "TOTAL :";
+                                aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
+                                dt.Rows.Add(aux1);
+                                MontoSubCategoria = 0;
+                            }
                         }
                         if (row["Categoria"] != rowFutura["Categoria"])
                         {
@@ -846,18 +870,21 @@ namespace BullardLibros.Controllers
                             dt.Rows.Add(aux);
                             MontoCategoria = 0;
                         }
-                    }
+                    //}
                 }
                 else
                 {
                     MontoCategoria += data[i].MontoTotal;
                     MontoSubCategoria += data[i].MontoTotal;
                     //Sub Categoria
-                    System.Data.DataRow aux1 = dt.NewRow();
-                    aux1["Categoria Sub 1"] = "TOTAL :";
-                    aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                    dt.Rows.Add(aux1);
-                    MontoSubCategoria = 0;
+                    if(CONSTANTES.NivelCat > 0)
+                    { 
+                        System.Data.DataRow aux1 = dt.NewRow();
+                        aux1["Categoria Sub 1"] = "TOTAL :";
+                        aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
+                        dt.Rows.Add(aux1);
+                        MontoSubCategoria = 0;
+                    }
                     //Categoria Principal
                     System.Data.DataRow aux = dt.NewRow();
                     aux["Categoria"] = "TOTAL :";
@@ -1148,7 +1175,7 @@ namespace BullardLibros.Controllers
             int contPadre = 0;
             foreach (GridViewRow row in myTable.Rows)
             {
-                if (contPadre > 0)
+                /*if (contPadre > 0)
                 {
                     if (contPadre == 1 || contPadre == 2)
                     {
@@ -1160,7 +1187,7 @@ namespace BullardLibros.Controllers
                         }
                     }
                     else
-                    {
+                    {*/
                         if (cadenaPadre != row.Cells[0].Text)
                         {
                             if (!blancoActive)
@@ -1203,8 +1230,8 @@ namespace BullardLibros.Controllers
                                 row.Cells[i].BackColor = colorSub;
                             }
                         }
-                    }
-                }
+                    /*}
+                }*/
                 contPadre++;
             }
         }

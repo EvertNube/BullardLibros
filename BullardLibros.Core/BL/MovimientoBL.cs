@@ -164,6 +164,19 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public IList<EntidadResponsableDTO> getEntidadesResponsablesEnEmpresa(int idEmpresa, bool AsSelectList = false)
+        {
+            EntidadResponsableBL oBL = new EntidadResponsableBL();
+            if (!AsSelectList)
+                return oBL.getEntidadResponsablesEnEmpresaViewBag(idEmpresa);
+            else
+            {
+                var lista = oBL.getEntidadResponsablesEnEmpresaViewBag(idEmpresa);
+                lista.Insert(0, new EntidadResponsableDTO() { IdEntidadResponsable = 0, Nombre = "Seleccione la Entidad Responsable" });
+                return lista;
+            }
+        }
+
         public IList<EntidadResponsableDTO> getEntidadesResponsables(bool AsSelectList = false)
         {
             EntidadResponsableBL oBL = new EntidadResponsableBL();
