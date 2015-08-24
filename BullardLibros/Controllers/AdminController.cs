@@ -852,8 +852,8 @@ namespace BullardLibros.Controllers
                         MontoCategoria += data[i].MontoTotal;
                         MontoSubCategoria += data[i].MontoTotal;
                         if (CONSTANTES.NivelCat > 0)
-                        { 
-                            if (row["Categoria Sub 1"] != rowFutura["Categoria Sub 1"])
+                        {
+                            if (row["Categoria Sub 1"] != rowFutura["Categoria Sub 1"] && !string.IsNullOrEmpty(row["Categoria Sub 1"].ToString()))
                             {
                                 System.Data.DataRow aux1 = dt.NewRow();
                                 aux1["Categoria Sub 1"] = "TOTAL :";
@@ -864,6 +864,7 @@ namespace BullardLibros.Controllers
                         }
                         if (row["Categoria"] != rowFutura["Categoria"])
                         {
+                            MontoSubCategoria = 0;
                             System.Data.DataRow aux = dt.NewRow();
                             aux["Categoria"] = "TOTAL :";
                             aux["Montos Totales"] = MontoCategoria.ToString("N2", CultureInfo.InvariantCulture);
@@ -962,6 +963,7 @@ namespace BullardLibros.Controllers
             dt.Columns.Add("Monto");
             dt.Columns.Add("Tipo");
             dt.Columns.Add("Estado");
+            dt.Columns.Add("Comentario");
 
             foreach (var item in data)
             {
@@ -975,6 +977,7 @@ namespace BullardLibros.Controllers
                 row["Monto"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 row["Tipo"] = item.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
                 row["Estado"] = item.IdEstadoMovimiento == 1 ? "Pendiente" : "Realizado";
+                row["Comentario"] = item.Comentario == "No existe comentario" ? "" : item.Comentario;
 
                 dt.Rows.Add(row);
             }
@@ -1270,7 +1273,7 @@ namespace BullardLibros.Controllers
 
             foreach (GridViewRow row in myTable.Rows)
             {
-                if (row.Cells.Count >= 4)
+                if (row.Cells.Count >= 2)
                 {
                     string cadena0 = row.Cells[0].Text;
                     string cadena1 = row.Cells[1].Text;
@@ -1285,10 +1288,18 @@ namespace BullardLibros.Controllers
                     }
                     if (cadena1 == "TOTAL :")
                     {
-                        for (int i = 1; i < row.Cells.Count; i++)
+                        for (int i = 0; i < row.Cells.Count; i++)
                         {
+                            if(i == 0)
+                            {
+                                row.Cells[i].BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
+                                row.Cells[i].Font.Bold = true;
+                            }
+                            else
+                            { 
                             row.Cells[i].BackColor = System.Drawing.Color.FromArgb(95, 174, 227);
                             row.Cells[i].Font.Bold = true;
+                            }
                         }
                         //row.BackColor = System.Drawing.Color.FromArgb(52, 152, 219);
                     }
