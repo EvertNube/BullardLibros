@@ -7,9 +7,17 @@
     ViewBag.Title = "NubeLabs SCI - Libro";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/jquery.dataTables.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
 @section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    
     <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
         function CheckNumericValue(e) {
             var key = e.which ? e.which : e.keyCode;
             //enter key  //backspace //tabkey      //escape key
@@ -147,28 +155,29 @@
                                         </div>
                                     }
                                     <div class="table-responsive">
-                                        <table class="table table-striped m-b-none">
-                                            <thead>
-                                                <tr>
-                                                    <th width="15%">Nombre</th>
-                                                    <th class="text-center" width="10%">Categoria</th>
-                                                    <th class="text-center" width="10%">Entidad</th>
+                                        <div class="dataTables_wrapper no-footer">
+                                            <table class="table table-striped m-b-none dataTable no-footer">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="15%">Nombre</th>
+                                                        <th class="text-center" width="10%">Categoria</th>
+                                                        <th class="text-center" width="10%">Entidad</th>
 
-                                                    <th class="text-center" width="7%">Fecha</th>
-                                                    <th class="text-center" width="8%">N° Doc</th>
-                                                    <th class="text-center" width="15%">Monto</th>
-                                                    <th class="text-center" width="8%">Tipo</th>
+                                                        <th class="text-center" width="7%">Fecha</th>
+                                                        <th class="text-center" width="8%">N° Doc</th>
+                                                        <th class="text-center" width="15%">Monto</th>
+                                                        <th class="text-center" width="8%">Tipo</th>
 
-                                                    <th class="text-center">E</th>
-                                                    <th class="text-center" width="10%">Usuario</th>
+                                                        <th class="text-center">E</th>
+                                                        <th class="text-center" width="10%">Usuario</th>
 
-                                                    <th class="text-center" width="7%">Opc.</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.listaMovimiento != null)
+                                                        <th class="text-center" width="7%">Opc.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.listaMovimiento != null)
                                                 {
-                                                    foreach (var obj in Model.listaMovimientoPL)
+                                                    foreach (var obj in Model.listaMovimiento)
                                                     {
                                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                         <tr @Html.Raw(classInactive)>
@@ -207,10 +216,11 @@
                                                         </tr>
                                                     }
                                                 }
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                    <footer class="panel-footer">
+                                    @*<footer class="panel-footer">
                                         <div class="row">
                                             <div class="col-sm-4"></div>
                                             <div class="col-sm-4 text-center">
@@ -220,7 +230,7 @@
                                                 @Html.PagedListPager(Model.listaMovimientoPL, page => Url.Action("Libro", new { id = ViewBag.IdCuentaBancaria, page }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
                                             </div>
                                         </div>
-                                    </footer>
+                                    </footer>*@
 
                                 </section>
                             </section>

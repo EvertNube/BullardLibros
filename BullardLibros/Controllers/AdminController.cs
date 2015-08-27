@@ -250,6 +250,7 @@ namespace BullardLibros.Controllers
                 TempData["PagMovs"] = (page ?? 1);
 
                 obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
+                
                 return View(obj);
             }
 

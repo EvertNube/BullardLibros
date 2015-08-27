@@ -4,6 +4,18 @@
 }
 @model IList<BullardLibros.Core.DTO.MovimientoDTO>
 
+@Styles.Render("~/Content/themes/admin/js/datatables/css/jquery.dataTables.min.css")
+
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    
+    <script type="text/javascript">
+        $(function () {
+            $('#miTabla').DataTable();
+        });
+    </script>
+}
+
 <section class="vbox">
     <section class="scrollable padder">
         <div class="row m-b">
@@ -25,7 +37,7 @@
                         </div>
                     }
                     <div class="table-responsive">
-                        <table class="table table-striped m-b-none">
+                        <table id="miTabla" class="table table-striped m-b-none">
                             <thead>
                                 <tr>
                                     <th width="20%">Nombre</th>
