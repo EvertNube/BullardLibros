@@ -4,10 +4,15 @@
     ViewBag.Title = "NubeLabs SCI - Libros";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
 @section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     <script type="text/javascript">
         $(function () {
+            $('.dataTable').DataTable();
         });
         function funcTipoCambio() {
             var value = parseFloat($("#idTipoCambio").val()) || 0;
@@ -114,55 +119,25 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="panel-footer">
-                        <div class="panel-body" style="padding:0px;">
-                            <form class="form-inline" role="form">
-                                <div class="form-group col-md-8 text-right">
-                                    <label class="control-label" style="transform: translateY(35%)">Tipo de Cambio</label>
-                                </div>
-                                <div class="form-group col-md-1">
-                                    <input id="idTipoCambio" type="text" class="form-control" style="text-align:right;" value="3.00" onkeyup="funcTipoCambio(); (funcTipoCambioActivado() == 1) ? funcTipoCambioSoles() : funcTipoCambioDolares();">
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        <label id="idMonedaSoles" class="btn btn-md btn-default active" onclick="funcTipoCambio(); funcTipoCambioSoles();">
-                                            <input type="radio" name="options" id="option1">
-                                            <i class="fa fa-money text-warning">
-                                            </i>
-                                            &nbsp;Soles
-                                        </label>
-                                        <label id="idMonedaDolares" class="btn btn-md btn-default" onclick="funcTipoCambio(); funcTipoCambioDolares();">
-                                            <input type="radio" name="options" id="option2">
-                                            <i class="fa fa-dollar text-success">
-                                            </i>
-                                            &nbsp;Dólares
-                                        </label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>*@
                 </section>
                 <section class="panel panel-default">
                     @if (ViewBag.EsAdmin)
                     {
-                        <div class="row text-sm wrapper">
-
-                            <div class="col-sm-8">
-                                <div class="btn-group">
-
-                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-
+                        <header class="panel-heading">
+                            <div class="row text-sm">
+                                <div class="col-sm-8">
+                                    <div class="btn-group">
+                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Libro")"><i class="fa fa-plus"></i> Crear nuevo Libro</a>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Libro")"><i class="fa fa-plus"></i> Crear nuevo Libro</a>
-                            </div>
-
-                        </div>
+                        </header>
                     }
                     <div class="table-responsive">
-                        <table class="table table-striped m-b-none">
+                        <table class="table table-striped m-b-none dataTable no-footer">
                             <thead>
                                 <tr>
                                     <th width="20%">Nombre</th>

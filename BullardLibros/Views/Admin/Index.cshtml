@@ -4,10 +4,16 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @using System.Globalization;
-
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
 @section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     <script type="text/javascript">
-        
+        $(function () {
+            $('.dataTable').DataTable();
+        });
     </script>
 }
 
@@ -32,7 +38,7 @@
                         </div>
                     }
                     <div class="table-responsive">
-                        <table class="table table-striped m-b-none">
+                        <table class="table table-striped m-b-none dataTable no-footer">
                             <thead>
                                 <tr>
                                     <th width="20%">Nombre</th>

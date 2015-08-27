@@ -449,6 +449,12 @@
     <Content Include="Content\themes\admin\js\datatables\dataTables.foundation.min.css" />
     <Content Include="Content\themes\admin\js\datatables\demo.js" />
     <Content Include="Content\themes\admin\js\datatables\foundation.min.css" />
+    <Content Include="Content\themes\admin\js\datatables\images\favicon.ico" />
+    <Content Include="Content\themes\admin\js\datatables\images\sort_asc.png" />
+    <Content Include="Content\themes\admin\js\datatables\images\sort_asc_disabled.png" />
+    <Content Include="Content\themes\admin\js\datatables\images\sort_both.png" />
+    <Content Include="Content\themes\admin\js\datatables\images\sort_desc.png" />
+    <Content Include="Content\themes\admin\js\datatables\images\sort_desc_disabled.png" />
     <Content Include="Content\themes\admin\js\datatables\jquery.dataTables.min.js" />
     <Content Include="Content\themes\admin\js\datatables\js\dataTables.bootstrap.js" />
     <Content Include="Content\themes\admin\js\datatables\js\dataTables.bootstrap.min.js" />
@@ -775,6 +781,7 @@
     <Content Include="Content\themes\admin\src\less\app.widgets.less" />
     <Content Include="Content\themes\admin\src\less\less.php" />
     <Content Include="Content\themes\admin\src\less\lessc.inc.php" />
+    <Content Include="Content\themes\admin\js\datatables\images\Sorting icons.psd" />
     <None Include="Properties\PublishProfiles\BullardLibros.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
