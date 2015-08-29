@@ -26,6 +26,7 @@ namespace BullardLibros.Data
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public string Descripcion { get; set; }
+        public decimal TipoCambio { get; set; }
     
         public virtual ICollection<Categoria> Categoria { get; set; }
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }

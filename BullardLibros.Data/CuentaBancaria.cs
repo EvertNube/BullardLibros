@@ -28,8 +28,8 @@ namespace BullardLibros.Data
         public Nullable<int> IdMoneda { get; set; }
         public Nullable<int> IdEmpresa { get; set; }
     
-        public virtual Moneda Moneda { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
         public virtual Empresa Empresa { get; set; }
+        public virtual Moneda Moneda { get; set; }
     }
 }

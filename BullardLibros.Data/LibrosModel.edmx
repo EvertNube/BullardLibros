@@ -37,6 +37,7 @@
           <Property Name="Nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="EntidadResponsable">
           <Key>
@@ -91,15 +92,6 @@
           <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="TipoCambio">
-          <Key>
-            <PropertyRef Name="IdTipoCambio" />
-          </Key>
-          <Property Name="IdTipoCambio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdMoneda" Type="int" Nullable="false" />
-          <Property Name="Fecha" Type="datetime" Nullable="false" />
-          <Property Name="Valor" Type="numeric" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="TipoMovimiento">
           <Key>
@@ -245,18 +237,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TipoCambio_Moneda">
-          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
-          <End Role="TipoCambio" Type="Self.TipoCambio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Moneda">
-              <PropertyRef Name="IdMoneda" />
-            </Principal>
-            <Dependent Role="TipoCambio">
-              <PropertyRef Name="IdMoneda" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Usuario_Empresa">
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -326,7 +306,6 @@
           <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TipoCambio" EntityType="Self.TipoCambio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Categoria_Empresa" Association="Self.FK_Categoria_Empresa">
@@ -369,10 +348,6 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Movimiento" EntitySet="Movimiento" />
           </AssociationSet>
-          <AssociationSet Name="FK_TipoCambio_Moneda" Association="Self.FK_TipoCambio_Moneda">
-            <End Role="Moneda" EntitySet="Moneda" />
-            <End Role="TipoCambio" EntitySet="TipoCambio" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Usuario" EntitySet="Usuario" />
@@ -394,16 +369,6 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EstadoMovimiento" FromRole="EstadoMovimiento" ToRole="Movimiento" />
-        </EntityType>
-        <EntityType Name="Moneda">
-          <Key>
-            <PropertyRef Name="IdMoneda" />
-          </Key>
-          <Property Name="IdMoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Simbolo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="TipoCambio" Relationship="Self.FK_TipoCambio_Moneda" FromRole="Moneda" ToRole="TipoCambio" />
-          <NavigationProperty Name="CuentaBancaria" Relationship="LibrosDBModel.FK_CuentaBancaria_Moneda" FromRole="Moneda" ToRole="CuentaBancaria" />
         </EntityType>
         <EntityType Name="Movimiento">
           <Key>
@@ -439,16 +404,6 @@
           <Property Name="DescripcionRol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Usuario" Relationship="LibrosDBModel.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
         </EntityType>
-        <EntityType Name="TipoCambio">
-          <Key>
-            <PropertyRef Name="IdTipoCambio" />
-          </Key>
-          <Property Name="IdTipoCambio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdMoneda" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Valor" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Moneda" Relationship="Self.FK_TipoCambio_Moneda" FromRole="TipoCambio" ToRole="Moneda" />
-        </EntityType>
         <EntityType Name="TipoMovimiento">
           <Key>
             <PropertyRef Name="IdTipoMovimiento" />
@@ -470,18 +425,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TipoCambio_Moneda">
-          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
-          <End Role="TipoCambio" Type="Self.TipoCambio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Moneda">
-              <PropertyRef Name="IdMoneda" />
-            </Principal>
-            <Dependent Role="TipoCambio">
-              <PropertyRef Name="IdMoneda" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Movimiento_TipoMovimiento">
           <End Role="TipoMovimiento" Type="Self.TipoMovimiento" Multiplicity="1" />
           <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
@@ -496,18 +439,12 @@
         </Association>
         <EntityContainer Name="LibrosDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" />
-          <EntitySet Name="Moneda" EntityType="Self.Moneda" />
           <EntitySet Name="Movimiento" EntityType="Self.Movimiento" />
           <EntitySet Name="Rol" EntityType="Self.Rol" />
-          <EntitySet Name="TipoCambio" EntityType="Self.TipoCambio" />
           <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" />
           <AssociationSet Name="FK_Movimiento_EstadoMovimiento" Association="Self.FK_Movimiento_EstadoMovimiento">
             <End Role="EstadoMovimiento" EntitySet="EstadoMovimiento" />
             <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TipoCambio_Moneda" Association="Self.FK_TipoCambio_Moneda">
-            <End Role="Moneda" EntitySet="Moneda" />
-            <End Role="TipoCambio" EntitySet="TipoCambio" />
           </AssociationSet>
           <AssociationSet Name="FK_Movimiento_TipoMovimiento" Association="Self.FK_Movimiento_TipoMovimiento">
             <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
@@ -538,10 +475,6 @@
           <AssociationSet Name="FK_Movimiento_Categoria" Association="LibrosDBModel.FK_Movimiento_Categoria">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CuentaBancaria_Moneda" Association="LibrosDBModel.FK_CuentaBancaria_Moneda">
-            <End Role="Moneda" EntitySet="Moneda" />
-            <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
           </AssociationSet>
           <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="LibrosDBModel.FK_Movimiento_CuentaBancaria">
             <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
@@ -575,6 +508,11 @@
           <AssociationSet Name="FK_Usuario_Empresa" Association="LibrosDBModel.FK_Usuario_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <EntitySet Name="Moneda" EntityType="LibrosDBModel.Moneda" />
+          <AssociationSet Name="FK_CuentaBancaria_Moneda" Association="LibrosDBModel.FK_CuentaBancaria_Moneda">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
@@ -634,9 +572,9 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdMoneda" Type="Int32" />
           <Property Name="IdEmpresa" Type="Int32" />
-          <NavigationProperty Name="Moneda" Relationship="LibrosDBModel.FK_CuentaBancaria_Moneda" FromRole="CuentaBancaria" ToRole="Moneda" />
           <NavigationProperty Name="Movimiento" Relationship="LibrosDBModel.FK_Movimiento_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Movimiento" />
           <NavigationProperty Name="Empresa" Relationship="LibrosDBModel.FK_CuentaBancaria_Empresa" FromRole="CuentaBancaria" ToRole="Empresa" />
+          <NavigationProperty Name="Moneda" Relationship="LibrosDBModel.FK_CuentaBancaria_Moneda" FromRole="CuentaBancaria" ToRole="Moneda" />
         </EntityType>
         <EntityType Name="EntidadResponsable">
           <Key>
@@ -679,18 +617,6 @@
             </Principal>
             <Dependent Role="Movimiento">
               <PropertyRef Name="IdCategoria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CuentaBancaria_Moneda">
-          <End Type="LibrosDBModel.Moneda" Role="Moneda" Multiplicity="0..1" />
-          <End Type="LibrosDBModel.CuentaBancaria" Role="CuentaBancaria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Moneda">
-              <PropertyRef Name="IdMoneda" />
-            </Principal>
-            <Dependent Role="CuentaBancaria">
-              <PropertyRef Name="IdMoneda" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -754,6 +680,7 @@
           <NavigationProperty Name="CuentaBancaria" Relationship="LibrosDBModel.FK_CuentaBancaria_Empresa" FromRole="Empresa" ToRole="CuentaBancaria" />
           <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_EntidadResponsable_Empresa" FromRole="Empresa" ToRole="EntidadResponsable" />
           <NavigationProperty Name="Usuario" Relationship="LibrosDBModel.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
+          <Property Name="TipoCambio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_Categoria_Empresa">
           <End Type="LibrosDBModel.Empresa" Role="Empresa" Multiplicity="0..1" />
@@ -803,6 +730,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="IdMoneda" />
+          </Key>
+          <Property Name="IdMoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Simbolo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CuentaBancaria" Relationship="LibrosDBModel.FK_CuentaBancaria_Moneda" FromRole="Moneda" ToRole="CuentaBancaria" />
+        </EntityType>
+        <Association Name="FK_CuentaBancaria_Moneda">
+          <End Type="LibrosDBModel.Moneda" Role="Moneda" Multiplicity="0..1" />
+          <End Type="LibrosDBModel.CuentaBancaria" Role="CuentaBancaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="CuentaBancaria">
+              <PropertyRef Name="IdMoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -815,15 +763,6 @@
                 <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Moneda">
-            <EntityTypeMapping TypeName="LibrosDBModel.Moneda">
-              <MappingFragment StoreEntitySet="Moneda">
-                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -853,16 +792,6 @@
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TipoCambio">
-            <EntityTypeMapping TypeName="LibrosDBModel.TipoCambio">
-              <MappingFragment StoreEntitySet="TipoCambio">
-                <ScalarProperty Name="IdTipoCambio" ColumnName="IdTipoCambio" />
-                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -978,10 +907,20 @@
           <EntitySetMapping Name="Empresa">
             <EntityTypeMapping TypeName="LibrosDBModel.Empresa">
               <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Moneda">
+            <EntityTypeMapping TypeName="LibrosDBModel.Moneda">
+              <MappingFragment StoreEntitySet="Moneda">
+                <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

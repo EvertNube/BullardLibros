@@ -22,7 +22,8 @@ namespace BullardLibros.Core.BL
                     IdEmpresa = x.IdEmpresa,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
-                    Descripcion = x.Descripcion
+                    Descripcion = x.Descripcion,
+                    TipoCambio = x.TipoCambio
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -37,7 +38,8 @@ namespace BullardLibros.Core.BL
                         IdEmpresa = x.IdEmpresa,
                         Nombre = x.Nombre,
                         Estado = x.Estado,
-                        Descripcion = x.Descripcion
+                        Descripcion = x.Descripcion,
+                        TipoCambio = x.TipoCambio
                     }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -53,7 +55,8 @@ namespace BullardLibros.Core.BL
                         IdEmpresa = r.IdEmpresa,
                         Nombre = r.Nombre,
                         Estado = r.Estado,
-                        Descripcion = r.Descripcion
+                        Descripcion = r.Descripcion,
+                        TipoCambio = r.TipoCambio
                     }).SingleOrDefault();
                 return result;
             }
@@ -68,6 +71,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Nombre = Empresa.Nombre;
                     nuevo.Estado = true;
                     nuevo.Descripcion = Empresa.Descripcion;
+                    nuevo.TipoCambio = Empresa.TipoCambio == 0 ? 1 : Empresa.TipoCambio;
                     context.Empresa.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -88,10 +92,29 @@ namespace BullardLibros.Core.BL
                     row.Nombre = Empresa.Nombre;
                     row.Estado = Empresa.Estado;
                     row.Descripcion = Empresa.Descripcion;
+                    row.TipoCambio = Empresa.TipoCambio;
                     context.SaveChanges();
                     return true;
                 }
                 catch(Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public bool updateTipoCambio(EmpresaDTO Empresa)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Empresa.Where(x => x.IdEmpresa == Empresa.IdEmpresa).SingleOrDefault();
+                    row.TipoCambio = Empresa.TipoCambio;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
                 {
                     throw e;
                 }

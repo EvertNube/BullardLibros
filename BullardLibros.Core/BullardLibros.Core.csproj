@@ -77,7 +77,6 @@
     <Compile Include="DTO\RolDTO.cs" />
     <Compile Include="DTO\Select2DTO.cs" />
     <Compile Include="DTO\SelectDTO.cs" />
-    <Compile Include="DTO\TipoCambioDTO.cs" />
     <Compile Include="DTO\TipoMovimientoDTO.cs" />
     <Compile Include="DTO\UsuarioDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

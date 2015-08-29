@@ -84,18 +84,14 @@ namespace BullardLibros.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioDTO user)
         {
-            //if (ModelState.IsValid)
-            //{
             UsuariosBL usuariosBL = new UsuariosBL();
             if (usuariosBL.isValidUser(user))
             {
-                System.Web.HttpContext.Current.Session["User"] = usuariosBL.getUsuarioByCuenta(user);//new UsuarioDTO() { Nombre = "NubeLabs", IdUsuario = 1, IdRol = 1 }; //{ Nombre = "Responsable 1", IdUsuario = 2, IdRol = 3 };  //usuariosBL.getUsuarioByCuenta(user);
+                System.Web.HttpContext.Current.Session["User"] = usuariosBL.getUsuarioByCuenta(user);
                 return RedirectToAction("Index");
             }
             else
                 return RedirectToAction("Ingresar");
-            //}
-
         }
         public ActionResult Logout()
         {
@@ -122,6 +118,9 @@ namespace BullardLibros.Controllers
             }
 
             MenuNavBarSelected(1);
+
+            EmpresaDTO objEBL;
+            //ViewBag.TipoCambio
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
@@ -1368,8 +1367,24 @@ namespace BullardLibros.Controllers
             if(objBL.actualizarEmpresaSuperAdmin(getCurrentUser().IdUsuario, idEmpresa))
             {
                 System.Web.HttpContext.Current.Session["User"] = objBL.getUsuario(getCurrentUser().IdUsuario);
+                return "true";
             }
-            return "true";;
+            return "false";
+        }
+
+        [HttpPost]
+        public string ActualizarTipoCambio(Decimal tipoCambio)
+        {
+            if (!this.currentUser() || !isAdministrator()) { return "false"; }
+
+            EmpresaBL objBL = new EmpresaBL();
+            UsuarioDTO miUsuario = getCurrentUser();
+            EmpresaDTO obj = new EmpresaDTO(){ IdEmpresa = miUsuario.IdEmpresa.GetValueOrDefault(), TipoCambio = tipoCambio };
+            if(objBL.updateTipoCambio(obj))
+            {
+                return "true";
+            }
+            return "false";
         }
 
         public void MenuNavBarSelected(int num)

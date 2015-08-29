@@ -16,7 +16,6 @@ namespace BullardLibros.Data
     {
         public Moneda()
         {
-            this.TipoCambio = new HashSet<TipoCambio>();
             this.CuentaBancaria = new HashSet<CuentaBancaria>();
         }
     
@@ -24,7 +23,6 @@ namespace BullardLibros.Data
         public string Nombre { get; set; }
         public string Simbolo { get; set; }
     
-        public virtual ICollection<TipoCambio> TipoCambio { get; set; }
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
     }
 }

@@ -10,15 +10,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Moneda">
-      <EntityTypeMapping TypeName="LibrosDBModel.Moneda">
-        <MappingFragment StoreEntitySet="Moneda">
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Movimiento">
       <EntityTypeMapping TypeName="LibrosDBModel.Movimiento">
         <MappingFragment StoreEntitySet="Movimiento">
@@ -45,16 +36,6 @@
           <ScalarProperty Name="IdRol" ColumnName="IdRol" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TipoCambio">
-      <EntityTypeMapping TypeName="LibrosDBModel.TipoCambio">
-        <MappingFragment StoreEntitySet="TipoCambio">
-          <ScalarProperty Name="IdTipoCambio" ColumnName="IdTipoCambio" />
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-          <ScalarProperty Name="Valor" ColumnName="Valor" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -170,10 +151,20 @@
     <EntitySetMapping Name="Empresa">
       <EntityTypeMapping TypeName="LibrosDBModel.Empresa">
         <MappingFragment StoreEntitySet="Empresa">
+          <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Moneda">
+      <EntityTypeMapping TypeName="LibrosDBModel.Moneda">
+        <MappingFragment StoreEntitySet="Moneda">
+          <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

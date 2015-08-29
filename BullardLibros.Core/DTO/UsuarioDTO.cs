@@ -21,6 +21,7 @@ namespace BullardLibros.Core.DTO
         public int IdRol { get; set; }
         public int? IdCargo { get; set; }
         public int? IdEmpresa { get; set; }
+        //public EmpresaDTO empresa { get; set; }
         public string nombreEmpresa { get; set; }
 
         public string NombreRol { get; set; }

@@ -13,5 +13,6 @@ namespace BullardLibros.Core.DTO
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public string Descripcion { get; set; }
+        public Decimal TipoCambio { get; set; }
     }
 }

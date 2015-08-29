@@ -88,7 +88,8 @@ namespace BullardLibros.Core.BL
                         Nombre = r.Nombre,
                         Estado = r.Estado,
                         Detraccion = r.Detraccion,
-                        Tipo = r.Tipo
+                        Tipo = r.Tipo,
+                        IdEmpresa = r.IdEmpresa
                     }).SingleOrDefault();
                 return result;
             }

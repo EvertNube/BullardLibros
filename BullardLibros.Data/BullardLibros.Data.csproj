@@ -98,9 +98,6 @@
     <Compile Include="SP_GetReporteResumenEntidadesRes_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TipoCambio.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="TipoMovimiento.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

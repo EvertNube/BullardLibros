@@ -32,6 +32,7 @@
     <Property Name="Nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
   </EntityType>
   <EntityType Name="EntidadResponsable">
     <Key>
@@ -86,15 +87,6 @@
     <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
-  </EntityType>
-  <EntityType Name="TipoCambio">
-    <Key>
-      <PropertyRef Name="IdTipoCambio" />
-    </Key>
-    <Property Name="IdTipoCambio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IdMoneda" Type="int" Nullable="false" />
-    <Property Name="Fecha" Type="datetime" Nullable="false" />
-    <Property Name="Valor" Type="numeric" Precision="18" Scale="2" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoMovimiento">
     <Key>
@@ -240,18 +232,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TipoCambio_Moneda">
-    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
-    <End Role="TipoCambio" Type="Self.TipoCambio" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Moneda">
-        <PropertyRef Name="IdMoneda" />
-      </Principal>
-      <Dependent Role="TipoCambio">
-        <PropertyRef Name="IdMoneda" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Usuario_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -321,7 +301,6 @@
     <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TipoCambio" EntityType="Self.TipoCambio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Categoria_Empresa" Association="Self.FK_Categoria_Empresa">
@@ -363,10 +342,6 @@
     <AssociationSet Name="FK_Movimiento_Usuario" Association="Self.FK_Movimiento_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Movimiento" EntitySet="Movimiento" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TipoCambio_Moneda" Association="Self.FK_TipoCambio_Moneda">
-      <End Role="Moneda" EntitySet="Moneda" />
-      <End Role="TipoCambio" EntitySet="TipoCambio" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />

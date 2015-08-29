@@ -33,6 +33,7 @@ namespace BullardLibros.Core.BL
                                  IdCargo = r.IdCargo,
                                  IdEmpresa = r.IdEmpresa,
                                  nombreEmpresa = r.Empresa.Nombre ?? "N/A"
+                                 //empresa = context.Empresa.Where(x => x.IdEmpresa == r.IdEmpresa).Select(y => new EmpresaDTO { IdEmpresa = y.IdEmpresa, Nombre = y.Nombre ?? "N/A", Estado = y.Estado, Descripcion = y.Descripcion, TipoCambio = y.TipoCambio }).FirstOrDefault()
                              };
                 return result.ToList<UsuarioDTO>();
             }
@@ -259,7 +260,9 @@ namespace BullardLibros.Core.BL
                                  Cuenta = r.Cuenta,
                                  IdCargo = r.IdCargo,
                                  IdEmpresa = r.IdEmpresa,
-                                 nombreEmpresa = r.Empresa.Nombre ?? "N/A"
+                                 nombreEmpresa = r.Empresa.Nombre ?? "N/A",
+                                 //empresa = context.Empresa.Where(x => x.IdEmpresa == r.IdEmpresa).Select(y => new EmpresaDTO { IdEmpresa = y.IdEmpresa, Nombre = y.Nombre ?? "N/A", Estado = y.Estado, Descripcion = y.Descripcion, TipoCambio = y.TipoCambio }).FirstOrDefault()
+
                              };
                 return result.SingleOrDefault<UsuarioDTO>();
             }
@@ -303,6 +306,7 @@ namespace BullardLibros.Core.BL
                     NombreRol = r.Rol.Nombre,
                     IdEmpresa = r.IdEmpresa,
                     nombreEmpresa = r.Empresa.Nombre ?? "N/A"
+                    //empresa = context.Empresa.Where(x => x.IdEmpresa == r.IdEmpresa).Select(y => new EmpresaDTO { IdEmpresa = y.IdEmpresa, Nombre = y.Nombre ?? "N/A", Estado = y.Estado, Descripcion = y.Descripcion, TipoCambio = y.TipoCambio }).FirstOrDefault()
                 }).SingleOrDefault();
                 return result;
             }
@@ -325,6 +329,7 @@ namespace BullardLibros.Core.BL
                         NombreRol = r.Rol.Nombre,
                         IdEmpresa = r.IdEmpresa,
                         nombreEmpresa = r.Empresa.Nombre ?? "N/A"
+                        //empresa = context.Empresa.Where(x => x.IdEmpresa == r.IdEmpresa).Select(y => new EmpresaDTO { IdEmpresa = y.IdEmpresa, Nombre = y.Nombre ?? "N/A", Estado = y.Estado, Descripcion = y.Descripcion, TipoCambio = y.TipoCambio }).FirstOrDefault()
                     }).SingleOrDefault();
                 return result;
             }

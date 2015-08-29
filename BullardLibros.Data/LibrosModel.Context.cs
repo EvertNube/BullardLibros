@@ -28,16 +28,15 @@ namespace BullardLibros.Data
         }
     
         public virtual DbSet<EstadoMovimiento> EstadoMovimiento { get; set; }
-        public virtual DbSet<Moneda> Moneda { get; set; }
         public virtual DbSet<Movimiento> Movimiento { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
-        public virtual DbSet<TipoCambio> TipoCambio { get; set; }
         public virtual DbSet<TipoMovimiento> TipoMovimiento { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual DbSet<EntidadResponsable> EntidadResponsable { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
+        public virtual DbSet<Moneda> Moneda { get; set; }
     
         public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {
