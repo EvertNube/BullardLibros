@@ -106,11 +106,12 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
+            EmpresaBL empBL = new EmpresaBL();
+
             if(isSuperAdministrator())
             {
                 MenuNavBarSelected(0);
-
-                EmpresaBL empBL = new EmpresaBL();
+                
                 List<EmpresaDTO> listaEmpresas = new List<EmpresaDTO>();
                 listaEmpresas = empBL.getEmpresas();
 
@@ -119,8 +120,7 @@ namespace BullardLibros.Controllers
 
             MenuNavBarSelected(1);
 
-            EmpresaDTO objEBL;
-            //ViewBag.TipoCambio
+            ViewBag.TipoCambio = empBL.getEmpresa((int)getCurrentUser().IdEmpresa).TipoCambio;
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
@@ -202,21 +202,26 @@ namespace BullardLibros.Controllers
             MenuNavBarSelected(1);
 
             UsuarioDTO miUsuario = getCurrentUser();
-
+            
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
+
             if(miUsuario.IdEmpresa.GetValueOrDefault() != 0)
             {
                 listaLibros = objBL.getCuentasBancariasEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault());
                 ViewBag.TotalSoles = DameTotalSoles(listaLibros);
                 ViewBag.TotalDolares = DameTotalDolares(listaLibros);
                 ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
+
+                EmpresaBL empBL = new EmpresaBL();
+                ViewBag.TipoCambio = empBL.getEmpresa((int)miUsuario.IdEmpresa).TipoCambio;
             }
             else
             {
                 ViewBag.TotalSoles = 0.0;
                 ViewBag.TotalDolares = 0.0;
                 ViewBag.TotalConsolidado = 0.0;
+                ViewBag.TipoCambio = 1.0;
             }
 
             return View("Libros", listaLibros);
