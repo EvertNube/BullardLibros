@@ -124,7 +124,7 @@ namespace BullardLibros.Controllers
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
-            listaLibros = objBL.getCuentasBancariasEnEmpresa(getCurrentUser().IdEmpresa.GetValueOrDefault());
+            listaLibros = objBL.getCuentasBancariasEnEmpresa(getCurrentUser().IdEmpresa);
             ViewBag.TotalSoles = DameTotalSoles(listaLibros);
             ViewBag.TotalDolares = DameTotalDolares(listaLibros);
             ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
@@ -206,9 +206,9 @@ namespace BullardLibros.Controllers
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
 
-            if(miUsuario.IdEmpresa.GetValueOrDefault() != 0)
+            if(miUsuario.IdEmpresa != 0)
             {
-                listaLibros = objBL.getCuentasBancariasEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault());
+                listaLibros = objBL.getCuentasBancariasEnEmpresa(miUsuario.IdEmpresa);
                 ViewBag.TotalSoles = DameTotalSoles(listaLibros);
                 ViewBag.TotalDolares = DameTotalDolares(listaLibros);
                 ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
@@ -346,7 +346,7 @@ namespace BullardLibros.Controllers
             List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
             if(miUsuario.IdEmpresa != null)
             {
-                listaCategorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault());
+                listaCategorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa);
             }
             
             return View(listaCategorias);
@@ -361,7 +361,7 @@ namespace BullardLibros.Controllers
 
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
-            ViewBag.Categorias = objBL.getCategoriasPadreEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault(), true);
+            ViewBag.Categorias = objBL.getCategoriasPadreEnEmpresa(miUsuario.IdEmpresa, true);
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Categoria"];
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
@@ -454,7 +454,7 @@ namespace BullardLibros.Controllers
             ViewBag.IdMovimiento = id;
             ViewBag.TiposMovimientos = objBL.getTiposMovimientos(false);
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
-            ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa.GetValueOrDefault(), true);
+            ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, true);
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
@@ -538,7 +538,7 @@ namespace BullardLibros.Controllers
             List<UsuarioDTO> listaUsuarios = new List<UsuarioDTO>();
             if(currentUser.IdEmpresa != null)
             {
-                listaUsuarios = usuariosBL.getUsuariosEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault(), currentUser.IdRol);
+                listaUsuarios = usuariosBL.getUsuariosEnEmpresa(currentUser.IdEmpresa, currentUser.IdRol);
             }
 
             return View(listaUsuarios);
@@ -565,7 +565,7 @@ namespace BullardLibros.Controllers
             UsuarioDTO usuario;
             if (id != null)
             {
-                usuario = usuariosBL.getUsuarioEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault(), id.GetValueOrDefault());
+                usuario = usuariosBL.getUsuarioEnEmpresa(currentUser.IdEmpresa, id.GetValueOrDefault());
                 if (usuario == null) return RedirectToAction("Usuarios");
                 if (usuario.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Usuarios");
                 
@@ -646,7 +646,7 @@ namespace BullardLibros.Controllers
             
             if(currentUser.IdEmpresa != null)
             {
-                listaEntidades = objBL.getEntidadResponsablesEnEmpresa(currentUser.IdEmpresa.GetValueOrDefault());
+                listaEntidades = objBL.getEntidadResponsablesEnEmpresa(currentUser.IdEmpresa);
             }
             return View(listaEntidades);
         }
@@ -737,7 +737,7 @@ namespace BullardLibros.Controllers
             if (id == null && lista == null)
             {
                 CategoriaBL objBL = new CategoriaBL();
-                listaCat = objBL.getCategoriasTreeEnEmpresa(getCurrentUser().IdEmpresa.GetValueOrDefault());
+                listaCat = objBL.getCategoriasTreeEnEmpresa(getCurrentUser().IdEmpresa);
             }
             List<Select2DTO> selectTree = new List<Select2DTO>();
 
@@ -974,7 +974,7 @@ namespace BullardLibros.Controllers
             {
                 System.Data.DataRow row = dt.NewRow();
 
-                row["Nombre"] = item.Nombre;
+                row["Nombre"] = item.NroOperacion;
                 row["Categoria"] = item.NombreCategoria;
                 row["Entidad"] = item.NombreEntidadR;
                 row["Fecha"] = item.Fecha.ToShortDateString();
@@ -1384,7 +1384,7 @@ namespace BullardLibros.Controllers
 
             EmpresaBL objBL = new EmpresaBL();
             UsuarioDTO miUsuario = getCurrentUser();
-            EmpresaDTO obj = new EmpresaDTO(){ IdEmpresa = miUsuario.IdEmpresa.GetValueOrDefault(), TipoCambio = tipoCambio };
+            EmpresaDTO obj = new EmpresaDTO(){ IdEmpresa = miUsuario.IdEmpresa, TipoCambio = tipoCambio };
             if(objBL.updateTipoCambio(obj))
             {
                 return "true";

@@ -20,7 +20,7 @@ namespace BullardLibros.Core.DTO
         public bool Active { get; set; }
         public int IdRol { get; set; }
         public int? IdCargo { get; set; }
-        public int? IdEmpresa { get; set; }
+        public int IdEmpresa { get; set; }
         //public EmpresaDTO empresa { get; set; }
         public string nombreEmpresa { get; set; }
 

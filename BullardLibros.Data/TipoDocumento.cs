@@ -12,21 +12,19 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Categoria
+    public partial class TipoDocumento
     {
-        public Categoria()
+        public TipoDocumento()
         {
             this.Movimiento = new HashSet<Movimiento>();
+            this.EntidadResponsable = new HashSet<EntidadResponsable>();
         }
     
-        public int IdCategoria { get; set; }
+        public int IdTipoDocumento { get; set; }
         public string Nombre { get; set; }
-        public int Orden { get; set; }
         public bool Estado { get; set; }
-        public Nullable<int> IdCategoriaPadre { get; set; }
-        public int IdEmpresa { get; set; }
     
-        public virtual Empresa Empresa { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
+        public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
     }
 }

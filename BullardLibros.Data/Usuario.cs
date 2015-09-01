@@ -29,10 +29,10 @@ namespace BullardLibros.Data
         public Nullable<System.DateTime> FechaRegistro { get; set; }
         public int IdRol { get; set; }
         public Nullable<int> IdCargo { get; set; }
-        public Nullable<int> IdEmpresa { get; set; }
+        public int IdEmpresa { get; set; }
     
+        public virtual Empresa Empresa { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
         public virtual Rol Rol { get; set; }
-        public virtual Empresa Empresa { get; set; }
     }
 }

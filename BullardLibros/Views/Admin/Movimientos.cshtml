@@ -55,7 +55,7 @@
                                     {
                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
-                                            <td width="40%">@obj.Nombre</td>
+                                            <td width="40%">@obj.NroOperacion</td>
                                             <td class="text-center" width="20%">@obj.Fecha</td>
                                             @if(obj.IdTipoMovimiento == 1)
                                             {<td class="text-center" width="20%">Entrada</td>}

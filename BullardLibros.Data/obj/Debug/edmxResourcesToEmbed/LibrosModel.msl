@@ -1,12 +1,91 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="LibrosDBModelStoreContainer" CdmEntityContainer="LibrosDBEntities">
+    <EntitySetMapping Name="Area">
+      <EntityTypeMapping TypeName="LibrosDBModel.Area">
+        <MappingFragment StoreEntitySet="Area">
+          <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categoria">
+      <EntityTypeMapping TypeName="LibrosDBModel.Categoria">
+        <MappingFragment StoreEntitySet="Categoria">
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Orden" ColumnName="Orden" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CuentaBancaria">
+      <EntityTypeMapping TypeName="LibrosDBModel.CuentaBancaria">
+        <MappingFragment StoreEntitySet="CuentaBancaria">
+          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+          <ScalarProperty Name="NombreCuenta" ColumnName="NombreCuenta" />
+          <ScalarProperty Name="FechaConciliacion" ColumnName="FechaConciliacion" />
+          <ScalarProperty Name="SaldoDisponible" ColumnName="SaldoDisponible" />
+          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Empresa">
+      <EntityTypeMapping TypeName="LibrosDBModel.Empresa">
+        <MappingFragment StoreEntitySet="Empresa">
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EntidadResponsable">
+      <EntityTypeMapping TypeName="LibrosDBModel.EntidadResponsable">
+        <MappingFragment StoreEntitySet="EntidadResponsable">
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="EstadoMovimiento">
       <EntityTypeMapping TypeName="LibrosDBModel.EstadoMovimiento">
         <MappingFragment StoreEntitySet="EstadoMovimiento">
           <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FormaMovimiento">
+      <EntityTypeMapping TypeName="LibrosDBModel.FormaMovimiento">
+        <MappingFragment StoreEntitySet="FormaMovimiento">
+          <ScalarProperty Name="IdFormaMovimiento" ColumnName="IdFormaMovimiento" />
+          <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Moneda">
+      <EntityTypeMapping TypeName="LibrosDBModel.Moneda">
+        <MappingFragment StoreEntitySet="Moneda">
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -17,9 +96,11 @@
           <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+          <ScalarProperty Name="IdFormaMovimiento" ColumnName="IdFormaMovimiento" />
+          <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
           <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
           <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="NroOperacion" ColumnName="NroOperacion" />
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
@@ -27,6 +108,17 @@
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Responsable">
+      <EntityTypeMapping TypeName="LibrosDBModel.Responsable">
+        <MappingFragment StoreEntitySet="Responsable">
+          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -39,6 +131,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="LibrosDBModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoDocumento">
+      <EntityTypeMapping TypeName="LibrosDBModel.TipoDocumento">
+        <MappingFragment StoreEntitySet="TipoDocumento">
+          <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TipoMovimiento">
       <EntityTypeMapping TypeName="LibrosDBModel.TipoMovimiento">
         <MappingFragment StoreEntitySet="TipoMovimiento">
@@ -48,30 +160,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos" />
-    <FunctionImportMapping FunctionImportName="SP_GetReporteDetalleMovimientos" FunctionName="LibrosDBModel.Store.SP_GetReporteDetalleMovimientos">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="LibrosDBModel.SP_GetReporteDetalleMovimientos_Result">
-          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
-          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
-          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-          <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
-          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-          <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+    <EntitySetMapping Name="Usuario">
+      <EntityTypeMapping TypeName="LibrosDBModel.Usuario">
+        <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="Monto" ColumnName="Monto" />
-          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
-          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+          <ScalarProperty Name="InicialesNombre" ColumnName="InicialesNombre" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Cuenta" ColumnName="Cuenta" />
+          <ScalarProperty Name="Pass" ColumnName="Pass" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-          <ScalarProperty Name="EntidadResNombre" ColumnName="EntidadResNombre" />
-          <ScalarProperty Name="CategoriaNombre" ColumnName="CategoriaNombre" />
-          <ScalarProperty Name="UsuarioNombre" ColumnName="UsuarioNombre" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+          <ScalarProperty Name="IdCargo" ColumnName="IdCargo" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos" />
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="LibrosDBModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="LibrosDBModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="LibrosDBModel.Store.sp_dropdiagram" />
     <FunctionImportMapping FunctionImportName="SP_GetReporteResumenCategorias" FunctionName="LibrosDBModel.Store.SP_GetReporteResumenCategorias">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_GetReporteResumenCategorias_Result">
@@ -93,80 +202,49 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <EntitySetMapping Name="Categoria">
-      <EntityTypeMapping TypeName="LibrosDBModel.Categoria">
-        <MappingFragment StoreEntitySet="Categoria">
-          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-          <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Orden" ColumnName="Orden" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CuentaBancaria">
-      <EntityTypeMapping TypeName="LibrosDBModel.CuentaBancaria">
-        <MappingFragment StoreEntitySet="CuentaBancaria">
-          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
-          <ScalarProperty Name="SaldoDisponible" ColumnName="SaldoDisponible" />
-          <ScalarProperty Name="FechaConciliacion" ColumnName="FechaConciliacion" />
-          <ScalarProperty Name="NombreCuenta" ColumnName="NombreCuenta" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="LibrosDBModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="LibrosDBModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="LibrosDBModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="LibrosDBModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="SP_GetReporteDetalleMovimientos" FunctionName="LibrosDBModel.Store.SP_GetReporteDetalleMovimientos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_GetReporteDetalleMovimientos_Result">
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
           <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EntidadResponsable">
-      <EntityTypeMapping TypeName="LibrosDBModel.EntidadResponsable">
-        <MappingFragment StoreEntitySet="EntidadResponsable">
-          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-          <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Usuario">
-      <EntityTypeMapping TypeName="LibrosDBModel.Usuario">
-        <MappingFragment StoreEntitySet="Usuario">
-          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-          <ScalarProperty Name="IdCargo" ColumnName="IdCargo" />
-          <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="IdTipoMovimiento" ColumnName="IdTipoMovimiento" />
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+          <ScalarProperty Name="NroOperacion" ColumnName="NroOperacion" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Pass" ColumnName="Pass" />
-          <ScalarProperty Name="Cuenta" ColumnName="Cuenta" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="InicialesNombre" ColumnName="InicialesNombre" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Empresa">
-      <EntityTypeMapping TypeName="LibrosDBModel.Empresa">
-        <MappingFragment StoreEntitySet="Empresa">
-          <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
-          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Moneda">
-      <EntityTypeMapping TypeName="LibrosDBModel.Moneda">
-        <MappingFragment StoreEntitySet="Moneda">
-          <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="EntidadResNombre" ColumnName="EntidadResNombre" />
+          <ScalarProperty Name="CategoriaNombre" ColumnName="CategoriaNombre" />
+          <ScalarProperty Name="UsuarioNombre" ColumnName="UsuarioNombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -15,7 +15,7 @@ namespace BullardLibros.Core.DTO
         public int IdTipoMovimiento { get; set; }
         public int? IdCategoria { get; set; }
         public int IdEstadoMovimiento { get; set; }
-        public string Nombre { get; set; }
+        public string NroOperacion { get; set; }
         public DateTime Fecha { get; set; }
         public Decimal Monto { get; set; }
         public string NumeroDocumento { get; set; }

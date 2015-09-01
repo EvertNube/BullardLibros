@@ -20,13 +20,16 @@ namespace BullardLibros.Data
         }
     
         public int IdEntidadResponsable { get; set; }
+        public Nullable<int> IdTipoDocumento { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public Nullable<decimal> Detraccion { get; set; }
         public string Tipo { get; set; }
-        public Nullable<int> IdEmpresa { get; set; }
+        public int IdEmpresa { get; set; }
+        public string NroDocumento { get; set; }
     
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
         public virtual Empresa Empresa { get; set; }
+        public virtual TipoDocumento TipoDocumento { get; set; }
+        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

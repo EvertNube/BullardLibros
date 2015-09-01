@@ -120,7 +120,7 @@ namespace BullardLibros.Core.BL
                             IdTipoMovimiento = x.IdTipoMovimiento,
                             IdCategoria = x.IdCategoria,
                             IdEstadoMovimiento = x.IdEstadoMovimiento,
-                            Nombre = x.Nombre,
+                            NroOperacion = x.NroOperacion,
                             Fecha = x.Fecha,
                             Monto = x.Monto,
                             NumeroDocumento = x.NumeroDocumento,

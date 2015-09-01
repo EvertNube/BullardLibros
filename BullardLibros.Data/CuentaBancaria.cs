@@ -26,10 +26,10 @@ namespace BullardLibros.Data
         public decimal SaldoBancario { get; set; }
         public bool Estado { get; set; }
         public Nullable<int> IdMoneda { get; set; }
-        public Nullable<int> IdEmpresa { get; set; }
+        public int IdEmpresa { get; set; }
     
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual Moneda Moneda { get; set; }
+        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

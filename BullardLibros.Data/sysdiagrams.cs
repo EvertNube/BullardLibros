@@ -12,19 +12,12 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class TipoMovimiento
+    public partial class sysdiagrams
     {
-        public TipoMovimiento()
-        {
-            this.FormaMovimiento = new HashSet<FormaMovimiento>();
-            this.Movimiento = new HashSet<Movimiento>();
-        }
-    
-        public int IdTipoMovimiento { get; set; }
-        public string Nombre { get; set; }
-        public bool Estado { get; set; }
-    
-        public virtual ICollection<FormaMovimiento> FormaMovimiento { get; set; }
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

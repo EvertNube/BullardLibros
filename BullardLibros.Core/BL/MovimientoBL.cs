@@ -27,7 +27,7 @@ namespace BullardLibros.Core.BL
                     IdTipoMovimiento = x.IdTipoMovimiento,
                     IdCategoria = x.IdCategoria,
                     IdEstadoMovimiento = x.IdEstadoMovimiento,
-                    Nombre = x.Nombre,
+                    NroOperacion = x.NroOperacion,
                     Fecha = x.Fecha,
                     Monto = x.Monto,
                     NumeroDocumento = x.NumeroDocumento,
@@ -52,7 +52,7 @@ namespace BullardLibros.Core.BL
                         IdTipoMovimiento = r.IdTipoMovimiento,
                         IdCategoria = r.IdCategoria,
                         IdEstadoMovimiento = r.IdEstadoMovimiento,
-                        Nombre = r.Nombre,
+                        NroOperacion = r.NroOperacion,
                         Fecha = r.Fecha,
                         Monto = r.Monto,
                         NumeroDocumento = r.NumeroDocumento,
@@ -77,7 +77,7 @@ namespace BullardLibros.Core.BL
                     //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
                     nuevo.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     nuevo.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
-                    nuevo.Nombre = Movimiento.Nombre;
+                    nuevo.NroOperacion = Movimiento.NroOperacion;
                     //nuevo.Fecha = Movimiento.Fecha;
                     nuevo.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     nuevo.Monto = Movimiento.Monto;
@@ -112,7 +112,7 @@ namespace BullardLibros.Core.BL
                     //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
                     datoRow.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     datoRow.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
-                    datoRow.Nombre = Movimiento.Nombre;
+                    datoRow.NroOperacion = Movimiento.NroOperacion;
                     //datoRow.Fecha = Movimiento.Fecha;
                     datoRow.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     datoRow.Monto = Movimiento.Monto;
@@ -221,7 +221,7 @@ namespace BullardLibros.Core.BL
                     IdTipoMovimiento = x.IdTipoMovimiento,
                     IdCategoria = x.IdCategoria,
                     IdEstadoMovimiento = x.IdEstadoMovimiento,
-                    Nombre = x.Nombre,
+                    NroOperacion = x.NroOperacion,
                     Fecha = x.Fecha,
                     Monto = x.Monto,
                     NumeroDocumento = x.NumeroDocumento,

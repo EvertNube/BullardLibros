@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="IdArea" />
+    </Key>
+    <Property Name="IdArea" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Categoria">
     <Key>
       <PropertyRef Name="IdCategoria" />
@@ -9,7 +19,7 @@
     <Property Name="Orden" Type="int" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="IdCategoriaPadre" Type="int" />
-    <Property Name="IdEmpresa" Type="int" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -22,7 +32,7 @@
     <Property Name="SaldoBancario" Type="numeric" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="IdMoneda" Type="int" />
-    <Property Name="IdEmpresa" Type="int" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Empresa">
     <Key>
@@ -43,7 +53,7 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Detraccion" Type="numeric" Precision="18" Scale="2" />
     <Property Name="Tipo" Type="nvarchar" MaxLength="250" />
-    <Property Name="IdEmpresa" Type="int" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="EstadoMovimiento">
     <Key>
@@ -51,6 +61,15 @@
     </Key>
     <Property Name="IdEstadoMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FormaMovimiento">
+    <Key>
+      <PropertyRef Name="IdFormaMovimiento" />
+    </Key>
+    <Property Name="IdFormaMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdTipoMovimiento" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Moneda">
@@ -69,16 +88,28 @@
     <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
     <Property Name="IdTipoMovimiento" Type="int" Nullable="false" />
+    <Property Name="IdFormaMovimiento" Type="int" />
+    <Property Name="IdTipoDocumento" Type="int" />
     <Property Name="IdCategoria" Type="int" />
     <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
-    <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="NroOperacion" Type="nvarchar" MaxLength="100" />
     <Property Name="Fecha" Type="datetime" Nullable="false" />
     <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
-    <Property Name="NumeroDocumento" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Comentario" Type="varchar(max)" Nullable="false" />
+    <Property Name="NumeroDocumento" Type="nvarchar" MaxLength="100" />
+    <Property Name="Comentario" Type="nvarchar(max)" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
     <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Responsable">
+    <Key>
+      <PropertyRef Name="IdResponsable" />
+    </Key>
+    <Property Name="IdResponsable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Rol">
     <Key>
@@ -87,6 +118,24 @@
     <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TipoDocumento">
+    <Key>
+      <PropertyRef Name="IdTipoDocumento" />
+    </Key>
+    <Property Name="IdTipoDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoMovimiento">
     <Key>
@@ -110,10 +159,22 @@
     <Property Name="FechaRegistro" Type="datetime" />
     <Property Name="IdRol" Type="int" Nullable="false" />
     <Property Name="IdCargo" Type="int" />
-    <Property Name="IdEmpresa" Type="int" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="FK_Area_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Area" Type="Self.Area" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Area">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Categoria_Empresa">
-    <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Categoria" Type="Self.Categoria" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Empresa">
@@ -125,7 +186,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_CuentaBancaria_Empresa">
-    <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Empresa">
@@ -149,7 +210,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_EntidadResponsable_Empresa">
-    <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Empresa">
@@ -157,6 +218,18 @@
       </Principal>
       <Dependent Role="EntidadResponsable">
         <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FormaMovimiento_TipoMovimiento">
+    <End Role="TipoMovimiento" Type="Self.TipoMovimiento" Multiplicity="1" />
+    <End Role="FormaMovimiento" Type="Self.FormaMovimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoMovimiento">
+        <PropertyRef Name="IdTipoMovimiento" />
+      </Principal>
+      <Dependent Role="FormaMovimiento">
+        <PropertyRef Name="IdTipoMovimiento" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -208,6 +281,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Movimiento_FormaMovimiento">
+    <End Role="FormaMovimiento" Type="Self.FormaMovimiento" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FormaMovimiento">
+        <PropertyRef Name="IdFormaMovimiento" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdFormaMovimiento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_TipoDocumento">
+    <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoDocumento">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Movimiento_TipoMovimiento">
     <End Role="TipoMovimiento" Type="Self.TipoMovimiento" Multiplicity="1" />
     <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
@@ -232,8 +329,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Responsable_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Responsable">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Usuario_Empresa">
-    <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Empresa">
@@ -256,6 +365,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
   </Function>
@@ -277,6 +387,22 @@
   <Function Name="SP_ActualizarMontos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCuentaB" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_GetReporteDetalleMovimientos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCuentaB" Type="int" Mode="In" />
     <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
@@ -292,17 +418,40 @@
     <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="LibrosDBModelStoreContainer">
+    <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FormaMovimiento" EntityType="Self.FormaMovimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Area_Empresa" Association="Self.FK_Area_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Area" EntitySet="Area" />
+    </AssociationSet>
     <AssociationSet Name="FK_Categoria_Empresa" Association="Self.FK_Categoria_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Categoria" EntitySet="Categoria" />
@@ -318,6 +467,10 @@
     <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FormaMovimiento_TipoMovimiento" Association="Self.FK_FormaMovimiento_TipoMovimiento">
+      <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
+      <End Role="FormaMovimiento" EntitySet="FormaMovimiento" />
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
       <End Role="Categoria" EntitySet="Categoria" />
@@ -335,6 +488,14 @@
       <End Role="EstadoMovimiento" EntitySet="EstadoMovimiento" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_FormaMovimiento" Association="Self.FK_Movimiento_FormaMovimiento">
+      <End Role="FormaMovimiento" EntitySet="FormaMovimiento" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_TipoDocumento" Association="Self.FK_Movimiento_TipoDocumento">
+      <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
     <AssociationSet Name="FK_Movimiento_TipoMovimiento" Association="Self.FK_Movimiento_TipoMovimiento">
       <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
       <End Role="Movimiento" EntitySet="Movimiento" />
@@ -342,6 +503,10 @@
     <AssociationSet Name="FK_Movimiento_Usuario" Association="Self.FK_Movimiento_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Responsable" EntitySet="Responsable" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />

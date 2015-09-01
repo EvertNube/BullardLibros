@@ -19,7 +19,7 @@ namespace BullardLibros.Data
         public int IdTipoMovimiento { get; set; }
         public Nullable<int> IdCategoria { get; set; }
         public int IdEstadoMovimiento { get; set; }
-        public string Nombre { get; set; }
+        public string NroOperacion { get; set; }
         public decimal Monto { get; set; }
         public string NumeroDocumento { get; set; }
         public string Comentario { get; set; }
