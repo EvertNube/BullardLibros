@@ -836,6 +836,12 @@
     <Content Include="Views\Admin\LibroVista.cshtml" />
     <Content Include="Views\Admin\Libros.cshtml" />
     <Content Include="Views\Admin\Empresa.cshtml" />
+    <Content Include="Views\Admin\Comprobantes.cshtml" />
+    <Content Include="Views\Admin\Comprobante.cshtml" />
+    <Content Include="Views\Admin\Areas.cshtml" />
+    <Content Include="Views\Admin\Area.cshtml" />
+    <Content Include="Views\Admin\Responsables.cshtml" />
+    <Content Include="Views\Admin\Responsable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

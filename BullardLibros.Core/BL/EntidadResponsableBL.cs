@@ -170,5 +170,19 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
+
+        public List<TipoEntidadDTO> getTipoDeEntidades()
+        {
+            using (var context = getContext())
+            {
+                var result = context.TipoEntidad.Select(x => new TipoEntidadDTO
+                {
+                    IdTipoEntidad = x.IdTipoEntidad,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
     }
 }

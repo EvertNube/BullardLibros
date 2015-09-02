@@ -16,11 +16,13 @@ namespace BullardLibros.Data
     {
         public EntidadResponsable()
         {
+            this.Comprobante = new HashSet<Comprobante>();
             this.Movimiento = new HashSet<Movimiento>();
         }
     
         public int IdEntidadResponsable { get; set; }
         public Nullable<int> IdTipoDocumento { get; set; }
+        public Nullable<int> IdTipoEntidad { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public Nullable<decimal> Detraccion { get; set; }
@@ -28,8 +30,10 @@ namespace BullardLibros.Data
         public int IdEmpresa { get; set; }
         public string NroDocumento { get; set; }
     
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
+        public virtual TipoEntidad TipoEntidad { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

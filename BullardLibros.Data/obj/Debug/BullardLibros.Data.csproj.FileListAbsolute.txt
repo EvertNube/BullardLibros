@@ -58,6 +58,6 @@ C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Da
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Debug\EntityFramework.SqlServer.dll
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Debug\EntityFramework.xml
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Debug\EntityFramework.SqlServer.xml
-C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\obj\Debug\BullardLibros.Data.csprojResolveAssemblyReference.cache
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\obj\Debug\BullardLibros.Data.dll
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\obj\Debug\BullardLibros.Data.pdb
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\obj\Debug\BullardLibros.Data.csprojResolveAssemblyReference.cache

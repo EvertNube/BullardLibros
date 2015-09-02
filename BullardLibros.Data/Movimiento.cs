@@ -33,11 +33,11 @@ namespace BullardLibros.Data
     
         public virtual Categoria Categoria { get; set; }
         public virtual CuentaBancaria CuentaBancaria { get; set; }
+        public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual EstadoMovimiento EstadoMovimiento { get; set; }
         public virtual FormaMovimiento FormaMovimiento { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual TipoMovimiento TipoMovimiento { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual EntidadResponsable EntidadResponsable { get; set; }
     }
 }

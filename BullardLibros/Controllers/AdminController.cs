@@ -339,12 +339,12 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(2);
+            MenuNavBarSelected(3);
             UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
             List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
-            if(miUsuario.IdEmpresa != null)
+            if(miUsuario.IdEmpresa > 0)
             {
                 listaCategorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa);
             }
@@ -356,7 +356,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(2);
+            MenuNavBarSelected(3);
             UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
@@ -531,12 +531,12 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4);
+            MenuNavBarSelected(7);
             UsuarioDTO currentUser = getCurrentUser();
 
             UsuariosBL usuariosBL = new UsuariosBL();
             List<UsuarioDTO> listaUsuarios = new List<UsuarioDTO>();
-            if(currentUser.IdEmpresa != null)
+            if(currentUser.IdEmpresa > 0)
             {
                 listaUsuarios = usuariosBL.getUsuariosEnEmpresa(currentUser.IdEmpresa, currentUser.IdRol);
             }
@@ -548,7 +548,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
-            MenuNavBarSelected(4);
+            MenuNavBarSelected(7);
 
             UsuarioDTO currentUser = getCurrentUser();
             //if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
@@ -638,13 +638,13 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(3);
+            MenuNavBarSelected(4);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             List<EntidadResponsableDTO> listaEntidades = new List<EntidadResponsableDTO>();
             
-            if(currentUser.IdEmpresa != null)
+            if(currentUser.IdEmpresa > 0)
             {
                 listaEntidades = objBL.getEntidadResponsablesEnEmpresa(currentUser.IdEmpresa);
             }
@@ -655,11 +655,11 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(3);
+            MenuNavBarSelected(4);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
-            ViewBag.IdEntidad = id;
+            
             var objSent = TempData["Entidad"];
             if (objSent != null) { TempData["Entidad"] = null; return View(objSent); }
 
@@ -719,6 +719,259 @@ namespace BullardLibros.Controllers
             TempData["Entidad"] = dto;
             return RedirectToAction("Entidad");
         }
+        public ActionResult Comprobantes()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+
+            MenuNavBarSelected(2);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            ComprobanteBL objBL = new ComprobanteBL();
+            List<ComprobanteDTO> listaComprobantes = new List<ComprobanteDTO>();
+
+            if (currentUser.IdEmpresa > 0)
+            {
+                listaComprobantes = objBL.getComprobantesEnEmpresa(currentUser.IdEmpresa);
+            }
+            return View(listaComprobantes);
+        }
+        public ActionResult Comprobante(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            MenuNavBarSelected(2);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            ComprobanteBL objBL = new ComprobanteBL();
+            
+            var objSent = TempData["Comprobante"];
+            if (objSent != null) { TempData["Comprobante"] = null; return View(objSent); }
+
+            ComprobanteDTO obj;
+            if (id != null)
+            {
+                obj = objBL.getComprobanteEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Comprobantes");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Comprobantes");
+                return View(obj);
+            }
+            obj = new ComprobanteDTO();
+            obj.IdEmpresa = currentUser.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddComprobante(ComprobanteDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                ComprobanteBL objBL = new ComprobanteBL();
+                if (dto.IdComprobante == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Comprobantes");
+                    }
+                }
+                else if (dto.IdComprobante != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Comprobantes");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdComprobante != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Comprobante"] = dto;
+            return RedirectToAction("Comprobante");
+        }
+
+        public ActionResult Areas()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+
+            MenuNavBarSelected(5);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            AreaBL objBL = new AreaBL();
+            List<AreaDTO> listaAreas = new List<AreaDTO>();
+
+            if (currentUser.IdEmpresa > 0)
+            {
+                listaAreas = objBL.getAreasEnEmpresa(currentUser.IdEmpresa);
+            }
+            return View(listaAreas);
+        }
+        public ActionResult Area(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            MenuNavBarSelected(5);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            AreaBL objBL = new AreaBL();
+
+            var objSent = TempData["Area"];
+            if (objSent != null) { TempData["Area"] = null; return View(objSent); }
+
+            AreaDTO obj;
+            if (id != null)
+            {
+                obj = objBL.getAreaEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Areas");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Areas");
+                return View(obj);
+            }
+            obj = new AreaDTO();
+            obj.IdEmpresa = currentUser.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddArea(AreaDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                AreaBL objBL = new AreaBL();
+                if (dto.IdArea == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Areas");
+                    }
+                }
+                else if (dto.IdArea != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Areas");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdArea != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Area"] = dto;
+            return RedirectToAction("Area");
+        }
+        public ActionResult Responsables()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+
+            MenuNavBarSelected(6);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            ResponsableBL objBL = new ResponsableBL();
+            List<ResponsableDTO> listaResponsables = new List<ResponsableDTO>();
+
+            if (currentUser.IdEmpresa > 0)
+            {
+                listaResponsables = objBL.getResponsablesEnEmpresa(currentUser.IdEmpresa);
+            }
+            return View(listaResponsables);
+        }
+        public ActionResult Responsable(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            MenuNavBarSelected(6);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            ResponsableBL objBL = new ResponsableBL();
+
+            var objSent = TempData["Responsable"];
+            if (objSent != null) { TempData["Responsable"] = null; return View(objSent); }
+
+            ResponsableDTO obj;
+            if (id != null)
+            {
+                obj = objBL.getResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Responsables");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Responsables");
+                return View(obj);
+            }
+            obj = new ResponsableDTO();
+            obj.IdEmpresa = currentUser.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddResponsable(ResponsableDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                ResponsableBL objBL = new ResponsableBL();
+                if (dto.IdResponsable == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Responsables");
+                    }
+                }
+                else if (dto.IdResponsable != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Responsables");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdResponsable != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Responsable"] = dto;
+            return RedirectToAction("Responsable");
+        }
 
         #region APIs adicionales
         public JsonResult CategoriasJson()
@@ -763,7 +1016,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
-            MenuNavBarSelected(5);
+            MenuNavBarSelected(8);
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             ViewBag.Libros = objBL.getCuentasBancariasEnEmpresaBag((int)getCurrentUser().IdEmpresa, true);
@@ -1398,19 +1651,28 @@ namespace BullardLibros.Controllers
             switch (num)
             {
                 case 1:
-                    navbar.dangerActive = "active";
+                    navbar.menu1 = "active";
                     break;
                 case 2:
-                    navbar.infoActive = "active";
+                    navbar.menu2 = "active";
                     break;
                 case 3:
-                    navbar.primaryActive = "active";
+                    navbar.menu3 = "active";
                     break;
                 case 4:
-                    navbar.warningActive = "active";
+                    navbar.menu4 = "active";
                     break;
                 case 5:
-                    navbar.successActive = "active";
+                    navbar.menu5 = "active";
+                    break;
+                case 6:
+                    navbar.menu6 = "active";
+                    break;
+                case 7:
+                    navbar.menu7 = "active";
+                    break;
+                case 8:
+                    navbar.menu8 = "active";
                     break;
                 default:
                     break;

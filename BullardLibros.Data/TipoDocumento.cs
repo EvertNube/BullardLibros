@@ -16,15 +16,17 @@ namespace BullardLibros.Data
     {
         public TipoDocumento()
         {
-            this.Movimiento = new HashSet<Movimiento>();
+            this.Comprobante = new HashSet<Comprobante>();
             this.EntidadResponsable = new HashSet<EntidadResponsable>();
+            this.Movimiento = new HashSet<Movimiento>();
         }
     
         public int IdTipoDocumento { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
     
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
+        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

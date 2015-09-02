@@ -55,6 +55,9 @@
     <Compile Include="Categoria.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Comprobante.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CuentaBancaria.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -116,7 +119,13 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TipoComprobante.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TipoDocumento.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoEntidad.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoMovimiento.cs">

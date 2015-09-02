@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "NubeLabs SCI - Comprobantes";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model IList<BullardLibros.Core.DTO.ComprobanteDTO>
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12">
+                <h2>Comprobantes</h2>
+                @Html.Partial("_showAlertMessages")
+                <section class="panel panel-default">
+                    <header class="panel-heading bg-light">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+                            <li class=""><a href="#profile" data-toggle="tab">Profile</a></li>
+                            <li><a href="#messages" data-toggle="tab">Messages</a></li>
+                            <li><a href="#settings" data-toggle="tab">Settings</a></li>
+                        </ul>
+                    </header> <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home">
+                                <section class="panel panel-default">
+                                    @if (ViewBag.EsAdmin)
+                                    {
+                                        <header class="panel-heading">
+                                            <div class="row text-sm">
+                                                <div class="col-sm-8">
+                                                    <div class="btn-group">
+                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Comprobante")"><i class="fa fa-plus"></i> Crear nuevo Comprobante</a>
+                                                </div>
+                                            </div>
+                                        </header>
+                                    }
+                                    <div class="table-responsive">
+                                        <table class="table table-striped m-b-none dataTable no-footer">
+                                            <thead>
+                                                <tr>
+                                                    <th width="15%">Fecha Documento</th>
+                                                    <th class="text-center" width="10%">Tipo Documento</th>
+                                                    <th class="text-center" width="20%">Nro Documento</th>
+                                                    <th class="text-center" width="20%">Cliente</th>
+                                                    <th class="text-center" width="15%">Monto</th>
+                                                    <th class="text-center" width="10%">Moneda</th>
+                                                    <th class="text-center" width="10%">Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model != null)
+                                                {
+                                                    foreach (var obj in Model)
+                                                    {
+                                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                        <tr @Html.Raw(classInactive)>
+                                                            <td class="text-center" width="15%">@obj.FechaEmision</td>
+                                                            <td class="text-center" width="10%">@obj.IdTipoDocumento</td>
+                                                            <td class="text-center" width="20%">@obj.NroDocumento</td>
+                                                            <td class="text-center" width="20%">@obj.IdEntidadResponsable</td>
+                                                            <td class="text-center" width="15%">@obj.Monto</td>
+                                                            <td class="text-center" width="10%">@obj.IdMoneda</td>
+                                                            @if (ViewBag.EsAdmin)
+                                                            {
+                                                                <td align="center"><a href="@Url.Action("Comprobante", new { id = obj.IdArea })"><i class="fa fa-pencil"></i></a></td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="tab-pane" id="profile">profile</div>
+                            <div class="tab-pane" id="messages">message</div>
+                            <div class="tab-pane" id="settings">settings</div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </section>
+</section>

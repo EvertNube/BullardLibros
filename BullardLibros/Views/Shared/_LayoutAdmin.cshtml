@@ -88,7 +88,7 @@
                                 <!-- nav -->
                                 <nav class="nav-primary hidden-xs">
                                     <ul class="nav lt mimenu">
-                                        <li class="@ViewBag.navbar.dangerActive">
+                                        <li class="@ViewBag.navbar.menu1">
                                             <a href="@Url.Action("Libros")" class="active">
                                                 <i class="fa fa-book icon">
                                                     <b class="bg-success"></b>
@@ -96,9 +96,17 @@
                                                 <span>Libros</span>
                                             </a>
                                         </li>
+                                        <li class="@ViewBag.navbar.menu2">
+                                            <a href="@Url.Action("Comprobantes")" class="active">
+                                                <i class="fa fa-exchange icon">
+                                                    <b class="bg-success"></b>
+                                                </i>
+                                                <span>Comprobantes</span>
+                                            </a>
+                                        </li>
                                         @if (ViewBag.EsAdmin)
                                         {
-                                            <li class="@ViewBag.navbar.infoActive">
+                                            <li class="@ViewBag.navbar.menu3">
                                                 <a href="@Url.Action("Categorias")" class="active">
                                                     <i class="fa fa-list-ul icon">
                                                         <b class="bg-danger"></b>
@@ -106,19 +114,35 @@
                                                     <span>Categorias</span>
                                                 </a>
                                             </li>
-                                            <li class="@ViewBag.navbar.primaryActive">
+                                            <li class="@ViewBag.navbar.menu4">
                                                 <a href="@Url.Action("Entidades")" class="active">
                                                     <i class="fa fa-eye icon">
-                                                        <b class="bg-info"></b>
+                                                        <b class="bg-danger"></b>
                                                     </i>
                                                     <span>Entidades</span>
+                                                </a>
+                                            </li>
+                                            <li class="@ViewBag.navbar.menu5">
+                                                <a href="@Url.Action("Areas")" class="active">
+                                                    <i class="fa fa-sitemap icon">
+                                                        <b class="bg-danger"></b>
+                                                    </i>
+                                                    <span>Areas</span>
+                                                </a>
+                                            </li>
+                                            <li class="@ViewBag.navbar.menu6">
+                                                <a href="@Url.Action("Responsables")" class="active">
+                                                    <i class="fa fa-users icon">
+                                                        <b class="bg-warning"></b>
+                                                    </i>
+                                                    <span>Responsables</span>
                                                 </a>
                                             </li>
                                         }
 
                                         @if (ViewBag.EsSuperAdmin)
                                         {
-                                            <li class="@ViewBag.navbar.warningActive">
+                                            <li class="@ViewBag.navbar.menu7">
                                                 <a href="@Url.Action("Usuarios")" class="active">
                                                     <i class="fa fa-user icon">
                                                         <b class="bg-warning"></b>
@@ -127,7 +151,7 @@
                                                 </a>
                                             </li>
                                         }
-                                        <li class="@ViewBag.navbar.successActive">
+                                        <li class="@ViewBag.navbar.menu8">
                                             <a href="@Url.Action("ReporteCategorias")" class="active">
                                                 <i class="fa fa-bar-chart-o icon">
                                                     <b class="bg-primary"></b>
@@ -164,51 +188,51 @@
     @Scripts.Render("~/Content/themes/admin/js/jquery.min.js")
 
     <script type="text/javascript">
-    $(function () {
-        $('.empresa li').click(function () {
-            var posMenu = $('.mimenu li.active').index();
-            //alert(posMenu);
+        $(function () {
+            $('.empresa li').click(function () {
+                var posMenu = $('.mimenu li.active').index();
+                //alert(posMenu);
 
-            var idEmpresa = $(this).attr('id').substr(3);
-            var nombreEmpresa = $(this).text();
-            $('#botonEmpresas').text(nombreEmpresa);
-            //alert(idEmpresa.substr(3));
-            $.ajax({
-                url: "/Admin/CambiarEmpresaSuperAdmin",
-                type: "POST",
-                cache: false,
-                data: { idEmpresa: idEmpresa },
-                dataType: "text"
-            }).success(function () {
-                switch (posMenu) {
-                    case 0:
-                        window.location.href = '@Url.Action("Libros", "Admin")';
-                        break;
-                    case 1:
-                        window.location.href = '@Url.Action("Categorias", "Admin")';
-                        break;
-                    case 2:
-                        window.location.href = '@Url.Action("Entidades", "Admin")';
-                        break;
-                    case 3:
-                        window.location.href = '@Url.Action("Usuarios", "Admin")';
-                        break;
-                    case 4:
-                        window.location.href = '@Url.Action("ReporteCategorias", "Admin")';
-                        break;
-                    default:
-                        window.location.href = '@Url.Action("Index", "Admin")';
-                        break;
-                }
+                var idEmpresa = $(this).attr('id').substr(3);
+                var nombreEmpresa = $(this).text();
+                $('#botonEmpresas').text(nombreEmpresa);
+                //alert(idEmpresa.substr(3));
+                $.ajax({
+                    url: "/Admin/CambiarEmpresaSuperAdmin",
+                    type: "POST",
+                    cache: false,
+                    data: { idEmpresa: idEmpresa },
+                    dataType: "text"
+                }).success(function () {
+                    switch (posMenu) {
+                        case 0:
+                            window.location.href = '@Url.Action("Libros", "Admin")';
+                            break;
+                        case 1:
+                            window.location.href = '@Url.Action("Categorias", "Admin")';
+                            break;
+                        case 2:
+                            window.location.href = '@Url.Action("Entidades", "Admin")';
+                            break;
+                        case 3:
+                            window.location.href = '@Url.Action("Usuarios", "Admin")';
+                            break;
+                        case 4:
+                            window.location.href = '@Url.Action("ReporteCategorias", "Admin")';
+                            break;
+                        default:
+                            window.location.href = '@Url.Action("Index", "Admin")';
+                            break;
+                    }
 
+                });
             });
+
+            function postEmpresa() {
+
+            }
         });
-
-        function postEmpresa() {
-
-        }
-    });
-</script>
+    </script>
     <!-- Bootstrap -->
     @Scripts.Render("~/Content/themes/admin/js/bootstrap.js")
     <!-- App -->
