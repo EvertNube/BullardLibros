@@ -20,11 +20,14 @@ namespace BullardLibros.Core.BL
                 var result = context.EntidadResponsable.Where(x => x.IdEmpresa == idEmpresa).Select(x => new EntidadResponsableDTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoIdentificacion = x.IdTipoIdentificacion,
+                    IdTipoEntidad = x.IdTipoEntidad,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
                     Tipo = x.Tipo,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    NroIdentificacion = x.NroIdentificacion
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -36,10 +39,14 @@ namespace BullardLibros.Core.BL
                 var result = context.EntidadResponsable.Select(x => new EntidadResponsableDTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoIdentificacion = x.IdTipoIdentificacion,
+                    IdTipoEntidad = x.IdTipoEntidad,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
-                    Tipo = x.Tipo
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    NroIdentificacion = x.NroIdentificacion
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -52,10 +59,14 @@ namespace BullardLibros.Core.BL
                 var result = context.EntidadResponsable.Where(x => x.Estado && x.IdEmpresa == idEmpresa).Select(x => new EntidadResponsableDTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoIdentificacion = x.IdTipoIdentificacion,
+                    IdTipoEntidad = x.IdTipoEntidad,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
-                    Tipo = x.Tipo
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    NroIdentificacion = x.NroIdentificacion
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -68,10 +79,14 @@ namespace BullardLibros.Core.BL
                 var result = context.EntidadResponsable.Where(x => x.Estado).Select(x => new EntidadResponsableDTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoIdentificacion = x.IdTipoIdentificacion,
+                    IdTipoEntidad = x.IdTipoEntidad,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
-                    Tipo = x.Tipo
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    NroIdentificacion = x.NroIdentificacion
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -85,11 +100,14 @@ namespace BullardLibros.Core.BL
                     .Select(r => new EntidadResponsableDTO
                     {
                         IdEntidadResponsable = r.IdEntidadResponsable,
+                        IdTipoIdentificacion = r.IdTipoIdentificacion,
+                        IdTipoEntidad = r.IdTipoEntidad,
                         Nombre = r.Nombre,
                         Estado = r.Estado,
                         Detraccion = r.Detraccion,
                         Tipo = r.Tipo,
-                        IdEmpresa = r.IdEmpresa
+                        IdEmpresa = r.IdEmpresa,
+                        NroIdentificacion = r.NroIdentificacion
                     }).SingleOrDefault();
                 return result;
             }
@@ -103,10 +121,14 @@ namespace BullardLibros.Core.BL
                     .Select(r => new EntidadResponsableDTO
                     {
                         IdEntidadResponsable = r.IdEntidadResponsable,
+                        IdTipoIdentificacion = r.IdTipoIdentificacion,
+                        IdTipoEntidad = r.IdTipoEntidad,
                         Nombre = r.Nombre,
                         Estado = r.Estado,
                         Detraccion = r.Detraccion,
-                        Tipo = r.Tipo
+                        Tipo = r.Tipo,
+                        IdEmpresa = r.IdEmpresa,
+                        NroIdentificacion = r.NroIdentificacion
                     }).SingleOrDefault();
                 return result;
             }
@@ -119,10 +141,13 @@ namespace BullardLibros.Core.BL
                 {
                     EntidadResponsable nuevo = new EntidadResponsable();
                     nuevo.Nombre = EntidadResponsable.Nombre;
+                    nuevo.IdTipoIdentificacion = EntidadResponsable.IdTipoIdentificacion;
+                    nuevo.IdTipoEntidad = EntidadResponsable.IdTipoEntidad;
                     nuevo.Estado = true;
                     nuevo.Detraccion = EntidadResponsable.Detraccion;
                     nuevo.Tipo = EntidadResponsable.Tipo;
                     nuevo.IdEmpresa = EntidadResponsable.IdEmpresa;
+                    nuevo.NroIdentificacion = EntidadResponsable.NroIdentificacion;
                     context.EntidadResponsable.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -141,10 +166,13 @@ namespace BullardLibros.Core.BL
                 {
                     var datoRow = context.EntidadResponsable.Where(x => x.IdEntidadResponsable == EntidadResponsable.IdEntidadResponsable).SingleOrDefault();
                     datoRow.Nombre = EntidadResponsable.Nombre;
+                    datoRow.IdTipoIdentificacion = EntidadResponsable.IdTipoIdentificacion;
+                    datoRow.IdTipoEntidad = EntidadResponsable.IdTipoEntidad;
                     datoRow.Estado = EntidadResponsable.Estado;
                     datoRow.Detraccion = EntidadResponsable.Detraccion;
                     datoRow.Tipo = EntidadResponsable.Tipo;
                     datoRow.IdEmpresa = EntidadResponsable.IdEmpresa;
+                    datoRow.NroIdentificacion = EntidadResponsable.NroIdentificacion;
                     context.SaveChanges();
                     return true;
                 }
@@ -181,6 +209,20 @@ namespace BullardLibros.Core.BL
                     Nombre = x.Nombre,
                     Estado = x.Estado
                 }).ToList();
+                return result;
+            }
+        }
+
+        public List<TipoIdentificacionDTO> getTiposDeIdentificaciones()
+        {
+            using (var context = getContext())
+            {
+                var result = context.TipoIdentificacion.Select(x => new TipoIdentificacionDTO
+                    {
+                        IdTipoIdentificacion = x.IdTipoIdentificacion,
+                        Nombre = x.Nombre,
+                        Estado = x.Estado
+                    }).ToList();
                 return result;
             }
         }

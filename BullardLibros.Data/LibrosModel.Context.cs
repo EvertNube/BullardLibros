@@ -32,7 +32,6 @@ namespace BullardLibros.Data
         public virtual DbSet<Comprobante> Comprobante { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
-        public virtual DbSet<EntidadResponsable> EntidadResponsable { get; set; }
         public virtual DbSet<EstadoMovimiento> EstadoMovimiento { get; set; }
         public virtual DbSet<FormaMovimiento> FormaMovimiento { get; set; }
         public virtual DbSet<Moneda> Moneda { get; set; }
@@ -41,10 +40,12 @@ namespace BullardLibros.Data
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TipoComprobante> TipoComprobante { get; set; }
-        public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
         public virtual DbSet<TipoEntidad> TipoEntidad { get; set; }
         public virtual DbSet<TipoMovimiento> TipoMovimiento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<EntidadResponsable> EntidadResponsable { get; set; }
+        public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
+        public virtual DbSet<TipoIdentificacion> TipoIdentificacion { get; set; }
     
         public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {

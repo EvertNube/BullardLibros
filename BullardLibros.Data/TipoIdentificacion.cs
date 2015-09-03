@@ -12,19 +12,17 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class TipoDocumento
+    public partial class TipoIdentificacion
     {
-        public TipoDocumento()
+        public TipoIdentificacion()
         {
-            this.Comprobante = new HashSet<Comprobante>();
-            this.Movimiento = new HashSet<Movimiento>();
+            this.EntidadResponsable = new HashSet<EntidadResponsable>();
         }
     
-        public int IdTipoDocumento { get; set; }
+        public int IdTipoIdentificacion { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
     
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
+        public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
     }
 }

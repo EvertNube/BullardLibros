@@ -5,51 +5,60 @@ using System.Web;
 
 namespace BullardLibros.Models
 {
+    public class Option
+    {
+        public string cadena { get; set; }
+        public List<Option> lstOptions { get; set; }
+    }
     public class Navbar
     {
-        public string menu1 { get; set; }
-        public string menu2 { get; set; }
-        public string menu3 { get; set; }
-        public string menu4 { get; set; }
-        public string menu5 { get; set; }
-        public string menu6 { get; set; }
-        public string menu7 { get; set; }
-        public string menu8 { get; set; }
-
+        public List<Option> lstOptions { get; set; }
+        
         public Navbar()
         {
-            this.menu1 = "";
-            this.menu2 = "";
-            this.menu3 = "";
-            this.menu4 = "";
-            this.menu5 = "";
-            this.menu6 = "";
-            this.menu7 = "";
-            this.menu8 = "";
+            lstOptions = new List<Option>();
+            for (int i = 0; i < 4; i++)
+            {
+                lstOptions.Add(new Option() { cadena = "" });
+            }
+            /*foreach (var item in lstOptions)
+            {
+                item.cadena = "";
+            }*/
+            //Ultima seccion del menu tiene Mini-menus
+            lstOptions.Last().lstOptions = new List<Option>();
+            for (int i = 0; i < 5; i++)
+            {
+                lstOptions.Last().lstOptions.Add(new Option() { cadena = "" });
+            }
+            /*foreach (var item in lstOptions.Last().lstOptions)
+            {
+                item.cadena = "";
+            }*/
         }
 
         public void clearAll()
         {
-            this.menu1 = "";
-            this.menu2 = "";
-            this.menu3 = "";
-            this.menu4 = "";
-            this.menu5 = "";
-            this.menu6 = "";
-            this.menu7 = "";
-            this.menu8 = "";
+            foreach (var item in lstOptions)
+            {
+                item.cadena = "";
+            }
+            foreach (var item in lstOptions.Last().lstOptions)
+            {
+                item.cadena = "";
+            }
         }
 
         public void activeAll()
         {
-            this.menu1 = "active";
-            this.menu2 = "active";
-            this.menu3 = "active";
-            this.menu5 = "active";
-            this.menu4 = "active";
-            this.menu6 = "active";
-            this.menu7 = "active";
-            this.menu8 = "active";
+            foreach (var item in lstOptions)
+            {
+                item.cadena = "active";
+            }
+            foreach (var item in lstOptions.Last().lstOptions)
+            {
+                item.cadena = "active";
+            }
         }
     }
 }

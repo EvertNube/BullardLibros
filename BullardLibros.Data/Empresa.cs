@@ -20,9 +20,9 @@ namespace BullardLibros.Data
             this.Categoria = new HashSet<Categoria>();
             this.Comprobante = new HashSet<Comprobante>();
             this.CuentaBancaria = new HashSet<CuentaBancaria>();
-            this.EntidadResponsable = new HashSet<EntidadResponsable>();
             this.Responsable = new HashSet<Responsable>();
             this.Usuario = new HashSet<Usuario>();
+            this.EntidadResponsable = new HashSet<EntidadResponsable>();
         }
     
         public int IdEmpresa { get; set; }
@@ -35,8 +35,8 @@ namespace BullardLibros.Data
         public virtual ICollection<Categoria> Categoria { get; set; }
         public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
-        public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
         public virtual ICollection<Responsable> Responsable { get; set; }
         public virtual ICollection<Usuario> Usuario { get; set; }
+        public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
     }
 }

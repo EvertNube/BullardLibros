@@ -31,9 +31,9 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
     
         public virtual Empresa Empresa { get; set; }
-        public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual Moneda Moneda { get; set; }
         public virtual TipoComprobante TipoComprobante { get; set; }
+        public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
     }
 }

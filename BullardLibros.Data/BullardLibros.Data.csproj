@@ -128,6 +128,9 @@
     <Compile Include="TipoEntidad.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TipoIdentificacion.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TipoMovimiento.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

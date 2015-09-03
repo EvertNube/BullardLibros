@@ -69,7 +69,7 @@
                                     </a>
                                     <div class="btn-group hidden-nav-xs">
                                         <button id="botonEmpresas" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-                                            @ViewBag.NombreEmpresa<span class="caret"></span>
+                                            @ViewBag.NombreEmpresa &nbsp;<span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu text-left empresa">
                                             @foreach (var item in (List<EmpresaDTO>)ViewBag.Empresas)
@@ -88,7 +88,7 @@
                                 <!-- nav -->
                                 <nav class="nav-primary hidden-xs">
                                     <ul class="nav lt mimenu">
-                                        <li class="@ViewBag.navbar.menu1">
+                                        <li class="@ViewBag.navbar.lstOptions[0].cadena">
                                             <a href="@Url.Action("Libros")" class="active">
                                                 <i class="fa fa-book icon">
                                                     <b class="bg-success"></b>
@@ -96,7 +96,7 @@
                                                 <span>Libros</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.menu2">
+                                        <li class="@ViewBag.navbar.lstOptions[1].cadena">
                                             <a href="@Url.Action("Comprobantes")" class="active">
                                                 <i class="fa fa-exchange icon">
                                                     <b class="bg-success"></b>
@@ -104,54 +104,7 @@
                                                 <span>Comprobantes</span>
                                             </a>
                                         </li>
-                                        @if (ViewBag.EsAdmin)
-                                        {
-                                            <li class="@ViewBag.navbar.menu3">
-                                                <a href="@Url.Action("Categorias")" class="active">
-                                                    <i class="fa fa-list-ul icon">
-                                                        <b class="bg-danger"></b>
-                                                    </i>
-                                                    <span>Categorias</span>
-                                                </a>
-                                            </li>
-                                            <li class="@ViewBag.navbar.menu4">
-                                                <a href="@Url.Action("Entidades")" class="active">
-                                                    <i class="fa fa-eye icon">
-                                                        <b class="bg-danger"></b>
-                                                    </i>
-                                                    <span>Entidades</span>
-                                                </a>
-                                            </li>
-                                            <li class="@ViewBag.navbar.menu5">
-                                                <a href="@Url.Action("Areas")" class="active">
-                                                    <i class="fa fa-sitemap icon">
-                                                        <b class="bg-danger"></b>
-                                                    </i>
-                                                    <span>Areas</span>
-                                                </a>
-                                            </li>
-                                            <li class="@ViewBag.navbar.menu6">
-                                                <a href="@Url.Action("Responsables")" class="active">
-                                                    <i class="fa fa-users icon">
-                                                        <b class="bg-warning"></b>
-                                                    </i>
-                                                    <span>Responsables</span>
-                                                </a>
-                                            </li>
-                                        }
-
-                                        @if (ViewBag.EsSuperAdmin)
-                                        {
-                                            <li class="@ViewBag.navbar.menu7">
-                                                <a href="@Url.Action("Usuarios")" class="active">
-                                                    <i class="fa fa-user icon">
-                                                        <b class="bg-warning"></b>
-                                                    </i>
-                                                    <span>Usuarios</span>
-                                                </a>
-                                            </li>
-                                        }
-                                        <li class="@ViewBag.navbar.menu8">
+                                        <li class="@ViewBag.navbar.lstOptions[2].cadena">
                                             <a href="@Url.Action("ReporteCategorias")" class="active">
                                                 <i class="fa fa-bar-chart-o icon">
                                                     <b class="bg-primary"></b>
@@ -159,6 +112,31 @@
                                                 <span>Reportes</span>
                                             </a>
                                         </li>
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <li class="@ViewBag.navbar.lstOptions[3].cadena">
+                                                <a href="#layout">
+                                                    <i class="fa fa-list-ul icon">
+                                                        <b class="bg-danger"></b>
+                                                    </i>
+                                                    <span class="pull-right">
+                                                        <i class="fa fa-angle-down text-active"></i>
+                                                        <i class="fa fa-angle-up text"></i>
+                                                    </span>
+                                                    <span>Data</span>
+                                                </a>
+                                                @{var miDisplay = "";
+                                                     miDisplay = ViewBag.navbar.lstOptions[3].cadena == "active" ? miDisplay = "block;" : miDisplay = "none;"; }
+                                                <ul class="nav lt" style="display: @miDisplay">
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <a href="@Url.Action("Areas")" class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <i class="fa fa-angle-right"></i> <span>Areas</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <a href="@Url.Action("Categorias")" class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <i class="fa fa-angle-right"></i> <span>Categorias</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <a href="@Url.Action("Entidades")" class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <i class="fa fa-angle-right"></i> <span>Entidadaes</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <a href="@Url.Action("Responsables")" class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <i class="fa fa-angle-right"></i> <span>Responsables</span> </a> </li> 
+                                                    @if (ViewBag.EsSuperAdmin)
+                                                    {<li class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <a href="@Url.Action("Usuarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <i class="fa fa-angle-right"></i> <span>Usuarios</span> </a> </li> }
+                                                </ul>
+                                            </li>
+                                        }
                                     </ul>
                                 </nav>
                                 <!-- / nav -->
