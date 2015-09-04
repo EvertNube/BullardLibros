@@ -149,7 +149,6 @@
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
-
                                 <header class="panel-heading font-bold">Formulario de Registro</header>
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -164,18 +163,8 @@
                                     }
                                     else
                                     {
-                                        @*<div class="form-group">
-                                            <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
-                                            @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @id = "comboCategoria", @class = "form-control" })
-                                            @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
-                                        </div>*@
                                         <div class="form-group">
                                             <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
-                                            @*@Html.DropDownListFor(u => u.IdCategoriaPadre, new SelectList(ViewBag.Categorias, "id", "text", Model != null ? (Model.IdCategoriaPadre != null ? Model.IdCategoriaPadre : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })*@
-                                            @*<select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2" data-val="true" data-val-number="The field IdCategoriaPadre must be a number." id="IdCategoriaPadre" name="IdCategoriaPadre">*@
-                                                @*@Html.Raw(printTree(ViewBag.Categorias))*@
-                                            @*</select>*@
-                                            @*<input class="col-xs-12 col-sm-12 col-md-12 no-padder" type="hidden" id="IdCategoriaPadre" name="IdCategoriaPadre"/>*@
                                             @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
                                             @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
                                         </div>

@@ -9,7 +9,7 @@ namespace BullardLibros.Core.DTO
     [Serializable]
     public class TipoDocumentoDTO
     {
-        public int IdTipoEntidad { get; set; }
+        public int IdTipoDocumento { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
     }

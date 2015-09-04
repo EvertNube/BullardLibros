@@ -1,8 +1,9 @@
-﻿@{
+﻿@using BullardLibros.Core.DTO
+@model IList<BullardLibros.Core.DTO.ComprobanteDTO>
+@{
     ViewBag.Title = "NubeLabs SCI - Comprobantes";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IList<BullardLibros.Core.DTO.ComprobanteDTO>
 @section Styles{
     @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
@@ -26,76 +27,91 @@
                 <section class="panel panel-default">
                     <header class="panel-heading bg-light">
                         <ul class="nav nav-tabs nav-justified">
-                            <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-                            <li class=""><a href="#profile" data-toggle="tab">Profile</a></li>
-                            <li><a href="#messages" data-toggle="tab">Messages</a></li>
-                            <li><a href="#settings" data-toggle="tab">Settings</a></li>
+                            @{string first = "active";}
+                            @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
+                            {
+                                <li class="@first">
+                                    <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
+                                </li>
+                                if (first == "active")
+                                { first = ""; }
+                            }
                         </ul>
-                    </header> 
+                    </header>
                     <div class="panel-body">
                         <div class="tab-content">
-                            <div class="tab-pane active" id="home">
-                                <section class="panel panel-default">
-                                    @if (ViewBag.EsAdmin)
-                                    {
-                                        <header class="panel-heading">
-                                            <div class="row text-sm">
-                                                <div class="col-sm-8">
-                                                    <div class="btn-group">
-                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                            @{string first2 = "active";}
+                            @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
+                            {
+                                <div class="tab-pane @first2" id="@(item.Nombre + "s")">
+                                    <section class="panel panel-default">
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <header class="panel-heading">
+                                                <div class="row text-sm">
+                                                    <div class="col-sm-8">
+                                                        <div class="btn-group">
+                                                            <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = item.IdTipoComprobante })"><i class="fa fa-plus"></i> Crear nuevo @item.Nombre</a>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Comprobante")"><i class="fa fa-plus"></i> Crear nuevo Comprobante</a>
-                                                </div>
-                                            </div>
-                                        </header>
-                                    }
-                                    <div class="table-responsive">
-                                        <table class="table table-striped m-b-none dataTable no-footer">
-                                            <thead>
-                                                <tr>
-                                                    <th width="15%">Fecha Documento</th>
-                                                    <th class="text-center" width="10%">Tipo Documento</th>
-                                                    <th class="text-center" width="20%">Nro Documento</th>
-                                                    <th class="text-center" width="20%">Cliente</th>
-                                                    <th class="text-center" width="15%">Monto</th>
-                                                    <th class="text-center" width="10%">Moneda</th>
-                                                    <th class="text-center" width="10%">Opciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model != null)
-                                                {
-                                                    foreach (var obj in Model)
+                                            </header>
+                                        }
+                                        <div class="table-responsive">
+                                            <table class="table table-striped m-b-none dataTable no-footer">
+                                                <thead>
+                                                    <tr>
+                                                        @{
+                                        var fechaIni = item.IdTipoComprobante == 1 ? "Fecha Facturación" : "Fecha Documento";
+                                        var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+                                                        }
+                                                        <th width="15%">@fechaIni</th>
+                                                        <th class="text-center" width="10%">Tipo Documento</th>
+                                                        <th class="text-center" width="20%">Nro Documento</th>
+                                                        <th class="text-center" width="20%">@strEntidad</th>
+                                                        <th class="text-center" width="15%">Monto</th>
+                                                        <th class="text-center" width="10%">Moneda</th>
+                                                        <th class="text-center" width="10%">Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
                                                     {
-                                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                                        <tr @Html.Raw(classInactive)>
-                                                            <td class="text-center" width="15%">@obj.FechaEmision</td>
-                                                            <td class="text-center" width="10%">@obj.IdTipoDocumento</td>
-                                                            <td class="text-center" width="20%">@obj.NroDocumento</td>
-                                                            <td class="text-center" width="20%">@obj.IdEntidadResponsable</td>
-                                                            <td class="text-center" width="15%">@obj.Monto</td>
-                                                            <td class="text-center" width="10%">@obj.IdMoneda</td>
-                                                            @if (ViewBag.EsAdmin)
+                                                        foreach (var obj in Model)
+                                                        {
+                                                            if (item.IdTipoComprobante == obj.IdTipoComprobante)
                                                             {
-                                                                <td align="center"><a href="@Url.Action("Comprobante", new { id = obj.IdArea })"><i class="fa fa-pencil"></i></a></td>
+                                                                var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                                <tr @Html.Raw(classInactive)>
+                                                                    <td class="text-center" width="15%">@obj.FechaEmision</td>
+                                                                    <td class="text-center" width="10%">@obj.IdTipoDocumento</td>
+                                                                    <td class="text-center" width="20%">@obj.NroDocumento</td>
+                                                                    <td class="text-center" width="20%">@obj.IdEntidadResponsable</td>
+                                                                    <td class="text-center" width="15%">@obj.Monto</td>
+                                                                    <td class="text-center" width="10%">@obj.IdMoneda</td>
+                                                                    @if (ViewBag.EsAdmin)
+                                                                    {
+                                                                        <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-pencil"></i></a></td>
+                                                                    }
+                                                                </tr>
                                                             }
-                                                        </tr>
+                                                        }
                                                     }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </section>
-                            </div>
-                            <div class="tab-pane" id="profile">profile</div>
-                            <div class="tab-pane" id="messages">message</div>
-                            <div class="tab-pane" id="settings">settings</div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+                                </div>
+                                                    if (first2 == "active")
+                                                    { first2 = ""; }
+                            }
                         </div>
                     </div>
                 </section>
-                
+
             </div>
         </div>
     </section>

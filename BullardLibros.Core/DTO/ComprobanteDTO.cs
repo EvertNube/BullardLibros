@@ -30,6 +30,5 @@ namespace BullardLibros.Core.DTO
         public string NombreTipoDocumento { get; set; }
         public string NombreEntidad { get; set; }
         public string NombreMoneda { get; set; }
-        public string NombreEmpresa { get; set; }
     }
 }

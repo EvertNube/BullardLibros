@@ -361,21 +361,8 @@ namespace BullardLibros.Controllers
 
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
-            //ViewBag.Categorias = objBL.getCategoriasPadreEnEmpresa(miUsuario.IdEmpresa, true);
-            //List<Select2DTO> listaCat = CategoriasBucle(null, null);
-
-            //String json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(listaCat);
-            ViewBag.Categorias = CategoriasBucle(null, null);
-
-            //ViewBag.Categorias = Newtonsoft.Json.JsonConvert.SerializeObject(listaCat);
             
-            //ViewBag.Categorias = Json(new { listaCat }, JsonRequestBehavior.AllowGet);
-            /*
-            List<Select2DTO> ListaCategorias = new List<Select2DTO>();
-
-            CategoriaBL objBL = new CategoriaBL();
-            var listaCat = CategoriasBucle(null, null);
-            */
+            ViewBag.Categorias = CategoriasBucle(null, null);
 
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Categoria"];
@@ -747,6 +734,7 @@ namespace BullardLibros.Controllers
 
             ComprobanteBL objBL = new ComprobanteBL();
             List<ComprobanteDTO> listaComprobantes = new List<ComprobanteDTO>();
+            ViewBag.lstTipoComprobantes = objBL.getTipoDeComprobantes();
 
             if (currentUser.IdEmpresa > 0)
             {
@@ -754,20 +742,25 @@ namespace BullardLibros.Controllers
             }
             return View(listaComprobantes);
         }
-        public ActionResult Comprobante(int? id = null)
+        public ActionResult Comprobante(int? id = null, int? idTipoComprobante = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MenuNavBarSelected(2);
             UsuarioDTO currentUser = getCurrentUser();
 
+            ViewBag.Categorias = CategoriasBucle(null, null);
+
             ComprobanteBL objBL = new ComprobanteBL();
+            ViewBag.lstTipoDocumento = objBL.getTipoDeDocumentos();
+            ViewBag.lstEntidades = objBL.getListaEntidadesEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.lstMonedas = objBL.getListaMonedas();
             
             var objSent = TempData["Comprobante"];
             if (objSent != null) { TempData["Comprobante"] = null; return View(objSent); }
 
             ComprobanteDTO obj;
-            if (id != null)
+            if (id != null && id != 0)
             {
                 obj = objBL.getComprobanteEnEmpresa((int)currentUser.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Comprobantes");
@@ -776,7 +769,8 @@ namespace BullardLibros.Controllers
             }
             obj = new ComprobanteDTO();
             obj.IdEmpresa = currentUser.IdEmpresa;
-
+            obj.FechaEmision = DateTime.Now;
+            if (idTipoComprobante != null && idTipoComprobante != 0) obj.IdTipoComprobante = idTipoComprobante.GetValueOrDefault();
             return View(obj);
         }
         [HttpPost]
