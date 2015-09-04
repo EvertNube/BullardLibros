@@ -54,10 +54,21 @@
 @section Scripts{
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.miselect2').select2();
+        @{
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var userInfoJson = jss.Serialize(ViewBag.Categorias);
+        }
+        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
 
-            $('#comboCategoria').select2({
+        $(document).ready(function () {
+            $('#IdCategoriaPadre').select2({
+                placeholder: "Seleccione una categoría",
+                data: mydata,
+                allowClear: true
+            })
+
+            //Select2 con ajax
+            /*$('#comboCategoria').select2({
                 placeholder: "Seleccione una categoría",
                 allowClear: true,
                 //minimumInputLength: 2,  // minimumInputLength for sending ajax request to server
@@ -77,7 +88,7 @@
                 },
                 formatResult: format,
                 formatSelection: format
-            })
+            })*/
         });
 
         function format(res) {
@@ -90,7 +101,7 @@
         }
 
         function validarCategoria() {
-            var myIdSelect2 = document.getElementById('comboCategoria').value; 
+            var myIdSelect2 = document.getElementById('IdCategoriaPadre').value;
             //var myIdSelect2 = $('#comboCategoria').select2.('data').id;
             var myId = $('#IdCategoria').val();
             if (myId == 0)
@@ -99,6 +110,20 @@
             {alert("El padre de la categoría no puede ser él mismo");
             return false;
             }
+        }
+
+        function obtenerCategorias() {
+            $.ajax({
+                url: "/Admin/CategoriasJson",
+                type: "POST",
+                dataType: 'json',
+                data: function () {
+                    return JSON.stringify();
+                },
+                results: function (data, page) {
+                    return { results: data.listaCat };
+                },
+            });
         }
     </script>
 }
@@ -139,17 +164,19 @@
                                     }
                                     else
                                     {
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
                                             @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @id = "comboCategoria", @class = "form-control" })
                                             @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
-                                        </div>
+                                        </div>*@
                                         <div class="form-group">
                                             <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
                                             @*@Html.DropDownListFor(u => u.IdCategoriaPadre, new SelectList(ViewBag.Categorias, "id", "text", Model != null ? (Model.IdCategoriaPadre != null ? Model.IdCategoriaPadre : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })*@
-                                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder" data-val="true" data-val-number="The field IdCategoriaPadre must be a number." id="IdCategoriaPadre" name="IdCategoriaPadre">
-                                                @Html.Raw(printTree(ViewBag.Categorias))
-                                            </select>
+                                            @*<select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2" data-val="true" data-val-number="The field IdCategoriaPadre must be a number." id="IdCategoriaPadre" name="IdCategoriaPadre">*@
+                                                @*@Html.Raw(printTree(ViewBag.Categorias))*@
+                                            @*</select>*@
+                                            @*<input class="col-xs-12 col-sm-12 col-md-12 no-padder" type="hidden" id="IdCategoriaPadre" name="IdCategoriaPadre"/>*@
+                                            @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
                                             @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
                                         </div>
                                     }

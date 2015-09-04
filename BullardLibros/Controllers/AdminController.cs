@@ -362,7 +362,14 @@ namespace BullardLibros.Controllers
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
             //ViewBag.Categorias = objBL.getCategoriasPadreEnEmpresa(miUsuario.IdEmpresa, true);
-            ViewBag.Categorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa);
+            //List<Select2DTO> listaCat = CategoriasBucle(null, null);
+
+            //String json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(listaCat);
+            ViewBag.Categorias = CategoriasBucle(null, null);
+
+            //ViewBag.Categorias = Newtonsoft.Json.JsonConvert.SerializeObject(listaCat);
+            
+            //ViewBag.Categorias = Json(new { listaCat }, JsonRequestBehavior.AllowGet);
             /*
             List<Select2DTO> ListaCategorias = new List<Select2DTO>();
 
@@ -994,7 +1001,7 @@ namespace BullardLibros.Controllers
             return Json(new { listaCat }, JsonRequestBehavior.AllowGet);
         }
 
-        public IList<Select2DTO> CategoriasBucle(int? id = null, IList<CategoriaDTO> lista = null)
+        public List<Select2DTO> CategoriasBucle(int? id = null, IList<CategoriaDTO> lista = null)
         {
             var listaCat = lista;
             if (id == null && lista == null)
