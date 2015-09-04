@@ -361,7 +361,15 @@ namespace BullardLibros.Controllers
 
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
-            ViewBag.Categorias = objBL.getCategoriasPadreEnEmpresa(miUsuario.IdEmpresa, true);
+            //ViewBag.Categorias = objBL.getCategoriasPadreEnEmpresa(miUsuario.IdEmpresa, true);
+            ViewBag.Categorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa);
+            /*
+            List<Select2DTO> ListaCategorias = new List<Select2DTO>();
+
+            CategoriaBL objBL = new CategoriaBL();
+            var listaCat = CategoriasBucle(null, null);
+            */
+
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Categoria"];
             if (objSent != null) { TempData["Categoria"] = null; return View(objSent); }
@@ -979,8 +987,7 @@ namespace BullardLibros.Controllers
         #region APIs adicionales
         public JsonResult CategoriasJson()
         {
-            List<Select2DTO> ListaCategorias = new List<Select2DTO>();
-
+            //List<Select2DTO> ListaCategorias = new List<Select2DTO>();
             CategoriaBL objBL = new CategoriaBL();
             var listaCat = CategoriasBucle(null, null);
 

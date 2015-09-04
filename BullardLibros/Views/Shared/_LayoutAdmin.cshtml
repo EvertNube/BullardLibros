@@ -127,7 +127,7 @@
                                                 </a>
                                                 @{var miDisplay = "";
                                                      miDisplay = ViewBag.navbar.lstOptions[3].cadena == "active" ? miDisplay = "block;" : miDisplay = "none;"; }
-                                                <ul class="nav lt" style="display: @miDisplay">
+                                                <ul class="nav lt mimenu2" style="display: @miDisplay">
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <a href="@Url.Action("Areas")" class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <i class="fa fa-angle-right"></i> <span>Areas</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <a href="@Url.Action("Categorias")" class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <i class="fa fa-angle-right"></i> <span>Categorias</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <a href="@Url.Action("Entidades")" class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <i class="fa fa-angle-right"></i> <span>Entidadaes</span> </a> </li> 
@@ -169,7 +169,8 @@
         $(function () {
             $('.empresa li').click(function () {
                 var posMenu = $('.mimenu li.active').index();
-                //alert(posMenu);
+                //Para el "mimenu2"
+                if (posMenu == 3) { posMenu += $('.mimenu2 li.active').index(); }
 
                 var idEmpresa = $(this).attr('id').substr(3);
                 var nombreEmpresa = $(this).text();
@@ -187,16 +188,25 @@
                             window.location.href = '@Url.Action("Libros", "Admin")';
                             break;
                         case 1:
-                            window.location.href = '@Url.Action("Categorias", "Admin")';
+                            window.location.href = '@Url.Action("Comprobantes", "Admin")';
                             break;
                         case 2:
-                            window.location.href = '@Url.Action("Entidades", "Admin")';
+                            window.location.href = '@Url.Action("ReporteCategorias", "Admin")';
                             break;
                         case 3:
-                            window.location.href = '@Url.Action("Usuarios", "Admin")';
+                            window.location.href = '@Url.Action("Areas", "Admin")';
                             break;
                         case 4:
-                            window.location.href = '@Url.Action("ReporteCategorias", "Admin")';
+                            window.location.href = '@Url.Action("Categorias", "Admin")';
+                            break;
+                        case 5:
+                            window.location.href = '@Url.Action("Entidades", "Admin")';
+                            break;
+                        case 6:
+                            window.location.href = '@Url.Action("Responsables", "Admin")';
+                            break;
+                        case 7:
+                            window.location.href = '@Url.Action("Usuarios", "Admin")';
                             break;
                         default:
                             window.location.href = '@Url.Action("Index", "Admin")';
