@@ -1,4 +1,5 @@
 ﻿@using BullardLibros.Core.DTO
+@using System.Globalization;
 @model IList<BullardLibros.Core.DTO.ComprobanteDTO>
 @{
     ViewBag.Title = "NubeLabs SCI - Comprobantes";
@@ -27,23 +28,32 @@
                 <section class="panel panel-default">
                     <header class="panel-heading bg-light">
                         <ul class="nav nav-tabs nav-justified">
-                            @{string first = "active";}
+                            @{bool idnull1 = false;
+                                string cadena1 = "";}
                             @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
                             {
-                                <li class="@first">
+                                if (ViewBag.idTipoComprobante != null)
+                                { cadena1 = ViewBag.idTipoComprobante == item.IdTipoComprobante ? "active" : ""; }
+                                else if(!idnull1)
+                                {   idnull1 = true; cadena1 = "active"; }                                
+                                <li class="@cadena1">
                                     <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
                                 </li>
-                                if (first == "active")
-                                { first = ""; }
+                                if (idnull1) { cadena1 = ""; }
                             }
                         </ul>
                     </header>
                     <div class="panel-body">
                         <div class="tab-content">
-                            @{string first2 = "active";}
+                            @{bool idnull2 = false;
+                            string cadena2 = "";}
                             @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
                             {
-                                <div class="tab-pane @first2" id="@(item.Nombre + "s")">
+                                if (ViewBag.idTipoComprobante != null)
+                                { cadena2 = ViewBag.idTipoComprobante == item.IdTipoComprobante ? "active" : ""; }
+                                else if (!idnull2)
+                                { idnull2 = true; cadena2 = "active"; }                                
+                                <div class="tab-pane @cadena2" id="@item.Nombre">
                                     <section class="panel panel-default">
                                         @if (ViewBag.EsAdmin)
                                         {
@@ -86,12 +96,12 @@
                                                             {
                                                                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
-                                                                    <td class="text-center" width="15%">@obj.FechaEmision</td>
-                                                                    <td class="text-center" width="10%">@obj.IdTipoDocumento</td>
+                                                                    <td class="text-center" width="15%">@obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                                    <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
                                                                     <td class="text-center" width="20%">@obj.NroDocumento</td>
-                                                                    <td class="text-center" width="20%">@obj.IdEntidadResponsable</td>
-                                                                    <td class="text-center" width="15%">@obj.Monto</td>
-                                                                    <td class="text-center" width="10%">@obj.IdMoneda</td>
+                                                                    <td class="text-center" width="20%">@obj.NombreEntidad</td>
+                                                                    <td class="text-center" width="15%">@obj.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                                    <td class="text-center" width="10%">@obj.NombreMoneda</td>
                                                                     @if (ViewBag.EsAdmin)
                                                                     {
                                                                         <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-pencil"></i></a></td>
@@ -105,8 +115,7 @@
                                         </div>
                                     </section>
                                 </div>
-                                                    if (first2 == "active")
-                                                    { first2 = ""; }
+                                if (idnull2) { cadena2 = ""; }
                             }
                         </div>
                     </div>

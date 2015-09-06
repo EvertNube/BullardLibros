@@ -724,7 +724,7 @@ namespace BullardLibros.Controllers
             TempData["Entidad"] = dto;
             return RedirectToAction("Entidad");
         }
-        public ActionResult Comprobantes()
+        public ActionResult Comprobantes(int? idTipoComprobante = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -735,6 +735,7 @@ namespace BullardLibros.Controllers
             ComprobanteBL objBL = new ComprobanteBL();
             List<ComprobanteDTO> listaComprobantes = new List<ComprobanteDTO>();
             ViewBag.lstTipoComprobantes = objBL.getTipoDeComprobantes();
+            ViewBag.idTipoComprobante = idTipoComprobante;
 
             if (currentUser.IdEmpresa > 0)
             {
@@ -749,12 +750,14 @@ namespace BullardLibros.Controllers
             MenuNavBarSelected(2);
             UsuarioDTO currentUser = getCurrentUser();
 
-            ViewBag.Categorias = CategoriasBucle(null, null);
-
             ComprobanteBL objBL = new ComprobanteBL();
             ViewBag.lstTipoDocumento = objBL.getTipoDeDocumentos();
-            ViewBag.lstEntidades = objBL.getListaEntidadesEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.lstClientes = objBL.getListaClientesEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.lstProveedores = objBL.getListaProveedoresEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstMonedas = objBL.getListaMonedas();
+            ViewBag.lstAreas = objBL.getListaAreasEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.lstResponsables = objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.Categorias = CategoriasBucle(null, null);
             
             var objSent = TempData["Comprobante"];
             if (objSent != null) { TempData["Comprobante"] = null; return View(objSent); }
@@ -764,7 +767,8 @@ namespace BullardLibros.Controllers
             {
                 obj = objBL.getComprobanteEnEmpresa((int)currentUser.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Comprobantes");
-                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Comprobantes");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Comprobantes");                
+
                 return View(obj);
             }
             obj = new ComprobanteDTO();
@@ -779,13 +783,16 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             try
             {
+                int TipoComprobante = 1; //Por defecto tipo de comprobante Ingreso
+                if (dto != null) { TipoComprobante = dto.IdTipoComprobante; }
+
                 ComprobanteBL objBL = new ComprobanteBL();
                 if (dto.IdComprobante == 0)
                 {
                     if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Comprobantes");
+                        return RedirectToAction("Comprobantes", "Admin", new { idTipoComprobante = TipoComprobante });
                     }
                 }
                 else if (dto.IdComprobante != 0)
@@ -793,7 +800,7 @@ namespace BullardLibros.Controllers
                     if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Comprobantes");
+                        return RedirectToAction("Comprobantes", "Admin", new { idTipoComprobante = TipoComprobante });
                     }
                     else
                     {

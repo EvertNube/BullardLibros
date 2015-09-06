@@ -35,7 +35,8 @@ namespace BullardLibros.Core.BL
                     NombreEntidad = x.EntidadResponsable.Nombre,
                     NombreMoneda = x.Moneda.Nombre,
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
-                    NombreTipoDocumento = x.TipoDocumento.Nombre
+                    NombreTipoDocumento = x.TipoDocumento.Nombre,
+                    SimboloMoneda = x.Moneda.Simbolo
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -64,7 +65,8 @@ namespace BullardLibros.Core.BL
                     NombreEntidad = x.EntidadResponsable.Nombre,
                     NombreMoneda = x.Moneda.Nombre,
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
-                    NombreTipoDocumento = x.TipoDocumento.Nombre
+                    NombreTipoDocumento = x.TipoDocumento.Nombre,
+                    SimboloMoneda = x.Moneda.Simbolo
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -94,7 +96,8 @@ namespace BullardLibros.Core.BL
                         NombreEntidad = r.EntidadResponsable.Nombre,
                         NombreMoneda = r.Moneda.Nombre,
                         NombreTipoComprobante = r.TipoComprobante.Nombre,
-                        NombreTipoDocumento = r.TipoDocumento.Nombre
+                        NombreTipoDocumento = r.TipoDocumento.Nombre,
+                        SimboloMoneda = r.Moneda.Simbolo
                     }).SingleOrDefault();
                 return result;
             }
@@ -217,10 +220,11 @@ namespace BullardLibros.Core.BL
 
         public List<EntidadResponsableDTO> getListaClientesEnEmpresa(int idEmpresa)
         {
+            //SOLO ACTIVOS
             //Clientes Entidad Tipo 1
             using (var context = getContext())
             {
-                var result = context.EntidadResponsable.Where(x => x.IdTipoEntidad == 1).Select(x => new EntidadResponsableDTO
+                var result = context.EntidadResponsable.Where(x => x.IdTipoEntidad == 1 && x.IdEmpresa == idEmpresa && x.Estado).Select(x => new EntidadResponsableDTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
@@ -231,10 +235,11 @@ namespace BullardLibros.Core.BL
         }
         public List<EntidadResponsableDTO> getListaProveedoresEnEmpresa(int idEmpresa)
         {
+            //SOLO ACTIVOS
             //Proveedores Entidad Tipo 2
             using (var context = getContext())
             {
-                var result = context.EntidadResponsable.Where(x => x.IdTipoEntidad == 2).Select(x => new EntidadResponsableDTO
+                var result = context.EntidadResponsable.Where(x => x.IdTipoEntidad == 2 && x.IdEmpresa == idEmpresa && x.Estado).Select(x => new EntidadResponsableDTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
@@ -254,6 +259,36 @@ namespace BullardLibros.Core.BL
                     Nombre = x.Nombre,
                     Simbolo = x.Simbolo
                 }).ToList();
+                return result;
+            }
+        }
+
+        public List<AreaDTO> getListaAreasEnEmpresa(int idEmpresa)
+        {
+            //SOLO ACTIVOS
+            using (var context = getContext())
+            {
+                var result = context.Area.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
+
+        public List<ResponsableDTO> getListaResponsablesEnEmpresa(int idEmpresa)
+        {
+            //SOLO ACTIVOS
+            using (var context = getContext())
+            {
+                var result = context.Responsable.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ResponsableDTO
+                    {
+                        IdResponsable = x.IdResponsable,
+                        Nombre = x.Nombre,
+                        Estado = x.Estado
+                    }).ToList();
                 return result;
             }
         }
