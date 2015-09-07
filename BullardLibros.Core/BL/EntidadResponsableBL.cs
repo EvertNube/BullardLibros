@@ -61,7 +61,7 @@ namespace BullardLibros.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
-                    Nombre = x.Nombre,
+                    Nombre = x.IdTipoEntidad == 1 ? "C - " + x.Nombre : "P - " + x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
                     Tipo = x.Tipo,

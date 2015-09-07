@@ -236,5 +236,78 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
+        public List<TipoEntidadDTO> getListaTipoEntidades()
+        {
+            using (var context = getContext())
+            {
+                var result = context.TipoEntidad.Select(x => new TipoEntidadDTO
+                {
+                    IdTipoEntidad = x.IdTipoEntidad,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
+        public List<Select2DTO> getListaFormaMovimientosIngresos()
+        {
+            using (var context = getContext())
+            {
+                var result = context.FormaMovimiento.Where(x => x.IdTipoMovimiento == 1).Select(x => new Select2DTO 
+                { 
+                    id = x.IdFormaMovimiento,
+                    text = x.Nombre
+                    //IdFormaMovimiento = x.IdFormaMovimiento,
+                    //IdTipoMovimiento = x.IdTipoMovimiento,
+                    //Nombre = x.Nombre,
+                    //Estado = x.Estado,
+                    //NombreTipo = x.IdTipoMovimiento == 1 ? "Ingreso" : "Egreso"
+                }).ToList();
+                return result;
+            }
+        }
+        public List<Select2DTO> getListaFormaMovimientosEgresos()
+        {
+            using (var context = getContext())
+            {
+                var result = context.FormaMovimiento.Where(x => x.IdTipoMovimiento == 2).Select(x => new Select2DTO
+                {
+                    id = x.IdFormaMovimiento,
+                    text = x.Nombre
+                    //IdFormaMovimiento = x.IdFormaMovimiento,
+                    //IdTipoMovimiento = x.IdTipoMovimiento,
+                    //Nombre = x.Nombre,
+                    //Estado = x.Estado,
+                    //NombreTipo = x.IdTipoMovimiento == 1 ? "Ingreso" : "Egreso"
+                }).ToList();
+                return result;
+            }
+        }
+
+        public List<TipoDocumentoDTO> getListaTiposDeDocumento()
+        {
+            using (var context = getContext())
+            {
+                var result = context.TipoDocumento.Select(x => new TipoDocumentoDTO 
+                {
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
+
+        public IList<TipoDocumentoDTO> getListaTiposDeDocumentoVB(bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+                return getListaTiposDeDocumento();
+            else
+            {
+                var lista = getListaTiposDeDocumento();
+                lista.Insert(0, new TipoDocumentoDTO() { IdTipoDocumento = 0, Nombre = "Seleccione un tipo" });
+                return lista;
+            }
+        }
     }
 }

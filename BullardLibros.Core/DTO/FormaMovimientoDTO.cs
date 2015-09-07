@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 namespace BullardLibros.Core.DTO
 {
     [Serializable]
-    public class TipoDocumentoDTO
+    public class FormaMovimientoDTO
     {
-        public int IdTipoDocumento { get; set; }
+        public int IdFormaMovimiento { get; set; }
+        public int IdTipoMovimiento { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
+
         public string NombreTipo { get; set; }
     }
 }

@@ -77,6 +77,7 @@
     <Compile Include="DTO\EntidadResponsableDTO.cs" />
     <Compile Include="DTO\EntidadResponsableR_DTO.cs" />
     <Compile Include="DTO\EstadoMovimientoDTO.cs" />
+    <Compile Include="DTO\FormaMovimientoDTO.cs" />
     <Compile Include="DTO\MonedaDTO.cs" />
     <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\ResponsableDTO.cs" />
