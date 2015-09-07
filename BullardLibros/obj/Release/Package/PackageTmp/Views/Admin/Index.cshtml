@@ -1,52 +1,19 @@
-﻿@{
-    ViewBag.Title = "Libros";
+﻿@model IList<BullardLibros.Core.DTO.EmpresaDTO>
+@{
+    ViewBag.Title = "NubeLabs SCI";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @using System.Globalization;
-@model IList<BullardLibros.Core.DTO.CuentaBancariaDTO>
-
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
 @section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     <script type="text/javascript">
         $(function () {
+            $('.dataTable').DataTable();
         });
-        function funcTipoCambio() {
-            var value = parseFloat($("#idTipoCambio").val()) || 0;
-            if (value == 0) {
-                value = 1;
-                $("#idTipoCambio").val('1.00');
-            }
-            //var valor1 = parseFloat($("#idTotalSoles").text()).toFixed(2);
-            var valorSoles = parseFloat(@ViewBag.TotalSoles);
-            var valorDolares = parseFloat(@ViewBag.TotalDolares);
-
-            //if ($('#idMonedaSoles').hasClass('active')) {
-            var totalConSoles = (valorDolares * value + valorSoles).toFixed(2);
-            cadenaSoles = 'S/. ' + totalConSoles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //$("#idTotalConsolidado").html(cadenaSoles);
-            //}
-            //else if ($('#idMonedaDolares').hasClass('active')) {
-            var totalConDolares = (valorSoles / value + valorDolares).toFixed(2);
-            cadenaDolares = 'US$ ' + totalConDolares.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //$("#idTotalConsolidado").html(cadenaDolares);
-            //}
-        };
-        function funcTipoCambioSoles() {
-            $("#idTotalConsolidado").html(cadenaSoles);
-        };
-        function funcTipoCambioDolares() {
-            $("#idTotalConsolidado").html(cadenaDolares);
-        };
-        function funcTipoCambioActivado() {
-            if ($("#idMonedaSoles").hasClass('active'))
-            {
-                return 1;
-            }
-            else if ($("#idMonedaDolares").hasClass('active'))
-            {
-                return 2;
-            }
-            return 0;
-        }
     </script>
 }
 
@@ -54,97 +21,31 @@
     <section class="scrollable padder">
         <div class="row m-b">
             <div class="col-xs-12 col-md-12">
-                <h2>Libros</h2>
+                <h2>Empresas</h2>
                 @Html.Partial("_showAlertMessages")
-                <section class="panel panel-default">
-                    <div class="panel-header">
-                        <div class="col-sm-6 col-md-4 padder-v b-r b-light">
-                            <span class="fa-stack fa-2x pull-left m-r-sm">
-                                <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                                <i class="fa fa-money fa-stack-1x text-white"></i>
-                            </span>
-                            <a class="clear" href="#">
-                                <small class="text-muted text-uc">Total Soles</small>
-                                <span class="h3 block m-t-xs"><strong id="idTotalSoles">S/. @ViewBag.TotalSoles.ToString("N2", CultureInfo.InvariantCulture)</strong></span>
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-4 padder-v b-r b-light lt">
-                            <span class="fa-stack fa-2x pull-left m-r-sm">
-                                <i class="fa fa-circle fa-stack-2x text-success"></i>
-                                <i class="fa fa-money fa-stack-1x text-white"></i>
-                            </span>
-                            <a class="clear" href="#">
-                                <small class="text-muted text-uc">Total Dólares</small>
-                                <span class="h3 block m-t-xs"><strong id="idTotalDolares">US$ @ViewBag.TotalDolares.ToString("N2", CultureInfo.InvariantCulture)</strong></span>
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-4 padder-v b-r b-light">
-                            <span class="fa-stack fa-2x pull-left m-r-sm">
-                                <i class="fa fa-circle fa-stack-2x text-info"></i>
-                                <i class="fa fa-money fa-stack-1x text-white"></i>
-                            </span>
-                            <a class="clear" href="#">
-                                <small class="text-muted text-uc"><strong>Consolidado</strong></small>
-                                <span class="h3 block m-t-xs"><strong id="idTotalConsolidado">S/. @ViewBag.TotalConsolidado.ToString("N2", CultureInfo.InvariantCulture)</strong></span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="panel-body" style="padding:0px;">
-                            <form class="form-inline" role="form">
-                                <div class="form-group col-md-8 text-right">
-                                    <label class="control-label" style="transform: translateY(35%)">Tipo de Cambio</label>
-                                </div>
-                                <div class="form-group col-md-1">
-                                    <input id="idTipoCambio" type="text" class="form-control" style="text-align:right;" value="3.00" onkeyup="funcTipoCambio(); (funcTipoCambioActivado() == 1) ? funcTipoCambioSoles() : funcTipoCambioDolares();">
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <div class="btn-group" data-toggle="buttons">
-                                        <label id="idMonedaSoles" class="btn btn-md btn-default active" onclick="funcTipoCambio(); funcTipoCambioSoles();">
-                                            <input type="radio" name="options" id="option1">
-                                            <i class="fa fa-money text-warning">
-                                            </i>
-                                            &nbsp;Soles
-                                        </label>
-                                        <label id="idMonedaDolares" class="btn btn-md btn-default" onclick="funcTipoCambio(); funcTipoCambioDolares();">
-                                            <input type="radio" name="options" id="option2">
-                                            <i class="fa fa-dollar text-success">
-                                            </i>
-                                            &nbsp;Dólares
-                                        </label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </section>
                 <section class="panel panel-default">
                     @if (ViewBag.EsAdmin)
                     {
-                        <div class="row text-sm wrapper">
-
-                            <div class="col-sm-8">
-                                <div class="btn-group">
-
-                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-
+                        <header class="panel-heading">
+                            <div class="row text-sm">
+                                <div class="col-sm-8">
+                                    <div class="btn-group">
+                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Empresa")"><i class="fa fa-plus"></i> Crear nueva Empresa</a>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Libro")"><i class="fa fa-plus"></i> Crear nuevo Libro</a>
-                            </div>
-
-                        </div>
+                        </header>
                     }
                     <div class="table-responsive">
-                        <table class="table table-striped m-b-none">
+                        <table class="table table-striped m-b-none dataTable no-footer">
                             <thead>
                                 <tr>
                                     <th width="20%">Nombre</th>
-                                    <th class="text-center" width="20%">Fecha</th>
-                                    <th class="text-center" width="15%">Saldo Disponible</th>
-                                    <th class="text-center" width="15%">Saldo Bancario</th>
-                                    <th class="text-center" width="10%">Estado</th>
+                                    <th class="text-center" width="40%">Descripción</th>
+                                    <th class="text-center" width="20%">Estado</th>
                                     <th class="text-center" width="20%">Opciones</th>
                                 </tr>
                             </thead>
@@ -153,26 +54,19 @@
                                 {
                                     foreach (var obj in Model)
                                     {
-                                        var classInactive = (!obj.Estado) ? "class='inactive'" : "";
+                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
-                                            <td width="20%">@obj.NombreCuenta</td>
-                                            <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                            <td class="text-right" width="15%">@obj.SimboloMoneda @obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                            <td class="text-right" width="15%">@obj.SimboloMoneda @obj.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                            <td width="20%">@obj.Nombre</td>
+                                            <td class="text-center" width="40%">@obj.Descripcion</td>
                                             @if (obj.Estado == true)
                                             {
-                                                <td class="text-center" width="10%">Activo</td>}
+                                                <td class="text-center" width="20%">Activo</td>}
                                             else
                                             {
-                                                <td class="text-center" width="10%">Inactivo</td>}
-
+                                                <td class="text-center" width="20%">Inactivo</td>}
                                             @if (ViewBag.EsAdmin)
                                             {
-                                                <td align="center"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-pencil"></i></a></td>
-                                            }
-                                            else
-                                            {
-                                                <td align="center"><a href="@Url.Action("LibroVista", new { id = obj.IdCuentaBancaria })"><i class="fa fa-search"></i></a></td>
+                                                <td align="center"><a href="@Url.Action("Empresa", new { id = obj.IdEmpresa })"><i class="fa fa-pencil"></i></a></td>
                                             }
                                         </tr>
                                     }

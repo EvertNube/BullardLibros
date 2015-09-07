@@ -1,21 +1,74 @@
 ﻿@using BullardLibros.Core.DTO
 @model CategoriaDTO
 @{
-    ViewBag.Title = "Categoria";
+    ViewBag.Title = "NubeLabs SCI - Categoría";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@functions{
+    public string printTree(IList<CategoriaDTO> categorias)
+    {
+        if(categorias != null && categorias.Count != 0)
+        {
+            System.Text.StringBuilder output = new System.Text.StringBuilder();
+            foreach (CategoriaDTO item in categorias)
+	        {
+                if(item.IdCategoriaPadre == null && item.Hijos.Count == 0)
+                {
+                    output.AppendFormat("<option value='{0}'>{1}", item.IdCategoria, item.Nombre);
+                    output.AppendFormat("</option>");
+                }
+                else
+                { 
+		            if(item.IdCategoriaPadre == null && item.Hijos.Count > 0)
+                    {
+                        output.AppendFormat("<optgroup label='{0}'>", item.Nombre);
+                        if (item.Hijos != null && item.Hijos.Count > 0) { output.Append(printTree(item.Hijos)); }
+                        output.AppendFormat("</optgroup>");
+                    }
+                    else
+                    {
+                        if(item.IdCategoriaPadre != null && item.Hijos.Count > 0)
+                        {
+                            output.AppendFormat("<optgroup label='{0}'>", item.Nombre);
+                            if (item.Hijos != null && item.Hijos.Count > 0) { output.Append(printTree(item.Hijos)); }
+                            output.AppendFormat("</optgroup>");
+                        }
+                        else
+                        {
+                            output.AppendFormat("<option value='{0}'>{1}", item.IdCategoria, item.Nombre);
+                            if (item.Hijos != null && item.Hijos.Count > 0) { output.Append(printTree(item.Hijos)); }
+                            output.AppendFormat("</option>");    
+                        }
+                    }
+                }
+	        }
+            return output.ToString();
+        }
+        else return "";
+    }
 }
 @section Styles{
     @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
-    @Styles.Render("~/Content/themes/admin/js/select2/select2-bootstrap.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
 }
-
 @section Scripts{
-    @*@Scripts.Render("~/Content/themes/admin/js/jquery.js")*@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
-    @Scripts.Render("~/Content/themes/admin/js/select2/select2.js")
     <script type="text/javascript">
+        @{
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var userInfoJson = jss.Serialize(ViewBag.Categorias);
+        }
+        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+
         $(document).ready(function () {
-            $('#comboCategoria').select2({
+            $('#IdCategoriaPadre').select2({
+                placeholder: "Seleccione una categoría",
+                data: mydata,
+                allowClear: true
+            })
+
+            //Select2 con ajax
+            /*$('#comboCategoria').select2({
                 placeholder: "Seleccione una categoría",
                 allowClear: true,
                 //minimumInputLength: 2,  // minimumInputLength for sending ajax request to server
@@ -35,7 +88,7 @@
                 },
                 formatResult: format,
                 formatSelection: format
-            })
+            })*/
         });
 
         function format(res) {
@@ -48,7 +101,7 @@
         }
 
         function validarCategoria() {
-            var myIdSelect2 = document.getElementById('comboCategoria').value; 
+            var myIdSelect2 = document.getElementById('IdCategoriaPadre').value;
             //var myIdSelect2 = $('#comboCategoria').select2.('data').id;
             var myId = $('#IdCategoria').val();
             if (myId == 0)
@@ -57,6 +110,20 @@
             {alert("El padre de la categoría no puede ser él mismo");
             return false;
             }
+        }
+
+        function obtenerCategorias() {
+            $.ajax({
+                url: "/Admin/CategoriasJson",
+                type: "POST",
+                dataType: 'json',
+                data: function () {
+                    return JSON.stringify();
+                },
+                results: function (data, page) {
+                    return { results: data.listaCat };
+                },
+            });
         }
     </script>
 }
@@ -82,7 +149,6 @@
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
-
                                 <header class="panel-heading font-bold">Formulario de Registro</header>
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -99,7 +165,7 @@
                                     {
                                         <div class="form-group">
                                             <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
-                                            @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @id = "comboCategoria", @class = "form-control" })
+                                            @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
                                             @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
                                         </div>
                                     }
@@ -118,8 +184,8 @@
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
                                     }
                                     <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })
-                                    @*@Html.TextBoxFor(u => u.Orden, new { @value = Model != null ? Model.Orden : 1, @type = "hidden" })*@
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model.IdCategoria != 0 ? Model.IdCategoria.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-success" onclick="return validarCategoria()">@btnName</button>
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Categorias")">Salir</a>

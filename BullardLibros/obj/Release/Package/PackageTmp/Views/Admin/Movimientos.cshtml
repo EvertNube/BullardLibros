@@ -1,8 +1,20 @@
 ﻿@{
-    ViewBag.Title = "Movimientos";
+    ViewBag.Title = "NubeLabs SCI - Movimientos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @model IList<BullardLibros.Core.DTO.MovimientoDTO>
+
+@Styles.Render("~/Content/themes/admin/js/datatables/css/jquery.dataTables.min.css")
+
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    
+    <script type="text/javascript">
+        $(function () {
+            $('#miTabla').DataTable();
+        });
+    </script>
+}
 
 <section class="vbox">
     <section class="scrollable padder">
@@ -25,7 +37,7 @@
                         </div>
                     }
                     <div class="table-responsive">
-                        <table class="table table-striped m-b-none">
+                        <table id="miTabla" class="table table-striped m-b-none">
                             <thead>
                                 <tr>
                                     <th width="20%">Nombre</th>
@@ -43,7 +55,7 @@
                                     {
                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
-                                            <td width="40%">@obj.Nombre</td>
+                                            <td width="40%">@obj.NroOperacion</td>
                                             <td class="text-center" width="20%">@obj.Fecha</td>
                                             @if(obj.IdTipoMovimiento == 1)
                                             {<td class="text-center" width="20%">Entrada</td>}

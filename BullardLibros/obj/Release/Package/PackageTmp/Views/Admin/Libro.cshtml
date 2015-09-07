@@ -4,12 +4,19 @@
 @using System.Globalization;
 @model CuentaBancariaDTO
 @{
-    ViewBag.Title = "Libro";
+    ViewBag.Title = "NubeLabs SCI - Libro";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
 @section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
         function CheckNumericValue(e) {
             var key = e.which ? e.which : e.keyCode;
             //enter key  //backspace //tabkey      //escape key
@@ -41,35 +48,29 @@
 
                         @using (Html.BeginForm("AddLibro", "Admin", FormMethod.Post))
                         {
-                        @Html.ValidationSummary(true)
+                            @Html.ValidationSummary(true)
 
-                        @Html.Partial("_showAlertMessages")
+                            @Html.Partial("_showAlertMessages")
 
-                        <section class="panel panel-default">
-                            @*<header class="panel-heading font-bold">Formulario de Registro</header>*@
-                            <div class="panel-body">
-                                <div class="form-group col-md-6">
-                                    <label>Nombre de Cuenta</label>
-                                    @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre del libro", @type = "text" })
-                                    @Html.ValidationMessageFor(u => u.NombreCuenta)
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label>Fecha de conciliación</label>
-                                    @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
-                                    @Html.ValidationMessageFor(u => u.FechaConciliacion)
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label>Moneda</label>
-                                    @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.Monedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "form-control parsley-validated" })
-                                    @Html.ValidationMessageFor(u => u.IdMoneda)
-                                </div>
-                                @*<div class="form-group">
-                                        <label>Saldo Bancario</label>
-                                        @Html.TextBoxFor(u => u.SaldoBancario, new { @class = "form-control", @placeholder = "Ingrese el saldo bancario", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                        @Html.ValidationMessageFor(u => u.SaldoBancario)
-                                    </div>*@
-                                @if (Model != null && Model.IdCuentaBancaria != 0)
-                                        {
+                            <section class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group col-md-6">
+                                        <label>Nombre de Cuenta</label>
+                                        @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre del libro", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.NombreCuenta)
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Fecha de conciliación</label>
+                                        @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(u => u.FechaConciliacion)
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Moneda</label>
+                                        @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.Monedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "form-control parsley-validated" })
+                                        @Html.ValidationMessageFor(u => u.IdMoneda)
+                                    </div>
+                                    @if (Model != null && Model.IdCuentaBancaria != 0)
+                                    {
                                         <div class="form-group col-md-6">
                                             <div class="row m-l-none m-r-none bg-light lter">
                                                 <div class="padder-v b-light text-right">
@@ -99,10 +100,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        }
-                                @if (ViewBag.EsAdmin && Model != null && Model.IdCuentaBancaria > 0)
-                                        {
-                                        @*<div class="line line-dashed line-lg pull-in"></div>*@
+                                    }
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCuentaBancaria > 0)
+                                    {
                                         <div class="form-group">
                                             <label>
                                                 @Html.CheckBoxFor(u => u.Estado)
@@ -110,43 +110,45 @@
                                             Activo
                                             @Html.ValidationMessageFor(u => u.Estado)
                                         </div>}
-                                        else
-                                        {
+                                    else
+                                    {
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                        }
+                                    }
 
-                                <div class="line line-dashed line-lg pull-in"></div>
-                                @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
-                                @Html.TextBoxFor(u => u.SaldoDisponible, new { @value = Model != null ? Model.SaldoDisponible : 0, @type = "hidden" })
-                                @Html.TextBoxFor(u => u.SaldoBancario, new { @value = Model != null ? Model.SaldoBancario : 0, @type = "hidden" })
-                                @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
-                                <button type="submit" class="btn btn-sm btn-success">@btnName</button>
-                                <a class="btn btn-sm btn-danger" href="@Url.Action("Index")">Salir</a>
-                            </div>
-                        </section>
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model.IdCuentaBancaria != 0 ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.SaldoDisponible, new { @value = Model != null ? Model.SaldoDisponible : 0, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.SaldoBancario, new { @value = Model != null ? Model.SaldoBancario : 0, @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Libros", "Admin")">Salir</a>
+                                </div>
+                            </section>
                         }
-
 
                         @if (Model != null && Model.IdCuentaBancaria != 0)
                         {
                             <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Movimientos</header>
-                                <section class="panel panel-default">
-                                    @if (ViewBag.EsAdmin)
-                                    {
-                                        <div class="row text-sm wrapper">
-                                            <div class="col-sm-8">
+                                <header class="panel-heading font-bold">
+                                    <div class="row">
+                                        <div class="col-md-4" style="transform: translateY(35%)">Movimientos</div>
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <div class="col-md-4 text-sm">
                                                 <div class="btn-group">
                                                     <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-md-4">
                                                 <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
                                             </div>
-                                        </div>
-                                    }
+
+                                        }
+                                    </div>
+                                    </header>
                                     <div class="table-responsive">
-                                        <table class="table table-striped m-b-none">
+                                        <table class="table table-striped m-b-none dataTable">
                                             <thead>
                                                 <tr>
                                                     <th width="15%">Nombre</th>
@@ -167,11 +169,11 @@
                                             <tbody>
                                                 @if (Model.listaMovimiento != null)
                                                 {
-                                                    foreach (var obj in Model.listaMovimientoPL)
+                                                    foreach (var obj in Model.listaMovimiento)
                                                     {
                                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                         <tr @Html.Raw(classInactive)>
-                                                            <td width="15%">@obj.Nombre</td>
+                                                            <td width="15%">@obj.NroOperacion</td>
                                                             <td class="text-center" width="10%" style="color:#428bca;">@obj.NombreCategoria</td>
                                                             <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
                                                             <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
@@ -209,19 +211,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <footer class="panel-footer">
-                                        <div class="row">
-                                            <div class="col-sm-4"></div>
-                                            <div class="col-sm-4 text-center">
-                                                <small class="text-muted inline m-t-sm m-b-sm">Página @(Model.listaMovimientoPL.PageCount < Model.listaMovimientoPL.PageNumber ? 0 : Model.listaMovimientoPL.PageNumber) de @Model.listaMovimientoPL.PageCount</small>
-                                            </div>
-                                            <div class="col-sm-4 text-right text-center-xs">
-                                                @Html.PagedListPager(Model.listaMovimientoPL, page => Url.Action("Libro", new { id = ViewBag.IdCuentaBancaria, page }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
-                                            </div>
-                                        </div>
-                                    </footer>
-
-                                </section>
                             </section>
                         }
 

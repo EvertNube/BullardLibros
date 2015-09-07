@@ -4,8 +4,33 @@
 @using System.Globalization;
 @model CuentaBancariaDTO
 @{
-    ViewBag.Title = "LibroVista";
+    ViewBag.Title = "NubeLabs SCI - Libro Vista";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar un numero decimal");
+                return false;
+            }
+        }
+    </script>
 }
 
 <section class="vbox">
@@ -16,136 +41,120 @@
                 <div class="row m-b">
                     <div class="col-xs-12 col-md-12">
                         <section class="panel panel-default">
-                                @*<header class="panel-heading font-bold">Formulario de Detalle</header>*@
-                                <div class="panel-body">
-                                    @{
-                                        var nombreC = "";
-                                        nombreC = Model != null ? Model.NombreCuenta : "";
-                                    }
-                                    <div class="form-group col-md-6">
-                                        <label>Nombre de Cuenta : <br /></label>
-                                        <label class="form-control">@nombreC</label>
-                                        @*@Html.Label(@Model.NombreCuenta, new { @class = "form-control", @type = "text" })*@
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Fecha de conciliación</label>
-                                        @Html.Label(@Model.FechaConciliacion.ToShortDateString(), new { @class = "form-control", @type = "text" })
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Moneda</label>
-                                        @Html.Label(@Model.NombreMoneda, new { @class = "form-control", @type = "text" })
-                                    </div>
-                                    @if (Model != null && Model.IdCuentaBancaria != 0)
-                                    {
-                                        <div class="form-group col-md-6">
-                                            <div class="row m-l-none m-r-none bg-light lter">
-                                                <div class="padder-v b-light text-right">
-                                                    <span class="fa-stack fa-2x pull-in m-r-sm">
-                                                        <i class="fa fa-circle fa-stack-2x text-success"></i>
-                                                        <i class="fa fa-money fa-stack-1x text-white"></i>
-                                                    </span>
-                                                    <small class="h4 text-muted text m-r-sm"><strong>Saldo Disponible:</strong></small>
-                                                    <span class="h4">
-                                                        @Model.SimboloMoneda @Model.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <div class="row m-l-none m-r-none bg-light lter">
-                                                <div class="padder-v b-light text-left">
-                                                    <span class="fa-stack fa-2x pull-in m-r-sm">
-                                                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                                                        <i class="fa fa-info-circle fa-stack-1x text-white"></i>
-                                                    </span>
-                                                    <small class="h4 text-muted text m-r-sm"><strong>Saldo Bancario:</strong></small>
-                                                    <span class="h4">
-                                                        @Model.SimboloMoneda @Model.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Index")">Regresar</a>
+                            <div class="panel-body">
+                                @{
+                                    var nombreC = "";
+                                    nombreC = Model != null ? Model.NombreCuenta : "";
+                                }
+                                <div class="form-group col-md-6">
+                                    <label>Nombre de Cuenta : <br /></label>
+                                    <label class="form-control">@nombreC</label>
                                 </div>
-                            </section>
+                                <div class="form-group col-md-3">
+                                    <label>Fecha de conciliación</label>
+                                    @Html.Label(@Model.FechaConciliacion.ToShortDateString(), new { @class = "form-control", @type = "text" })
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Moneda</label>
+                                    @Html.Label(@Model.NombreMoneda, new { @class = "form-control", @type = "text" })
+                                </div>
+                                @if (Model != null && Model.IdCuentaBancaria != 0)
+                                {
+                                    <div class="form-group col-md-6">
+                                        <div class="row m-l-none m-r-none bg-light lter">
+                                            <div class="padder-v b-light text-right">
+                                                <span class="fa-stack fa-2x pull-in m-r-sm">
+                                                    <i class="fa fa-circle fa-stack-2x text-success"></i>
+                                                    <i class="fa fa-money fa-stack-1x text-white"></i>
+                                                </span>
+                                                <small class="h4 text-muted text m-r-sm"><strong>Saldo Disponible:</strong></small>
+                                                <span class="h4">
+                                                    @Model.SimboloMoneda @Model.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="row m-l-none m-r-none bg-light lter">
+                                            <div class="padder-v b-light text-left">
+                                                <span class="fa-stack fa-2x pull-in m-r-sm">
+                                                    <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                                                    <i class="fa fa-info-circle fa-stack-1x text-white"></i>
+                                                </span>
+                                                <small class="h4 text-muted text m-r-sm"><strong>Saldo Bancario:</strong></small>
+                                                <span class="h4">
+                                                    @Model.SimboloMoneda @Model.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <a class="btn btn-sm btn-danger" href="@Url.Action("Index")">Regresar</a>
+                            </div>
+                        </section>
 
 
                         @if (Model != null && Model.IdCuentaBancaria != 0)
                         {
                             <section class="panel panel-default">
                                 <header class="panel-heading font-bold">Movimientos</header>
-                                <section class="panel panel-default">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped m-b-none">
-                                            <thead>
-                                                <tr>
-                                                    <th width="15%">Nombre</th>
-                                                    <th class="text-center" width="15%">Categoria</th>
-                                                    <th class="text-center" width="15%">Entidad</th>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none dataTable no-footer">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">Nombre</th>
+                                                <th class="text-center" width="15%">Categoria</th>
+                                                <th class="text-center" width="15%">Entidad</th>
 
-                                                    <th class="text-center" width="7%">Fecha</th>
-                                                    <th class="text-center" width="10%">N° Doc</th>
-                                                    <th class="text-center" width="15%">Monto</th>
-                                                    <th class="text-center" width="13%">Tipo</th>
-                                                    <th class="text-center" width="10%">Est.</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.listaMovimiento != null)
+                                                <th class="text-center" width="7%">Fecha</th>
+                                                <th class="text-center" width="10%">N° Doc</th>
+                                                <th class="text-center" width="15%">Monto</th>
+                                                <th class="text-center" width="13%">Tipo</th>
+                                                <th class="text-center" width="10%">Est.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.listaMovimiento != null)
+                                            {
+                                                foreach (var obj in Model.listaMovimiento)
                                                 {
-                                                    foreach (var obj in Model.listaMovimientoPL)
-                                                    {
-                                                        var classInactive = (!obj.Estado) ? "class='inactive'" : "";
-                                                        <tr @Html.Raw(classInactive)>
-                                                            <td width="15%">@obj.Nombre</td>
-                                                            <td class="text-center" width="15%" style="color:#428bca;">@obj.NombreCategoria</td>
-                                                            <td class="text-center" width="15%"><strong>@obj.NombreEntidadR</strong></td>
-                                                            <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                            @if (obj.NumeroDocumento != "0")
-                                                            {
-                                                                <td class="text-center" width="10%">@obj.NumeroDocumento</td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-center" width="10%">N/A</td>
-                                                            }
+                                                    var classInactive = (!obj.Estado) ? "class='inactive'" : "";
+                                                    <tr @Html.Raw(classInactive)>
+                                                        <td width="15%">@obj.Nombre</td>
+                                                        <td class="text-center" width="15%" style="color:#428bca;">@obj.NombreCategoria</td>
+                                                        <td class="text-center" width="15%"><strong>@obj.NombreEntidadR</strong></td>
+                                                        <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                        @if (obj.NumeroDocumento != "0")
+                                                        {
+                                                            <td class="text-center" width="10%">@obj.NumeroDocumento</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center" width="10%">N/A</td>
+                                                        }
 
 
-                                                            <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                                            @if (obj.IdTipoMovimiento == 1)
-                                                            {
-                                                                <td class="text-right" width="13%" style="color:#8EC100;">Entrada</td>}
-                                                            else
-                                                            {
-                                                                <td class="text-left" width="13%" style="color:red">Salida</td> }
-                                                            @if (obj.IdEstadoMovimiento == 1)
-                                                            {
-                                                                <td class="text-center" width="10%" style="color:red">Pendiente</td>}
-                                                            else
-                                                            {
-                                                                <td class="text-center" width="10%">Realizado</td>
-                                                            }
-                                                        </tr>
-                                                    }
+                                                        <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                        @if (obj.IdTipoMovimiento == 1)
+                                                        {
+                                                            <td class="text-right" width="13%" style="color:#8EC100;">Entrada</td>}
+                                                        else
+                                                        {
+                                                            <td class="text-left" width="13%" style="color:red">Salida</td> }
+                                                        @if (obj.IdEstadoMovimiento == 1)
+                                                        {
+                                                            <td class="text-center" width="10%" style="color:red">Pendiente</td>}
+                                                        else
+                                                        {
+                                                            <td class="text-center" width="10%">Realizado</td>
+                                                        }
+                                                    </tr>
                                                 }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <footer class="panel-footer">
-                                        <div class="row">
-                                            <div class="col-sm-4"></div>
-                                            <div class="col-sm-4 text-center">
-                                                <small class="text-muted inline m-t-sm m-b-sm">Página @(Model.listaMovimientoPL.PageCount < Model.listaMovimientoPL.PageNumber ? 0 : Model.listaMovimientoPL.PageNumber) de @Model.listaMovimientoPL.PageCount</small>
-                                            </div>
-                                            <div class="col-sm-4 text-right text-center-xs">
-                                                @Html.PagedListPager(Model.listaMovimientoPL, page => Url.Action("LibroVista", new { id = ViewBag.IdCuentaBancaria, page }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
-                                            </div>
-                                        </div>
-                                    </footer>
-
-                                </section>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </section>
                         }
 

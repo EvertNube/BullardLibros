@@ -2,7 +2,7 @@
 @using BullardLibros.Core.DTO;
 @model UsuarioDTO
 @{
-    ViewBag.Title = "Usuario";
+    ViewBag.Title = "NubeLabs SCI - Usuario";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -117,7 +117,8 @@
                                         @Html.TextBoxFor(u => u.Active, new { @value = Model != null ? Model.Active : false, @type = "hidden" })
                                     }
                                     <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdUsuario, new { @value = Model != null ? Model.IdUsuario.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdUsuario, new { @value = Model.IdUsuario != 0 ? Model.IdUsuario.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdUsuario > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-success">@btnName</button>
                                     @if (ViewBag.EsAdmin)

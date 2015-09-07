@@ -1,9 +1,23 @@
-﻿@{
-    ViewBag.Title = "Entidades";
+﻿@using BullardLibros.Core.DTO
+@model IList<BullardLibros.Core.DTO.EntidadResponsableDTO>
+@{
+    ViewBag.Title = "NubeLabs SCI - Entidades";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IList<BullardLibros.Core.DTO.EntidadResponsableDTO>
-
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
 <section class="vbox">
     <section class="scrollable padder">
         <div class="row m-b">
@@ -11,35 +25,59 @@
                 <h2>Entidades</h2>
                 @Html.Partial("_showAlertMessages")
                 <section class="panel panel-default">
-                    @if (ViewBag.EsAdmin)
-                    {
-                        <div class="row text-sm wrapper">
-                            <div class="col-sm-8">
-                                <div class="btn-group">
-                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Entidad")"><i class="fa fa-plus"></i> Crear nueva Entidad</a>
-                            </div>
-                        </div>
-                    }
-                    <div class="table-responsive">
-                        <table class="table table-striped m-b-none">
-                            <thead>
-                                <tr>
-                                    <th width="30%">Nombre</th>
-                                    <th class="text-center" width="20%">Tipo de Bien o Servicio</th>
-                                    <th class="text-center" width="20%">Detracción</th>
-                                    <th class="text-center" width="10%">Estado</th>
-                                    <th class="text-center" width="20%">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null)
+                    <header class="panel-heading bg-light">
+                        <ul class="nav nav-tabs nav-justified">
+                            @{string first = "active";}
+                            @foreach (var item in (List<TipoEntidadDTO>)ViewBag.lstTipoEntidades)
+                            {
+                                <li class="@first">
+                                    <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
+                                </li>
+                                if (first == "active")
+                                {first = "";}
+                            }
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            @{string first2 = "active";}
+                            @foreach (var item in (List<TipoEntidadDTO>)ViewBag.lstTipoEntidades)
+	                        {
+                                <div class="tab-pane @first2" id="@item.Nombre">
+                                    <section class="panel panel-default">
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <header class="panel-heading">
+                                                <div class="row text-sm">
+                                                    <div class="col-sm-8">
+                                                        <div class="btn-group">
+                                                            <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Entidad", "Admin", new { id = 0, idTipoEntidad = item.IdTipoEntidad })"><i class="fa fa-plus"></i> Crear nueva Entidad</a>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                        }
+                                        <div class="table-responsive">
+                                            <table class="table table-striped m-b-none dataTable no-footer">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="30%">Nombre</th>
+                                                        <th class="text-center" width="20%">Tipo de Bien o Servicio</th>
+                                                        <th class="text-center" width="20%">Detracción</th>
+                                                        <th class="text-center" width="10%">Estado</th>
+                                                        <th class="text-center" width="20%">Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
                                 {
                                     foreach (var obj in Model)
                                     {
+                                        if(item.IdTipoEntidad == obj.IdTipoEntidad)
+                                        {
                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
                                             <td width="30%">@obj.Nombre</td>
@@ -56,10 +94,18 @@
                                                 <td align="center"><a href="@Url.Action("Entidad", new { id = obj.IdEntidadResponsable })"><i class="fa fa-pencil"></i></a></td>
                                             }
                                         </tr>
+                                        }
                                     }
                                 }
-                            </tbody>
-                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+                                </div>
+		                        if (first2 == "active")
+                                {first2 = "";}
+	                        }
+                        </div>
                     </div>
                 </section>
             </div>

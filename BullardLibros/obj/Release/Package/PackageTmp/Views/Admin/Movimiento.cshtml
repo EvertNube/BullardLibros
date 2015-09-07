@@ -1,7 +1,7 @@
 ﻿@using BullardLibros.Core.DTO
 @model MovimientoDTO
 @{
-    ViewBag.Title = "Movimiento";
+    ViewBag.Title = "NubeLabs SCI - Movimiento";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
@@ -94,8 +94,8 @@
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label>Nombre</label>
-                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
-                                        @Html.ValidationMessageFor(u => u.Nombre)
+                                        @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
+                                        @Html.ValidationMessageFor(u => u.NroOperacion)
                                     </div>
                                     @{
                     var value = "";

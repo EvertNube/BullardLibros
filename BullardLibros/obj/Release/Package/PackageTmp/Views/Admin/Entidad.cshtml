@@ -1,11 +1,20 @@
 ﻿@using BullardLibros.Core.DTO
 @model EntidadResponsableDTO
 @{
-    ViewBag.Title = "Entidad";
+    ViewBag.Title = "NubeLabs SCI - Entidad";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
 @section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
+        $(function () {
+            $('.miselect2').select2();
+        });
+
         function CheckNumericValue(e) {
             var key = e.which ? e.which : e.keyCode;
             //enter key  //backspace //tabkey      //escape key
@@ -37,7 +46,7 @@
                 {
                     @Html.ValidationSummary(true)
                     <div class="row m-b">
-                        <div class="col-xs-12 col-md-6">
+                        <div class="col-xs-12 col-md-8">
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
@@ -48,19 +57,33 @@
                                         @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la entidad", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
-                                    <div class="form-group">
-                                        <label>Detracción</label>
-                                        @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ingrese la detracción de la entidad", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                        @Html.ValidationMessageFor(u => u.Detraccion)
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label>Detracción</label>
+                                            @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ing. la detracción", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                            @Html.ValidationMessageFor(u => u.Detraccion)
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label>Tipo de bien o servicio</label>
+                                            @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Ingrese el tipo de bien o servicio", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.Tipo)
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Tipo de bien o servicio</label>
-                                        @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Ingrese el tipo de bien o servicio", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Tipo)
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label>Tipo de Identificación</label>
+                                            @Html.DropDownListFor(u => u.IdTipoIdentificacion, new SelectList(ViewBag.TipoIdentificacion, "IdTipoIdentificacion", "Nombre", Model != null ? (Model.IdTipoIdentificacion != null ? Model.IdTipoIdentificacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            @Html.ValidationMessageFor(u => u.IdTipoIdentificacion)
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label>Nro. de Identificación</label>
+                                            @Html.TextBoxFor(u => u.NroIdentificacion, new { @class = "form-control", @placeholder = "Ingrese el numero de identificación", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.NroIdentificacion)
+                                        </div>
                                     </div>
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
                                     {
-                                        <div class="line line-dashed line-lg pull-in"></div>
+                                        <div class="line line-dashed line-md pull-in"></div>
                                         <div class="checkbox">
                                             <label>
                                                 @Html.CheckBoxFor(u => u.Estado)
@@ -72,8 +95,10 @@
                                     {
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
                                     }
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model != null ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
+                                    <div class="line line-dashed line-md pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdTipoEntidad, new { @value = Model.IdTipoEntidad != 0 ? Model.IdTipoEntidad.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-success">@btnName</button>
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Entidades")">Salir</a>

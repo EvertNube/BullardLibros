@@ -1,0 +1,127 @@
+﻿@using BullardLibros.Core.DTO
+@using System.Globalization;
+@model IList<BullardLibros.Core.DTO.ComprobanteDTO>
+@{
+    ViewBag.Title = "NubeLabs SCI - Comprobantes";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12">
+                <h2>Comprobantes</h2>
+                @Html.Partial("_showAlertMessages")
+                <section class="panel panel-default">
+                    <header class="panel-heading bg-light">
+                        <ul class="nav nav-tabs nav-justified">
+                            @{bool idnull1 = false;
+                                string cadena1 = "";}
+                            @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
+                            {
+                                if (ViewBag.idTipoComprobante != null)
+                                { cadena1 = ViewBag.idTipoComprobante == item.IdTipoComprobante ? "active" : ""; }
+                                else if(!idnull1)
+                                {   idnull1 = true; cadena1 = "active"; }                                
+                                <li class="@cadena1">
+                                    <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
+                                </li>
+                                if (idnull1) { cadena1 = ""; }
+                            }
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            @{bool idnull2 = false;
+                            string cadena2 = "";}
+                            @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
+                            {
+                                if (ViewBag.idTipoComprobante != null)
+                                { cadena2 = ViewBag.idTipoComprobante == item.IdTipoComprobante ? "active" : ""; }
+                                else if (!idnull2)
+                                { idnull2 = true; cadena2 = "active"; }                                
+                                <div class="tab-pane @cadena2" id="@item.Nombre">
+                                    <section class="panel panel-default">
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <header class="panel-heading">
+                                                <div class="row text-sm">
+                                                    <div class="col-sm-8">
+                                                        <div class="btn-group">
+                                                            <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = item.IdTipoComprobante })"><i class="fa fa-plus"></i> Crear nuevo @item.Nombre</a>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                        }
+                                        <div class="table-responsive">
+                                            <table class="table table-striped m-b-none dataTable no-footer">
+                                                <thead>
+                                                    <tr>
+                                                        @{
+                                        var fechaIni = item.IdTipoComprobante == 1 ? "Fecha Facturación" : "Fecha Documento";
+                                        var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+                                                        }
+                                                        <th width="15%">@fechaIni</th>
+                                                        <th class="text-center" width="10%">Tipo Documento</th>
+                                                        <th class="text-center" width="20%">Nro Documento</th>
+                                                        <th class="text-center" width="20%">@strEntidad</th>
+                                                        <th class="text-center" width="15%">Monto</th>
+                                                        <th class="text-center" width="10%">Moneda</th>
+                                                        <th class="text-center" width="10%">Opciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
+                                                    {
+                                                        foreach (var obj in Model)
+                                                        {
+                                                            if (item.IdTipoComprobante == obj.IdTipoComprobante)
+                                                            {
+                                                                var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                                <tr @Html.Raw(classInactive)>
+                                                                    <td class="text-center" width="15%">@obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                                    <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
+                                                                    <td class="text-center" width="20%">@obj.NroDocumento</td>
+                                                                    <td class="text-center" width="20%">@obj.NombreEntidad</td>
+                                                                    <td class="text-center" width="15%">@obj.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                                    <td class="text-center" width="10%">@obj.NombreMoneda</td>
+                                                                    @if (ViewBag.EsAdmin)
+                                                                    {
+                                                                        <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-pencil"></i></a></td>
+                                                                    }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+                                </div>
+                                if (idnull2) { cadena2 = ""; }
+                            }
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </section>
+</section>

@@ -28,3 +28,13 @@ C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros.Data\bin\Release\EntityFr
 C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros.Data\obj\Release\BullardLibros.Data.csprojResolveAssemblyReference.cache
 C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros.Data\obj\Release\BullardLibros.Data.dll
 C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros.Data\obj\Release\BullardLibros.Data.pdb
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Release\BullardLibros.Data.dll.config
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Release\BullardLibros.Data.dll
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Release\BullardLibros.Data.pdb
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Release\EntityFramework.dll
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Release\EntityFramework.SqlServer.dll
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Release\EntityFramework.xml
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\bin\Release\EntityFramework.SqlServer.xml
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\obj\Release\BullardLibros.Data.csprojResolveAssemblyReference.cache
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\obj\Release\BullardLibros.Data.dll
+C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Data\obj\Release\BullardLibros.Data.pdb
