@@ -15,12 +15,12 @@
         @{
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
-            var formaMovsIngresos = jss.Serialize(ViewBag.lstFormaMovsIngresos);
-            var formaMovsEgresos = jss.Serialize(ViewBag.lstFormaMovsEgresos);
+            //var formaMovsIngresos = jss.Serialize(ViewBag.lstFormaMovsIngresos);
+            //var formaMovsEgresos = jss.Serialize(ViewBag.lstFormaMovsEgresos);
         }
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
-        var mydataFormaMovsIngresos = JSON.parse('@Html.Raw(formaMovsIngresos)');
-        var mydataFormaMovsEgresos = JSON.parse('@Html.Raw(formaMovsEgresos)');
+        @*var mydataFormaMovsIngresos = JSON.parse('@Html.Raw(formaMovsIngresos)');
+        var mydataFormaMovsEgresos = JSON.parse('@Html.Raw(formaMovsEgresos)');*@
         $(document).ready(function () {
             $('.miselect2').select2();
 
@@ -30,37 +30,72 @@
                 allowClear: true
             })
             
-            if ($('#IdTipoMovimiento').val == 1)
+            //if ($('#IdTipoMovimiento').val == 1)
+            //{
+            //    $('#IdFormaMovimiento').select2({
+            //        data: mydataFormaMovsIngresos
+            //    })
+            //}
+            //else
+            //{
+            //    $('#IdFormaMovimiento').select2({
+            //        data: mydataFormaMovsEgresos
+            //    })
+            //}
+            if ($('#IdTipoMovimiento').val() == 1)
             {
-                $('#IdFormaMovimiento').select2({
-                    data: mydataFormaMovsIngresos
-                })
+                $('#IdFormaMovimiento option').each(function () {
+                    if ($(this).val() <= 3) {
+                        $(this).prop('disabled', false);
+                    }
+                    else {
+                        $(this).prop('disabled', true);
+                    }
+                });
             }
             else
             {
-                $('#IdFormaMovimiento').select2({
-                    data: mydataFormaMovsEgresos
-                })
+                $('#IdFormaMovimiento option').each(function () {
+                    if ($(this).val() > 3) {
+                        $(this).prop('disabled', false);
+                    }
+                    else {
+                        $(this).prop('disabled', true);
+                    }
+                });
             }
-            
 
             $('#IdTipoMovimiento').on('change', function () {
                 if(this.value == 1)
                 {
-                    $('#IdFormaMovimiento').select2({
-                        data: mydataFormaMovsIngresos
-                    })
+                    $('#IdFormaMovimiento option').each(function () {
+                        if($(this).val() <= 3)
+                        {
+                            $(this).prop('disabled', false);
+                        }
+                        else
+                        {
+                            $(this).prop('disabled', true);
+                        }
+                    });
+                    $("#IdFormaMovimiento").select2("val", "1");
+                    //$('#IdFormaMovimiento').val($('#IdFormaMovimiento option:first').val());
                     //$("#IdFormaMovimiento optgroup[label=Ingreso]").prop('disabled', false).show();
                     //$("#IdFormaMovimiento optgroup[label=Egreso]").prop('disabled', true).hide();
                     //$("#IdFormaMovimiento optgroup[label=Ingreso] option:first").attr('selected', 'selected');
                 }
                 else
                 {
-                    $('#IdFormaMovimiento').select2({
-                        //placeholder: "Seleccione una forma",
-                        data: mydataFormaMovsEgresos
-                        //allowClear: true
-                    })
+                    $('#IdFormaMovimiento option').each(function () {
+                        if ($(this).val() > 3) {
+                            $(this).prop('disabled', false);
+                        }
+                        else {
+                            $(this).prop('disabled', true);
+                        }
+                    });
+                    $("#IdFormaMovimiento").select2("val", "4");
+                    //$("#IdFormaMovimiento").val($("#IdFormaMovimiento option:eq(3)").val());
                     //$("#IdFormaMovimiento optgroup[label=Egreso]").prop('disabled', false).show();
                     //$("#IdFormaMovimiento optgroup[label=Ingreso]").prop('disabled', true).hide();
                     //$("#IdFormaMovimiento optgroup[label=Egreso] option:first").attr('selected', 'selected');
@@ -142,8 +177,8 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Forma de Movimiento</label>
-                                            @Html.TextBoxFor(u => u.IdFormaMovimiento, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
-                                            @*@Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstTFormaMovimientos, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != null ? Model.IdFormaMovimiento : 0) : 0), new { @class = "form-control parsley-validated" })*@
+                                            @*@Html.TextBoxFor(u => u.IdFormaMovimiento, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })*@
+                                            @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", Model != null ? (Model.IdFormaMovimiento != null ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
                                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
                                         </div>
                                         <div class="form-group col-md-4">

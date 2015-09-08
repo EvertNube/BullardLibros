@@ -456,9 +456,11 @@ namespace BullardLibros.Controllers
             ViewBag.IdMovimiento = id;
             ViewBag.TiposMovimientos = objBL.getTiposMovimientos(false);
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
-            //ViewBag.lstTFormaMovimientos = objBL.getListaFormaMovimientos();
-            ViewBag.lstFormaMovsIngresos = objBL.getListaFormaMovimientosIngresos();
-            ViewBag.lstFormaMovsEgresos = objBL.getListaFormaMovimientosEgresos();
+            
+            //ViewBag.lstFormaMovsIngresos = objBL.getListaFormaMovimientosIngresos();
+            //ViewBag.lstFormaMovsEgresos = objBL.getListaFormaMovimientosEgresos();
+            ViewBag.lstFormaMovs = objBL.getListaFormaDeMovimientos();
+
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true); 
             ViewBag.NombreCategoria = "Sin Categoría";
