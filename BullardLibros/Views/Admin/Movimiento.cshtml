@@ -15,12 +15,9 @@
         @{
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
-            //var formaMovsIngresos = jss.Serialize(ViewBag.lstFormaMovsIngresos);
-            //var formaMovsEgresos = jss.Serialize(ViewBag.lstFormaMovsEgresos);
         }
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
-        @*var mydataFormaMovsIngresos = JSON.parse('@Html.Raw(formaMovsIngresos)');
-        var mydataFormaMovsEgresos = JSON.parse('@Html.Raw(formaMovsEgresos)');*@
+        
         $(document).ready(function () {
             $('.miselect2').select2();
 
@@ -30,77 +27,10 @@
                 allowClear: true
             })
             
-            //if ($('#IdTipoMovimiento').val == 1)
-            //{
-            //    $('#IdFormaMovimiento').select2({
-            //        data: mydataFormaMovsIngresos
-            //    })
-            //}
-            //else
-            //{
-            //    $('#IdFormaMovimiento').select2({
-            //        data: mydataFormaMovsEgresos
-            //    })
-            //}
-            if ($('#IdTipoMovimiento').val() == 1)
-            {
-                $('#IdFormaMovimiento option').each(function () {
-                    if ($(this).val() <= 3) {
-                        $(this).prop('disabled', false);
-                    }
-                    else {
-                        $(this).prop('disabled', true);
-                    }
-                });
-            }
-            else
-            {
-                $('#IdFormaMovimiento option').each(function () {
-                    if ($(this).val() > 3) {
-                        $(this).prop('disabled', false);
-                    }
-                    else {
-                        $(this).prop('disabled', true);
-                    }
-                });
-            }
+            FormaDeMovimientoStart();
+            $('#IdTipoMovimiento').keyup(FormaDeMovimientoDurante);
 
-            $('#IdTipoMovimiento').on('change', function () {
-                if(this.value == 1)
-                {
-                    $('#IdFormaMovimiento option').each(function () {
-                        if($(this).val() <= 3)
-                        {
-                            $(this).prop('disabled', false);
-                        }
-                        else
-                        {
-                            $(this).prop('disabled', true);
-                        }
-                    });
-                    $("#IdFormaMovimiento").select2("val", "1");
-                    //$('#IdFormaMovimiento').val($('#IdFormaMovimiento option:first').val());
-                    //$("#IdFormaMovimiento optgroup[label=Ingreso]").prop('disabled', false).show();
-                    //$("#IdFormaMovimiento optgroup[label=Egreso]").prop('disabled', true).hide();
-                    //$("#IdFormaMovimiento optgroup[label=Ingreso] option:first").attr('selected', 'selected');
-                }
-                else
-                {
-                    $('#IdFormaMovimiento option').each(function () {
-                        if ($(this).val() > 3) {
-                            $(this).prop('disabled', false);
-                        }
-                        else {
-                            $(this).prop('disabled', true);
-                        }
-                    });
-                    $("#IdFormaMovimiento").select2("val", "4");
-                    //$("#IdFormaMovimiento").val($("#IdFormaMovimiento option:eq(3)").val());
-                    //$("#IdFormaMovimiento optgroup[label=Egreso]").prop('disabled', false).show();
-                    //$("#IdFormaMovimiento optgroup[label=Ingreso]").prop('disabled', true).hide();
-                    //$("#IdFormaMovimiento optgroup[label=Egreso] option:first").attr('selected', 'selected');
-                }
-            });
+            //$('#Monto').on('change', ActualizarMontoSinIGV);
         });
 
         function format(res) {
@@ -114,7 +44,6 @@
 
         function CheckNumericValue(e) {
             var key = e.which ? e.which : e.keyCode;
-            //enter key  //backspace //tabkey      //escape key
             if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
                 return true;
             }
@@ -128,8 +57,65 @@
             if ($('#Nombre').val() == 'INGRESOS' || $('#Nombre').val() == 'ingresos') {
                 $('#IdTipoMovimiento').prop('selectedIndex', 1);
                 $('#IdEstadoMovimiento').prop('selectedIndex', 1);
-                //document.getElementById("IdTipoMovimiento").selectedIndex = 1;
             }
+        }
+
+        function FormaDeMovimientoStart()
+        {
+            if ($('#IdTipoMovimiento').val() == 1) {
+                $('#IdFormaMovimiento option').each(function () {
+                    if ($(this).val() <= 3) {
+                        $(this).prop('disabled', false);
+                    }
+                    else {
+                        $(this).prop('disabled', true);
+                    }
+                });
+                if ($('#IdMovimiento').val() == 0) { $("#IdFormaMovimiento").select2("val", "1"); }
+            }
+            else {
+                $('#IdFormaMovimiento option').each(function () {
+                    if ($(this).val() > 3) {
+                        $(this).prop('disabled', false);
+                    }
+                    else {
+                        $(this).prop('disabled', true);
+                    }
+                });
+                if ($('#IdMovimiento').val() == 0) { $("#IdFormaMovimiento").select2("val", "3"); }
+            }
+        }
+
+        function FormaDeMovimientoDurante()
+        {
+            if (this.value == 1) {
+                $('#IdFormaMovimiento option').each(function () {
+                    if ($(this).val() <= 3) {
+                        $(this).prop('disabled', false);
+                    }
+                    else {
+                        $(this).prop('disabled', true);
+                    }
+                });
+                $("#IdFormaMovimiento").select2("val", "1");
+            }
+            else {
+                $('#IdFormaMovimiento option').each(function () {
+                    if ($(this).val() > 3) {
+                        $(this).prop('disabled', false);
+                    }
+                    else {
+                        $(this).prop('disabled', true);
+                    }
+                });
+                $("#IdFormaMovimiento").select2("val", "4");
+            }
+        }
+
+        function ActualizarMontoSinIGV()
+        {
+            var montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2);
+            $('#MontoSinIGV').val(montoSinIGV);
         }
 
     </script>
@@ -177,7 +163,6 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Forma de Movimiento</label>
-                                            @*@Html.TextBoxFor(u => u.IdFormaMovimiento, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })*@
                                             @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", Model != null ? (Model.IdFormaMovimiento != null ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
                                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
                                         </div>
@@ -187,11 +172,12 @@
                                             @Html.ValidationMessageFor(u => u.NroOperacion)
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label>Monto</label>
-                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                            <label>Monto Con IGV</label>
+                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
                                             @Html.ValidationMessageFor(u => u.Monto)
                                         </div>
                                     </div>
+                                    <div class="line line-dashed line-md pull-in"></div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Entidad Responsable</label>
@@ -204,21 +190,31 @@
                                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
                                         </div>
                                         <div class="form-group col-md-4">
+                                            <label>Monto Sin IGV</label>
+                                            @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control", @placeholder = "Monto Sin IGV", @type = "text", @readonly = "true" })
+                                            @Html.ValidationMessageFor(u => u.MontoSinIGV)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label>Nro Documento - Comprobantes</label>
+                                            @Html.TextBoxFor(u => u.IdComprobante, new { @class = "form-control", @placeholder = "Ingrese el numero del documento", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.IdComprobante)
+                                        </div>
+                                        <div class="form-group col-md-4">
                                             <label>Numero de documento</label>
                                             @Html.TextBoxFor(u => u.NumeroDocumento, new { @class = "form-control", @placeholder = "Ingrese el numero del documento", @type = "text" })
                                             @Html.ValidationMessageFor(u => u.NumeroDocumento)
                                         </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Categoría</label>
+                                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                            @Html.ValidationMessageFor(u => u.IdCategoria)
+                                        </div>
                                     </div>
-                                    
-                                    @*<div class="form-group col-md-4">
-                                        <label>Categoria : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
-                                        @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
-                                        @Html.ValidationMessageFor(u => u.IdCategoria)
-                                    </div>*@
-
                                     <div class="form-group">
                                         <label>Comentario</label>
-                                        @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Ingrese el comentario del movimiento", @type = "text" })
+                                        @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Ingrese el comentario del movimiento", @type = "text", @cols = "3", @style = "resize:none;" })
                                         @Html.ValidationMessageFor(u => u.Comentario)
                                     </div>
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdMovimiento > 0)
@@ -235,13 +231,8 @@
                                     {
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
                                     }
-                                    <div class="line line-dashed line-lg pull-in"></div>
                                     @Html.TextBoxFor(u => u.IdMovimiento, new { @value = Model != null ? Model.IdMovimiento.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
-                                                @*@Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model != null ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })*@
-                                                @*@Html.TextBoxFor(u => u.IdTipoMovimiento, new { @value = Model != null ? Model.IdTipoMovimiento.ToString() : "", @type = "hidden" })*@
-                                                @*@Html.TextBoxFor(u => u.IdCategoria, new { @value = Model != null ? Model.IdCategoria.ToString() : "", @type = "hidden" })*@
-                                                @*@Html.TextBoxFor(u => u.IdEstadoMovimiento, new { @value = Model != null ? Model.IdEstadoMovimiento.ToString() : "", @type = "hidden" })*@
                                     @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}

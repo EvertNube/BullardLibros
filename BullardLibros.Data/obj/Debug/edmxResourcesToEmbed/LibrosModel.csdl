@@ -44,10 +44,11 @@
     <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_Comprobante_Empresa" FromRole="Comprobante" ToRole="Empresa" />
+    <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="Comprobante" ToRole="EntidadResponsable" />
     <NavigationProperty Name="Moneda" Relationship="Self.FK_Comprobante_Moneda" FromRole="Comprobante" ToRole="Moneda" />
     <NavigationProperty Name="TipoComprobante" Relationship="Self.FK_Comprobante_TipoComprobante" FromRole="Comprobante" ToRole="TipoComprobante" />
-    <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_Comprobante_EntidadResponsable" FromRole="Comprobante" ToRole="EntidadResponsable" />
-    <NavigationProperty Name="TipoDocumento" Relationship="LibrosDBModel.FK_Comprobante_TipoDocumento" FromRole="Comprobante" ToRole="TipoDocumento" />
+    <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Comprobante_TipoDocumento" FromRole="Comprobante" ToRole="TipoDocumento" />
+    <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_Comprobante" FromRole="Comprobante" ToRole="Movimiento" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -74,13 +75,33 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IGV" Type="Decimal" Precision="18" Scale="2" />
     <NavigationProperty Name="Area" Relationship="Self.FK_Area_Empresa" FromRole="Empresa" ToRole="Area" />
     <NavigationProperty Name="Categoria" Relationship="Self.FK_Categoria_Empresa" FromRole="Empresa" ToRole="Categoria" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Empresa" FromRole="Empresa" ToRole="Comprobante" />
     <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_CuentaBancaria_Empresa" FromRole="Empresa" ToRole="CuentaBancaria" />
+    <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="Empresa" ToRole="EntidadResponsable" />
     <NavigationProperty Name="Responsable" Relationship="Self.FK_Responsable_Empresa" FromRole="Empresa" ToRole="Responsable" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
-    <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_EntidadResponsable_Empresa" FromRole="Empresa" ToRole="EntidadResponsable" />
+  </EntityType>
+  <EntityType Name="EntidadResponsable">
+    <Key>
+      <PropertyRef Name="IdEntidadResponsable" />
+    </Key>
+    <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdTipoIdentificacion" Type="Int32" />
+    <Property Name="IdTipoEntidad" Type="Int32" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="Detraccion" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Tipo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+    <Property Name="NroIdentificacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
+    <NavigationProperty Name="Empresa" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
+    <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
+    <NavigationProperty Name="TipoIdentificacion" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
+    <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
   </EntityType>
   <EntityType Name="EstadoMovimiento">
     <Key>
@@ -132,14 +153,17 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="MontoSinIGV" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="IdComprobante" Type="Int32" />
     <NavigationProperty Name="Categoria" Relationship="Self.FK_Movimiento_Categoria" FromRole="Movimiento" ToRole="Categoria" />
+    <NavigationProperty Name="Comprobante" Relationship="Self.FK_Movimiento_Comprobante" FromRole="Movimiento" ToRole="Comprobante" />
     <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_Movimiento_CuentaBancaria" FromRole="Movimiento" ToRole="CuentaBancaria" />
+    <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="Movimiento" ToRole="EntidadResponsable" />
     <NavigationProperty Name="EstadoMovimiento" Relationship="Self.FK_Movimiento_EstadoMovimiento" FromRole="Movimiento" ToRole="EstadoMovimiento" />
     <NavigationProperty Name="FormaMovimiento" Relationship="Self.FK_Movimiento_FormaMovimiento" FromRole="Movimiento" ToRole="FormaMovimiento" />
+    <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Movimiento_TipoDocumento" FromRole="Movimiento" ToRole="TipoDocumento" />
     <NavigationProperty Name="TipoMovimiento" Relationship="Self.FK_Movimiento_TipoMovimiento" FromRole="Movimiento" ToRole="TipoMovimiento" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Movimiento_Usuario" FromRole="Movimiento" ToRole="Usuario" />
-    <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_Movimiento_EntidadResponsable" FromRole="Movimiento" ToRole="EntidadResponsable" />
-    <NavigationProperty Name="TipoDocumento" Relationship="LibrosDBModel.FK_Movimiento_TipoDocumento" FromRole="Movimiento" ToRole="TipoDocumento" />
   </EntityType>
   <EntityType Name="Responsable">
     <Key>
@@ -180,6 +204,16 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_TipoComprobante" FromRole="TipoComprobante" ToRole="Comprobante" />
   </EntityType>
+  <EntityType Name="TipoDocumento">
+    <Key>
+      <PropertyRef Name="IdTipoDocumento" />
+    </Key>
+    <Property Name="IdTipoDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_TipoDocumento" FromRole="TipoDocumento" ToRole="Comprobante" />
+    <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_TipoDocumento" FromRole="TipoDocumento" ToRole="Movimiento" />
+  </EntityType>
   <EntityType Name="TipoEntidad">
     <Key>
       <PropertyRef Name="IdTipoEntidad" />
@@ -187,7 +221,16 @@
     <Property Name="IdTipoEntidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_EntidadResponsable_TipoEntidad" FromRole="TipoEntidad" ToRole="EntidadResponsable" />
+    <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="TipoEntidad" ToRole="EntidadResponsable" />
+  </EntityType>
+  <EntityType Name="TipoIdentificacion">
+    <Key>
+      <PropertyRef Name="IdTipoIdentificacion" />
+    </Key>
+    <Property Name="IdTipoIdentificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="TipoIdentificacion" ToRole="EntidadResponsable" />
   </EntityType>
   <EntityType Name="TipoMovimiento">
     <Key>
@@ -266,6 +309,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Comprobante_EntidadResponsable">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Comprobante_Moneda">
     <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
     <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
@@ -287,6 +342,30 @@
       </Principal>
       <Dependent Role="Comprobante">
         <PropertyRef Name="IdTipoComprobante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_TipoDocumento">
+    <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoDocumento">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_Comprobante">
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comprobante">
+        <PropertyRef Name="IdComprobante" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdComprobante" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -326,6 +405,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_EntidadResponsable_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Responsable_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Responsable" Type="Self.Responsable" Multiplicity="*" />
@@ -347,6 +438,42 @@
       </Principal>
       <Dependent Role="Usuario">
         <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_TipoEntidad">
+    <End Role="TipoEntidad" Type="Self.TipoEntidad" Multiplicity="0..1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoEntidad">
+        <PropertyRef Name="IdTipoEntidad" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdTipoEntidad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_TipoIdentificacion">
+    <End Role="TipoIdentificacion" Type="Self.TipoIdentificacion" Multiplicity="0..1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoIdentificacion">
+        <PropertyRef Name="IdTipoIdentificacion" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdTipoIdentificacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_EntidadResponsable">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdEntidadResponsable" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -383,6 +510,18 @@
       </Principal>
       <Dependent Role="Movimiento">
         <PropertyRef Name="IdFormaMovimiento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_TipoDocumento">
+    <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoDocumento">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdTipoDocumento" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -428,6 +567,7 @@
     <EntitySet Name="Comprobante" EntityType="Self.Comprobante" />
     <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" />
     <EntitySet Name="Empresa" EntityType="Self.Empresa" />
+    <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" />
     <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" />
     <EntitySet Name="FormaMovimiento" EntityType="Self.FormaMovimiento" />
     <EntitySet Name="Moneda" EntityType="Self.Moneda" />
@@ -436,7 +576,9 @@
     <EntitySet Name="Rol" EntityType="Self.Rol" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" />
+    <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" />
     <EntitySet Name="TipoEntidad" EntityType="Self.TipoEntidad" />
+    <EntitySet Name="TipoIdentificacion" EntityType="Self.TipoIdentificacion" />
     <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" />
     <AssociationSet Name="FK_Area_Empresa" Association="Self.FK_Area_Empresa">
@@ -455,6 +597,10 @@
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_EntidadResponsable" Association="Self.FK_Comprobante_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
     <AssociationSet Name="FK_Comprobante_Moneda" Association="Self.FK_Comprobante_Moneda">
       <End Role="Moneda" EntitySet="Moneda" />
       <End Role="Comprobante" EntitySet="Comprobante" />
@@ -462,6 +608,14 @@
     <AssociationSet Name="FK_Comprobante_TipoComprobante" Association="Self.FK_Comprobante_TipoComprobante">
       <End Role="TipoComprobante" EntitySet="TipoComprobante" />
       <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_TipoDocumento" Association="Self.FK_Comprobante_TipoDocumento">
+      <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_Comprobante" Association="Self.FK_Movimiento_Comprobante">
+      <End Role="Comprobante" EntitySet="Comprobante" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
     <AssociationSet Name="FK_CuentaBancaria_Empresa" Association="Self.FK_CuentaBancaria_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
@@ -475,6 +629,10 @@
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
     <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Responsable" EntitySet="Responsable" />
@@ -482,6 +640,18 @@
     <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
+      <End Role="TipoEntidad" EntitySet="TipoEntidad" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_TipoIdentificacion" Association="Self.FK_EntidadResponsable_TipoIdentificacion">
+      <End Role="TipoIdentificacion" EntitySet="TipoIdentificacion" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_EntidadResponsable" Association="Self.FK_Movimiento_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_EstadoMovimiento" Association="Self.FK_Movimiento_EstadoMovimiento">
       <End Role="EstadoMovimiento" EntitySet="EstadoMovimiento" />
@@ -493,6 +663,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_FormaMovimiento" Association="Self.FK_Movimiento_FormaMovimiento">
       <End Role="FormaMovimiento" EntitySet="FormaMovimiento" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_TipoDocumento" Association="Self.FK_Movimiento_TipoDocumento">
+      <End Role="TipoDocumento" EntitySet="TipoDocumento" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_TipoMovimiento" Association="Self.FK_Movimiento_TipoMovimiento">
@@ -555,37 +729,6 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
-    <EntitySet Name="EntidadResponsable" EntityType="LibrosDBModel.EntidadResponsable" />
-    <EntitySet Name="TipoDocumento" EntityType="LibrosDBModel.TipoDocumento" />
-    <EntitySet Name="TipoIdentificacion" EntityType="LibrosDBModel.TipoIdentificacion" />
-    <AssociationSet Name="FK_Comprobante_EntidadResponsable" Association="LibrosDBModel.FK_Comprobante_EntidadResponsable">
-      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-      <End Role="Comprobante" EntitySet="Comprobante" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Comprobante_TipoDocumento" Association="LibrosDBModel.FK_Comprobante_TipoDocumento">
-      <End Role="TipoDocumento" EntitySet="TipoDocumento" />
-      <End Role="Comprobante" EntitySet="Comprobante" />
-    </AssociationSet>
-    <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="LibrosDBModel.FK_EntidadResponsable_Empresa">
-      <End Role="Empresa" EntitySet="Empresa" />
-      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-    </AssociationSet>
-    <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="LibrosDBModel.FK_EntidadResponsable_TipoEntidad">
-      <End Role="TipoEntidad" EntitySet="TipoEntidad" />
-      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-    </AssociationSet>
-    <AssociationSet Name="FK_EntidadResponsable_TipoIdentificacion" Association="LibrosDBModel.FK_EntidadResponsable_TipoIdentificacion">
-      <End Role="TipoIdentificacion" EntitySet="TipoIdentificacion" />
-      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Movimiento_EntidadResponsable" Association="LibrosDBModel.FK_Movimiento_EntidadResponsable">
-      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-      <End Role="Movimiento" EntitySet="Movimiento" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Movimiento_TipoDocumento" Association="LibrosDBModel.FK_Movimiento_TipoDocumento">
-      <End Role="TipoDocumento" EntitySet="TipoDocumento" />
-      <End Role="Movimiento" EntitySet="Movimiento" />
-    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
     <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
@@ -630,126 +773,4 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
-  <EntityType Name="EntidadResponsable">
-    <Key>
-      <PropertyRef Name="IdEntidadResponsable" />
-    </Key>
-    <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdTipoIdentificacion" Type="Int32" />
-    <Property Name="IdTipoEntidad" Type="Int32" />
-    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
-    <Property Name="Detraccion" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="Tipo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
-    <Property Name="NroIdentificacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
-    <NavigationProperty Name="Empresa" Relationship="LibrosDBModel.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
-    <NavigationProperty Name="TipoEntidad" Relationship="LibrosDBModel.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
-    <NavigationProperty Name="TipoIdentificacion" Relationship="LibrosDBModel.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
-    <NavigationProperty Name="Movimiento" Relationship="LibrosDBModel.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
-  </EntityType>
-  <EntityType Name="TipoDocumento">
-    <Key>
-      <PropertyRef Name="IdTipoDocumento" />
-    </Key>
-    <Property Name="IdTipoDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_TipoDocumento" FromRole="TipoDocumento" ToRole="Comprobante" />
-    <NavigationProperty Name="Movimiento" Relationship="LibrosDBModel.FK_Movimiento_TipoDocumento" FromRole="TipoDocumento" ToRole="Movimiento" />
-  </EntityType>
-  <EntityType Name="TipoIdentificacion">
-    <Key>
-      <PropertyRef Name="IdTipoIdentificacion" />
-    </Key>
-    <Property Name="IdTipoIdentificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_EntidadResponsable_TipoIdentificacion" FromRole="TipoIdentificacion" ToRole="EntidadResponsable" />
-  </EntityType>
-  <Association Name="FK_Comprobante_EntidadResponsable">
-    <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="1" />
-    <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="EntidadResponsable">
-        <PropertyRef Name="IdEntidadResponsable" />
-      </Principal>
-      <Dependent Role="Comprobante">
-        <PropertyRef Name="IdEntidadResponsable" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Comprobante_TipoDocumento">
-    <End Type="LibrosDBModel.TipoDocumento" Role="TipoDocumento" Multiplicity="1" />
-    <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TipoDocumento">
-        <PropertyRef Name="IdTipoDocumento" />
-      </Principal>
-      <Dependent Role="Comprobante">
-        <PropertyRef Name="IdTipoDocumento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_EntidadResponsable_Empresa">
-    <End Type="LibrosDBModel.Empresa" Role="Empresa" Multiplicity="1" />
-    <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Empresa">
-        <PropertyRef Name="IdEmpresa" />
-      </Principal>
-      <Dependent Role="EntidadResponsable">
-        <PropertyRef Name="IdEmpresa" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_EntidadResponsable_TipoEntidad">
-    <End Type="LibrosDBModel.TipoEntidad" Role="TipoEntidad" Multiplicity="0..1" />
-    <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TipoEntidad">
-        <PropertyRef Name="IdTipoEntidad" />
-      </Principal>
-      <Dependent Role="EntidadResponsable">
-        <PropertyRef Name="IdTipoEntidad" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_EntidadResponsable_TipoIdentificacion">
-    <End Type="LibrosDBModel.TipoIdentificacion" Role="TipoIdentificacion" Multiplicity="0..1" />
-    <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TipoIdentificacion">
-        <PropertyRef Name="IdTipoIdentificacion" />
-      </Principal>
-      <Dependent Role="EntidadResponsable">
-        <PropertyRef Name="IdTipoIdentificacion" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Movimiento_EntidadResponsable">
-    <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="1" />
-    <End Type="LibrosDBModel.Movimiento" Role="Movimiento" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="EntidadResponsable">
-        <PropertyRef Name="IdEntidadResponsable" />
-      </Principal>
-      <Dependent Role="Movimiento">
-        <PropertyRef Name="IdEntidadResponsable" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Movimiento_TipoDocumento">
-    <End Type="LibrosDBModel.TipoDocumento" Role="TipoDocumento" Multiplicity="0..1" />
-    <End Type="LibrosDBModel.Movimiento" Role="Movimiento" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TipoDocumento">
-        <PropertyRef Name="IdTipoDocumento" />
-      </Principal>
-      <Dependent Role="Movimiento">
-        <PropertyRef Name="IdTipoDocumento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>

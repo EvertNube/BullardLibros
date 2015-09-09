@@ -14,6 +14,11 @@ namespace BullardLibros.Data
     
     public partial class Comprobante
     {
+        public Comprobante()
+        {
+            this.Movimiento = new HashSet<Movimiento>();
+        }
+    
         public int IdComprobante { get; set; }
         public int IdTipoComprobante { get; set; }
         public int IdTipoDocumento { get; set; }
@@ -31,9 +36,10 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
     
         public virtual Empresa Empresa { get; set; }
+        public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual Moneda Moneda { get; set; }
         public virtual TipoComprobante TipoComprobante { get; set; }
-        public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
+        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

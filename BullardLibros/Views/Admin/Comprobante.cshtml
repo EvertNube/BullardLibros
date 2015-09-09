@@ -43,7 +43,7 @@
 <section class="vbox">
     <section class="scrollable padder">
         <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
+            <div class="col-xs-12">
                 @{
                     string strTitulo = "", strFechaIni = "", strEntidad = "", strFechaFin = "";
                     if (Model != null)
@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Monto</label>
-                                            @Html.TextBoxFor(u => u.Monto, new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                                             @Html.ValidationMessageFor(u => u.Monto)
                                         </div>
                                         <div class="form-group col-md-4">

@@ -36,7 +36,8 @@ namespace BullardLibros.Core.BL
                     Comentario = x.Comentario,
                     Estado = x.Estado,
                     UsuarioCreacion = x.UsuarioCreacion,
-                    FechaCreacion = x.FechaCreacion
+                    FechaCreacion = x.FechaCreacion,
+                    MontoSinIGV = x.MontoSinIGV
                 }).OrderBy(x => x.Fecha).ToList();
                 return result;
             }
@@ -63,7 +64,8 @@ namespace BullardLibros.Core.BL
                         Comentario = r.Comentario,
                         Estado = r.Estado,
                         UsuarioCreacion = r.UsuarioCreacion,
-                        FechaCreacion = r.FechaCreacion
+                        FechaCreacion = r.FechaCreacion,
+                        MontoSinIGV = r.MontoSinIGV
                     }).SingleOrDefault();
                 return result;
             }
@@ -93,6 +95,7 @@ namespace BullardLibros.Core.BL
                     nuevo.UsuarioCreacion = Movimiento.UsuarioCreacion;
                     //nuevo.FechaCreacion = Movimiento.FechaCreacion;
                     nuevo.FechaCreacion = Convert.ToDateTime(Movimiento.FechaCreacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
+                    nuevo.MontoSinIGV = Movimiento.MontoSinIGV ?? 0;
                     context.Movimiento.Add(nuevo);
                     context.SaveChanges();
                     //Actualizar saldos del Libro
@@ -130,6 +133,7 @@ namespace BullardLibros.Core.BL
                     datoRow.UsuarioCreacion = Movimiento.UsuarioCreacion;
                     //datoRow.FechaCreacion = Movimiento.FechaCreacion;
                     datoRow.FechaCreacion = Convert.ToDateTime(Movimiento.FechaCreacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
+                    datoRow.MontoSinIGV = Movimiento.MontoSinIGV;
                     context.SaveChanges();
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
@@ -267,41 +271,6 @@ namespace BullardLibros.Core.BL
                     IdTipoMovimiento = x.IdTipoMovimiento,
                     Nombre = x.Nombre,
                     Estado = x.Estado
-                }).ToList();
-                return result;
-            }
-        }
-
-        public List<Select2DTO> getListaFormaMovimientosIngresos()
-        {
-            using (var context = getContext())
-            {
-                var result = context.FormaMovimiento.Where(x => x.IdTipoMovimiento == 1).Select(x => new Select2DTO 
-                { 
-                    id = x.IdFormaMovimiento,
-                    text = x.Nombre
-                    //IdFormaMovimiento = x.IdFormaMovimiento,
-                    //IdTipoMovimiento = x.IdTipoMovimiento,
-                    //Nombre = x.Nombre,
-                    //Estado = x.Estado,
-                    //NombreTipo = x.IdTipoMovimiento == 1 ? "Ingreso" : "Egreso"
-                }).ToList();
-                return result;
-            }
-        }
-        public List<Select2DTO> getListaFormaMovimientosEgresos()
-        {
-            using (var context = getContext())
-            {
-                var result = context.FormaMovimiento.Where(x => x.IdTipoMovimiento == 2).Select(x => new Select2DTO
-                {
-                    id = x.IdFormaMovimiento,
-                    text = x.Nombre
-                    //IdFormaMovimiento = x.IdFormaMovimiento,
-                    //IdTipoMovimiento = x.IdTipoMovimiento,
-                    //Nombre = x.Nombre,
-                    //Estado = x.Estado,
-                    //NombreTipo = x.IdTipoMovimiento == 1 ? "Ingreso" : "Egreso"
                 }).ToList();
                 return result;
             }

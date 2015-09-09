@@ -30,14 +30,17 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
         public int UsuarioCreacion { get; set; }
         public System.DateTime FechaCreacion { get; set; }
+        public Nullable<decimal> MontoSinIGV { get; set; }
+        public Nullable<int> IdComprobante { get; set; }
     
         public virtual Categoria Categoria { get; set; }
+        public virtual Comprobante Comprobante { get; set; }
         public virtual CuentaBancaria CuentaBancaria { get; set; }
+        public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual EstadoMovimiento EstadoMovimiento { get; set; }
         public virtual FormaMovimiento FormaMovimiento { get; set; }
+        public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual TipoMovimiento TipoMovimiento { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual EntidadResponsable EntidadResponsable { get; set; }
-        public virtual TipoDocumento TipoDocumento { get; set; }
     }
 }
