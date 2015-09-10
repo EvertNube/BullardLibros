@@ -24,7 +24,7 @@ namespace BullardLibros.Core.BL
                     IdMovimiento = x.IdMovimiento,
                     IdCuentaBancaria = x.IdCuentaBancaria,
                     IdEntidadResponsable = x.IdEntidadResponsable,
-                    IdTipoMovimiento = x.IdTipoMovimiento,
+                    IdTipoMovimiento = x.FormaMovimiento.IdTipoMovimiento,
                     IdFormaMovimiento = x.IdFormaMovimiento,
                     IdTipoDocumento = x.IdTipoDocumento,
                     IdCategoria = x.IdCategoria,
@@ -53,7 +53,7 @@ namespace BullardLibros.Core.BL
                         IdMovimiento = r.IdMovimiento,
                         IdCuentaBancaria = r.IdCuentaBancaria,
                         IdEntidadResponsable = r.IdEntidadResponsable,
-                        IdTipoMovimiento = r.IdTipoMovimiento,
+                        IdTipoMovimiento = r.FormaMovimiento.IdTipoMovimiento,
                         IdFormaMovimiento = r.IdFormaMovimiento,
                         IdTipoDocumento = r.IdTipoDocumento,
                         IdCategoria = r.IdCategoria,
@@ -81,7 +81,6 @@ namespace BullardLibros.Core.BL
                     Movimiento nuevo = new Movimiento();
                     nuevo.IdCuentaBancaria = Movimiento.IdCuentaBancaria;
                     nuevo.IdEntidadResponsable = Movimiento.IdEntidadResponsable;
-                    nuevo.IdTipoMovimiento = Movimiento.IdTipoMovimiento;
                     nuevo.IdFormaMovimiento = Movimiento.IdFormaMovimiento;
                     nuevo.IdTipoDocumento = Movimiento.IdTipoDocumento;
                     //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
@@ -120,7 +119,6 @@ namespace BullardLibros.Core.BL
                     var datoRow = context.Movimiento.Where(x => x.IdMovimiento == Movimiento.IdMovimiento).SingleOrDefault();
                     datoRow.IdCuentaBancaria = Movimiento.IdCuentaBancaria;
                     datoRow.IdEntidadResponsable = Movimiento.IdEntidadResponsable;
-                    datoRow.IdTipoMovimiento = Movimiento.IdTipoMovimiento;
                     datoRow.IdFormaMovimiento = Movimiento.IdFormaMovimiento;
                     datoRow.IdTipoDocumento = Movimiento.IdTipoDocumento == 0 ? null : Movimiento.IdTipoDocumento;
                     //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria

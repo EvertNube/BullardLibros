@@ -13,7 +13,7 @@ namespace BullardLibros.Core.DTO
         public int IdCuentaBancaria { get; set; }
         public int IdEntidadResponsable { get; set; }
         public int IdTipoMovimiento { get; set; }
-        public int? IdFormaMovimiento { get; set; }
+        public int IdFormaMovimiento { get; set; }
         public int? IdTipoDocumento { get; set; }
         public int? IdCategoria { get; set; }
         public int IdEstadoMovimiento { get; set; }

@@ -117,7 +117,7 @@ namespace BullardLibros.Core.BL
                             IdMovimiento = x.IdMovimiento,
                             IdCuentaBancaria = x.IdCuentaBancaria,
                             IdEntidadResponsable = x.IdEntidadResponsable,
-                            IdTipoMovimiento = x.IdTipoMovimiento,
+                            IdTipoMovimiento = x.FormaMovimiento.IdTipoMovimiento,
                             IdCategoria = x.IdCategoria,
                             IdEstadoMovimiento = x.IdEstadoMovimiento,
                             NroOperacion = x.NroOperacion,

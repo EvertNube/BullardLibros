@@ -454,7 +454,6 @@ namespace BullardLibros.Controllers
 
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
-            ViewBag.TiposMovimientos = objBL.getTiposMovimientos(false);
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
             ViewBag.lstFormaMovs = objBL.getListaFormaDeMovimientos();
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
@@ -1012,6 +1011,13 @@ namespace BullardLibros.Controllers
             ComprobanteBL objBL = new ComprobanteBL();
             var listaComp = objBL.getComprobantesPorEntXTDoc(getCurrentUser().IdEmpresa, idEntidad, idTipoDoc);
             return Json(new { listaComp }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult BuscarComprobante(int idComprobante)
+        {
+            ComprobanteBL objBL = new ComprobanteBL();
+            var comprobante = objBL.getComprobanteEnEmpresa(getCurrentUser().IdEmpresa, idComprobante);
+            return Json(new { comprobante }, JsonRequestBehavior.AllowGet);
         }
 
         public List<Select2DTO> CategoriasBucle(int? id = null, IList<CategoriaDTO> lista = null)
