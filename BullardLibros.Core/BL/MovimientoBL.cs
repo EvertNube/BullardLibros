@@ -274,7 +274,8 @@ namespace BullardLibros.Core.BL
                     IdFormaMovimiento = x.IdFormaMovimiento,
                     IdTipoMovimiento = x.IdTipoMovimiento,
                     Nombre = x.Nombre,
-                    Estado = x.Estado
+                    Estado = x.Estado,
+                    NombreTipo = x.TipoMovimiento.Nombre
                 }).ToList();
                 return result;
             }

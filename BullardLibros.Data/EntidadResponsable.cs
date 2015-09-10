@@ -16,8 +16,8 @@ namespace BullardLibros.Data
     {
         public EntidadResponsable()
         {
-            this.Movimiento = new HashSet<Movimiento>();
             this.Comprobante = new HashSet<Comprobante>();
+            this.Movimiento = new HashSet<Movimiento>();
         }
     
         public int IdEntidadResponsable { get; set; }
@@ -33,7 +33,7 @@ namespace BullardLibros.Data
         public virtual Empresa Empresa { get; set; }
         public virtual TipoEntidad TipoEntidad { get; set; }
         public virtual TipoIdentificacion TipoIdentificacion { get; set; }
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
         public virtual ICollection<Comprobante> Comprobante { get; set; }
+        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

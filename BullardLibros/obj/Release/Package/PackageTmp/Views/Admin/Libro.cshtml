@@ -151,11 +151,11 @@
                                         <table class="table table-striped m-b-none dataTable">
                                             <thead>
                                                 <tr>
-                                                    <th width="15%">Nombre</th>
+                                                    <th class="text-center" width="7%">Fecha</th>
+                                                    <th width="15%">Nro Operación</th>
                                                     <th class="text-center" width="10%">Categoria</th>
                                                     <th class="text-center" width="10%">Entidad</th>
-
-                                                    <th class="text-center" width="7%">Fecha</th>
+                                                    
                                                     <th class="text-center" width="8%">N° Doc</th>
                                                     <th class="text-center" width="15%">Monto</th>
                                                     <th class="text-center" width="8%">Tipo</th>
@@ -173,10 +173,11 @@
                                                     {
                                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                         <tr @Html.Raw(classInactive)>
-                                                            <td width="15%">@obj.NroOperacion</td>
-                                                            <td class="text-center" width="10%" style="color:#428bca;">@obj.NombreCategoria</td>
-                                                            <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
                                                             <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                            <td width="15%">@obj.NroOperacion</td>
+                                                            @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
+                                                            <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
+                                                            <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
                                                             @if (obj.NumeroDocumento != null)
                                                             {
                                                                 <td class="text-center" width="8%">@obj.NumeroDocumento</td>
@@ -185,8 +186,6 @@
                                                             {
                                                                 <td class="text-center" width="8%">N/A</td>
                                                             }
-
-
                                                             <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                             @if (obj.IdTipoMovimiento == 1)
                                                             {

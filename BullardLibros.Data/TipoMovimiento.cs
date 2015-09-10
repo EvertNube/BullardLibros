@@ -17,7 +17,6 @@ namespace BullardLibros.Data
         public TipoMovimiento()
         {
             this.FormaMovimiento = new HashSet<FormaMovimiento>();
-            this.Movimiento = new HashSet<Movimiento>();
         }
     
         public int IdTipoMovimiento { get; set; }
@@ -25,6 +24,5 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
     
         public virtual ICollection<FormaMovimiento> FormaMovimiento { get; set; }
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

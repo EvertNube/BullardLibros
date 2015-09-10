@@ -17,8 +17,7 @@ namespace BullardLibros.Data
         public int IdMovimiento { get; set; }
         public int IdCuentaBancaria { get; set; }
         public int IdEntidadResponsable { get; set; }
-        public int IdTipoMovimiento { get; set; }
-        public Nullable<int> IdFormaMovimiento { get; set; }
+        public int IdFormaMovimiento { get; set; }
         public Nullable<int> IdTipoDocumento { get; set; }
         public Nullable<int> IdCategoria { get; set; }
         public int IdEstadoMovimiento { get; set; }
@@ -34,13 +33,12 @@ namespace BullardLibros.Data
         public Nullable<int> IdComprobante { get; set; }
     
         public virtual Categoria Categoria { get; set; }
+        public virtual Comprobante Comprobante { get; set; }
         public virtual CuentaBancaria CuentaBancaria { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual EstadoMovimiento EstadoMovimiento { get; set; }
         public virtual FormaMovimiento FormaMovimiento { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
-        public virtual TipoMovimiento TipoMovimiento { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual Comprobante Comprobante { get; set; }
     }
 }

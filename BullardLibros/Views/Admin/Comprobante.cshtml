@@ -146,10 +146,21 @@
                                             @Html.ValidationMessageFor(u => u.FechaConclusion)
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Comentario</label>
-                                        @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Ingrese un comentario", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Comentario)
+                                    <div class="row">
+                                        @{var colsmd = Model.IdTipoComprobante == 1 ? 8 : 12;}
+                                        @if (Model.IdTipoComprobante == 1)
+                                        {
+                                            <div class="form-group col-md-4">
+                                                <label>Categoría</label>
+                                                @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                                @Html.ValidationMessageFor(u => u.IdCategoria)
+                                            </div>
+                                        }
+                                        <div class="form-group col-md-@colsmd">
+                                            <label>Comentario</label>
+                                            @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Ingrese un comentario", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.Comentario)
+                                        </div>
                                     </div>
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
                                     {

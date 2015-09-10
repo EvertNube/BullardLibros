@@ -40,6 +40,7 @@
     <Property Name="FechaConclusion" Type="datetime" />
     <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Ejecutado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -63,6 +64,7 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
     <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IGV" Type="numeric" Precision="18" Scale="2" />
   </EntityType>
   <EntityType Name="EntidadResponsable">
     <Key>
@@ -123,6 +125,8 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
     <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+    <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
+    <Property Name="IdComprobante" Type="int" />
   </EntityType>
   <EntityType Name="Responsable">
     <Key>
@@ -373,6 +377,18 @@
       </Principal>
       <Dependent Role="Movimiento">
         <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_Comprobante">
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comprobante">
+        <PropertyRef Name="IdComprobante" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdComprobante" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -637,6 +653,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
       <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_Comprobante" Association="Self.FK_Movimiento_Comprobante">
+      <End Role="Comprobante" EntitySet="Comprobante" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="Self.FK_Movimiento_CuentaBancaria">

@@ -4,49 +4,6 @@
     ViewBag.Title = "NubeLabs SCI - Categoría";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@functions{
-    public string printTree(IList<CategoriaDTO> categorias)
-    {
-        if(categorias != null && categorias.Count != 0)
-        {
-            System.Text.StringBuilder output = new System.Text.StringBuilder();
-            foreach (CategoriaDTO item in categorias)
-	        {
-                if(item.IdCategoriaPadre == null && item.Hijos.Count == 0)
-                {
-                    output.AppendFormat("<option value='{0}'>{1}", item.IdCategoria, item.Nombre);
-                    output.AppendFormat("</option>");
-                }
-                else
-                { 
-		            if(item.IdCategoriaPadre == null && item.Hijos.Count > 0)
-                    {
-                        output.AppendFormat("<optgroup label='{0}'>", item.Nombre);
-                        if (item.Hijos != null && item.Hijos.Count > 0) { output.Append(printTree(item.Hijos)); }
-                        output.AppendFormat("</optgroup>");
-                    }
-                    else
-                    {
-                        if(item.IdCategoriaPadre != null && item.Hijos.Count > 0)
-                        {
-                            output.AppendFormat("<optgroup label='{0}'>", item.Nombre);
-                            if (item.Hijos != null && item.Hijos.Count > 0) { output.Append(printTree(item.Hijos)); }
-                            output.AppendFormat("</optgroup>");
-                        }
-                        else
-                        {
-                            output.AppendFormat("<option value='{0}'>{1}", item.IdCategoria, item.Nombre);
-                            if (item.Hijos != null && item.Hijos.Count > 0) { output.Append(printTree(item.Hijos)); }
-                            output.AppendFormat("</option>");    
-                        }
-                    }
-                }
-	        }
-            return output.ToString();
-        }
-        else return "";
-    }
-}
 @section Styles{
     @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
     @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
