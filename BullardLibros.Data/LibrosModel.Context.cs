@@ -29,7 +29,6 @@ namespace BullardLibros.Data
     
         public virtual DbSet<Area> Area { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
-        public virtual DbSet<Comprobante> Comprobante { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<EntidadResponsable> EntidadResponsable { get; set; }
@@ -46,6 +45,7 @@ namespace BullardLibros.Data
         public virtual DbSet<TipoIdentificacion> TipoIdentificacion { get; set; }
         public virtual DbSet<TipoMovimiento> TipoMovimiento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Comprobante> Comprobante { get; set; }
     
         public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {

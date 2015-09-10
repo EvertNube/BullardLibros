@@ -7,7 +7,6 @@
       <Diagram DiagramId="162e2bd6199d4065a64873f800c761fa" Name="Diagram1">
         <EntityTypeShape EntityType="LibrosDBModel.Area" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Categoria" Width="1.5" PointX="3" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="LibrosDBModel.Comprobante" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.CuentaBancaria" Width="1.5" PointX="8" PointY="16.125" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Empresa" Width="1.5" PointX="0.75" PointY="15.875" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.EntidadResponsable" Width="1.5" PointX="8" PointY="10.875" IsExpanded="true" />
@@ -27,12 +26,6 @@
         <AssociationConnector Association="LibrosDBModel.FK_Area_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Categoria_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Categoria" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_Empresa" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_EntidadResponsable" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_Moneda" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_TipoComprobante" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_TipoDocumento" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Comprobante" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_Moneda" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_CuentaBancaria" ManuallyRouted="false" />
@@ -49,6 +42,13 @@
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_TipoMovimiento" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Usuario_Rol" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LibrosDBModel.Comprobante" Width="1.5" PointX="10.25" PointY="17" />
+        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_Empresa" />
+        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_EntidadResponsable" />
+        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_Moneda" />
+        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_TipoComprobante" />
+        <AssociationConnector Association="LibrosDBModel.FK_Comprobante_TipoDocumento" />
+        <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Comprobante" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

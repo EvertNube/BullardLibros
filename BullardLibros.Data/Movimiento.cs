@@ -34,7 +34,6 @@ namespace BullardLibros.Data
         public Nullable<int> IdComprobante { get; set; }
     
         public virtual Categoria Categoria { get; set; }
-        public virtual Comprobante Comprobante { get; set; }
         public virtual CuentaBancaria CuentaBancaria { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual EstadoMovimiento EstadoMovimiento { get; set; }
@@ -42,5 +41,6 @@ namespace BullardLibros.Data
         public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual TipoMovimiento TipoMovimiento { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Comprobante Comprobante { get; set; }
     }
 }

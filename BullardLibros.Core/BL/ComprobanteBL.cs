@@ -123,6 +123,7 @@ namespace BullardLibros.Core.BL
                     nuevo.FechaConclusion = Comprobante.FechaConclusion;
                     nuevo.Comentario = Comprobante.Comentario;
                     nuevo.Estado = true;
+                    nuevo.Ejecutado = false;
                     context.Comprobante.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -288,6 +289,19 @@ namespace BullardLibros.Core.BL
                         IdResponsable = x.IdResponsable,
                         Nombre = x.Nombre,
                         Estado = x.Estado
+                    }).ToList();
+                return result;
+            }
+        }
+
+        public List<Select2DTO_B> getComprobantesPorEntXTDoc(int idEmpresa, int idEntidad, int idTipoDoc)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && !x.Ejecutado && x.Estado).Select(x => new Select2DTO_B
+                    {
+                        id = x.IdComprobante,
+                        text = x.NroDocumento
                     }).ToList();
                 return result;
             }

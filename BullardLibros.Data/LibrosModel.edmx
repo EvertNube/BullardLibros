@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="IdArea" />
@@ -45,6 +45,7 @@
           <Property Name="FechaConclusion" Type="datetime" />
           <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
           <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Ejecutado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CuentaBancaria">
           <Key>
@@ -704,8 +705,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibrosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -732,32 +732,6 @@
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Categoria_Empresa" FromRole="Categoria" ToRole="Empresa" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_Categoria" FromRole="Categoria" ToRole="Movimiento" />
-        </EntityType>
-        <EntityType Name="Comprobante">
-          <Key>
-            <PropertyRef Name="IdComprobante" />
-          </Key>
-          <Property Name="IdComprobante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdTipoComprobante" Type="Int32" Nullable="false" />
-          <Property Name="IdTipoDocumento" Type="Int32" Nullable="false" />
-          <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
-          <Property Name="IdMoneda" Type="Int32" Nullable="false" />
-          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
-          <Property Name="NroDocumento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Monto" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
-          <Property Name="IdArea" Type="Int32" />
-          <Property Name="IdResponsable" Type="Int32" />
-          <Property Name="IdCategoria" Type="Int32" />
-          <Property Name="FechaEmision" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FechaConclusion" Type="DateTime" Precision="3" />
-          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Empresa" Relationship="Self.FK_Comprobante_Empresa" FromRole="Comprobante" ToRole="Empresa" />
-          <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="Comprobante" ToRole="EntidadResponsable" />
-          <NavigationProperty Name="Moneda" Relationship="Self.FK_Comprobante_Moneda" FromRole="Comprobante" ToRole="Moneda" />
-          <NavigationProperty Name="TipoComprobante" Relationship="Self.FK_Comprobante_TipoComprobante" FromRole="Comprobante" ToRole="TipoComprobante" />
-          <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Comprobante_TipoDocumento" FromRole="Comprobante" ToRole="TipoDocumento" />
-          <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_Comprobante" FromRole="Comprobante" ToRole="Movimiento" />
         </EntityType>
         <EntityType Name="CuentaBancaria">
           <Key>
@@ -787,11 +761,11 @@
           <Property Name="IGV" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="Area" Relationship="Self.FK_Area_Empresa" FromRole="Empresa" ToRole="Area" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Categoria_Empresa" FromRole="Empresa" ToRole="Categoria" />
-          <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Empresa" FromRole="Empresa" ToRole="Comprobante" />
           <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_CuentaBancaria_Empresa" FromRole="Empresa" ToRole="CuentaBancaria" />
           <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="Empresa" ToRole="EntidadResponsable" />
           <NavigationProperty Name="Responsable" Relationship="Self.FK_Responsable_Empresa" FromRole="Empresa" ToRole="Responsable" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
+          <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_Empresa" FromRole="Empresa" ToRole="Comprobante" />
         </EntityType>
         <EntityType Name="EntidadResponsable">
           <Key>
@@ -806,11 +780,11 @@
           <Property Name="Tipo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <Property Name="NroIdentificacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
           <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
           <NavigationProperty Name="TipoIdentificacion" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
+          <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
         </EntityType>
         <EntityType Name="EstadoMovimiento">
           <Key>
@@ -839,8 +813,8 @@
           <Property Name="IdMoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Simbolo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Moneda" FromRole="Moneda" ToRole="Comprobante" />
           <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_CuentaBancaria_Moneda" FromRole="Moneda" ToRole="CuentaBancaria" />
+          <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_Moneda" FromRole="Moneda" ToRole="Comprobante" />
         </EntityType>
         <EntityType Name="Movimiento">
           <Key>
@@ -865,7 +839,6 @@
           <Property Name="MontoSinIGV" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="IdComprobante" Type="Int32" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Movimiento_Categoria" FromRole="Movimiento" ToRole="Categoria" />
-          <NavigationProperty Name="Comprobante" Relationship="Self.FK_Movimiento_Comprobante" FromRole="Movimiento" ToRole="Comprobante" />
           <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_Movimiento_CuentaBancaria" FromRole="Movimiento" ToRole="CuentaBancaria" />
           <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="Movimiento" ToRole="EntidadResponsable" />
           <NavigationProperty Name="EstadoMovimiento" Relationship="Self.FK_Movimiento_EstadoMovimiento" FromRole="Movimiento" ToRole="EstadoMovimiento" />
@@ -873,6 +846,7 @@
           <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Movimiento_TipoDocumento" FromRole="Movimiento" ToRole="TipoDocumento" />
           <NavigationProperty Name="TipoMovimiento" Relationship="Self.FK_Movimiento_TipoMovimiento" FromRole="Movimiento" ToRole="TipoMovimiento" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Movimiento_Usuario" FromRole="Movimiento" ToRole="Usuario" />
+          <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Movimiento_Comprobante" FromRole="Movimiento" ToRole="Comprobante" />
         </EntityType>
         <EntityType Name="Responsable">
           <Key>
@@ -911,7 +885,7 @@
           <Property Name="IdTipoComprobante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_TipoComprobante" FromRole="TipoComprobante" ToRole="Comprobante" />
+          <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_TipoComprobante" FromRole="TipoComprobante" ToRole="Comprobante" />
         </EntityType>
         <EntityType Name="TipoDocumento">
           <Key>
@@ -920,8 +894,8 @@
           <Property Name="IdTipoDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_TipoDocumento" FromRole="TipoDocumento" ToRole="Comprobante" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_TipoDocumento" FromRole="TipoDocumento" ToRole="Movimiento" />
+          <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_TipoDocumento" FromRole="TipoDocumento" ToRole="Comprobante" />
         </EntityType>
         <EntityType Name="TipoEntidad">
           <Key>
@@ -1003,78 +977,6 @@
             </Principal>
             <Dependent Role="Movimiento">
               <PropertyRef Name="IdCategoria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Comprobante_Empresa">
-          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
-          <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="IdEmpresa" />
-            </Principal>
-            <Dependent Role="Comprobante">
-              <PropertyRef Name="IdEmpresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Comprobante_EntidadResponsable">
-          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
-          <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntidadResponsable">
-              <PropertyRef Name="IdEntidadResponsable" />
-            </Principal>
-            <Dependent Role="Comprobante">
-              <PropertyRef Name="IdEntidadResponsable" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Comprobante_Moneda">
-          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
-          <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Moneda">
-              <PropertyRef Name="IdMoneda" />
-            </Principal>
-            <Dependent Role="Comprobante">
-              <PropertyRef Name="IdMoneda" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Comprobante_TipoComprobante">
-          <End Role="TipoComprobante" Type="Self.TipoComprobante" Multiplicity="1" />
-          <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TipoComprobante">
-              <PropertyRef Name="IdTipoComprobante" />
-            </Principal>
-            <Dependent Role="Comprobante">
-              <PropertyRef Name="IdTipoComprobante" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Comprobante_TipoDocumento">
-          <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="1" />
-          <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TipoDocumento">
-              <PropertyRef Name="IdTipoDocumento" />
-            </Principal>
-            <Dependent Role="Comprobante">
-              <PropertyRef Name="IdTipoDocumento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Movimiento_Comprobante">
-          <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="0..1" />
-          <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Comprobante">
-              <PropertyRef Name="IdComprobante" />
-            </Principal>
-            <Dependent Role="Movimiento">
-              <PropertyRef Name="IdComprobante" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1273,7 +1175,6 @@
         <EntityContainer Name="LibrosDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Area" EntityType="Self.Area" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" />
-          <EntitySet Name="Comprobante" EntityType="Self.Comprobante" />
           <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" />
           <EntitySet Name="Empresa" EntityType="Self.Empresa" />
           <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" />
@@ -1300,30 +1201,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
             <End Role="Categoria" EntitySet="Categoria" />
-            <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comprobante_Empresa" Association="Self.FK_Comprobante_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="Comprobante" EntitySet="Comprobante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comprobante_EntidadResponsable" Association="Self.FK_Comprobante_EntidadResponsable">
-            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-            <End Role="Comprobante" EntitySet="Comprobante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comprobante_Moneda" Association="Self.FK_Comprobante_Moneda">
-            <End Role="Moneda" EntitySet="Moneda" />
-            <End Role="Comprobante" EntitySet="Comprobante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comprobante_TipoComprobante" Association="Self.FK_Comprobante_TipoComprobante">
-            <End Role="TipoComprobante" EntitySet="TipoComprobante" />
-            <End Role="Comprobante" EntitySet="Comprobante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comprobante_TipoDocumento" Association="Self.FK_Comprobante_TipoDocumento">
-            <End Role="TipoDocumento" EntitySet="TipoDocumento" />
-            <End Role="Comprobante" EntitySet="Comprobante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movimiento_Comprobante" Association="Self.FK_Movimiento_Comprobante">
-            <End Role="Comprobante" EntitySet="Comprobante" />
             <End Role="Movimiento" EntitySet="Movimiento" />
           </AssociationSet>
           <AssociationSet Name="FK_CuentaBancaria_Empresa" Association="Self.FK_CuentaBancaria_Empresa">
@@ -1391,7 +1268,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="SP_ActualizarMontos">
-            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+          <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -1438,6 +1315,31 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Comprobante" EntityType="LibrosDBModel.Comprobante" />
+          <AssociationSet Name="FK_Comprobante_Empresa" Association="LibrosDBModel.FK_Comprobante_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Comprobante" EntitySet="Comprobante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comprobante_EntidadResponsable" Association="LibrosDBModel.FK_Comprobante_EntidadResponsable">
+            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+            <End Role="Comprobante" EntitySet="Comprobante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comprobante_Moneda" Association="LibrosDBModel.FK_Comprobante_Moneda">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="Comprobante" EntitySet="Comprobante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comprobante_TipoComprobante" Association="LibrosDBModel.FK_Comprobante_TipoComprobante">
+            <End Role="TipoComprobante" EntitySet="TipoComprobante" />
+            <End Role="Comprobante" EntitySet="Comprobante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comprobante_TipoDocumento" Association="LibrosDBModel.FK_Comprobante_TipoDocumento">
+            <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+            <End Role="Comprobante" EntitySet="Comprobante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimiento_Comprobante" Association="LibrosDBModel.FK_Movimiento_Comprobante">
+            <End Role="Comprobante" EntitySet="Comprobante" />
+            <End Role="Movimiento" EntitySet="Movimiento" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
           <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
@@ -1482,6 +1384,105 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Comprobante">
+          <Key>
+            <PropertyRef Name="IdComprobante" />
+          </Key>
+          <Property Name="IdComprobante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTipoComprobante" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoDocumento" Type="Int32" Nullable="false" />
+          <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
+          <Property Name="IdMoneda" Type="Int32" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="NroDocumento" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdResponsable" Type="Int32" />
+          <Property Name="IdCategoria" Type="Int32" />
+          <Property Name="FechaEmision" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaConclusion" Type="DateTime" Precision="3" />
+          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Ejecutado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Empresa" Relationship="LibrosDBModel.FK_Comprobante_Empresa" FromRole="Comprobante" ToRole="Empresa" />
+          <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_Comprobante_EntidadResponsable" FromRole="Comprobante" ToRole="EntidadResponsable" />
+          <NavigationProperty Name="Moneda" Relationship="LibrosDBModel.FK_Comprobante_Moneda" FromRole="Comprobante" ToRole="Moneda" />
+          <NavigationProperty Name="TipoComprobante" Relationship="LibrosDBModel.FK_Comprobante_TipoComprobante" FromRole="Comprobante" ToRole="TipoComprobante" />
+          <NavigationProperty Name="TipoDocumento" Relationship="LibrosDBModel.FK_Comprobante_TipoDocumento" FromRole="Comprobante" ToRole="TipoDocumento" />
+          <NavigationProperty Name="Movimiento" Relationship="LibrosDBModel.FK_Movimiento_Comprobante" FromRole="Comprobante" ToRole="Movimiento" />
+        </EntityType>
+        <Association Name="FK_Comprobante_Empresa">
+          <End Type="LibrosDBModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Comprobante">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comprobante_EntidadResponsable">
+          <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="1" />
+          <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntidadResponsable">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Principal>
+            <Dependent Role="Comprobante">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comprobante_Moneda">
+          <End Type="LibrosDBModel.Moneda" Role="Moneda" Multiplicity="1" />
+          <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="Comprobante">
+              <PropertyRef Name="IdMoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comprobante_TipoComprobante">
+          <End Type="LibrosDBModel.TipoComprobante" Role="TipoComprobante" Multiplicity="1" />
+          <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoComprobante">
+              <PropertyRef Name="IdTipoComprobante" />
+            </Principal>
+            <Dependent Role="Comprobante">
+              <PropertyRef Name="IdTipoComprobante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comprobante_TipoDocumento">
+          <End Type="LibrosDBModel.TipoDocumento" Role="TipoDocumento" Multiplicity="1" />
+          <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumento">
+              <PropertyRef Name="IdTipoDocumento" />
+            </Principal>
+            <Dependent Role="Comprobante">
+              <PropertyRef Name="IdTipoDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimiento_Comprobante">
+          <End Type="LibrosDBModel.Comprobante" Role="Comprobante" Multiplicity="0..1" />
+          <End Type="LibrosDBModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comprobante">
+              <PropertyRef Name="IdComprobante" />
+            </Principal>
+            <Dependent Role="Movimiento">
+              <PropertyRef Name="IdComprobante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1508,27 +1509,6 @@
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Comprobante">
-            <EntityTypeMapping TypeName="LibrosDBModel.Comprobante">
-              <MappingFragment StoreEntitySet="Comprobante">
-                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
-                <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
-                <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
-                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
-                <ScalarProperty Name="Monto" ColumnName="Monto" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
-                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
-                <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
-                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1787,6 +1767,28 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="LibrosDBModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="LibrosDBModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Comprobante">
+            <EntityTypeMapping TypeName="LibrosDBModel.Comprobante">
+              <MappingFragment StoreEntitySet="Comprobante">
+                <ScalarProperty Name="Ejecutado" ColumnName="Ejecutado" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
+                <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

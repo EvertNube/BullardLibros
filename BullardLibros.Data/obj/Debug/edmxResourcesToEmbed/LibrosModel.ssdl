@@ -40,6 +40,7 @@
     <Property Name="FechaConclusion" Type="datetime" />
     <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Ejecutado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>

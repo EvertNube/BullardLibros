@@ -461,6 +461,7 @@ namespace BullardLibros.Controllers
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true); 
             ViewBag.NombreCategoria = "Sin Categoría";
             ViewBag.Categorias = CategoriasBucle(null, null);
+            ViewBag.Comprobantes = objBL.getComprobantesPendientesEnEmpresa(miUsuario.IdEmpresa);
 
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
@@ -1004,6 +1005,13 @@ namespace BullardLibros.Controllers
             var listaCat = CategoriasBucle(null, null);
 
             return Json(new { listaCat }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetComprobantes(int idEntidad, int idTipoDoc)
+        {
+            ComprobanteBL objBL = new ComprobanteBL();
+            var listaComp = objBL.getComprobantesPorEntXTDoc(getCurrentUser().IdEmpresa, idEntidad, idTipoDoc);
+            return Json(new { listaComp }, JsonRequestBehavior.AllowGet);
         }
 
         public List<Select2DTO> CategoriasBucle(int? id = null, IList<CategoriaDTO> lista = null)

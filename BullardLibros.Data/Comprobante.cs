@@ -34,6 +34,7 @@ namespace BullardLibros.Data
         public Nullable<System.DateTime> FechaConclusion { get; set; }
         public string Comentario { get; set; }
         public bool Estado { get; set; }
+        public bool Ejecutado { get; set; }
     
         public virtual Empresa Empresa { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }

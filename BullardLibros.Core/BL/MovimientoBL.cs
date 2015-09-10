@@ -37,7 +37,8 @@ namespace BullardLibros.Core.BL
                     Estado = x.Estado,
                     UsuarioCreacion = x.UsuarioCreacion,
                     FechaCreacion = x.FechaCreacion,
-                    MontoSinIGV = x.MontoSinIGV
+                    MontoSinIGV = x.MontoSinIGV,
+                    IdComprobante = x.IdComprobante
                 }).OrderBy(x => x.Fecha).ToList();
                 return result;
             }
@@ -65,7 +66,8 @@ namespace BullardLibros.Core.BL
                         Estado = r.Estado,
                         UsuarioCreacion = r.UsuarioCreacion,
                         FechaCreacion = r.FechaCreacion,
-                        MontoSinIGV = r.MontoSinIGV
+                        MontoSinIGV = r.MontoSinIGV,
+                        IdComprobante = r.IdComprobante
                     }).SingleOrDefault();
                 return result;
             }
@@ -96,6 +98,7 @@ namespace BullardLibros.Core.BL
                     //nuevo.FechaCreacion = Movimiento.FechaCreacion;
                     nuevo.FechaCreacion = Convert.ToDateTime(Movimiento.FechaCreacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     nuevo.MontoSinIGV = Movimiento.MontoSinIGV ?? 0;
+                    nuevo.IdComprobante = Movimiento.IdComprobante == 0 ? null : Movimiento.IdComprobante;
                     context.Movimiento.Add(nuevo);
                     context.SaveChanges();
                     //Actualizar saldos del Libro
@@ -134,6 +137,7 @@ namespace BullardLibros.Core.BL
                     //datoRow.FechaCreacion = Movimiento.FechaCreacion;
                     datoRow.FechaCreacion = Convert.ToDateTime(Movimiento.FechaCreacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     datoRow.MontoSinIGV = Movimiento.MontoSinIGV;
+                    datoRow.IdComprobante = Movimiento.IdComprobante == 0 ? null : Movimiento.IdComprobante;
                     context.SaveChanges();
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
@@ -299,6 +303,19 @@ namespace BullardLibros.Core.BL
                 var lista = getListaTiposDeDocumento();
                 lista.Insert(0, new TipoDocumentoDTO() { IdTipoDocumento = 0, Nombre = "Seleccione un tipo" });
                 return lista;
+            }
+        }
+
+        public List<Select2DTO_B> getComprobantesPendientesEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && !x.Ejecutado && x.Estado).Select(x => new Select2DTO_B
+                    {
+                        id = x.IdComprobante,
+                        text = x.NroDocumento
+                    }).ToList();
+                return result;
             }
         }
     }

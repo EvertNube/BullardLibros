@@ -16,15 +16,15 @@ namespace BullardLibros.Data
     {
         public Moneda()
         {
-            this.Comprobante = new HashSet<Comprobante>();
             this.CuentaBancaria = new HashSet<CuentaBancaria>();
+            this.Comprobante = new HashSet<Comprobante>();
         }
     
         public int IdMoneda { get; set; }
         public string Nombre { get; set; }
         public string Simbolo { get; set; }
     
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
     }
 }
