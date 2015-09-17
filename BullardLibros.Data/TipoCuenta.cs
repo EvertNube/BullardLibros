@@ -12,19 +12,17 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Moneda
+    public partial class TipoCuenta
     {
-        public Moneda()
+        public TipoCuenta()
         {
-            this.Comprobante = new HashSet<Comprobante>();
             this.CuentaBancaria = new HashSet<CuentaBancaria>();
         }
     
-        public int IdMoneda { get; set; }
+        public int IdTipoCuenta { get; set; }
         public string Nombre { get; set; }
-        public string Simbolo { get; set; }
+        public bool Estado { get; set; }
     
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
     }
 }

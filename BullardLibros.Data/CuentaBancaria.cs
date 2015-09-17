@@ -27,9 +27,11 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
         public Nullable<int> IdMoneda { get; set; }
         public int IdEmpresa { get; set; }
+        public Nullable<int> IdTipoCuenta { get; set; }
     
         public virtual Empresa Empresa { get; set; }
         public virtual Moneda Moneda { get; set; }
+        public virtual TipoCuenta TipoCuenta { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

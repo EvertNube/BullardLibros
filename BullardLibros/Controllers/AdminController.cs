@@ -107,7 +107,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
             EmpresaBL empBL = new EmpresaBL();
-
+            /*
             if(isSuperAdministrator())
             {
                 MenuNavBarSelected(0);
@@ -116,7 +116,7 @@ namespace BullardLibros.Controllers
                 listaEmpresas = empBL.getEmpresas();
 
                 return View(listaEmpresas);
-            }
+            }*/
 
             MenuNavBarSelected(1);
 

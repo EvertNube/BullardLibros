@@ -122,6 +122,9 @@
     <Compile Include="TipoComprobante.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TipoCuenta.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TipoDocumento.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
