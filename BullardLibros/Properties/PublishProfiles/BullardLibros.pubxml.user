@@ -22,13 +22,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2014 16:13:32</publishTime>
     </File>
     <File Include="bin/BullardLibros.Core.dll">
-      <publishTime>09/14/2015 16:22:32</publishTime>
+      <publishTime>09/17/2015 18:13:50</publishTime>
     </File>
     <File Include="bin/BullardLibros.Data.dll">
-      <publishTime>09/14/2015 16:22:30</publishTime>
+      <publishTime>09/17/2015 18:13:49</publishTime>
     </File>
     <File Include="bin/BullardLibros.dll">
-      <publishTime>09/14/2015 16:22:34</publishTime>
+      <publishTime>09/17/2015 18:13:51</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.dll">
       <publishTime>09/14/2015 16:22:30</publishTime>
@@ -2209,13 +2209,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/09/2015 13:44:58</publishTime>
     </File>
     <File Include="Views/Admin/Libros.cshtml">
-      <publishTime>08/31/2015 15:18:59</publishTime>
+      <publishTime>09/17/2015 18:11:33</publishTime>
     </File>
     <File Include="Views/Admin/LibroVista.cshtml">
       <publishTime>08/27/2015 17:04:27</publishTime>
     </File>
     <File Include="Views/Admin/Movimiento.cshtml">
-      <publishTime>09/10/2015 18:02:44</publishTime>
+      <publishTime>09/17/2015 17:07:51</publishTime>
     </File>
     <File Include="Views/Admin/Movimientos.cshtml">
       <publishTime>08/31/2015 17:50:47</publishTime>
@@ -2254,7 +2254,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2015 13:23:11</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutAdmin.cshtml">
-      <publishTime>09/09/2015 18:39:28</publishTime>
+      <publishTime>09/17/2015 18:06:22</publishTime>
     </File>
     <File Include="Views/Shared/_showAlertMessages.cshtml">
       <publishTime>08/18/2015 13:23:11</publishTime>

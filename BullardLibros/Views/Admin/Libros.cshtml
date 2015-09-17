@@ -1,14 +1,17 @@
-﻿@using System.Globalization;
+﻿@using BullardLibros.Core.DTO
+@using System.Globalization;
 @model IList<BullardLibros.Core.DTO.CuentaBancariaDTO>
 @{
     ViewBag.Title = "NubeLabs SCI - Libros";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
+    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
 }
 @section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
     @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     <script type="text/javascript">
         var totalConSoles = '';

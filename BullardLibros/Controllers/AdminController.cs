@@ -195,7 +195,7 @@ namespace BullardLibros.Controllers
             return RedirectToAction("Empresa");
         }
 
-        public ActionResult Libros()
+        public ActionResult Libros(int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 

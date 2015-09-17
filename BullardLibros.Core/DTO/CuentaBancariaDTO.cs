@@ -19,6 +19,7 @@ namespace BullardLibros.Core.DTO
         public bool Estado { get; set; }
         public int? IdMoneda { get; set; }
         public int IdEmpresa { get; set; }
+        public int? IdTipoCuenta { get; set; }
         public IList<MovimientoDTO> listaMovimiento { get; set; }
         public IPagedList<MovimientoDTO> listaMovimientoPL { get; set; }
 

@@ -54,6 +54,7 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="IdMoneda" Type="int" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
+    <Property Name="IdTipoCuenta" Type="int" />
   </EntityType>
   <EntityType Name="Empresa">
     <Key>
@@ -112,8 +113,7 @@
     <Property Name="IdMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
-    <Property Name="IdTipoMovimiento" Type="int" Nullable="false" />
-    <Property Name="IdFormaMovimiento" Type="int" />
+    <Property Name="IdFormaMovimiento" Type="int" Nullable="false" />
     <Property Name="IdTipoDocumento" Type="int" />
     <Property Name="IdCategoria" Type="int" />
     <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
@@ -162,6 +162,14 @@
     </Key>
     <Property Name="IdTipoComprobante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoCuenta">
+    <Key>
+      <PropertyRef Name="IdTipoCuenta" />
+    </Key>
+    <Property Name="IdTipoCuenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoDocumento">
@@ -320,6 +328,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_CuentaBancaria_TipoCuenta">
+    <End Role="TipoCuenta" Type="Self.TipoCuenta" Multiplicity="0..1" />
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoCuenta">
+        <PropertyRef Name="IdTipoCuenta" />
+      </Principal>
+      <Dependent Role="CuentaBancaria">
+        <PropertyRef Name="IdTipoCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_EntidadResponsable_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
@@ -429,7 +449,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Movimiento_FormaMovimiento">
-    <End Role="FormaMovimiento" Type="Self.FormaMovimiento" Multiplicity="0..1" />
+    <End Role="FormaMovimiento" Type="Self.FormaMovimiento" Multiplicity="1" />
     <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FormaMovimiento">
@@ -449,18 +469,6 @@
       </Principal>
       <Dependent Role="Movimiento">
         <PropertyRef Name="IdTipoDocumento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Movimiento_TipoMovimiento">
-    <End Role="TipoMovimiento" Type="Self.TipoMovimiento" Multiplicity="1" />
-    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TipoMovimiento">
-        <PropertyRef Name="IdTipoMovimiento" />
-      </Principal>
-      <Dependent Role="Movimiento">
-        <PropertyRef Name="IdTipoMovimiento" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -594,6 +602,7 @@
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoEntidad" EntityType="Self.TipoEntidad" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoIdentificacion" EntityType="Self.TipoIdentificacion" Schema="dbo" store:Type="Tables" />
@@ -633,6 +642,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_CuentaBancaria_Moneda" Association="Self.FK_CuentaBancaria_Moneda">
       <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentaBancaria_TipoCuenta" Association="Self.FK_CuentaBancaria_TipoCuenta">
+      <End Role="TipoCuenta" EntitySet="TipoCuenta" />
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
@@ -677,10 +690,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_TipoDocumento" Association="Self.FK_Movimiento_TipoDocumento">
       <End Role="TipoDocumento" EntitySet="TipoDocumento" />
-      <End Role="Movimiento" EntitySet="Movimiento" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Movimiento_TipoMovimiento" Association="Self.FK_Movimiento_TipoMovimiento">
-      <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
     <AssociationSet Name="FK_Movimiento_Usuario" Association="Self.FK_Movimiento_Usuario">
