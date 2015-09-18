@@ -30,7 +30,8 @@ namespace BullardLibros.Core.BL
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
                     IdMoneda = x.IdMoneda,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    IdTipoCuenta = x.IdTipoCuenta
                 }).ToList();
                 return result;
             }
@@ -49,7 +50,8 @@ namespace BullardLibros.Core.BL
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
                     IdMoneda = x.IdMoneda,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    IdTipoCuenta = x.IdTipoCuenta
                 }).ToList();
                 return result;
             }
@@ -68,7 +70,8 @@ namespace BullardLibros.Core.BL
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
                     IdMoneda = x.IdMoneda,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    IdTipoCuenta = x.IdTipoCuenta
                 }).ToList();
                 return result;
             }
@@ -88,7 +91,8 @@ namespace BullardLibros.Core.BL
                     Estado = x.Estado,
                     SimboloMoneda = x.Moneda.Simbolo,
                     IdMoneda = x.IdMoneda,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    IdTipoCuenta = x.IdTipoCuenta
                 }).ToList();
                 return result;
             }
@@ -113,6 +117,7 @@ namespace BullardLibros.Core.BL
                         NombreMoneda = r.Moneda.Nombre,
                         SimboloMoneda = r.Moneda.Simbolo,
                         IdEmpresa = r.IdEmpresa,
+                        IdTipoCuenta = r.IdTipoCuenta,
                         listaMovimiento = r.Movimiento.Select(x => new MovimientoDTO {
                             IdMovimiento = x.IdMovimiento,
                             IdCuentaBancaria = x.IdCuentaBancaria,
@@ -151,6 +156,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Estado = true;
                     nuevo.IdMoneda = CuentaBancaria.IdMoneda;
                     nuevo.IdEmpresa = CuentaBancaria.IdEmpresa;
+                    nuevo.IdTipoCuenta = CuentaBancaria.IdTipoCuenta;
                     context.CuentaBancaria.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -177,6 +183,7 @@ namespace BullardLibros.Core.BL
                     datoRow.Estado = CuentaBancaria.Estado;
                     datoRow.IdMoneda = CuentaBancaria.IdMoneda;
                     datoRow.IdEmpresa = CuentaBancaria.IdEmpresa;
+                    datoRow.IdTipoCuenta = CuentaBancaria.IdTipoCuenta;
                     context.SaveChanges();
                     return true;
                 }
@@ -251,6 +258,20 @@ namespace BullardLibros.Core.BL
                 var lista = getMonedasViewBag();
                 lista.Insert(0, new MonedaDTO() { IdMoneda = 0, Nombre = "Seleccione una Moneda" });
                 return lista;
+            }
+        }
+
+        public List<TipoCuentaDTO> getTipoDeCuentas()
+        {
+            using (var context = getContext())
+            {
+                var result = context.TipoCuenta.Select(x => new TipoCuentaDTO
+                {
+                    IdTipoCuenta = x.IdTipoCuenta,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
             }
         }
     }

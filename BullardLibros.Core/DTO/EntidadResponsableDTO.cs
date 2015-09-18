@@ -18,5 +18,7 @@ namespace BullardLibros.Core.DTO
         public string Tipo { get; set; }
         public int IdEmpresa { get; set; }
         public string NroIdentificacion { get; set; }
+
+        public string NombreTipoEntidad { get; set; }
     }
 }

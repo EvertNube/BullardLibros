@@ -105,9 +105,9 @@ namespace BullardLibros.Controllers
         public ActionResult Index()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-
-            EmpresaBL empBL = new EmpresaBL();
             /*
+            EmpresaBL empBL = new EmpresaBL();
+            
             if(isSuperAdministrator())
             {
                 MenuNavBarSelected(0);
@@ -116,7 +116,7 @@ namespace BullardLibros.Controllers
                 listaEmpresas = empBL.getEmpresas();
 
                 return View(listaEmpresas);
-            }*/
+            }
 
             MenuNavBarSelected(1);
 
@@ -128,8 +128,8 @@ namespace BullardLibros.Controllers
             ViewBag.TotalSoles = DameTotalSoles(listaLibros);
             ViewBag.TotalDolares = DameTotalDolares(listaLibros);
             ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
-
-            return View("Libros", listaLibros);
+            return View("Libros", listaLibros);*/
+            return RedirectToAction("Libros", "Admin");
         }
         public ActionResult Empresa(int? id = null)
         {
@@ -204,6 +204,8 @@ namespace BullardLibros.Controllers
             UsuarioDTO miUsuario = getCurrentUser();
             
             CuentaBancariaBL objBL = new CuentaBancariaBL();
+            ViewBag.lstTipoCuentas = objBL.getTipoDeCuentas();
+            ViewBag.idTipoCuenta = idTipoCuenta;
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
 
             if(miUsuario.IdEmpresa != 0)
@@ -227,7 +229,7 @@ namespace BullardLibros.Controllers
             return View("Libros", listaLibros);
         }
 
-        public ActionResult Libro(int? id = null, int? page = null)
+        public ActionResult Libro(int? id = null, int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
@@ -248,18 +250,18 @@ namespace BullardLibros.Controllers
                 if (obj == null) return RedirectToAction("Index");
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
 
-                int pageSize = 100;
+                /*int pageSize = 100;
                 int pageNumber = (page ?? 1);
                 //Guardar Paginado
                 TempData["PagMovs"] = (page ?? 1);
-
-                obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
-                
+                obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);*/
+                //(int? id = null, int? idTipoComprobante = null)
                 return View(obj);
             }
 
             obj = new CuentaBancariaDTO();
             obj.IdEmpresa = miUsuario.IdEmpresa;
+            if (idTipoCuenta != null && idTipoCuenta != 0) obj.IdTipoCuenta = idTipoCuenta.GetValueOrDefault();
 
             return View(obj);
         }
@@ -270,13 +272,16 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             try
             {
+                int TipoCuenta = 1; //Por defecto tipo de comprobante Ingreso
+                if (dto != null) { TipoCuenta = dto.IdTipoCuenta.GetValueOrDefault(); }
+
                 CuentaBancariaBL objBL = new CuentaBancariaBL();
                 if (dto.IdCuentaBancaria == 0)
                 {
                     if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Libros", "Admin");
+                        return RedirectToAction("Libros", "Admin", new { idTipoCuenta = TipoCuenta });
                     }
                 }
                 else if (dto.IdCuentaBancaria != 0)
@@ -284,7 +289,7 @@ namespace BullardLibros.Controllers
                     if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Libros", "Admin");
+                        return RedirectToAction("Libros", "Admin", new { idTipoCuenta = TipoCuenta });
                     }
                     else
                     {
@@ -1611,7 +1616,7 @@ namespace BullardLibros.Controllers
             Decimal Total = 0;
             foreach (var libro in listaLibros)
             {
-                if (libro.IdMoneda.GetValueOrDefault() == 1 && libro.Estado == true) //Soles
+                if (libro.IdMoneda.GetValueOrDefault() == 1 && libro.Estado && libro.IdTipoCuenta == 1) //Soles
                 {
                     Total += libro.SaldoDisponible;
                 }
@@ -1623,7 +1628,7 @@ namespace BullardLibros.Controllers
             Decimal Total = 0;
             foreach (var libro in listaLibros)
             {
-                if (libro.IdMoneda.GetValueOrDefault() == 2 && libro.Estado == true) //Dolares
+                if (libro.IdMoneda.GetValueOrDefault() == 2 && libro.Estado && libro.IdTipoCuenta == 1) //Dolares
                 {
                     Total += libro.SaldoDisponible;
                 }
@@ -1636,14 +1641,14 @@ namespace BullardLibros.Controllers
 
             foreach (var libro in listaLibros)
             {
-                if (libro.IdMoneda.GetValueOrDefault() == 1 && libro.Estado == true) //Soles
+                if (libro.IdMoneda.GetValueOrDefault() == 1 && libro.Estado && libro.IdTipoCuenta == 1) //Soles
                 {
                     Total += libro.SaldoDisponible;
                 }
             }
             foreach (var libro in listaLibros)
             {
-                if (libro.IdMoneda.GetValueOrDefault() == 2 && libro.Estado == true) //Dolares
+                if (libro.IdMoneda.GetValueOrDefault() == 2 && libro.Estado && libro.IdTipoCuenta == 1) //Dolares
                 {
                     Total += libro.SaldoDisponible * 3;
                 }

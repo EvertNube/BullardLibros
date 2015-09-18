@@ -82,7 +82,7 @@ namespace BullardLibros.Core.BL
                     nuevo.IdCuentaBancaria = Movimiento.IdCuentaBancaria;
                     nuevo.IdEntidadResponsable = Movimiento.IdEntidadResponsable;
                     nuevo.IdFormaMovimiento = Movimiento.IdFormaMovimiento;
-                    nuevo.IdTipoDocumento = Movimiento.IdTipoDocumento;
+                    nuevo.IdTipoDocumento = (Movimiento.IdTipoDocumento != 0 && Movimiento.IdTipoDocumento != null ) ? Movimiento.IdTipoDocumento : null;
                     //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
                     nuevo.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     nuevo.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;

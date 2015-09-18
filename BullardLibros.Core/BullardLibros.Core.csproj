@@ -86,6 +86,7 @@
     <Compile Include="DTO\Select2DTO_B.cs" />
     <Compile Include="DTO\SelectDTO.cs" />
     <Compile Include="DTO\TipoComprobanteDTO.cs" />
+    <Compile Include="DTO\TipoCuentaDTO.cs" />
     <Compile Include="DTO\TipoDocumentoDTO.cs" />
     <Compile Include="DTO\TipoEntidadDTO.cs" />
     <Compile Include="DTO\TipoIdentificacionDTO.cs" />
