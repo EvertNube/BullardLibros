@@ -244,7 +244,7 @@ namespace BullardLibros.Controllers
             if (objSent != null) { TempData["Libro"] = null; return View(objSent); }
 
             CuentaBancariaDTO obj;
-            if (id != null)
+            if (id != null && id != 0)
             { 
                 obj = objBL.getCuentaBancaria((int)id);
                 if (obj == null) return RedirectToAction("Index");
@@ -260,6 +260,7 @@ namespace BullardLibros.Controllers
             }
 
             obj = new CuentaBancariaDTO();
+            obj.FechaConciliacion = DateTime.Now;
             obj.IdEmpresa = miUsuario.IdEmpresa;
             if (idTipoCuenta != null && idTipoCuenta != 0) obj.IdTipoCuenta = idTipoCuenta.GetValueOrDefault();
 
