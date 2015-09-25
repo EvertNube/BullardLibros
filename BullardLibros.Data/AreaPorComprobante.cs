@@ -12,20 +12,14 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Area
+    public partial class AreaPorComprobante
     {
-        public Area()
-        {
-            this.AreaPorComprobante = new HashSet<AreaPorComprobante>();
-        }
-    
         public int IdArea { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public bool Estado { get; set; }
-        public int IdEmpresa { get; set; }
+        public int IdComprobante { get; set; }
+        public decimal Monto { get; set; }
+        public decimal Porcentaje { get; set; }
     
-        public virtual Empresa Empresa { get; set; }
-        public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
+        public virtual Area Area { get; set; }
+        public virtual Comprobante Comprobante { get; set; }
     }
 }

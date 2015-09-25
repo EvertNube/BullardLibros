@@ -27,7 +27,7 @@ namespace BullardLibros.Models
             }*/
             //Ultima seccion del menu tiene Mini-menus
             lstOptions.Last().lstOptions = new List<Option>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
                 lstOptions.Last().lstOptions.Add(new Option() { cadena = "" });
             }

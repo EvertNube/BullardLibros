@@ -27,7 +27,8 @@ namespace BullardLibros.Core.BL
                     Detraccion = x.Detraccion,
                     Tipo = x.Tipo,
                     IdEmpresa = x.IdEmpresa,
-                    NroIdentificacion = x.NroIdentificacion
+                    NroIdentificacion = x.NroIdentificacion,
+                    NombreIdentificacion = x.NroIdentificacion != null ? x.TipoIdentificacion.Nombre + " - " + x.NroIdentificacion : "N/A"
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }

@@ -12,6 +12,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AreaPorComprobante">
+      <EntityTypeMapping TypeName="LibrosDBModel.AreaPorComprobante">
+        <MappingFragment StoreEntitySet="AreaPorComprobante">
+          <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Categoria">
       <EntityTypeMapping TypeName="LibrosDBModel.Categoria">
         <MappingFragment StoreEntitySet="Categoria">
@@ -43,6 +53,7 @@
           <ScalarProperty Name="Comentario" ColumnName="Comentario" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Ejecutado" ColumnName="Ejecutado" />
+          <ScalarProperty Name="IdHonorario" ColumnName="IdHonorario" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -107,6 +118,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Honorario">
+      <EntityTypeMapping TypeName="LibrosDBModel.Honorario">
+        <MappingFragment StoreEntitySet="Honorario">
+          <ScalarProperty Name="IdHonorario" ColumnName="IdHonorario" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Moneda">
       <EntityTypeMapping TypeName="LibrosDBModel.Moneda">
         <MappingFragment StoreEntitySet="Moneda">
@@ -136,6 +157,17 @@
           <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
           <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
           <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Proyecto">
+      <EntityTypeMapping TypeName="LibrosDBModel.Proyecto">
+        <MappingFragment StoreEntitySet="Proyecto">
+          <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

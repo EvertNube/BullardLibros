@@ -28,6 +28,7 @@ namespace BullardLibros.Data
         }
     
         public virtual DbSet<Area> Area { get; set; }
+        public virtual DbSet<AreaPorComprobante> AreaPorComprobante { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
         public virtual DbSet<Comprobante> Comprobante { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
@@ -35,8 +36,10 @@ namespace BullardLibros.Data
         public virtual DbSet<EntidadResponsable> EntidadResponsable { get; set; }
         public virtual DbSet<EstadoMovimiento> EstadoMovimiento { get; set; }
         public virtual DbSet<FormaMovimiento> FormaMovimiento { get; set; }
+        public virtual DbSet<Honorario> Honorario { get; set; }
         public virtual DbSet<Moneda> Moneda { get; set; }
         public virtual DbSet<Movimiento> Movimiento { get; set; }
+        public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Responsable> Responsable { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }

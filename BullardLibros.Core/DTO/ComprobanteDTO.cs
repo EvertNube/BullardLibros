@@ -25,6 +25,7 @@ namespace BullardLibros.Core.DTO
         public string Comentario { get; set; }
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
+        public int? IdHonorario { get; set; }
 
         //Nombres
         public string NombreTipoComprobante { get; set; }

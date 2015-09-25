@@ -12,20 +12,19 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Area
+    public partial class Honorario
     {
-        public Area()
+        public Honorario()
         {
-            this.AreaPorComprobante = new HashSet<AreaPorComprobante>();
+            this.Comprobante = new HashSet<Comprobante>();
         }
     
-        public int IdArea { get; set; }
+        public int IdHonorario { get; set; }
         public string Nombre { get; set; }
-        public string Descripcion { get; set; }
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
     
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
-        public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
     }
 }

@@ -767,6 +767,7 @@ namespace BullardLibros.Controllers
             ViewBag.lstMonedas = objBL.getListaMonedas();
             ViewBag.lstAreas = objBL.getListaAreasEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstResponsables = objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.lstHonorarios = objBL.getListaHonorariosEnEmpresa(currentUser.IdEmpresa);
             ViewBag.Categorias = CategoriasBucle(null, null);
             
             var objSent = TempData["Comprobante"];
@@ -1000,6 +1001,92 @@ namespace BullardLibros.Controllers
             }
             TempData["Responsable"] = dto;
             return RedirectToAction("Responsable");
+        }
+
+        public ActionResult Honorarios()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+
+            MenuNavBarSelected(4, 6);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            HonorarioBL objBL = new HonorarioBL();
+            List<HonorarioDTO> listaHonorarios = new List<HonorarioDTO>();
+
+            if (currentUser.IdEmpresa > 0)
+            {
+                listaHonorarios = objBL.getHonorariosEnEmpresa(currentUser.IdEmpresa);
+            }
+            return View(listaHonorarios);
+        }
+
+        public ActionResult Honorario(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            MenuNavBarSelected(4, 6);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            HonorarioBL objBL = new HonorarioBL();
+
+            var objSent = TempData["Honorario"];
+            if (objSent != null) { TempData["Honorario"] = null; return View(objSent); }
+
+            HonorarioDTO obj;
+            if (id != null)
+            {
+                obj = objBL.getHonorarioEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Honorarios");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Honorarios");
+                return View(obj);
+            }
+            obj = new HonorarioDTO();
+            obj.IdEmpresa = currentUser.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddHonorario(HonorarioDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                HonorarioBL objBL = new HonorarioBL();
+                if (dto.IdHonorario == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Honorarios");
+                    }
+                }
+                else if (dto.IdHonorario != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Honorarios");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdHonorario != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Honorario"] = dto;
+            return RedirectToAction("Honorario");
         }
 
         #region APIs adicionales

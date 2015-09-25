@@ -32,6 +32,7 @@ namespace BullardLibros.Core.BL
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
+                    IdHonorario = x.IdHonorario,
                     NombreEntidad = x.EntidadResponsable.Nombre,
                     NombreMoneda = x.Moneda.Nombre,
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
@@ -62,6 +63,7 @@ namespace BullardLibros.Core.BL
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
+                    IdHonorario = x.IdHonorario,
                     NombreEntidad = x.EntidadResponsable.Nombre,
                     NombreMoneda = x.Moneda.Nombre,
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
@@ -93,6 +95,7 @@ namespace BullardLibros.Core.BL
                         FechaConclusion = r.FechaConclusion,
                         Comentario = r.Comentario,
                         Estado = r.Estado,
+                        IdHonorario = r.IdHonorario,
                         NombreEntidad = r.EntidadResponsable.Nombre,
                         NombreMoneda = r.Moneda.Nombre,
                         NombreTipoComprobante = r.TipoComprobante.Nombre,
@@ -124,6 +127,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Comentario = Comprobante.Comentario;
                     nuevo.Estado = true;
                     nuevo.Ejecutado = false;
+                    nuevo.IdHonorario = Comprobante.IdHonorario;
                     context.Comprobante.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -155,6 +159,7 @@ namespace BullardLibros.Core.BL
                     row.FechaConclusion = Comprobante.FechaConclusion;
                     row.Comentario = Comprobante.Comentario;
                     row.Estado = Comprobante.Estado;
+                    row.IdHonorario = Comprobante.IdHonorario;
                     context.SaveChanges();
                     return true;
                 }
@@ -307,5 +312,10 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public List<HonorarioDTO> getListaHonorariosEnEmpresa(int idEmpresa)
+        {
+            HonorarioBL objBL = new HonorarioBL();
+            return objBL.getHonorariosEnEmpresaViewBag(idEmpresa);
+        }
     }
 }
