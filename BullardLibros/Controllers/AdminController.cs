@@ -245,7 +245,7 @@ namespace BullardLibros.Controllers
 
             CuentaBancariaDTO obj;
             if (id != null && id != 0)
-            { 
+            {
                 obj = objBL.getCuentaBancaria((int)id);
                 if (obj == null) return RedirectToAction("Index");
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
@@ -645,7 +645,7 @@ namespace BullardLibros.Controllers
             return RedirectToAction("Usuario");
         }
 
-        public ActionResult Entidades()
+        public ActionResult Entidades(int? idTipoEntidad = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -654,6 +654,7 @@ namespace BullardLibros.Controllers
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
+            ViewBag.idTipoEntidad = idTipoEntidad;
             List<EntidadResponsableDTO> listaEntidades = new List<EntidadResponsableDTO>();
             ViewBag.lstTipoEntidades = objBL.getTipoDeEntidades();
             
@@ -698,13 +699,15 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             try
             {
+                int TipoEntidad = 1; //Por defecto tipo de comprobante Ingreso
+                if (dto != null) { TipoEntidad = dto.IdTipoEntidad.GetValueOrDefault(); }
                 EntidadResponsableBL objBL = new EntidadResponsableBL();
                 if (dto.IdEntidadResponsable == 0)
                 {
                     if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Entidades");
+                        return RedirectToAction("Entidades", "Admin", new { idTipoEntidad = TipoEntidad });
                     }
                 }
                 else if (dto.IdEntidadResponsable != 0)
@@ -712,7 +715,7 @@ namespace BullardLibros.Controllers
                     if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("Entidades");
+                        return RedirectToAction("Entidades", "Admin", new { idTipoEntidad = TipoEntidad });
                     }
                     else
                     {
@@ -1087,6 +1090,86 @@ namespace BullardLibros.Controllers
             }
             TempData["Honorario"] = dto;
             return RedirectToAction("Honorario");
+        }
+
+        public ActionResult Proyectos()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ProyectoBL objBL = new ProyectoBL();
+            return View(objBL.getProyectos());
+        }
+
+        public ActionResult Proyecto(int? id = null, int? idEntidad = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            MenuNavBarSelected(4, 3);
+            UsuarioDTO miUsuario = getCurrentUser();
+
+            ProyectoBL objBL = new ProyectoBL();
+            ViewBag.IdProyecto = id;
+
+            var objSent = TempData["Proyecto"];
+            if (objSent != null) { TempData["Proyecto"] = null; return View(objSent); }
+            if (id == 0 && idEntidad != null)
+            {
+                ProyectoDTO nuevo = new ProyectoDTO();
+                nuevo.IdEntidadResponsable = (int)idEntidad;
+                nuevo.Estado = true;
+                return View(nuevo);
+            }
+            else
+            {
+                if (id != null)
+                {
+                    ProyectoDTO obj = objBL.getProyecto((int)id);
+                    return View(obj);
+                }
+            }
+            return View();
+        }
+
+        public ActionResult AddProyecto(ProyectoDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                ProyectoBL objBL = new ProyectoBL();
+                if (dto.IdProyecto == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Entidad", new { id = dto.IdEntidadResponsable });
+                    }
+                }
+                else if (dto.IdProyecto != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Entidad", new { id = dto.IdEntidadResponsable });
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdProyecto != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Proyecto"] = dto;
+            return RedirectToAction("Proyecto");
         }
 
         #region APIs adicionales

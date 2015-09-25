@@ -845,6 +845,7 @@
     <Content Include="Views\Admin\Responsable.cshtml" />
     <Content Include="Views\Admin\Honorarios.cshtml" />
     <Content Include="Views\Admin\Honorario.cshtml" />
+    <Content Include="Views\Admin\Proyecto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

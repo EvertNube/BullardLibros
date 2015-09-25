@@ -66,6 +66,7 @@
     <Compile Include="BL\EstadoMovimientoBL.cs" />
     <Compile Include="BL\HonorarioBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
+    <Compile Include="BL\ProyectoBL.cs" />
     <Compile Include="BL\ResponsableBL.cs" />
     <Compile Include="BL\TipoMovimientoBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />

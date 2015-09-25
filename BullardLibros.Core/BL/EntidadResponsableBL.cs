@@ -110,7 +110,14 @@ namespace BullardLibros.Core.BL
                         Detraccion = r.Detraccion,
                         Tipo = r.Tipo,
                         IdEmpresa = r.IdEmpresa,
-                        NroIdentificacion = r.NroIdentificacion
+                        NroIdentificacion = r.NroIdentificacion,
+                        lstProyectos = r.Proyecto.Select(x => new ProyectoDTO {
+                            IdProyecto = x.IdProyecto,
+                            IdEntidadResponsable = x.IdEntidadResponsable,
+                            Nombre = x.Nombre,
+                            Descripcion = x.Descripcion,
+                            Estado = x.Estado
+                        }).ToList()
                     }).SingleOrDefault();
                 return result;
             }

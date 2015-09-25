@@ -7,12 +7,18 @@
 @section Styles{
     @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
     @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
 }
 @section Scripts{
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     <script type="text/javascript">
         $(function () {
             $('.miselect2').select2();
+
+            $('.dataTable').DataTable();
         });
 
         function CheckNumericValue(e) {
@@ -41,12 +47,12 @@
                 {
                     <h2>Actualizar Entidad Responsable</h2>
                 }
+                <div class="row m-b">
+                    <div class="col-xs-12 col-md-8">
+                        @using (Html.BeginForm("AddEntidad", "Admin", FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true)
 
-                @using (Html.BeginForm("AddEntidad", "Admin", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <div class="row m-b">
-                        <div class="col-xs-12 col-md-8">
                             @Html.Partial("_showAlertMessages")
 
                             <section class="panel panel-default">
@@ -101,12 +107,62 @@
                                     @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-success">@btnName</button>
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Entidades")">Salir</a>
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Entidades", "Admin", new { idTipoEntidad = Model.IdTipoEntidad })">Salir</a>
                                 </div>
                             </section>
-                        </div>
+                        }
+
+                        @if (Model != null && Model.IdEntidadResponsable != 0)
+                        {
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12" style="transform: translateY(35%)">Proyectos</div>
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <div class="col-md-4 col-sm-6 text-sm">
+                                                <div class="btn-group">
+                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6">
+                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Proyecto</a>
+                                            </div>
+                                        }
+                                    </div>
+                                </header>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">Nombre</th>
+                                                <th>Descripción</th>
+                                                <th class="text-center" width="10%">Opc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.lstProyectos != null)
+                                            {
+                                                foreach (var obj in Model.lstProyectos)
+                                                {
+                                                    var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                    <tr @Html.Raw(classInactive)>
+                                                        <td width="15%">@obj.Nombre</td>
+                                                        <td>@obj.Descripcion</td>
+                                                        @if (ViewBag.EsAdmin)
+                                                        {
+                                                            <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        }
                     </div>
-                }
+                </div>
             </div>
         </div>
     </section>
