@@ -167,6 +167,36 @@
                                             @Html.ValidationMessageFor(u => u.Comentario)
                                         </div>
                                     </div>
+                                    <div class=" form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-lg-1">Area</label>
+                                            <div class="col-lg-4">
+                                                @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            </div>
+                                            <label class="col-lg-1">Monto</label>
+                                            <div class="col-lg-4">
+                                                @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Area Por Monto">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-lg-3"></label>
+                                            <div class="col-lg-8">
+                                                @Html.DropDownListFor(u => u.lstMontos, new MultiSelectList(Model != null ? ViewBag.Montos ?? new List<AreaPorComprobanteDTO>() : new List<AreaPorComprobanteDTO>(), "IdArea", "Monto"), new { @multiple = "multiple", @class = "form-control" })
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Plantilla">
+                                                    <i class="fa fa-minus-circle"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
                                     {
                                         <div class="line line-dashed line-md pull-in"></div>

@@ -10,6 +10,16 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="AreaPorComprobante">
+    <Key>
+      <PropertyRef Name="IdArea" />
+      <PropertyRef Name="IdComprobante" />
+    </Key>
+    <Property Name="IdArea" Type="int" Nullable="false" />
+    <Property Name="IdComprobante" Type="int" Nullable="false" />
+    <Property Name="Monto" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Porcentaje" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+  </EntityType>
   <EntityType Name="Categoria">
     <Key>
       <PropertyRef Name="IdCategoria" />
@@ -41,6 +51,7 @@
     <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Ejecutado" Type="bit" Nullable="false" />
+    <Property Name="IdHonorario" Type="int" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -98,6 +109,15 @@
     <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="Honorario">
+    <Key>
+      <PropertyRef Name="IdHonorario" />
+    </Key>
+    <Property Name="IdHonorario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Moneda">
     <Key>
       <PropertyRef Name="IdMoneda" />
@@ -127,6 +147,16 @@
     <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
     <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
     <Property Name="IdComprobante" Type="int" />
+  </EntityType>
+  <EntityType Name="Proyecto">
+    <Key>
+      <PropertyRef Name="IdProyecto" />
+    </Key>
+    <Property Name="IdProyecto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Responsable">
     <Key>
@@ -232,6 +262,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_AreaPorComprobante_Area">
+    <End Role="Area" Type="Self.Area" Multiplicity="1" />
+    <End Role="AreaPorComprobante" Type="Self.AreaPorComprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Area">
+        <PropertyRef Name="IdArea" />
+      </Principal>
+      <Dependent Role="AreaPorComprobante">
+        <PropertyRef Name="IdArea" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AreaPorComprobante_Comprobante">
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="1" />
+    <End Role="AreaPorComprobante" Type="Self.AreaPorComprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comprobante">
+        <PropertyRef Name="IdComprobante" />
+      </Principal>
+      <Dependent Role="AreaPorComprobante">
+        <PropertyRef Name="IdComprobante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Categoria_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Categoria" Type="Self.Categoria" Multiplicity="*" />
@@ -265,6 +319,18 @@
       </Principal>
       <Dependent Role="Comprobante">
         <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Honorario">
+    <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Honorario">
+        <PropertyRef Name="IdHonorario" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdHonorario" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -388,6 +454,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Honorario_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Honorario" Type="Self.Honorario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Honorario">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Movimiento_Categoria">
     <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
     <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
@@ -481,6 +559,18 @@
       </Principal>
       <Dependent Role="Movimiento">
         <PropertyRef Name="UsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyecto_EntidadResponsable">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Proyecto">
+        <PropertyRef Name="IdEntidadResponsable" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -589,6 +679,7 @@
   <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="LibrosDBModelStoreContainer">
     <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AreaPorComprobante" EntityType="Self.AreaPorComprobante" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Comprobante" EntityType="Self.Comprobante" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" Schema="dbo" store:Type="Tables" />
@@ -596,8 +687,10 @@
     <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FormaMovimiento" EntityType="Self.FormaMovimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Honorario" EntityType="Self.Honorario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -612,6 +705,14 @@
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Area" EntitySet="Area" />
     </AssociationSet>
+    <AssociationSet Name="FK_AreaPorComprobante_Area" Association="Self.FK_AreaPorComprobante_Area">
+      <End Role="Area" EntitySet="Area" />
+      <End Role="AreaPorComprobante" EntitySet="AreaPorComprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AreaPorComprobante_Comprobante" Association="Self.FK_AreaPorComprobante_Comprobante">
+      <End Role="Comprobante" EntitySet="Comprobante" />
+      <End Role="AreaPorComprobante" EntitySet="AreaPorComprobante" />
+    </AssociationSet>
     <AssociationSet Name="FK_Categoria_Empresa" Association="Self.FK_Categoria_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Categoria" EntitySet="Categoria" />
@@ -622,6 +723,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Comprobante_EntidadResponsable" Association="Self.FK_Comprobante_EntidadResponsable">
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Honorario" Association="Self.FK_Comprobante_Honorario">
+      <End Role="Honorario" EntitySet="Honorario" />
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>
     <AssociationSet Name="FK_Comprobante_Moneda" Association="Self.FK_Comprobante_Moneda">
@@ -664,6 +769,10 @@
       <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
       <End Role="FormaMovimiento" EntitySet="FormaMovimiento" />
     </AssociationSet>
+    <AssociationSet Name="FK_Honorario_Empresa" Association="Self.FK_Honorario_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Honorario" EntitySet="Honorario" />
+    </AssociationSet>
     <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
       <End Role="Categoria" EntitySet="Categoria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
@@ -695,6 +804,10 @@
     <AssociationSet Name="FK_Movimiento_Usuario" Association="Self.FK_Movimiento_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyecto_EntidadResponsable" Association="Self.FK_Proyecto_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Proyecto" EntitySet="Proyecto" />
     </AssociationSet>
     <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />

@@ -94,7 +94,7 @@
                                                 <i class="fa fa-book icon">
                                                     <b class="bg-success"></b>
                                                 </i>
-                                                <span>Cuentas Bancarias</span>
+                                                <span>Libros de Control</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[1].cadena">
@@ -131,10 +131,11 @@
                                                 <ul class="nav lt mimenu2" style="display: @miDisplay">
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <a href="@Url.Action("Areas")" class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <i class="fa fa-angle-right"></i> <span>Areas</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <a href="@Url.Action("Categorias")" class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <i class="fa fa-angle-right"></i> <span>Categorias</span> </a> </li> 
-                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <a href="@Url.Action("Entidades")" class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <i class="fa fa-angle-right"></i> <span>Entidadaes</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <a href="@Url.Action("Entidades")" class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <i class="fa fa-angle-right"></i> <span>Entidades</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <a href="@Url.Action("Responsables")" class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <i class="fa fa-angle-right"></i> <span>Responsables</span> </a> </li> 
                                                     @if (ViewBag.EsSuperAdmin)
                                                     {<li class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <a href="@Url.Action("Usuarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <i class="fa fa-angle-right"></i> <span>Usuarios</span> </a> </li> }
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <a href="@Url.Action("Honorarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <i class="fa fa-angle-right"></i> <span>Honorarios</span> </a> </li> 
                                                 </ul>
                                             </li>
                                         }

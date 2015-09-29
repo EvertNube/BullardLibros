@@ -100,7 +100,14 @@ namespace BullardLibros.Core.BL
                         NombreMoneda = r.Moneda.Nombre,
                         NombreTipoComprobante = r.TipoComprobante.Nombre,
                         NombreTipoDocumento = r.TipoDocumento.Nombre,
-                        SimboloMoneda = r.Moneda.Simbolo
+                        SimboloMoneda = r.Moneda.Simbolo,
+                        lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO 
+                        {
+                            IdArea = x.IdArea,
+                            IdComprobante = x.IdComprobante,
+                            Monto = x.Monto,
+                            Porcentaje = x.Porcentaje
+                        }).ToList()
                     }).SingleOrDefault();
                 return result;
             }

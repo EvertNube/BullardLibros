@@ -781,7 +781,8 @@ namespace BullardLibros.Controllers
             {
                 obj = objBL.getComprobanteEnEmpresa((int)currentUser.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Comprobantes");
-                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Comprobantes");                
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Comprobantes");
+                ViewBag.Montos = obj.lstMontos;
 
                 return View(obj);
             }
