@@ -124,18 +124,18 @@
                                                         <i class="fa fa-angle-down text-active"></i>
                                                         <i class="fa fa-angle-up text"></i>
                                                     </span>
-                                                    <span>Data</span>
+                                                    <span>Configuración</span>
                                                 </a>
                                                 @{var miDisplay = "";
                                                      miDisplay = ViewBag.navbar.lstOptions[3].cadena == "active" ? miDisplay = "block;" : miDisplay = "none;"; }
                                                 <ul class="nav lt mimenu2" style="display: @miDisplay">
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <a href="@Url.Action("Areas")" class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <i class="fa fa-angle-right"></i> <span>Areas</span> </a> </li> 
-                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <a href="@Url.Action("Categorias")" class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <i class="fa fa-angle-right"></i> <span>Categorias</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <a href="@Url.Action("Categorias")" class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <i class="fa fa-angle-right"></i> <span>Partidas de Presupuesto</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <a href="@Url.Action("Entidades")" class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <i class="fa fa-angle-right"></i> <span>Entidades</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <a href="@Url.Action("Responsables")" class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <i class="fa fa-angle-right"></i> <span>Responsables</span> </a> </li> 
                                                     @if (ViewBag.EsSuperAdmin)
                                                     {<li class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <a href="@Url.Action("Usuarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <i class="fa fa-angle-right"></i> <span>Usuarios</span> </a> </li> }
-                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <a href="@Url.Action("Honorarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <i class="fa fa-angle-right"></i> <span>Honorarios</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <a href="@Url.Action("Honorarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <i class="fa fa-angle-right"></i> <span>Modalidad de Honorario</span> </a> </li> 
                                                 </ul>
                                             </li>
                                         }
@@ -169,6 +169,30 @@
 
     <script type="text/javascript">
         $(function () {
+            $('.dataTable').DataTable({
+                language: {
+                    processing: "Procesando...",
+                    search: "Buscar:",
+                    lengthMenu: "Mostrar _MENU_ elementos",
+                    info: "Mostrando _START_ de _END_ total _TOTAL_",
+                    infoEmpty: "Mostrando 0 de 0 total 0",
+                    infoPostFix: "",
+                    loadingRecords: "Carga en curso...",
+                    zeroRecords: "Cero acumulados",
+                    emptyTable: "No existen datos en la tabla",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Último"
+                    },
+                    aria: {
+                        sortAscending: ": Ordenar Ascendentemente",
+                        sortDescending: ": Ordenar Descendentemente"
+                    }
+                }
+            });
+
             $('.empresa li').click(function () {
                 var posMenu = $('.mimenu li.active').index();
                 //Para el "mimenu2"
@@ -209,6 +233,9 @@
                             break;
                         case 7:
                             window.location.href = '@Url.Action("Usuarios", "Admin")';
+                            break;
+                        case 8:
+                            window.location.href = '@Url.Action("Honorarios", "Admin")';
                             break;
                         default:
                             window.location.href = '@Url.Action("Index", "Admin")';

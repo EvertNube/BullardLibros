@@ -63,7 +63,7 @@
                                         @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la entidad", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
-                                    <div class="row">
+                                    @*<div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Detracción</label>
                                             @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ing. la detracción", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
@@ -74,7 +74,7 @@
                                             @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Ingrese el tipo de bien o servicio", @type = "text" })
                                             @Html.ValidationMessageFor(u => u.Tipo)
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Tipo de Identificación</label>
@@ -112,7 +112,7 @@
                             </section>
                         }
 
-                        @if (Model != null && Model.IdEntidadResponsable != 0)
+                        @if (Model != null && Model.IdEntidadResponsable != 0 && Model.IdTipoEntidad == 1)
                         {
                             <section class="panel panel-default">
                                 <header class="panel-heading font-bold">

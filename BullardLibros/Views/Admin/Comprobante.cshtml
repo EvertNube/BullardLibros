@@ -24,6 +24,48 @@
                 data: mydata,
                 allowClear: true
             })
+
+            $("#add-monto").click(function () {
+                var existe = false;
+                var valuePlantilla = $('#IdArea :selected').val();
+                if (valuePlantilla > 0) {
+                    var textPlantilla = $('#plantillaInmueble :selected').text();
+                    $('#Plantillas option').each(function () {
+                        if ($(this).val() == valuePlantilla) existe = true;
+                    });
+                    if (!existe) {
+                        $('#Plantillas').append($('<option>', {
+                            value: valuePlantilla,
+                            text: textPlantilla
+                        }));
+                        $('#plantillaInmueble :selected').remove();
+                    } else {
+                        alert("No se puede agregar el protocolo " + textPlantilla + ", porque ya se encuentra agregado.");
+                    }
+                } else {
+                    alert("Por favor, seleccione un protocolo válido.");
+                }
+            });
+            $("#remove-monto").click(function () {
+                var val = $('#Plantillas :selected').val();
+                var text = $('#Plantillas :selected').text();
+                $('#plantillaInmueble').append($('<option>', {
+                    value: val,
+                    text: text
+                }));
+                $("select#plantillaInmueble").html($("select#plantillaInmueble option").sort(function (a, b) {
+                    return a.text == b.text ? 0 : a.value > b.value ? 1 : -1;
+                }));
+                $('#Plantillas :selected').remove();
+            });
+            $("#btnGuardar").click(function () {
+                //console.log("seteando");
+                var values = [];
+                $('#Plantillas option').each(function () {
+                    values.push($(this).val());
+                });
+                $("#Plantillas").val(values);//(["2", "3"]);
+            });
         });
 
         function CheckNumericValue(e) {
