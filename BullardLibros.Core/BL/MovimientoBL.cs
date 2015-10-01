@@ -134,7 +134,7 @@ namespace BullardLibros.Core.BL
                     datoRow.UsuarioCreacion = Movimiento.UsuarioCreacion;
                     //datoRow.FechaCreacion = Movimiento.FechaCreacion;
                     datoRow.FechaCreacion = Convert.ToDateTime(Movimiento.FechaCreacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
-                    datoRow.MontoSinIGV = Movimiento.MontoSinIGV;
+                    datoRow.MontoSinIGV = Movimiento.MontoSinIGV ?? 0;
                     datoRow.IdComprobante = Movimiento.IdComprobante == 0 ? null : Movimiento.IdComprobante;
                     context.SaveChanges();
                     //Actualizar saldos del Libro

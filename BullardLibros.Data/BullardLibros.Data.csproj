@@ -119,15 +119,6 @@
     <Compile Include="SP_GetReporteResumenEntidadesRes_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="TipoComprobante.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

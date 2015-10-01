@@ -37,7 +37,8 @@ namespace BullardLibros.Core.BL
                     NombreMoneda = x.Moneda.Nombre,
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
                     NombreTipoDocumento = x.TipoDocumento.Nombre,
-                    SimboloMoneda = x.Moneda.Simbolo
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    MontoSinIGV = x.MontoSinIGV
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -68,7 +69,8 @@ namespace BullardLibros.Core.BL
                     NombreMoneda = x.Moneda.Nombre,
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
                     NombreTipoDocumento = x.TipoDocumento.Nombre,
-                    SimboloMoneda = x.Moneda.Simbolo
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    MontoSinIGV = x.MontoSinIGV
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -101,6 +103,7 @@ namespace BullardLibros.Core.BL
                         NombreTipoComprobante = r.TipoComprobante.Nombre,
                         NombreTipoDocumento = r.TipoDocumento.Nombre,
                         SimboloMoneda = r.Moneda.Simbolo,
+                        MontoSinIGV = r.MontoSinIGV,
                         lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO 
                         {
                             IdArea = x.IdArea,
@@ -135,6 +138,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Estado = true;
                     nuevo.Ejecutado = false;
                     nuevo.IdHonorario = Comprobante.IdHonorario;
+                    nuevo.MontoSinIGV = Comprobante.MontoSinIGV ?? 0;
                     context.Comprobante.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -167,6 +171,7 @@ namespace BullardLibros.Core.BL
                     row.Comentario = Comprobante.Comentario;
                     row.Estado = Comprobante.Estado;
                     row.IdHonorario = Comprobante.IdHonorario;
+                    row.MontoSinIGV = Comprobante.MontoSinIGV ?? 0;
                     context.SaveChanges();
                     return true;
                 }

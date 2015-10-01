@@ -26,6 +26,7 @@ namespace BullardLibros.Core.DTO
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
         public int? IdHonorario { get; set; }
+        public Decimal? MontoSinIGV { get; set; }
 
         //Nombres
         public string NombreTipoComprobante { get; set; }
