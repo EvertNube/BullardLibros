@@ -12,13 +12,12 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class AreaPorComprobante
+    public partial class sysdiagrams
     {
-        public int IdArea { get; set; }
-        public int IdComprobante { get; set; }
-        public decimal Monto { get; set; }
-    
-        public virtual Area Area { get; set; }
-        public virtual Comprobante Comprobante { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

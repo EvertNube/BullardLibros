@@ -108,8 +108,7 @@ namespace BullardLibros.Core.BL
                         {
                             IdArea = x.IdArea,
                             IdComprobante = x.IdComprobante,
-                            Monto = x.Monto,
-                            Porcentaje = x.Porcentaje
+                            Monto = x.Monto
                         }).ToList()
                     }).SingleOrDefault();
                 return result;

@@ -82,11 +82,30 @@
 
         function ActualizarMontoSinIGV() {
             var montoSinIGV = 0;
-            if ($('#IdTipoDocumento').select2("val") != 3 && $('#IdTipoDocumento').select2("val") != 7)
+            var numTipoDoc = $('#IdTipoDocumento').select2("val");
+            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
             { montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2); }
             else
             { montoSinIGV = ($('#Monto').val() / 1).toFixed(2); }
             $('#MontoSinIGV').val(montoSinIGV);
+        }
+
+        function ActualizarMontoConIGV() {
+            var montoConIGV = 0;
+            var numTipoDoc = $('#IdTipoDocumento').select2("val");
+            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
+            { montoConIGV = ($('#MontoSinIGV').val() * 1.18).toFixed(2); }
+            else
+            { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }
+            $('#Monto').val(montoConIGV);
+        }
+
+        function BloquearStaff()
+        {
+            if(@Model.IdTipoComprobante == 1)
+            {
+                //$("#IdTipoDocumento").val("4").trigger("change")
+            }
         }
     </script>
 }
@@ -159,21 +178,46 @@
                                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label>Monto Con IGV</label>
-                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
-                                            @Html.ValidationMessageFor(u => u.Monto)
+                                            <label>Área</label>
+                                            @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            @Html.ValidationMessageFor(u => u.IdArea)
                                         </div>
+                                        @if (Model.IdTipoComprobante == 1)
+                                        {
+                                            <div class="form-group col-md-4">
+                                                <label>Categoría</label>
+                                                @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                                @Html.ValidationMessageFor(u => u.IdCategoria)
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Moneda</label>
                                             @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
                                             @Html.ValidationMessageFor(u => u.IdMoneda)
                                         </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Monto Sin IGV</label>
+                                            @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV()" })
+                                            @Html.ValidationMessageFor(u => u.MontoSinIGV)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Monto Con IGV</label>
+                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
+                                            @Html.ValidationMessageFor(u => u.Monto)
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
-                                            <label>Área</label>
-                                            @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
-                                            @Html.ValidationMessageFor(u => u.IdArea)
+                                            <label>Modalidad de Honorario</label>
+                                            @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            @Html.ValidationMessageFor(u => u.IdHonorario)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>@strFechaFin</label>
+                                            @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese una fecha de cancelación", @type = "text", @data_provide = "datepicker", @readonly = "true" })
+                                            @Html.ValidationMessageFor(u => u.FechaConclusion)
                                         </div>
                                         @if (Model.IdTipoComprobante == 1)
                                         {
@@ -191,32 +235,6 @@
                                                 @Html.ValidationMessageFor(u => u.IdCategoria)
                                             </div>
                                         }
-                                        <div class="form-group col-md-4">
-                                            <label>@strFechaFin</label>
-                                            @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese una fecha de cancelación", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                                            @Html.ValidationMessageFor(u => u.FechaConclusion)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @{var colsmd = Model.IdTipoComprobante == 1 ? 4 : 8;}
-                                        @if (Model.IdTipoComprobante == 1)
-                                        {
-                                            <div class="form-group col-md-4">
-                                                <label>Categoría</label>
-                                                @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
-                                                @Html.ValidationMessageFor(u => u.IdCategoria)
-                                            </div>
-                                        }
-                                        <div class="form-group col-md-4">
-                                            <label>Honorario</label>
-                                            @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
-                                            @Html.ValidationMessageFor(u => u.IdHonorario)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Monto Sin IGV</label>
-                                            @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control", @placeholder = "Monto Sin IGV", @type = "text", @readonly = "true" })
-                                            @Html.ValidationMessageFor(u => u.MontoSinIGV)
-                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Comentario</label>

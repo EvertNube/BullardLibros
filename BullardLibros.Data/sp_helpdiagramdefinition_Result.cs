@@ -10,15 +10,10 @@
 namespace BullardLibros.Data
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AreaPorComprobante
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public int IdArea { get; set; }
-        public int IdComprobante { get; set; }
-        public decimal Monto { get; set; }
-    
-        public virtual Area Area { get; set; }
-        public virtual Comprobante Comprobante { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

@@ -14,6 +14,7 @@
 @section Scripts{
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
     <script type="text/javascript">
         $(function () {
             $('.miselect2').select2();
@@ -41,14 +42,14 @@
             <div class="col-xs-12 col-md-10 col-md-offset-1">
                 @if (Model == null || Model.IdEntidadResponsable == 0)
                 {
-                    <h2>Nueva Entidad Responsable</h2>
+                    <h2>Nueva Entidad</h2>
                 }
                 else
                 {
-                    <h2>Actualizar Entidad Responsable</h2>
+                    <h2>Actualizar Entidad</h2>
                 }
                 <div class="row m-b">
-                    <div class="col-xs-12 col-md-8">
+                    <div class="col-xs-12 col-md-10">
                         @using (Html.BeginForm("AddEntidad", "Admin", FormMethod.Post))
                         {
                             @Html.ValidationSummary(true)
@@ -63,18 +64,21 @@
                                         @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la entidad", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
-                                    @*<div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>Detracción</label>
-                                            @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ing. la detracción", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                            @Html.ValidationMessageFor(u => u.Detraccion)
+                                    @if (Model != null && Model.IdTipoEntidad == 2)
+                                    { 
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label>Detracción</label>
+                                                @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ing. la detracción", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                                @Html.ValidationMessageFor(u => u.Detraccion)
+                                            </div>
+                                            <div class="form-group col-md-8">
+                                                <label>Tipo de bien o servicio</label>
+                                                @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Ingrese el tipo de bien o servicio", @type = "text" })
+                                                @Html.ValidationMessageFor(u => u.Tipo)
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-8">
-                                            <label>Tipo de bien o servicio</label>
-                                            @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Ingrese el tipo de bien o servicio", @type = "text" })
-                                            @Html.ValidationMessageFor(u => u.Tipo)
-                                        </div>
-                                    </div>*@
+                                    }
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Tipo de Identificación</label>
@@ -135,8 +139,8 @@
                                     <table class="table table-striped m-b-none dataTable">
                                         <thead>
                                             <tr>
-                                                <th width="15%">Nombre</th>
-                                                <th>Descripción</th>
+                                                <th width="20%">Nombre</th>
+                                                <th class="text-center">Descripción</th>
                                                 <th class="text-center" width="10%">Opc.</th>
                                             </tr>
                                         </thead>
@@ -147,7 +151,7 @@
                                                 {
                                                     var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                     <tr @Html.Raw(classInactive)>
-                                                        <td width="15%">@obj.Nombre</td>
+                                                        <td width="20%">@obj.Nombre</td>
                                                         <td>@obj.Descripcion</td>
                                                         @if (ViewBag.EsAdmin)
                                                         {

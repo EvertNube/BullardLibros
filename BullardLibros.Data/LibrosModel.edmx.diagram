@@ -4,9 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="18797f04075e46e08d40e67fb4b048da" Name="Diagram1">
+      <Diagram DiagramId="18797f04075e46e08d40e67fb4b048da" Name="Diagram1" ZoomLevel="91">
         <EntityTypeShape EntityType="LibrosDBModel.Area" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="LibrosDBModel.AreaPorComprobante" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Categoria" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Comprobante" Width="1.5" PointX="5.25" PointY="25.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.CuentaBancaria" Width="1.5" PointX="3" PointY="21.25" IsExpanded="true" />
@@ -28,8 +27,6 @@
         <EntityTypeShape EntityType="LibrosDBModel.TipoMovimiento" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Usuario" Width="1.5" PointX="8" PointY="13.125" IsExpanded="true" />
         <AssociationConnector Association="LibrosDBModel.FK_Area_Empresa" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_AreaPorComprobante_Area" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_AreaPorComprobante_Comprobante" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Categoria_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Categoria" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Comprobante_Empresa" ManuallyRouted="false" />
@@ -57,6 +54,10 @@
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_TipoDocumento" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Movimiento_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Usuario_Rol" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LibrosDBModel.AreaPorComprobante" Width="1.5" PointX="7.875" PointY="22.875" />
+        <EntityTypeShape EntityType="LibrosDBModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <AssociationConnector Association="LibrosDBModel.FK_AreaPorComprobante_Area" />
+        <AssociationConnector Association="LibrosDBModel.FK_AreaPorComprobante_Comprobante" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
