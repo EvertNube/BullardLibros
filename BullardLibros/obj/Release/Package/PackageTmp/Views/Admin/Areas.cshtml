@@ -9,6 +9,7 @@
 }
 @section scripts{
     @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
     <script type="text/javascript">
         $(function () {
             $('.dataTable').DataTable();
@@ -44,7 +45,7 @@
                                     <th width="25%">Nombre</th>
                                     <th class="text-center" width="45%">Descripción</th>
                                     <th class="text-center" width="20%">Estado</th>
-                                    <th class="text-center" width="10%">Opciones</th>
+                                    <th class="text-center" width="10%">Opc.</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,10 +59,10 @@
                                             <td class="text-center" width="45%">@obj.Descripcion</td>
                                             @if (obj.Estado == true)
                                             {
-                                                <td class="text-center" width="10%">Activo</td>}
+                                                <td class="text-center" width="20%">Activo</td>}
                                             else
                                             {
-                                                <td class="text-center" width="10%">Inactivo</td>}
+                                                <td class="text-center" width="20%">Inactivo</td>}
                                             @if (ViewBag.EsAdmin)
                                             {
                                                 <td align="center"><a href="@Url.Action("Area", new { id = obj.IdArea })"><i class="fa fa-pencil"></i></a></td>

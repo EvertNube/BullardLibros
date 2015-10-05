@@ -27,45 +27,53 @@
 
             $("#add-monto").click(function () {
                 var existe = false;
-                var valuePlantilla = $('#IdArea :selected').val();
-                if (valuePlantilla > 0) {
-                    var textPlantilla = $('#plantillaInmueble :selected').text();
-                    $('#Plantillas option').each(function () {
-                        if ($(this).val() == valuePlantilla) existe = true;
+                var AreaSel = $('#IdArea :selected');
+                var valorArea = $('#IdArea :selected').val();
+                if (valorArea > 0) {
+                    var txtArea = $('#IdArea :selected').text();
+                    var txtMonto = $('#Monto').val();
+                    $('#lstMontos option').each(function () {
+                        if ($(this).val() == valorArea) existe = true;
                     });
                     if (!existe) {
-                        $('#Plantillas').append($('<option>', {
-                            value: valuePlantilla,
-                            text: textPlantilla
-                        }));
-                        $('#plantillaInmueble :selected').remove();
+                        //var element = $('<option/>', {})
+                        $('#lstMontos').append($('<option>', {
+                            value: valorArea,
+                            text: txtArea + ' - ' + txtMonto
+                        }).attr('data-monto', txtMonto));
+                        $('#IdArea :selected').attr('disabled', true);
+                        var optionvalida = $('#IdArea option:not([disabled])').first().val();
+                        $('#IdArea').val(optionvalida).change();
+                        //$('#IdArea :selected').next().attr('selected', true);
+                        //$('#IdArea').select2("val", null);
                     } else {
-                        alert("No se puede agregar el protocolo " + textPlantilla + ", porque ya se encuentra agregado.");
+                        alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
                     }
                 } else {
-                    alert("Por favor, seleccione un protocolo válido.");
+                    alert("Por favor, seleccione otra área válido.");
                 }
             });
             $("#remove-monto").click(function () {
-                var val = $('#Plantillas :selected').val();
-                var text = $('#Plantillas :selected').text();
-                $('#plantillaInmueble').append($('<option>', {
+                var val = $('#lstMontos :selected').val();
+                var text = $('#lstMontos :selected').text();
+                $('#IdArea').append($('<option>', {
                     value: val,
                     text: text
                 }));
-                $("select#plantillaInmueble").html($("select#plantillaInmueble option").sort(function (a, b) {
+                $("select#IdArea").html($("select#IdArea option").sort(function (a, b) {
                     return a.text == b.text ? 0 : a.value > b.value ? 1 : -1;
                 }));
-                $('#Plantillas :selected').remove();
+                $('#lstMontos :selected').remove();
             });
             $("#btnGuardar").click(function () {
                 //console.log("seteando");
                 var values = [];
-                $('#Plantillas option').each(function () {
+                $('#lstMontos option').each(function () {
                     values.push($(this).val());
                 });
-                $("#Plantillas").val(values);//(["2", "3"]);
+                $("#lstMontos").val(values);//(["2", "3"]);
             });
+            BloquearStaff();
         });
 
         function CheckNumericValue(e) {
@@ -104,8 +112,14 @@
         {
             if(@Model.IdTipoComprobante == 1)
             {
-                //$("#IdTipoDocumento").val("4").trigger("change")
+                $("#IdTipoDocumento option[value='4']").attr('disabled', true);
+                //$("#IdTipoDocumento option[value='4']").attr('disabled', false);
             }
+        }
+
+        function ListaMontosAreas()
+        {
+
         }
     </script>
 }
@@ -290,7 +304,7 @@
                                     @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    <button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas();">@btnName</button>
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = Model.IdTipoComprobante })">Salir</a>
                                 </div>
                             </section>

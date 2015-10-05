@@ -138,7 +138,7 @@
                                         {
                                             <div class="col-md-4 text-sm">
                                                 <div class="btn-group">
-                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                    <label><input type="checkbox" id="btn-showInactive"/> Mostrar Inactivos</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -153,14 +153,14 @@
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" width="7%">Fecha</th>
-                                                    <th width="15%">Nro Operación</th>
+                                                    <th class="text-center" width="8%">Tipo</th>
+                                                    <th width="15%">Nro Movimiento</th>
+
+                                                    <th class="text-center" width="15%">Monto</th>
                                                     <th class="text-center" width="10%">Categoria</th>
                                                     <th class="text-center" width="10%">Entidad</th>
                                                     
                                                     <th class="text-center" width="8%">N° Doc</th>
-                                                    <th class="text-center" width="15%">Monto</th>
-                                                    <th class="text-center" width="8%">Tipo</th>
-
                                                     <th class="text-center">E</th>
                                                     <th class="text-center" width="10%">Usuario</th>
 
@@ -175,7 +175,14 @@
                                                         var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                         <tr @Html.Raw(classInactive)>
                                                             <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                            @if (obj.IdTipoMovimiento == 1)
+                                                            {
+                                                                <td class="text-center" width="8%" style="color:#8EC100;">Entrada</td>}
+                                                            else
+                                                            {
+                                                                <td class="text-center" width="8%" style="color:red">Salida</td> }
                                                             <td width="15%">@obj.NroOperacion</td>
+                                                            <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                             @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
                                                             <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
                                                             <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
@@ -187,19 +194,12 @@
                                                             {
                                                                 <td class="text-center" width="8%">N/A</td>
                                                             }
-                                                            <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                                            @if (obj.IdTipoMovimiento == 1)
-                                                            {
-                                                                <td class="text-center" width="8%" style="color:#8EC100;">Entrada</td>}
-                                                            else
-                                                            {
-                                                                <td class="text-center" width="8%" style="color:red">Salida</td> }
                                                             @if (obj.IdEstadoMovimiento == 1)
                                                             {
                                                                 <td class="text-center" style="color:red">P</td>}
                                                             else
                                                             {
-                                                                <td class="text-center">R</td> }
+                                                                <td class="text-center" style="color:#8EC100;">R</td> }
                                                             <td class="text-center" width="10%">@obj.NombreUsuario</td>
                                                             @if (ViewBag.EsAdmin)
                                                             {

@@ -117,25 +117,25 @@
                                         {
                                             <li class="@ViewBag.navbar.lstOptions[3].cadena">
                                                 <a href="#layout">
-                                                    <i class="fa fa-list-ul icon">
+                                                    <i class="fa fa-gear icon">
                                                         <b class="bg-danger"></b>
                                                     </i>
                                                     <span class="pull-right">
                                                         <i class="fa fa-angle-down text-active"></i>
                                                         <i class="fa fa-angle-up text"></i>
                                                     </span>
-                                                    <span>Data</span>
+                                                    <span>Configuración</span>
                                                 </a>
                                                 @{var miDisplay = "";
                                                      miDisplay = ViewBag.navbar.lstOptions[3].cadena == "active" ? miDisplay = "block;" : miDisplay = "none;"; }
                                                 <ul class="nav lt mimenu2" style="display: @miDisplay">
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <a href="@Url.Action("Areas")" class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena"> <i class="fa fa-angle-right"></i> <span>Areas</span> </a> </li> 
-                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <a href="@Url.Action("Categorias")" class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <i class="fa fa-angle-right"></i> <span>Categorias</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <a href="@Url.Action("Categorias")" class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena"> <i class="fa fa-angle-right"></i> <span>Partidas de Presupuesto</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <a href="@Url.Action("Entidades")" class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <i class="fa fa-angle-right"></i> <span>Entidades</span> </a> </li> 
-                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <a href="@Url.Action("Responsables")" class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <i class="fa fa-angle-right"></i> <span>Responsables</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <a href="@Url.Action("Responsables")" class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <i class="fa fa-angle-right"></i> <span>Consultores</span> </a> </li> 
                                                     @if (ViewBag.EsSuperAdmin)
                                                     {<li class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <a href="@Url.Action("Usuarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <i class="fa fa-angle-right"></i> <span>Usuarios</span> </a> </li> }
-                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <a href="@Url.Action("Honorarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <i class="fa fa-angle-right"></i> <span>Honorarios</span> </a> </li> 
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <a href="@Url.Action("Honorarios")" class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <i class="fa fa-angle-right"></i> <span>Modalidad de Honorario</span> </a> </li> 
                                                 </ul>
                                             </li>
                                         }
@@ -209,6 +209,9 @@
                             break;
                         case 7:
                             window.location.href = '@Url.Action("Usuarios", "Admin")';
+                            break;
+                        case 8:
+                            window.location.href = '@Url.Action("Honorarios", "Admin")';
                             break;
                         default:
                             window.location.href = '@Url.Action("Index", "Admin")';
