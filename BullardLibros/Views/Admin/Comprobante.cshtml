@@ -15,102 +15,102 @@
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
         }
-        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
-        $(function () {
-            $('.miselect2').select2();
+    var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+    $(function () {
+        $('.miselect2').select2();
 
-            $('#IdCategoria').select2({
-                placeholder: "Seleccione una categoría",
-                data: mydata,
-                allowClear: true
-            })
+        $('#IdCategoria').select2({
+            placeholder: "Seleccione una categoría",
+            data: mydata,
+            allowClear: true
+        })
 
-            $("#add-monto").click(function () {
-                var existe = false;
-                var AreaSel = $('#IdArea :selected');
-                var valorArea = $('#IdArea :selected').val();
-                if (valorArea > 0) {
-                    var txtArea = $('#IdArea :selected').text();
-                    var txtMonto = $('#Monto').val();
-                    $('#lstMontos option').each(function () {
-                        if ($(this).val() == valorArea) existe = true;
-                    });
-                    if (!existe) {
-                        //var element = $('<option/>', {})
-                        $('#lstMontos').append($('<option>', {
-                            value: valorArea,
-                            text: txtArea + ' - ' + txtMonto
-                        }).attr('data-monto', txtMonto));
-                        $('#IdArea :selected').attr('disabled', true);
-                        var optionvalida = $('#IdArea option:not([disabled])').first().val();
-                        $('#IdArea').val(optionvalida).change();
-                        //$('#IdArea :selected').next().attr('selected', true);
-                        //$('#IdArea').select2("val", null);
-                    } else {
-                        alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
-                    }
-                } else {
-                    alert("Por favor, seleccione otra área válido.");
-                }
-            });
-            $("#remove-monto").click(function () {
-                var val = $('#lstMontos :selected').val();
-                var text = $('#lstMontos :selected').text();
-                $('#IdArea').append($('<option>', {
-                    value: val,
-                    text: text
-                }));
-                $("select#IdArea").html($("select#IdArea option").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.value > b.value ? 1 : -1;
-                }));
-                $('#lstMontos :selected').remove();
-            });
-            $("#btnGuardar").click(function () {
-                //console.log("seteando");
-                var values = [];
+        $("#add-monto").click(function () {
+            var existe = false;
+            var AreaSel = $('#IdArea :selected');
+            var valorArea = $('#IdArea :selected').val();
+            if (valorArea > 0) {
+                var txtArea = $('#IdArea :selected').text();
+                var txtMonto = $('#Monto').val();
                 $('#lstMontos option').each(function () {
-                    values.push($(this).val());
+                    if ($(this).val() == valorArea) existe = true;
                 });
-                $("#lstMontos").val(values);//(["2", "3"]);
-            });
-            BloquearStaff();
+                if (!existe) {
+                    //var element = $('<option/>', {})
+                    $('#lstMontos').append($('<option>', {
+                        value: valorArea,
+                        text: txtArea + ' - ' + txtMonto
+                    }).attr('data-monto', txtMonto));
+                    $('#IdArea :selected').attr('disabled', true);
+                    var optionvalida = $('#IdArea option:not([disabled])').first().val();
+                    $('#IdArea').val(optionvalida).change();
+                    //$('#IdArea :selected').next().attr('selected', true);
+                    //$('#IdArea').select2("val", null);
+                } else {
+                    alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
+                }
+            } else {
+                alert("Por favor, seleccione otra área válido.");
+            }
         });
+        $("#remove-monto").click(function () {
+            var val = $('#lstMontos :selected').val();
+            var text = $('#lstMontos :selected').text();
+            /*$('#IdArea').append($('<option>', {
+                value: val,
+                text: text
+            }));*/
+            /*$("select#IdArea").html($("select#IdArea option").sort(function (a, b) {
+                return a.text == b.text ? 0 : a.value > b.value ? 1 : -1;
+            }));*/
+            $('#IdArea option[value="'+ val +'"]').attr('disabled', false);
+            $('#lstMontos :selected').remove();
+        });
+        /*$("#btnGuardar").click(function () {
+            var values = [];
+            $('#lstMontos option').each(function () {
+                values.push($(this).val());
+            });
+            $("#lstMontos").val(values);
+        });*/
+        BloquearStaff();
+    });
 
-        function CheckNumericValue(e) {
-            var key = e.which ? e.which : e.keyCode;
-            //enter key  //backspace //tabkey      //escape key
-            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
-                return true;
-            }
-            else {
-                alert("Solo ingresar caracteres numericos");
-                return false;
-            }
+    function CheckNumericValue(e) {
+        var key = e.which ? e.which : e.keyCode;
+        //enter key  //backspace //tabkey      //escape key
+        if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+            return true;
         }
-
-        function ActualizarMontoSinIGV() {
-            var montoSinIGV = 0;
-            var numTipoDoc = $('#IdTipoDocumento').select2("val");
-            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
-            { montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2); }
-            else
-            { montoSinIGV = ($('#Monto').val() / 1).toFixed(2); }
-            $('#MontoSinIGV').val(montoSinIGV);
+        else {
+            alert("Solo ingresar caracteres numericos");
+            return false;
         }
+    }
 
-        function ActualizarMontoConIGV() {
-            var montoConIGV = 0;
-            var numTipoDoc = $('#IdTipoDocumento').select2("val");
-            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
-            { montoConIGV = ($('#MontoSinIGV').val() * 1.18).toFixed(2); }
-            else
-            { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }
-            $('#Monto').val(montoConIGV);
-        }
+    function ActualizarMontoSinIGV() {
+        var montoSinIGV = 0;
+        var numTipoDoc = $('#IdTipoDocumento').select2("val");
+        if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
+        { montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2); }
+        else
+        { montoSinIGV = ($('#Monto').val() / 1).toFixed(2); }
+        $('#MontoSinIGV').val(montoSinIGV);
+    }
 
-        function BloquearStaff()
-        {
-            if(@Model.IdTipoComprobante == 1)
+    function ActualizarMontoConIGV() {
+        var montoConIGV = 0;
+        var numTipoDoc = $('#IdTipoDocumento').select2("val");
+        if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
+        { montoConIGV = ($('#MontoSinIGV').val() * 1.18).toFixed(2); }
+        else
+        { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }
+        $('#Monto').val(montoConIGV);
+    }
+
+    function BloquearStaff()
+    {
+        if(@Model.IdTipoComprobante == 1)
             {
                 $("#IdTipoDocumento option[value='4']").attr('disabled', true);
                 //$("#IdTipoDocumento option[value='4']").attr('disabled', false);
@@ -119,8 +119,35 @@
 
         function ListaMontosAreas()
         {
+            var lista = [];
+            $('#lstMontos option').each(function () {
+                var elem = {
+                    IdArea: $(this).val(),
+                    Monto: $(this).data("monto")
+                };
+                lista.push(elem);
+            });
 
-        }
+            var jslst = JSON.stringify(lista);
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/PasslstAreasXMontos",
+                cache: false,
+                data: jslst,
+                success: function (data) {
+                    alert("Si Funciona");
+                    return true;
+                },
+                error: function(xhr, status, error) {
+                    alert("No funciona");
+                }
+                /*failure: function (response) {
+                    $('#result').html(response);
+                }*/
+            });
+            return false;
+    }
     </script>
 }
 

@@ -12,6 +12,5 @@ namespace BullardLibros.Core.DTO
         public int IdArea { get; set; }
         public int IdComprobante { get; set; }
         public Decimal Monto { get; set; }
-        public Decimal Porcentaje { get; set; }
     }
 }

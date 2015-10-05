@@ -1858,6 +1858,17 @@ namespace BullardLibros.Controllers
             return "false";
         }
 
+        [HttpPost]
+        public ActionResult PasslstAreasXMontos(string jsonData)
+        {
+            bool result = true;
+            int mivariable = 92;
+            List<AreaPorComprobanteDTO> miLista = new List<AreaPorComprobanteDTO>();
+            miLista.Add(new AreaPorComprobanteDTO(){ IdArea = 1, IdComprobante = 1, Monto = 700} );
+            TempData["AreasXMontos"] = jsonData;
+            return null;
+        }
+
         public void MenuNavBarSelected(int num, int? subNum = null)
         {
             navbar.clearAll();
