@@ -56,23 +56,35 @@
         $("#remove-monto").click(function () {
             var val = $('#lstMontos :selected').val();
             var text = $('#lstMontos :selected').text();
-            /*$('#IdArea').append($('<option>', {
-                value: val,
-                text: text
-            }));*/
-            /*$("select#IdArea").html($("select#IdArea option").sort(function (a, b) {
-                return a.text == b.text ? 0 : a.value > b.value ? 1 : -1;
-            }));*/
+
             $('#IdArea option[value="'+ val +'"]').attr('disabled', false);
             $('#lstMontos :selected').remove();
         });
-        /*$("#btnGuardar").click(function () {
-            var values = [];
+        $("#btnGuardar").click(function () {
+            var lista = [];
             $('#lstMontos option').each(function () {
-                values.push($(this).val());
+                var elem = {
+                    IdArea: $(this).val(),
+                    Monto: $(this).data("monto")
+                };
+                lista.push(elem);
             });
-            $("#lstMontos").val(values);
-        });*/
+
+            lista = JSON.stringify(lista);
+            debugger;
+            $.ajax({
+                url: '/Admin/PasslstAreasXMontos',
+                type: "POST",
+                data: lista,
+                contentType: "application/json; charset=utf-8",
+                success: function(){
+                    alert("Si funciona");
+                },
+                error: function(){
+                    alert("No funciona");
+                }
+            });
+        });
         BloquearStaff();
     });
 
@@ -331,7 +343,8 @@
                                     @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas();">@btnName</button>
+                                    <button id="btnGuardar" type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    @*<button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas();">@btnName</button>*@
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = Model.IdTipoComprobante })">Salir</a>
                                 </div>
                             </section>
