@@ -135,18 +135,23 @@
             $('#lstMontos option').each(function () {
                 var elem = {
                     IdArea: $(this).val(),
+                    IdComprobante: 1,
                     Monto: $(this).data("monto")
                 };
                 lista.push(elem);
             });
 
-            var jslst = JSON.stringify(lista);
+            //var objeto = { IdArea: 1, Monto: 15.30, IdComprobante: 1 };
+            
+            lista = JSON.stringify(lista);
+            alert(lista);
             debugger;
             $.ajax({
-                type: "POST",
-                url: "/Admin/PasslstAreasXMontos",
-                cache: false,
-                data: jslst,
+                type: 'POST',
+                url: '/Admin/PasslstAreasXMontos',
+                data: lista,
+                contentType: 'application/json',
+                dataType: 'json',
                 success: function (data) {
                     alert("Si Funciona");
                     return true;
@@ -159,7 +164,7 @@
                 }*/
             });
             return false;
-    }
+        }
     </script>
 }
 
@@ -343,7 +348,7 @@
                                     @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button id="btnGuardar" type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    <button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas()">@btnName</button>
                                     @*<button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas();">@btnName</button>*@
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = Model.IdTipoComprobante })">Salir</a>
                                 </div>

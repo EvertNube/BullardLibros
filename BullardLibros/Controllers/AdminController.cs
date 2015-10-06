@@ -1861,11 +1861,7 @@ namespace BullardLibros.Controllers
         [HttpPost]
         public ActionResult PasslstAreasXMontos(List<AreaPorComprobanteDTO> lista)
         {
-            bool result = true;
-            int mivariable = 92;
-            List<AreaPorComprobanteDTO> miLista = new List<AreaPorComprobanteDTO>();
-            miLista.Add(new AreaPorComprobanteDTO(){ IdArea = 1, IdComprobante = 1, Monto = 700} );
-            TempData["AreasXMontos"] = lista;
+            TempData["AreasXMontos"] = Lista;
             return null;
         }
 
