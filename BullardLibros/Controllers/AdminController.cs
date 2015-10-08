@@ -799,7 +799,11 @@ namespace BullardLibros.Controllers
             try
             {
                 int TipoComprobante = 1; //Por defecto tipo de comprobante Ingreso
-                if (dto != null) { TipoComprobante = dto.IdTipoComprobante; }
+                if (dto != null) 
+                { 
+                    TipoComprobante = dto.IdTipoComprobante;
+                    dto.lstMontos = (List<AreaPorComprobanteDTO>)TempData["AreasXMontos"] ?? new List<AreaPorComprobanteDTO>();
+                }
 
                 ComprobanteBL objBL = new ComprobanteBL();
                 if (dto.IdComprobante == 0)
@@ -1861,8 +1865,8 @@ namespace BullardLibros.Controllers
         [HttpPost]
         public ActionResult PasslstAreasXMontos(List<AreaPorComprobanteDTO> lista)
         {
-            TempData["AreasXMontos"] = Lista;
-            return null;
+            TempData["AreasXMontos"] = lista;
+            return Json(new { success = true, mensaje = "Si funciona" }, JsonRequestBehavior.AllowGet);
         }
 
         public void MenuNavBarSelected(int num, int? subNum = null)

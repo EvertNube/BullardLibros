@@ -108,7 +108,8 @@ namespace BullardLibros.Core.BL
                         {
                             IdArea = x.IdArea,
                             IdComprobante = x.IdComprobante,
-                            Monto = x.Monto
+                            Monto = x.Monto,
+                            NombreArea = x.Area.Nombre
                         }).ToList()
                     }).SingleOrDefault();
                 return result;
@@ -139,6 +140,16 @@ namespace BullardLibros.Core.BL
                     nuevo.IdHonorario = Comprobante.IdHonorario;
                     nuevo.MontoSinIGV = Comprobante.MontoSinIGV ?? 0;
                     context.Comprobante.Add(nuevo);
+
+                    foreach (var item in Comprobante.lstMontos)
+                    {
+                        AreaPorComprobante novo = new AreaPorComprobante();
+                        novo.IdArea = item.IdArea;
+                        novo.IdComprobante = nuevo.IdComprobante;
+                        novo.Monto = item.Monto;
+                        nuevo.AreaPorComprobante.Add(novo);
+                    }
+
                     context.SaveChanges();
                     return true;
                 }
@@ -171,6 +182,25 @@ namespace BullardLibros.Core.BL
                     row.Estado = Comprobante.Estado;
                     row.IdHonorario = Comprobante.IdHonorario;
                     row.MontoSinIGV = Comprobante.MontoSinIGV ?? 0;
+
+                    var allmontos = from m in context.AreaPorComprobante
+                                    where m.IdComprobante == row.IdComprobante
+                                    select m;
+
+                    foreach (var item in allmontos)
+	                {
+                        row.AreaPorComprobante.Remove(item);
+	                }
+
+                    foreach (var item in Comprobante.lstMontos)
+                    {
+                        AreaPorComprobante novo = new AreaPorComprobante();
+                        novo.IdArea = item.IdArea;
+                        novo.IdComprobante = row.IdComprobante;
+                        novo.Monto = item.Monto;
+                        row.AreaPorComprobante.Add(novo);
+                    }
+
                     context.SaveChanges();
                     return true;
                 }
