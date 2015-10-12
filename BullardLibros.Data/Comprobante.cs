@@ -16,8 +16,8 @@ namespace BullardLibros.Data
     {
         public Comprobante()
         {
-            this.Movimiento = new HashSet<Movimiento>();
             this.AreaPorComprobante = new HashSet<AreaPorComprobante>();
+            this.Movimiento = new HashSet<Movimiento>();
         }
     
         public int IdComprobante { get; set; }
@@ -31,6 +31,7 @@ namespace BullardLibros.Data
         public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdResponsable { get; set; }
         public Nullable<int> IdCategoria { get; set; }
+        public Nullable<int> IdProyecto { get; set; }
         public System.DateTime FechaEmision { get; set; }
         public Nullable<System.DateTime> FechaConclusion { get; set; }
         public string Comentario { get; set; }
@@ -39,13 +40,14 @@ namespace BullardLibros.Data
         public Nullable<int> IdHonorario { get; set; }
         public Nullable<decimal> MontoSinIGV { get; set; }
     
+        public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual Honorario Honorario { get; set; }
         public virtual Moneda Moneda { get; set; }
+        public virtual Proyecto Proyecto { get; set; }
         public virtual TipoComprobante TipoComprobante { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
-        public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
     }
 }

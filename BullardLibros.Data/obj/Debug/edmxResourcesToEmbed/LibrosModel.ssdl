@@ -17,7 +17,7 @@
     </Key>
     <Property Name="IdArea" Type="int" Nullable="false" />
     <Property Name="IdComprobante" Type="int" Nullable="false" />
-    <Property Name="Monto" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Monto" Type="decimal" Precision="18" Scale="4" Nullable="false" />
   </EntityType>
   <EntityType Name="Categoria">
     <Key>
@@ -29,6 +29,15 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="IdCategoriaPadre" Type="int" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategoriaPorPeriodo">
+    <Key>
+      <PropertyRef Name="IdCategoria" />
+      <PropertyRef Name="IdPeriodo" />
+    </Key>
+    <Property Name="IdCategoria" Type="int" Nullable="false" />
+    <Property Name="IdPeriodo" Type="int" Nullable="false" />
+    <Property Name="Monto" Type="decimal" Precision="18" Scale="4" Nullable="false" />
   </EntityType>
   <EntityType Name="Comprobante">
     <Key>
@@ -45,6 +54,7 @@
     <Property Name="IdArea" Type="int" />
     <Property Name="IdResponsable" Type="int" />
     <Property Name="IdCategoria" Type="int" />
+    <Property Name="IdProyecto" Type="int" />
     <Property Name="FechaEmision" Type="datetime" Nullable="false" />
     <Property Name="FechaConclusion" Type="datetime" />
     <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
@@ -147,6 +157,17 @@
     <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
     <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
     <Property Name="IdComprobante" Type="int" />
+  </EntityType>
+  <EntityType Name="Periodo">
+    <Key>
+      <PropertyRef Name="IdPeriodo" />
+    </Key>
+    <Property Name="IdPeriodo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaInicio" Type="datetime" Nullable="false" />
+    <Property Name="FechaFin" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Proyecto">
     <Key>
@@ -298,6 +319,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_CategoriaPorPeriodo_Categoria">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+    <End Role="CategoriaPorPeriodo" Type="Self.CategoriaPorPeriodo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="IdCategoria" />
+      </Principal>
+      <Dependent Role="CategoriaPorPeriodo">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CategoriaPorPeriodo_Periodo">
+    <End Role="Periodo" Type="Self.Periodo" Multiplicity="1" />
+    <End Role="CategoriaPorPeriodo" Type="Self.CategoriaPorPeriodo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Periodo">
+        <PropertyRef Name="IdPeriodo" />
+      </Principal>
+      <Dependent Role="CategoriaPorPeriodo">
+        <PropertyRef Name="IdPeriodo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Comprobante_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
@@ -343,6 +388,18 @@
       </Principal>
       <Dependent Role="Comprobante">
         <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Proyecto">
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proyecto">
+        <PropertyRef Name="IdProyecto" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdProyecto" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -681,6 +738,7 @@
     <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AreaPorComprobante" EntityType="Self.AreaPorComprobante" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CategoriaPorPeriodo" EntityType="Self.CategoriaPorPeriodo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Comprobante" EntityType="Self.Comprobante" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
@@ -690,6 +748,7 @@
     <EntitySet Name="Honorario" EntityType="Self.Honorario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Periodo" EntityType="Self.Periodo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
@@ -717,6 +776,14 @@
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Categoria" EntitySet="Categoria" />
     </AssociationSet>
+    <AssociationSet Name="FK_CategoriaPorPeriodo_Categoria" Association="Self.FK_CategoriaPorPeriodo_Categoria">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="CategoriaPorPeriodo" EntitySet="CategoriaPorPeriodo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CategoriaPorPeriodo_Periodo" Association="Self.FK_CategoriaPorPeriodo_Periodo">
+      <End Role="Periodo" EntitySet="Periodo" />
+      <End Role="CategoriaPorPeriodo" EntitySet="CategoriaPorPeriodo" />
+    </AssociationSet>
     <AssociationSet Name="FK_Comprobante_Empresa" Association="Self.FK_Comprobante_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Comprobante" EntitySet="Comprobante" />
@@ -731,6 +798,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Comprobante_Moneda" Association="Self.FK_Comprobante_Moneda">
       <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Proyecto" Association="Self.FK_Comprobante_Proyecto">
+      <End Role="Proyecto" EntitySet="Proyecto" />
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>
     <AssociationSet Name="FK_Comprobante_TipoComprobante" Association="Self.FK_Comprobante_TipoComprobante">

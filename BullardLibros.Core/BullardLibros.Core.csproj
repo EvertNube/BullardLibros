@@ -66,6 +66,7 @@
     <Compile Include="BL\EstadoMovimientoBL.cs" />
     <Compile Include="BL\HonorarioBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
+    <Compile Include="BL\PeriodoBL.cs" />
     <Compile Include="BL\ProyectoBL.cs" />
     <Compile Include="BL\ResponsableBL.cs" />
     <Compile Include="BL\TipoMovimientoBL.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="DTO\AreaDTO.cs" />
     <Compile Include="DTO\AreaPorComprobanteDTO.cs" />
     <Compile Include="DTO\CategoriaDTO.cs" />
+    <Compile Include="DTO\CategoriaPorPeriodo.cs" />
     <Compile Include="DTO\CategoriaR_DTO.cs" />
     <Compile Include="DTO\ComprobanteDTO.cs" />
     <Compile Include="DTO\CuentaBancariaDTO.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="DTO\HonorarioDTO.cs" />
     <Compile Include="DTO\MonedaDTO.cs" />
     <Compile Include="DTO\MovimientoDTO.cs" />
+    <Compile Include="DTO\PeriodoDTO.cs" />
     <Compile Include="DTO\ProyectoDTO.cs" />
     <Compile Include="DTO\ResponsableDTO.cs" />
     <Compile Include="DTO\RolDTO.cs" />

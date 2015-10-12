@@ -20,6 +20,7 @@ namespace BullardLibros.Core.DTO
         public int? IdArea { get; set; }
         public int? IdResponsable { get; set; }
         public int? IdCategoria { get; set; }
+        public int? IdProyecto { get; set; }
         public DateTime FechaEmision { get; set; }
         public DateTime? FechaConclusion { get; set; }
         public string Comentario { get; set; }

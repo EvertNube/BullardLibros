@@ -58,6 +58,9 @@
     <Compile Include="Categoria.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CategoriaPorPeriodo.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Comprobante.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -98,6 +101,9 @@
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Movimiento.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Periodo.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

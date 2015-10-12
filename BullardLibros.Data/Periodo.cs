@@ -12,20 +12,20 @@ namespace BullardLibros.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Proyecto
+    public partial class Periodo
     {
-        public Proyecto()
+        public Periodo()
         {
-            this.Comprobante = new HashSet<Comprobante>();
+            this.CategoriaPorPeriodo = new HashSet<CategoriaPorPeriodo>();
         }
     
-        public int IdProyecto { get; set; }
-        public int IdEntidadResponsable { get; set; }
+        public int IdPeriodo { get; set; }
         public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public bool Estado { get; set; }
+        public System.DateTime FechaInicio { get; set; }
+        public System.DateTime FechaFin { get; set; }
+        public bool Active { get; set; }
+        public int IdEmpresa { get; set; }
     
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
-        public virtual EntidadResponsable EntidadResponsable { get; set; }
+        public virtual ICollection<CategoriaPorPeriodo> CategoriaPorPeriodo { get; set; }
     }
 }

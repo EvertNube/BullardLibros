@@ -28,7 +28,9 @@ namespace BullardLibros.Data
         }
     
         public virtual DbSet<Area> Area { get; set; }
+        public virtual DbSet<AreaPorComprobante> AreaPorComprobante { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
+        public virtual DbSet<CategoriaPorPeriodo> CategoriaPorPeriodo { get; set; }
         public virtual DbSet<Comprobante> Comprobante { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
@@ -38,9 +40,11 @@ namespace BullardLibros.Data
         public virtual DbSet<Honorario> Honorario { get; set; }
         public virtual DbSet<Moneda> Moneda { get; set; }
         public virtual DbSet<Movimiento> Movimiento { get; set; }
+        public virtual DbSet<Periodo> Periodo { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Responsable> Responsable { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TipoComprobante> TipoComprobante { get; set; }
         public virtual DbSet<TipoCuenta> TipoCuenta { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
@@ -48,8 +52,6 @@ namespace BullardLibros.Data
         public virtual DbSet<TipoIdentificacion> TipoIdentificacion { get; set; }
         public virtual DbSet<TipoMovimiento> TipoMovimiento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
-        public virtual DbSet<AreaPorComprobante> AreaPorComprobante { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     
         public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {
@@ -58,57 +60,6 @@ namespace BullardLibros.Data
                 new ObjectParameter("IdCuentaB", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ActualizarMontos", idCuentaBParameter);
-        }
-    
-        public virtual ObjectResult<SP_GetReporteDetalleMovimientos_Result> SP_GetReporteDetalleMovimientos(Nullable<int> idCuentaB, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var idCuentaBParameter = idCuentaB.HasValue ?
-                new ObjectParameter("IdCuentaB", idCuentaB) :
-                new ObjectParameter("IdCuentaB", typeof(int));
-    
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetReporteDetalleMovimientos_Result>("SP_GetReporteDetalleMovimientos", idCuentaBParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_GetReporteResumenCategorias_Result> SP_GetReporteResumenCategorias(Nullable<int> idCuentaB, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var idCuentaBParameter = idCuentaB.HasValue ?
-                new ObjectParameter("IdCuentaB", idCuentaB) :
-                new ObjectParameter("IdCuentaB", typeof(int));
-    
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetReporteResumenCategorias_Result>("SP_GetReporteResumenCategorias", idCuentaBParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_GetReporteResumenEntidadesRes_Result> SP_GetReporteResumenEntidadesRes(Nullable<int> idCuentaB, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var idCuentaBParameter = idCuentaB.HasValue ?
-                new ObjectParameter("IdCuentaB", idCuentaB) :
-                new ObjectParameter("IdCuentaB", typeof(int));
-    
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetReporteResumenEntidadesRes_Result>("SP_GetReporteResumenEntidadesRes", idCuentaBParameter, fechaInicioParameter, fechaFinParameter);
         }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
@@ -164,6 +115,57 @@ namespace BullardLibros.Data
                 new ObjectParameter("owner_id", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetReporteDetalleMovimientos_Result> SP_GetReporteDetalleMovimientos(Nullable<int> idCuentaB, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idCuentaBParameter = idCuentaB.HasValue ?
+                new ObjectParameter("IdCuentaB", idCuentaB) :
+                new ObjectParameter("IdCuentaB", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetReporteDetalleMovimientos_Result>("SP_GetReporteDetalleMovimientos", idCuentaBParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetReporteResumenCategorias_Result> SP_GetReporteResumenCategorias(Nullable<int> idCuentaB, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idCuentaBParameter = idCuentaB.HasValue ?
+                new ObjectParameter("IdCuentaB", idCuentaB) :
+                new ObjectParameter("IdCuentaB", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetReporteResumenCategorias_Result>("SP_GetReporteResumenCategorias", idCuentaBParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetReporteResumenEntidadesRes_Result> SP_GetReporteResumenEntidadesRes(Nullable<int> idCuentaB, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idCuentaBParameter = idCuentaB.HasValue ?
+                new ObjectParameter("IdCuentaB", idCuentaB) :
+                new ObjectParameter("IdCuentaB", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetReporteResumenEntidadesRes_Result>("SP_GetReporteResumenEntidadesRes", idCuentaBParameter, fechaInicioParameter, fechaFinParameter);
         }
     
         public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)

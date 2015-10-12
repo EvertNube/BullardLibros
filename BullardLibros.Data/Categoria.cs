@@ -16,6 +16,7 @@ namespace BullardLibros.Data
     {
         public Categoria()
         {
+            this.CategoriaPorPeriodo = new HashSet<CategoriaPorPeriodo>();
             this.Movimiento = new HashSet<Movimiento>();
         }
     
@@ -27,6 +28,7 @@ namespace BullardLibros.Data
         public int IdEmpresa { get; set; }
     
         public virtual Empresa Empresa { get; set; }
+        public virtual ICollection<CategoriaPorPeriodo> CategoriaPorPeriodo { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

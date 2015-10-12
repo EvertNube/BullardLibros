@@ -12,6 +12,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AreaPorComprobante">
+      <EntityTypeMapping TypeName="LibrosDBModel.AreaPorComprobante">
+        <MappingFragment StoreEntitySet="AreaPorComprobante">
+          <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Categoria">
       <EntityTypeMapping TypeName="LibrosDBModel.Categoria">
         <MappingFragment StoreEntitySet="Categoria">
@@ -21,6 +30,15 @@
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategoriaPorPeriodo">
+      <EntityTypeMapping TypeName="LibrosDBModel.CategoriaPorPeriodo">
+        <MappingFragment StoreEntitySet="CategoriaPorPeriodo">
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="IdPeriodo" ColumnName="IdPeriodo" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -38,6 +56,7 @@
           <ScalarProperty Name="IdArea" ColumnName="IdArea" />
           <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
           <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
           <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
           <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
           <ScalarProperty Name="Comentario" ColumnName="Comentario" />
@@ -151,6 +170,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Periodo">
+      <EntityTypeMapping TypeName="LibrosDBModel.Periodo">
+        <MappingFragment StoreEntitySet="Periodo">
+          <ScalarProperty Name="IdPeriodo" ColumnName="IdPeriodo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+          <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Proyecto">
       <EntityTypeMapping TypeName="LibrosDBModel.Proyecto">
         <MappingFragment StoreEntitySet="Proyecto">
@@ -179,6 +210,17 @@
           <ScalarProperty Name="IdRol" ColumnName="IdRol" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="LibrosDBModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -254,6 +296,9 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos" />
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="LibrosDBModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="LibrosDBModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="LibrosDBModel.Store.sp_dropdiagram" />
     <FunctionImportMapping FunctionImportName="SP_GetReporteDetalleMovimientos" FunctionName="LibrosDBModel.Store.SP_GetReporteDetalleMovimientos">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_GetReporteDetalleMovimientos_Result">
@@ -298,29 +343,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <EntitySetMapping Name="AreaPorComprobante">
-      <EntityTypeMapping TypeName="LibrosDBModel.AreaPorComprobante">
-        <MappingFragment StoreEntitySet="AreaPorComprobante">
-          <ScalarProperty Name="Monto" ColumnName="Monto" />
-          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
-          <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="LibrosDBModel.sysdiagrams">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="definition" ColumnName="definition" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="LibrosDBModel.Store.sp_alterdiagram" />
-    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="LibrosDBModel.Store.sp_creatediagram" />
-    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="LibrosDBModel.Store.sp_dropdiagram" />
     <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="LibrosDBModel.Store.sp_helpdiagramdefinition">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.sp_helpdiagramdefinition_Result">

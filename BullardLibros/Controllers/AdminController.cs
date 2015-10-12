@@ -1177,6 +1177,93 @@ namespace BullardLibros.Controllers
             return RedirectToAction("Proyecto");
         }
 
+        public ActionResult Periodos()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+
+            MenuNavBarSelected(4, 7);
+
+            UsuarioDTO currentUser = getCurrentUser();
+
+            PeriodoBL objBL = new PeriodoBL();
+            List<PeriodoDTO> listaPeriodos = new List<PeriodoDTO>();
+
+            if(currentUser.IdEmpresa > 0)
+            {
+                listaPeriodos = objBL.getPeriodosEnEmpresa(currentUser.IdEmpresa);
+            }
+            return View(listaPeriodos);
+        }
+
+        public ActionResult Periodo(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            MenuNavBarSelected(4, 7);
+            UsuarioDTO currentUser = getCurrentUser();
+
+            PeriodoBL objBL = new PeriodoBL();
+
+            var objSent = TempData["Periodo"];
+            if (objSent != null) { TempData["Periodo"] = null; return View(objSent); }
+
+            PeriodoDTO obj;
+            if(id != null)
+            {
+                obj = objBL.getPeriodoEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Periodos");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Periodos");
+                return View(obj);
+            }
+            obj = new PeriodoDTO();
+            obj.IdEmpresa = currentUser.IdEmpresa;
+
+            return View(obj);
+        }
+
+        [HttpPost]
+        public ActionResult AddPeriodo(PeriodoDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                PeriodoBL objBL = new PeriodoBL();
+                if (dto.IdPeriodo == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Periodos");
+                    }
+                }
+                else if (dto.IdPeriodo != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Periodos");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdPeriodo != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Periodo"] = dto;
+            return RedirectToAction("Periodo");
+        }
+
         #region APIs adicionales
         public JsonResult CategoriasJson()
         {
