@@ -12,13 +12,13 @@
                 @{var cadena = "";}
                 @if (Model == null || Model.IdResponsable == 0)
                 {
-                    cadena = "Nueva";
+                    cadena = "Nuevo";
                 }
                 else
                 {
                     cadena = "Actualizar";
                 }
-                <h2>@cadena Responsable</h2>
+                <h2>@cadena Consultor</h2>
 
                 @using (Html.BeginForm("AddResponsable", "Admin", FormMethod.Post))
                 {

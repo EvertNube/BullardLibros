@@ -345,7 +345,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 2);
+            MenuNavBarSelected(4, 3);
             UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
@@ -362,7 +362,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 2);
+            MenuNavBarSelected(4, 3);
             UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
@@ -543,7 +543,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 5);
+            MenuNavBarSelected(4, 6);
             UsuarioDTO currentUser = getCurrentUser();
 
             UsuariosBL usuariosBL = new UsuariosBL();
@@ -560,7 +560,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
-            MenuNavBarSelected(4, 5);
+            MenuNavBarSelected(4, 6);
 
             UsuarioDTO currentUser = getCurrentUser();
             //if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
@@ -650,7 +650,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 3);
+            MenuNavBarSelected(4, 4);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
@@ -669,7 +669,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 3);
+            MenuNavBarSelected(4, 4);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
@@ -931,7 +931,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(4, 5);
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -947,7 +947,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(4, 5);
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -1016,7 +1016,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 6);
+            MenuNavBarSelected(4, 2);
             UsuarioDTO currentUser = getCurrentUser();
 
             HonorarioBL objBL = new HonorarioBL();
@@ -1033,7 +1033,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 6);
+            MenuNavBarSelected(4, 2);
             UsuarioDTO currentUser = getCurrentUser();
 
             HonorarioBL objBL = new HonorarioBL();
@@ -1108,7 +1108,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 3);
+            MenuNavBarSelected(4, 4);
             UsuarioDTO miUsuario = getCurrentUser();
 
             ProyectoBL objBL = new ProyectoBL();
