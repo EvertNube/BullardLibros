@@ -28,6 +28,7 @@ namespace BullardLibros.Core.BL
                     IdArea = x.IdArea,
                     IdResponsable = x.IdResponsable,
                     IdCategoria = x.IdCategoria,
+                    IdProyecto = x.IdProyecto,
                     FechaEmision = x.FechaEmision,
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
@@ -60,6 +61,7 @@ namespace BullardLibros.Core.BL
                     IdArea = x.IdArea,
                     IdResponsable = x.IdResponsable,
                     IdCategoria = x.IdCategoria,
+                    IdProyecto = x.IdProyecto,
                     FechaEmision = x.FechaEmision,
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
@@ -93,6 +95,7 @@ namespace BullardLibros.Core.BL
                         IdArea = r.IdArea,
                         IdResponsable = r.IdResponsable,
                         IdCategoria = r.IdCategoria,
+                        IdProyecto = r.IdProyecto,
                         FechaEmision = r.FechaEmision,
                         FechaConclusion = r.FechaConclusion,
                         Comentario = r.Comentario,
@@ -132,6 +135,7 @@ namespace BullardLibros.Core.BL
                     nuevo.IdArea = Comprobante.IdArea;
                     nuevo.IdResponsable = Comprobante.IdResponsable;
                     nuevo.IdCategoria = Comprobante.IdCategoria;
+                    nuevo.IdProyecto = Comprobante.IdProyecto;
                     nuevo.FechaEmision = Comprobante.FechaEmision;
                     nuevo.FechaConclusion = Comprobante.FechaConclusion;
                     nuevo.Comentario = Comprobante.Comentario;
@@ -176,6 +180,7 @@ namespace BullardLibros.Core.BL
                     row.IdArea = Comprobante.IdArea;
                     row.IdResponsable = Comprobante.IdResponsable;
                     row.IdCategoria = Comprobante.IdCategoria;
+                    row.IdProyecto = Comprobante.IdProyecto;
                     row.FechaEmision = Comprobante.FechaEmision;
                     row.FechaConclusion = Comprobante.FechaConclusion;
                     row.Comentario = Comprobante.Comentario;

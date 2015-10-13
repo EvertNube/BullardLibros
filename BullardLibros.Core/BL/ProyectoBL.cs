@@ -81,5 +81,18 @@ namespace BullardLibros.Core.BL
                 }
             }
         }
+
+        public List<Select2DTO_B> getProyectosPorEntidad(int idEntidad)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Proyecto.Where(x => x.IdEntidadResponsable == idEntidad && x.Estado).Select(x => new Select2DTO_B
+                {
+                    id = x.IdProyecto,
+                    text = x.Nombre
+                }).ToList();
+                return result;
+            }
+        }
     }
 }

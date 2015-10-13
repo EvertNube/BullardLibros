@@ -771,6 +771,7 @@ namespace BullardLibros.Controllers
             ViewBag.lstAreas = objBL.getListaAreasEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstResponsables = objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstHonorarios = objBL.getListaHonorariosEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.Proyectos = new List<ProyectoDTO>();
             ViewBag.Categorias = CategoriasBucle(null, null);
             
             var objSent = TempData["Comprobante"];
@@ -1219,6 +1220,9 @@ namespace BullardLibros.Controllers
             obj = new PeriodoDTO();
             obj.IdEmpresa = currentUser.IdEmpresa;
 
+            int dyear = DateTime.Now.Year;
+            obj.FechaInicio = new DateTime(dyear, 1, 1);
+            obj.FechaFin = new DateTime(dyear, 12, 31);
             return View(obj);
         }
 
@@ -1274,11 +1278,20 @@ namespace BullardLibros.Controllers
             return Json(new { listaCat }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public JsonResult GetComprobantes(int idEntidad, int idTipoDoc)
         {
             ComprobanteBL objBL = new ComprobanteBL();
             var listaComp = objBL.getComprobantesPorEntXTDoc(getCurrentUser().IdEmpresa, idEntidad, idTipoDoc);
             return Json(new { listaComp }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetProyectos(int idEntidad)
+        {
+            ProyectoBL objBL = new ProyectoBL();
+            var listaProyectos = objBL.getProyectosPorEntidad(idEntidad);
+            return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult BuscarComprobante(int idComprobante)

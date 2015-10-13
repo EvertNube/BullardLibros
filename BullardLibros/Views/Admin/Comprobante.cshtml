@@ -14,8 +14,10 @@
         @{
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
+            var userInfoJson2 = jss.Serialize(ViewBag.Proyectos);
         }
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+        var lstProyectos = JSON.parse('@Html.Raw(userInfoJson2)');
         $(function () {
             $('.miselect2').select2();
 
@@ -24,6 +26,8 @@
                 data: mydata,
                 allowClear: true
             })
+
+            $('#IdProyecto').select2({ data: lstProyectos })
 
             $("#add-monto").click(function () {
                 var existe = false;
@@ -60,7 +64,10 @@
                 $('#IdArea option[value="'+ val +'"]').attr('disabled', false);
                 $('#lstMontos :selected').remove();
             });
+
             BloquearStaff();
+
+            ListarProyectos(0);
         });
 
         function CheckNumericValue(e) {
@@ -134,6 +141,37 @@
                 }
             });
         }
+
+        function ListarProyectos(cambio) {
+            if ($('#IdEntidadResponsable').val() != 0)
+            {
+                var idEntidad = parseInt($('#IdEntidadResponsable').val());
+                if(cambio == 1)
+                {
+                    $('#IdProyecto').select2("val", "");
+                }
+
+                GetProyectosAjax(idEntidad);
+                $('#IdProyecto').select2({
+                    data: lstProyectos
+                })
+            }
+        }
+
+        function GetProyectosAjax(idEntidad)
+        {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/GetProyectos",
+                async: false,
+                cache: false,
+                data: { idEntidad: idEntidad },
+                dataType: 'json',
+                success: function (data) {
+                    lstProyectos = data.listaProyectos;
+                }
+            });
+        }
     </script>
 }
 
@@ -199,16 +237,16 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label>@strEntidad</label>
-                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2", @onchange = "ListarProyectos(1)" })
                                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
                                         </div>
-                                        @*<div class="form-group col-md-4">
-                                            <label>Área</label>
-                                                @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
-                                                @Html.ValidationMessageFor(u => u.IdArea)
-                                        </div>*@
+                                        <div class="form-group col-md-2">
+                                            <label>Proyecto</label>
+                                            @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                            @Html.ValidationMessageFor(u => u.IdProyecto)
+                                        </div>
                                         <div class="form-group col-md-4">
                                             <label>Partida de Presupuesto</label>
                                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
@@ -219,18 +257,6 @@
                                             @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese una fecha de cancelación", @type = "text", @data_provide = "datepicker", @readonly = "true" })
                                             @Html.ValidationMessageFor(u => u.FechaConclusion)
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        @*<div class="form-group col-md-4">
-                                                <label>Monto Sin IGV</label>
-                                                @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV()" })
-                                                @Html.ValidationMessageFor(u => u.MontoSinIGV)
-                                            </div>*@
-                                        @*<div class="form-group col-md-4">
-                                            <label>Monto Con IGV</label>
-                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
-                                            @Html.ValidationMessageFor(u => u.Monto)
-                                        </div>*@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
