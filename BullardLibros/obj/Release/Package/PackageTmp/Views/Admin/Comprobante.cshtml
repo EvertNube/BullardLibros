@@ -14,8 +14,10 @@
         @{
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
+            var userInfoJson2 = jss.Serialize(ViewBag.Proyectos);
         }
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+        var lstProyectos = JSON.parse('@Html.Raw(userInfoJson2)');
         $(function () {
             $('.miselect2').select2();
 
@@ -25,47 +27,47 @@
                 allowClear: true
             })
 
+            $('#IdProyecto').select2({ data: lstProyectos })
+
             $("#add-monto").click(function () {
                 var existe = false;
-                var valuePlantilla = $('#IdArea :selected').val();
-                if (valuePlantilla > 0) {
-                    var textPlantilla = $('#plantillaInmueble :selected').text();
-                    $('#Plantillas option').each(function () {
-                        if ($(this).val() == valuePlantilla) existe = true;
+                var AreaSel = $('#IdArea :selected');
+                var valorArea = $('#IdArea :selected').val();
+                if (valorArea > 0) {
+                    var txtArea = $('#IdArea :selected').text();
+                    var txtMonto = $('#MontoSinIGV').val();
+                    $('#lstMontos option').each(function () {
+                        if ($(this).val() == valorArea) existe = true;
                     });
                     if (!existe) {
-                        $('#Plantillas').append($('<option>', {
-                            value: valuePlantilla,
-                            text: textPlantilla
-                        }));
-                        $('#plantillaInmueble :selected').remove();
+                        //var element = $('<option/>', {})
+                        $('#lstMontos').append($('<option>', {
+                            value: valorArea,
+                            text: txtArea + ' - ' + txtMonto
+                        }).attr('data-monto', txtMonto));
+                        $('#IdArea :selected').attr('disabled', true);
+                        var optionvalida = $('#IdArea option:not([disabled])').first().val();
+                        $('#IdArea').val(optionvalida).change();
+                        //$('#IdArea :selected').next().attr('selected', true);
+                        //$('#IdArea').select2("val", null);
                     } else {
-                        alert("No se puede agregar el protocolo " + textPlantilla + ", porque ya se encuentra agregado.");
+                        alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
                     }
                 } else {
-                    alert("Por favor, seleccione un protocolo válido.");
+                    alert("Por favor, seleccione otra área válido.");
                 }
             });
             $("#remove-monto").click(function () {
-                var val = $('#Plantillas :selected').val();
-                var text = $('#Plantillas :selected').text();
-                $('#plantillaInmueble').append($('<option>', {
-                    value: val,
-                    text: text
-                }));
-                $("select#plantillaInmueble").html($("select#plantillaInmueble option").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.value > b.value ? 1 : -1;
-                }));
-                $('#Plantillas :selected').remove();
+                var val = $('#lstMontos :selected').val();
+                var text = $('#lstMontos :selected').text();
+
+                $('#IdArea option[value="'+ val +'"]').attr('disabled', false);
+                $('#lstMontos :selected').remove();
             });
-            $("#btnGuardar").click(function () {
-                //console.log("seteando");
-                var values = [];
-                $('#Plantillas option').each(function () {
-                    values.push($(this).val());
-                });
-                $("#Plantillas").val(values);//(["2", "3"]);
-            });
+
+            BloquearStaff();
+
+            ListarProyectos(0);
         });
 
         function CheckNumericValue(e) {
@@ -104,8 +106,71 @@
         {
             if(@Model.IdTipoComprobante == 1)
             {
-                //$("#IdTipoDocumento").val("4").trigger("change")
+                $("#IdTipoDocumento option[value='4']").attr('disabled', true);
+                //$("#IdTipoDocumento option[value='4']").attr('disabled', false);
             }
+        }
+
+        function ListaMontosAreas()
+        {
+            var lista = [];
+            $('#lstMontos option').each(function () {
+                var elem = {
+                    IdArea: $(this).val(),
+                    Monto: $(this).data("monto")
+                };
+                lista.push(elem);
+            });
+
+            //var objeto = { IdArea: 1, Monto: 15.30, IdComprobante: 1 };
+
+            lista = JSON.stringify({'lista': lista});
+            //alert(lista);
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/PasslstAreasXMontos',
+                data: lista,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    //alert(data.mensaje);
+                    return true;
+                },
+                error: function(xhr, status, error) {
+                    return false;
+                }
+            });
+        }
+
+        function ListarProyectos(cambio) {
+            if ($('#IdEntidadResponsable').val() != 0)
+            {
+                var idEntidad = parseInt($('#IdEntidadResponsable').val());
+                if(cambio == 1)
+                {
+                    $('#IdProyecto').select2("val", "");
+                }
+
+                GetProyectosAjax(idEntidad);
+                $('#IdProyecto').select2({
+                    data: lstProyectos
+                })
+            }
+        }
+
+        function GetProyectosAjax(idEntidad)
+        {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/GetProyectos",
+                async: false,
+                cache: false,
+                data: { idEntidad: idEntidad },
+                dataType: 'json',
+                success: function (data) {
+                    lstProyectos = data.listaProyectos;
+                }
+            });
         }
     </script>
 }
@@ -172,24 +237,26 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-2">
                                             <label>@strEntidad</label>
-                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2", @onchange = "ListarProyectos(1)" })
                                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Área</label>
-                                            @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
-                                            @Html.ValidationMessageFor(u => u.IdArea)
+                                        <div class="form-group col-md-2">
+                                            <label>Proyecto</label>
+                                            @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                            @Html.ValidationMessageFor(u => u.IdProyecto)
                                         </div>
-                                        @if (Model.IdTipoComprobante == 1)
-                                        {
-                                            <div class="form-group col-md-4">
-                                                <label>Categoría</label>
-                                                @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
-                                                @Html.ValidationMessageFor(u => u.IdCategoria)
-                                            </div>
-                                        }
+                                        <div class="form-group col-md-4">
+                                            <label>Partida de Presupuesto</label>
+                                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                            @Html.ValidationMessageFor(u => u.IdCategoria)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>@strFechaFin</label>
+                                            @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese una fecha de cancelación", @type = "text", @data_provide = "datepicker", @readonly = "true" })
+                                            @Html.ValidationMessageFor(u => u.FechaConclusion)
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-4">
@@ -197,79 +264,93 @@
                                             @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
                                             @Html.ValidationMessageFor(u => u.IdMoneda)
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Monto Sin IGV</label>
-                                            @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV()" })
-                                            @Html.ValidationMessageFor(u => u.MontoSinIGV)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Monto Con IGV</label>
-                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
-                                            @Html.ValidationMessageFor(u => u.Monto)
-                                        </div>
-                                    </div>
-                                    <div class="row">
+                                        @if (Model.IdTipoComprobante == 1)
+                                        {
                                         <div class="form-group col-md-4">
                                             <label>Modalidad de Honorario</label>
                                             @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
                                             @Html.ValidationMessageFor(u => u.IdHonorario)
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label>@strFechaFin</label>
-                                            @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese una fecha de cancelación", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                                            @Html.ValidationMessageFor(u => u.FechaConclusion)
-                                        </div>
+                                        }
                                         @if (Model.IdTipoComprobante == 1)
                                         {
                                             <div class="form-group col-md-4">
-                                                <label>Responsable</label>
+                                                <label>Consultor</label>
                                                 @Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
                                                 @Html.ValidationMessageFor(u => u.IdResponsable)
                                             </div>
                                         }
-                                        else
-                                        {
-                                            <div class="form-group col-md-4">
-                                                <label>Categoría</label>
-                                                @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
-                                                @Html.ValidationMessageFor(u => u.IdCategoria)
+                                    </div>
+                                    <div class="line line-dashed line-md pull-in"></div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <div class="col-md-4">
+                                                        <label>Área</label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.DropDownList("IdArea", new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })*@
+                                                        @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                                        @Html.ValidationMessageFor(u => u.IdArea)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-4">
+                                                        <label>Monto Sin IGV</label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @*@Html.TextBox("MontoSinIGV", Model.MontoSinIGV, "{0:#.00}", new { @class = "form-control", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV()" })*@
+                                                        @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV()" })
+                                                        @Html.ValidationMessageFor(u => u.MontoSinIGV)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-4">
+                                                        <label>Monto Con IGV</label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
+                                                        @Html.ValidationMessageFor(u => u.Monto)
+                                                    </div>
+                                                </div>
                                             </div>
-                                        }
+                                            <div class="col-md-1 no-padder text-center">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Área por Monto">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    &nbsp;
+                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Área por Monto">
+                                                        <i class="fa fa-minus-circle"></i>
+                                                    </button>
+                                                </div>
+                                                @*<div class="form-group">
+                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Area Por Monto">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Plantilla">
+                                                        <i class="fa fa-minus-circle"></i>
+                                                    </button>
+                                                </div>*@
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="@Html.NameFor(u => u.lstMontos)" id="@Html.IdFor(u => u.lstMontos)" name="@Html.NameFor(u => u.lstMontos)" multiple="multiple" class="form-control" size="6">
+                                                    @{List<AreaPorComprobanteDTO> listaMontos = ViewBag.Montos ?? new List<AreaPorComprobanteDTO>(); }
+                                                    @foreach (var item in listaMontos)
+                                                    {
+                                                        <option value="@item.IdArea" data-monto="@item.Monto">@(item.NombreArea + " - " + item.Monto.ToString())</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Comentario</label>
                                         @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Ingrese un comentario", @type = "text", @rows = "3", @style = "resize: none;" })
                                         @Html.ValidationMessageFor(u => u.Comentario)
-                                    </div>
-                                    <div class=" form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-lg-1">Area</label>
-                                            <div class="col-lg-4">
-                                                @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
-                                            </div>
-                                            <label class="col-lg-1">Monto</label>
-                                            <div class="col-lg-4">
-                                                @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Area Por Monto">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-lg-3"></label>
-                                            <div class="col-lg-8">
-                                                @Html.DropDownListFor(u => u.lstMontos, new MultiSelectList(Model != null ? ViewBag.Montos ?? new List<AreaPorComprobanteDTO>() : new List<AreaPorComprobanteDTO>(), "IdArea", "Monto"), new { @multiple = "multiple", @class = "form-control" })
-                                            </div>
-                                            <div class="col-lg-1">
-                                                <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Plantilla">
-                                                    <i class="fa fa-minus-circle"></i>
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
                                     {
@@ -290,7 +371,7 @@
                                     @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    <button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas();">@btnName</button>
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = Model.IdTipoComprobante })">Salir</a>
                                 </div>
                             </section>

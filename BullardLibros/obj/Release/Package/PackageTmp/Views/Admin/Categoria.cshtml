@@ -91,11 +91,11 @@
             <div class="col-xs-12 col-md-10 col-md-offset-1">
                 @if (Model == null || Model.IdCategoria == 0)
                 {
-                    <h2>Nueva Categoría</h2>
+                    <h2>Nueva Partida de Presupuesto</h2>
                 }
                 else
                 {
-                    <h2>Actualizar Categoría</h2>
+                    <h2>Actualizar Partida de Presupuesto</h2>
                 }
 
                 @using (Html.BeginForm("AddCategoria", "Admin", FormMethod.Post))

@@ -1,8 +1,8 @@
-﻿@{
-    ViewBag.Title = "NubeLabs SCI - Responsables";
+﻿@model IList<BullardLibros.Core.DTO.PeriodoDTO>
+@{
+    ViewBag.Title = "Periodos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IList<BullardLibros.Core.DTO.ResponsableDTO>
 @section Styles{
     @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
@@ -20,7 +20,7 @@
     <section class="scrollable padder">
         <div class="row m-b">
             <div class="col-xs-12 col-md-10 col-md-offset-1">
-                <h2>Consultores</h2>
+                <h2>Periodos</h2>
                 @Html.Partial("_showAlertMessages")
                 <section class="panel panel-default">
                     @if (ViewBag.EsAdmin)
@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Responsable")"><i class="fa fa-plus"></i> Crear nuevo Responsable</a>
+                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Periodo")"><i class="fa fa-plus"></i> Crear nuevo Periodo</a>
                                 </div>
                             </div>
                         </header>
@@ -42,10 +42,11 @@
                         <table class="table table-striped m-b-none dataTable no-footer">
                             <thead>
                                 <tr>
-                                    <th width="25%">Nombre</th>
-                                    <th class="text-center" width="45%">Descripción</th>
-                                    <th class="text-center" width="20%">Estado</th>
-                                    <th class="text-center" width="10%">Opciones</th>
+                                    <th width="40%">Nombre</th>
+                                    <th class="text-center" width="20%">Fecha de Inicio</th>
+                                    <th class="text-center" width="20%">Fecha de Fin</th>
+                                    <th class="text-center" width="10%">Estado</th>
+                                    <th class="text-center">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,19 +54,16 @@
                                 {
                                     foreach (var obj in Model)
                                     {
-                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                        var classInactive = (ViewBag.EsAdmin && !obj.Active) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
-                                            <td width="25%">@obj.Nombre</td>
-                                            <td class="text-center" width="45%">@obj.Descripcion</td>
-                                            @if (obj.Estado == true)
-                                            {
-                                                <td class="text-center" width="20%">Activo</td>}
-                                            else
-                                            {
-                                                <td class="text-center" width="20%">Inactivo</td>}
+                                            <td width="40%">@obj.Nombre</td>
+                                            <td class="text-center" width="20%">@obj.FechaInicio.ToShortDateString()</td>
+                                            <td class="text-center" width="20%">@obj.FechaFin.ToShortDateString()</td>
+                                            @{var sActivo = obj.Active == true ? "Activo" : "Inactivo";}
+                                            <td class="text-center" width="10%">@sActivo</td>
                                             @if (ViewBag.EsAdmin)
                                             {
-                                                <td align="center"><a href="@Url.Action("Responsable", new { id = obj.IdResponsable })"><i class="fa fa-pencil"></i></a></td>
+                                                <td align="center"><a href="@Url.Action("Periodo", new { id = obj.IdPeriodo })"><i class="fa fa-pencil"></i></a></td>
                                             }
                                         </tr>
                                     }
@@ -78,3 +76,4 @@
         </div>
     </section>
 </section>
+
