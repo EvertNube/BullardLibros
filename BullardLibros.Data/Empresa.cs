@@ -32,11 +32,13 @@ namespace BullardLibros.Data
         public string Descripcion { get; set; }
         public decimal TipoCambio { get; set; }
         public Nullable<decimal> IGV { get; set; }
+        public Nullable<int> IdPeriodo { get; set; }
     
         public virtual ICollection<Area> Area { get; set; }
         public virtual ICollection<Categoria> Categoria { get; set; }
         public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
+        public virtual Periodo Periodo { get; set; }
         public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
         public virtual ICollection<Honorario> Honorario { get; set; }
         public virtual ICollection<Responsable> Responsable { get; set; }

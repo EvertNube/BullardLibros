@@ -28,6 +28,7 @@ namespace BullardLibros.Data
         public int IdEmpresa { get; set; }
         public string NroDocumento { get; set; }
         public decimal Monto { get; set; }
+        public decimal MontoSinIGV { get; set; }
         public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdResponsable { get; set; }
         public Nullable<int> IdCategoria { get; set; }
@@ -38,7 +39,6 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
         public Nullable<int> IdHonorario { get; set; }
-        public Nullable<decimal> MontoSinIGV { get; set; }
     
         public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
         public virtual Empresa Empresa { get; set; }

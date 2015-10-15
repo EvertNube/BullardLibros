@@ -14,6 +14,7 @@ namespace BullardLibros.Core.DTO
         public bool Estado { get; set; }
         public string Descripcion { get; set; }
         public Decimal TipoCambio { get; set; }
-        public Decimal IGV { get; set; }
+        public Decimal? IGV { get; set; }
+        public int IdPeriodo { get; set; }
     }
 }

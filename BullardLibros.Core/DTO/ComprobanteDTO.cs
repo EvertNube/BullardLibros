@@ -17,6 +17,7 @@ namespace BullardLibros.Core.DTO
         public int IdEmpresa { get; set; }
         public string NroDocumento { get; set; }
         public Decimal Monto { get; set; }
+        public Decimal MontoSinIGV { get; set; }
         public int? IdArea { get; set; }
         public int? IdResponsable { get; set; }
         public int? IdCategoria { get; set; }
@@ -27,7 +28,6 @@ namespace BullardLibros.Core.DTO
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
         public int? IdHonorario { get; set; }
-        public Decimal? MontoSinIGV { get; set; }
 
         //Nombres
         public string NombreTipoComprobante { get; set; }

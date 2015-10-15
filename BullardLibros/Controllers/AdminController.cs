@@ -768,7 +768,7 @@ namespace BullardLibros.Controllers
             ViewBag.lstClientes = objBL.getListaClientesEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstProveedores = objBL.getListaProveedoresEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstMonedas = objBL.getListaMonedas();
-            ViewBag.lstAreas = objBL.getListaAreasEnEmpresa(currentUser.IdEmpresa);
+            ViewBag.lstAreas = objBL.getListaAreasEnEmpresa(currentUser.IdEmpresa, true);
             ViewBag.lstResponsables = objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstHonorarios = objBL.getListaHonorariosEnEmpresa(currentUser.IdEmpresa);
             ViewBag.Proyectos = new List<ProyectoDTO>();

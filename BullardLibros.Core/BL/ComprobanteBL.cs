@@ -142,7 +142,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Estado = true;
                     nuevo.Ejecutado = false;
                     nuevo.IdHonorario = Comprobante.IdHonorario;
-                    nuevo.MontoSinIGV = Comprobante.MontoSinIGV ?? 0;
+                    nuevo.MontoSinIGV = Comprobante.MontoSinIGV;
                     context.Comprobante.Add(nuevo);
 
                     foreach (var item in Comprobante.lstMontos)
@@ -186,7 +186,7 @@ namespace BullardLibros.Core.BL
                     row.Comentario = Comprobante.Comentario;
                     row.Estado = Comprobante.Estado;
                     row.IdHonorario = Comprobante.IdHonorario;
-                    row.MontoSinIGV = Comprobante.MontoSinIGV ?? 0;
+                    row.MontoSinIGV = Comprobante.MontoSinIGV;
 
                     var allmontos = from m in context.AreaPorComprobante
                                     where m.IdComprobante == row.IdComprobante
@@ -315,7 +315,7 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public List<AreaDTO> getListaAreasEnEmpresa(int idEmpresa)
+        public List<AreaDTO> getListaAreasEnEmpresa(int idEmpresa, bool? esNull = false)
         {
             //SOLO ACTIVOS
             using (var context = getContext())
@@ -326,6 +326,11 @@ namespace BullardLibros.Core.BL
                     Nombre = x.Nombre,
                     Estado = x.Estado
                 }).ToList();
+
+                if(esNull != null)
+                {
+                    result.Insert(0, new AreaDTO() { IdArea = 0, Nombre = "Seleccione un área" });
+                }
                 return result;
             }
         }

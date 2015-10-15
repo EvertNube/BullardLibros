@@ -51,6 +51,7 @@
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
     <Property Name="NroDocumento" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" Nullable="false" />
     <Property Name="IdArea" Type="int" />
     <Property Name="IdResponsable" Type="int" />
     <Property Name="IdCategoria" Type="int" />
@@ -61,7 +62,6 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Ejecutado" Type="bit" Nullable="false" />
     <Property Name="IdHonorario" Type="int" />
-    <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -87,6 +87,7 @@
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
     <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
     <Property Name="IGV" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="IdPeriodo" Type="int" />
   </EntityType>
   <EntityType Name="EntidadResponsable">
     <Key>
@@ -463,6 +464,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Empresa_Periodo">
+    <End Role="Periodo" Type="Self.Periodo" Multiplicity="0..1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Periodo">
+        <PropertyRef Name="IdPeriodo" />
+      </Principal>
+      <Dependent Role="Empresa">
+        <PropertyRef Name="IdPeriodo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_EntidadResponsable_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
@@ -823,6 +836,10 @@
     <AssociationSet Name="FK_CuentaBancaria_TipoCuenta" Association="Self.FK_CuentaBancaria_TipoCuenta">
       <End Role="TipoCuenta" EntitySet="TipoCuenta" />
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Empresa_Periodo" Association="Self.FK_Empresa_Periodo">
+      <End Role="Periodo" EntitySet="Periodo" />
+      <End Role="Empresa" EntitySet="Empresa" />
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
