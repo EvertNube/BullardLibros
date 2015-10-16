@@ -55,7 +55,7 @@ input.getLink {
 }
 a.btn-add:hover,
 .dd-item:hover > a.btn-add:hover  {
-    background-color: #ff6a00;
+    background-color: #53b567;
     color: #fff;
     border-radius: 50%;
     }
@@ -79,6 +79,7 @@ a.btn-preview:hover,
 }
 a.btn-preview,
 a.btn-add {
+    padding-left:6px;
     padding-right:6px;
     padding-top: 2px;
     padding-bottom: 2px;

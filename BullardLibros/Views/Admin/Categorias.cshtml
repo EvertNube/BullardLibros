@@ -66,11 +66,23 @@
                             <div class="dd" id="nestable3">
                                 <ol class="dd-list">
                                     <li class="dd-item dd3-item" data-id="1">
-                                        <div class="dd3-content" style="">
-                                            No tiene categoría <b class="badge bg-warning dot green"></b>
-                                            <a class="btn-edit" href="/Admin/Categoria/1"><i class="fa fa-pencil"></i></a>
+                                        <div class="dd3-content row" style="">
+                                            <div class="col-md-6">
+                                                No tiene categoría
+                                                <b class="badge bg-warning dot green"></b>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input class="form-control input-sm" type="text" />
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <div class="btn-group">
+                                                    <a class="btn-add" href="/Admin/Categoria/1"><i class="fa fa-pencil"></i></a>
+                                                    <a class="btn-add" href="/Admin/Categoria/1"><i class="fa fa-money"></i></a>
+                                                    <a class="btn-add" href="/Admin/Categoria/0?idPadre=1" title="Nueva Categoría Interna"><i class="fa fa-plus"></i></a>
+                                                    &nbsp;
+                                                </div>
+                                            </div>
                                         </div>
-                                        <a class="btn-edit btn-add" href="/Admin/Categoria/0?idPadre=1" title="Nueva Categoría Interna"><i class="fa fa-plus"></i></a>
                                     </li>
                                 </ol>
 
