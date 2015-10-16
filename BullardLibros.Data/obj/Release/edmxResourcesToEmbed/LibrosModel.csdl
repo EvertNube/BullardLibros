@@ -60,6 +60,7 @@
     <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
     <Property Name="NroDocumento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Monto" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="MontoSinIGV" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
     <Property Name="IdArea" Type="Int32" />
     <Property Name="IdResponsable" Type="Int32" />
     <Property Name="IdCategoria" Type="Int32" />
@@ -70,7 +71,6 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Ejecutado" Type="Boolean" Nullable="false" />
     <Property Name="IdHonorario" Type="Int32" />
-    <Property Name="MontoSinIGV" Type="Decimal" Precision="18" Scale="4" />
     <NavigationProperty Name="AreaPorComprobante" Relationship="Self.FK_AreaPorComprobante_Comprobante" FromRole="Comprobante" ToRole="AreaPorComprobante" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_Comprobante_Empresa" FromRole="Comprobante" ToRole="Empresa" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="Comprobante" ToRole="EntidadResponsable" />
@@ -109,10 +109,12 @@
     <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="IGV" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="IdPeriodo" Type="Int32" />
     <NavigationProperty Name="Area" Relationship="Self.FK_Area_Empresa" FromRole="Empresa" ToRole="Area" />
     <NavigationProperty Name="Categoria" Relationship="Self.FK_Categoria_Empresa" FromRole="Empresa" ToRole="Categoria" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Empresa" FromRole="Empresa" ToRole="Comprobante" />
     <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_CuentaBancaria_Empresa" FromRole="Empresa" ToRole="CuentaBancaria" />
+    <NavigationProperty Name="Periodo" Relationship="Self.FK_Empresa_Periodo" FromRole="Empresa" ToRole="Periodo" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="Empresa" ToRole="EntidadResponsable" />
     <NavigationProperty Name="Honorario" Relationship="Self.FK_Honorario_Empresa" FromRole="Empresa" ToRole="Honorario" />
     <NavigationProperty Name="Responsable" Relationship="Self.FK_Responsable_Empresa" FromRole="Empresa" ToRole="Responsable" />
@@ -220,6 +222,7 @@
     <Property Name="Active" Type="Boolean" Nullable="false" />
     <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
     <NavigationProperty Name="CategoriaPorPeriodo" Relationship="Self.FK_CategoriaPorPeriodo_Periodo" FromRole="Periodo" ToRole="CategoriaPorPeriodo" />
+    <NavigationProperty Name="Empresa" Relationship="Self.FK_Empresa_Periodo" FromRole="Periodo" ToRole="Empresa" />
   </EntityType>
   <EntityType Name="Proyecto">
     <Key>
@@ -565,6 +568,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Empresa_Periodo">
+    <End Role="Periodo" Type="Self.Periodo" Multiplicity="0..1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Periodo">
+        <PropertyRef Name="IdPeriodo" />
+      </Principal>
+      <Dependent Role="Empresa">
+        <PropertyRef Name="IdPeriodo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_EntidadResponsable_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
@@ -834,6 +849,10 @@
     <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="Self.FK_Movimiento_CuentaBancaria">
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Empresa_Periodo" Association="Self.FK_Empresa_Periodo">
+      <End Role="Periodo" EntitySet="Periodo" />
+      <End Role="Empresa" EntitySet="Empresa" />
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />

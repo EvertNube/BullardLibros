@@ -35,7 +35,7 @@
                 var valorArea = $('#IdArea :selected').val();
                 if (valorArea > 0) {
                     var txtArea = $('#IdArea :selected').text();
-                    var txtMonto = $('#MontoSinIGV').val();
+                    var txtMonto = parseFloat($('#MontoSinIGV').val()).toFixed(2);
                     $('#lstMontos option').each(function () {
                         if ($(this).val() == valorArea) existe = true;
                     });
@@ -45,11 +45,11 @@
                             value: valorArea,
                             text: txtArea + ' - ' + txtMonto
                         }).attr('data-monto', txtMonto));
-                        $('#IdArea :selected').attr('disabled', true);
-                        var optionvalida = $('#IdArea option:not([disabled])').first().val();
-                        $('#IdArea').val(optionvalida).change();
-                        //$('#IdArea :selected').next().attr('selected', true);
-                        //$('#IdArea').select2("val", null);
+                        //$('#IdArea :selected').attr('disabled', true);
+                        /*var optionvalida = $('#IdArea option:not([disabled])').first().val();
+                        $('#IdArea').val(optionvalida).change();*/
+                        $('#IdArea').select2("val", 0);
+                        ActualizarMontos();
                     } else {
                         alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
                     }
@@ -61,8 +61,9 @@
                 var val = $('#lstMontos :selected').val();
                 var text = $('#lstMontos :selected').text();
 
-                $('#IdArea option[value="'+ val +'"]').attr('disabled', false);
+                //$('#IdArea option[value="'+ val +'"]').attr('disabled', false);
                 $('#lstMontos :selected').remove();
+                ActualizarMontos();
             });
 
             BloquearStaff();
@@ -109,6 +110,16 @@
                 $("#IdTipoDocumento option[value='4']").attr('disabled', true);
                 //$("#IdTipoDocumento option[value='4']").attr('disabled', false);
             }
+        }
+
+        function ActualizarMontos()
+        {
+            var suma = 0;
+            $('#lstMontos option').each(function(){
+                suma += parseFloat($(this).data("monto"));
+            })
+            $('#MontoSinIGV').val(suma);
+            ActualizarMontoConIGV();
         }
 
         function ListaMontosAreas()
@@ -227,7 +238,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Tipo de Documento</label>
-                                            @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2", @onchange = "ActualizarMontoSinIGV()" })
+                                            @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2", @onchange = "ActualizarMontoConIGV()" })
                                             @Html.ValidationMessageFor(u => u.IdTipoDocumento)
                                         </div>
                                         <div class="form-group col-md-4">
@@ -237,16 +248,20 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-md-2">
+                                        @{var columnas = 2; if (Model.IdTipoComprobante != 1) { columnas = 4; }}
+                                        <div class="form-group col-md-@columnas">
                                             <label>@strEntidad</label>
                                             @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2", @onchange = "ListarProyectos(1)" })
                                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
                                         </div>
+                                        @if(Model.IdTipoComprobante == 1)
+                                        { 
                                         <div class="form-group col-md-2">
                                             <label>Proyecto</label>
                                             @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
                                             @Html.ValidationMessageFor(u => u.IdProyecto)
                                         </div>
+                                        }
                                         <div class="form-group col-md-4">
                                             <label>Partida de Presupuesto</label>
                                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
@@ -325,23 +340,13 @@
                                                         <i class="fa fa-minus-circle"></i>
                                                     </button>
                                                 </div>
-                                                @*<div class="form-group">
-                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Area Por Monto">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="form-group">
-                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Plantilla">
-                                                        <i class="fa fa-minus-circle"></i>
-                                                    </button>
-                                                </div>*@
                                             </div>
                                             <div class="col-md-4">
                                                 <select name="@Html.NameFor(u => u.lstMontos)" id="@Html.IdFor(u => u.lstMontos)" name="@Html.NameFor(u => u.lstMontos)" multiple="multiple" class="form-control" size="6">
                                                     @{List<AreaPorComprobanteDTO> listaMontos = ViewBag.Montos ?? new List<AreaPorComprobanteDTO>(); }
                                                     @foreach (var item in listaMontos)
                                                     {
-                                                        <option value="@item.IdArea" data-monto="@item.Monto">@(item.NombreArea + " - " + item.Monto.ToString())</option>
+                                                        <option value="@item.IdArea" data-monto="@item.Monto">@(item.NombreArea + " - " + item.Monto.ToString("#.00"))</option>
                                                     }
                                                 </select>
                                             </div>
