@@ -39,7 +39,8 @@ namespace BullardLibros.Core.BL
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
                     NombreTipoDocumento = x.TipoDocumento.Nombre,
                     SimboloMoneda = x.Moneda.Simbolo,
-                    MontoSinIGV = x.MontoSinIGV
+                    MontoSinIGV = x.MontoSinIGV,
+                    TipoCambio = x.TipoCambio
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -72,7 +73,8 @@ namespace BullardLibros.Core.BL
                     NombreTipoComprobante = x.TipoComprobante.Nombre,
                     NombreTipoDocumento = x.TipoDocumento.Nombre,
                     SimboloMoneda = x.Moneda.Simbolo,
-                    MontoSinIGV = x.MontoSinIGV
+                    MontoSinIGV = x.MontoSinIGV,
+                    TipoCambio = x.TipoCambio
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -107,6 +109,7 @@ namespace BullardLibros.Core.BL
                         NombreTipoDocumento = r.TipoDocumento.Nombre,
                         SimboloMoneda = r.Moneda.Simbolo,
                         MontoSinIGV = r.MontoSinIGV,
+                        TipoCambio = r.TipoCambio,
                         lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO 
                         {
                             IdArea = x.IdArea,
@@ -143,6 +146,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Ejecutado = false;
                     nuevo.IdHonorario = Comprobante.IdHonorario;
                     nuevo.MontoSinIGV = Comprobante.MontoSinIGV;
+                    nuevo.TipoCambio = Comprobante.TipoCambio;
                     context.Comprobante.Add(nuevo);
 
                     foreach (var item in Comprobante.lstMontos)
@@ -187,6 +191,7 @@ namespace BullardLibros.Core.BL
                     row.Estado = Comprobante.Estado;
                     row.IdHonorario = Comprobante.IdHonorario;
                     row.MontoSinIGV = Comprobante.MontoSinIGV;
+                    row.TipoCambio = Comprobante.TipoCambio;
 
                     var allmontos = from m in context.AreaPorComprobante
                                     where m.IdComprobante == row.IdComprobante

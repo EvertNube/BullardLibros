@@ -42,31 +42,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Comprobante">
-      <EntityTypeMapping TypeName="LibrosDBModel.Comprobante">
-        <MappingFragment StoreEntitySet="Comprobante">
-          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
-          <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
-          <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
-          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-          <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
-          <ScalarProperty Name="Monto" ColumnName="Monto" />
-          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
-          <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
-          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-          <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
-          <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
-          <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
-          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Ejecutado" ColumnName="Ejecutado" />
-          <ScalarProperty Name="IdHonorario" ColumnName="IdHonorario" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="CuentaBancaria">
       <EntityTypeMapping TypeName="LibrosDBModel.CuentaBancaria">
         <MappingFragment StoreEntitySet="CuentaBancaria">
@@ -92,6 +67,7 @@
           <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
           <ScalarProperty Name="IGV" ColumnName="IGV" />
           <ScalarProperty Name="IdPeriodo" ColumnName="IdPeriodo" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -365,5 +341,31 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="LibrosDBModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="LibrosDBModel.Store.sp_upgraddiagrams" />
+    <EntitySetMapping Name="Comprobante">
+      <EntityTypeMapping TypeName="LibrosDBModel.Comprobante">
+        <MappingFragment StoreEntitySet="Comprobante">
+          <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+          <ScalarProperty Name="IdHonorario" ColumnName="IdHonorario" />
+          <ScalarProperty Name="Ejecutado" ColumnName="Ejecutado" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+          <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
+          <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+          <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+          <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
+          <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
+          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

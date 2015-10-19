@@ -62,6 +62,7 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Ejecutado" Type="bit" Nullable="false" />
     <Property Name="IdHonorario" Type="int" />
+    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -88,6 +89,7 @@
     <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
     <Property Name="IGV" Type="numeric" Precision="18" Scale="2" />
     <Property Name="IdPeriodo" Type="int" />
+    <Property Name="IdMoneda" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="EntidadResponsable">
     <Key>
@@ -464,6 +466,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Empresa_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="Empresa">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Empresa_Periodo">
     <End Role="Periodo" Type="Self.Periodo" Multiplicity="0..1" />
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
@@ -836,6 +850,10 @@
     <AssociationSet Name="FK_CuentaBancaria_TipoCuenta" Association="Self.FK_CuentaBancaria_TipoCuenta">
       <End Role="TipoCuenta" EntitySet="TipoCuenta" />
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Empresa_Moneda" Association="Self.FK_Empresa_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="Empresa" EntitySet="Empresa" />
     </AssociationSet>
     <AssociationSet Name="FK_Empresa_Periodo" Association="Self.FK_Empresa_Periodo">
       <End Role="Periodo" EntitySet="Periodo" />

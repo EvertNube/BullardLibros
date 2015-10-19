@@ -789,6 +789,7 @@ namespace BullardLibros.Controllers
             }
             obj = new ComprobanteDTO();
             obj.IdEmpresa = currentUser.IdEmpresa;
+            obj.TipoCambio = (new EmpresaBL()).getEmpresa(currentUser.IdEmpresa).TipoCambio;
             obj.FechaEmision = DateTime.Now;
             if (idTipoComprobante != null && idTipoComprobante != 0) obj.IdTipoComprobante = idTipoComprobante.GetValueOrDefault();
             return View(obj);

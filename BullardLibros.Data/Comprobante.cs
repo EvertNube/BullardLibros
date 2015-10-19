@@ -39,6 +39,7 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
         public Nullable<int> IdHonorario { get; set; }
+        public decimal TipoCambio { get; set; }
     
         public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
         public virtual Empresa Empresa { get; set; }

@@ -24,7 +24,7 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
     
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
     }
 }
