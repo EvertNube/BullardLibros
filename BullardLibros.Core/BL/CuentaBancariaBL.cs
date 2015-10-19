@@ -128,7 +128,7 @@ namespace BullardLibros.Core.BL
                             NroOperacion = x.NroOperacion,
                             Fecha = x.Fecha,
                             Monto = x.Monto,
-                            NumeroDocumento = x.NumeroDocumento,
+                            NumeroDocumento = x.Comprobante.NroDocumento,
                             Comentario = x.Comentario,
                             Estado = x.Estado,
                             UsuarioCreacion = x.UsuarioCreacion,
