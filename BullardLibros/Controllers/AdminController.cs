@@ -466,6 +466,7 @@ namespace BullardLibros.Controllers
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true); 
             ViewBag.NombreCategoria = "Sin Categoría";
             ViewBag.Categorias = CategoriasBucle(null, null);
+            
             ViewBag.Comprobantes = objBL.getComprobantesPendientesEnEmpresa(miUsuario.IdEmpresa);
 
             var objSent = TempData["Movimiento"];
@@ -1314,7 +1315,7 @@ namespace BullardLibros.Controllers
 
             foreach (var item in listaCat)
             {
-                if (item.IdCategoria != 1 && item.Estado)
+                if (item.Estado)
                 {
                     Select2DTO selectItem = new Select2DTO();
                     selectItem.id = item.IdCategoria;
