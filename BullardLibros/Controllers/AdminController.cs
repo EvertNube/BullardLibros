@@ -464,7 +464,7 @@ namespace BullardLibros.Controllers
             ViewBag.lstFormaMovs = objBL.getListaFormaDeMovimientos();
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true); 
-            ViewBag.NombreCategoria = "Sin Categoría";
+            ViewBag.NombreCategoria = "Sin Categoría"; 
             ViewBag.Categorias = CategoriasBucle(null, null);
             
             ViewBag.Comprobantes = objBL.getComprobantesPendientesEnEmpresa(miUsuario.IdEmpresa);
