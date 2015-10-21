@@ -6,10 +6,44 @@
 
 @section styles{
     @Styles.Render("~/Content/themes/admin/js/nestable/nestable.css")
+
+    <style type="text/css">
+        .dd3-item > button {
+            margin-left: 0px;
+        }
+    </style>
 }
 @section scripts{
     @Scripts.Render("~/Content/themes/admin/js/nestable/jquery.nestable.js")
     @Scripts.Render("~/Content/themes/admin/js/nestable/demo.js")
+
+    <script type="text/javascript">
+        var defaultText = '0';
+
+        function endEdit(e) {
+            var input = $(e.target),
+                label = input && input.prev();
+
+            label.text(input.val() === '' ? defaultText : input.val());
+            input.hide();
+            label.show(); 
+        }
+
+        $('.clickedit').hide()
+        .focusout(endEdit)
+        .keyup(function (e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                endEdit(e);
+                return false;
+            } else {
+                return true;
+            }
+        })
+        .prev().click(function () {
+            $(this).hide();
+            $(this).next().show().focus();
+        });
+    </script>
 }
 @functions{
     public string printTree(IList<BullardLibros.Core.DTO.CategoriaDTO> categorias, int nivel)
@@ -22,10 +56,15 @@
             {
                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? " inactive" : "";
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
-                output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content' style='{1}'>{2} <b class='badge bg-warning dot {3}'></b>", obj.IdCategoria, nivel == 3 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
-                if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-edit' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
-                if (nivel < 3) { output.AppendFormat(" <a class='btn-edit btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
+                output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
+                output.Append("<div class='col-md-3 text-right'>");
+                if (obj.Hijos == null || obj.Hijos.Count == 0) output.Append("<label class='pull-left'>Sin valor</label><input class='form-control input-sm clickedit' type='text' />");
+                else output.AppendFormat("<label class='pull-left'>{0}</label>", "Monto Padre");
                 output.Append("</div>");
+                output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");
+                if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-add' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
+                if (nivel < 3) { output.AppendFormat("<a class='btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
+                output.Append("</div></div></div>");
                 if (obj.Hijos != null && obj.Hijos.Count != 0) { output.Append(printTree(obj.Hijos, nivel + 1)); }
                 output.Append("</li>");
             }
@@ -46,10 +85,15 @@
                 <section class="panel panel-default">
                     @if (ViewBag.EsAdmin)
                     {
-                        <div class="row text-sm wrapper">
-                            <div class="col-sm-8">
+                        <div class="panel-header text-sm wrapper">
+                            <div class="col-sm-4">
                                 <div class="btn-group">
                                     <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="leyend" style="transform:translateY(48%);">
+                                    <p>Leyenda:&nbsp;<b class='badge bg-warning dot'></b> Activo&nbsp;<b class='badge bg-warning dot red'></b> Inactivo</p>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -57,32 +101,37 @@
                             </div>
                         </div>
                     }
-                    <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
-                        <i class="fa fa-plus text"></i> <span class="text">Expandir</span> 
-                        <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
-                    </button>
                     <div class="panel-body">
-                        <div class="col-md-10">
+                        <div class="row">
+                            <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
+                                <i class="fa fa-plus text"></i> <span class="text">Expandir</span>
+                                <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
+                            </button>
+                        </div>
+                        <div class="col-md-12">
                             <div class="dd" id="nestable3">
-                                <ol class="dd-list">
+                                @*<ol class="dd-list">
                                     <li class="dd-item dd3-item" data-id="1">
-                                        <div class="dd3-content" style="">
-                                            No tiene categoría <b class="badge bg-warning dot green"></b>
-                                            <a class="btn-edit" href="/Admin/Categoria/1"><i class="fa fa-pencil"></i></a>
-                                            <a class="btn-edit btn-add" href="/Admin/Categoria/0?idPadre=1" title="Nueva Categoría Interna"><i class="fa fa-plus"></i></a>
+                                        <div class="dd3-content row" style="">
+                                            <div class="col-md-6">
+                                                No tiene categoría
+                                                <b class="badge bg-warning dot green"></b>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input class="form-control input-sm" type="text" />
+                                            </div>
+                                            <div class="col-md-3 text-right">
+                                                <div class="btn-group">
+                                                    <a class="btn-add" href="/Admin/Categoria/1"><i class="fa fa-pencil"></i></a>
+                                                    <a class="btn-add" href="/Admin/Categoria/0?idPadre=1" title="Nueva Categoría Interna"><i class="fa fa-plus"></i></a>
+                                                    &nbsp;
+                                                </div>
+                                            </div>
                                         </div>
                                     </li>
-                                </ol>
-
+                                </ol>*@
                                 @Html.Raw(printTree(Model, 1))
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <blockquote class="leyend" style="padding:10px;">
-                                <h4>Leyenda</h4>
-                                <p><b class='badge bg-warning dot'></b> Activo</p>
-                                <p><b class='badge bg-warning dot red'></b> Inactivo</p>
-                            </blockquote>
                         </div>
                     </div>
                 </section>

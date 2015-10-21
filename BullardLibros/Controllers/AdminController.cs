@@ -384,6 +384,7 @@ namespace BullardLibros.Controllers
                     objp.IdCategoria = 0;
                     objp.IdCategoriaPadre = idPadre;
                     objp.Orden = objBL.getUltimoHijo(idPadre.GetValueOrDefault());
+                    objp.IdEmpresa = miUsuario.IdEmpresa;
 
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(objp.IdCategoriaPadre.GetValueOrDefault());
                     return View(objp);
