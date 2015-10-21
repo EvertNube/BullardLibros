@@ -210,13 +210,15 @@ namespace BullardLibros.Controllers
 
             if(miUsuario.IdEmpresa != 0)
             {
+                EmpresaBL empBL = new EmpresaBL();
+                Decimal miTipoCambio = empBL.getEmpresa((int)miUsuario.IdEmpresa).TipoCambio;
+
                 listaLibros = objBL.getCuentasBancariasEnEmpresa(miUsuario.IdEmpresa);
                 ViewBag.TotalSoles = DameTotalSoles(listaLibros);
                 ViewBag.TotalDolares = DameTotalDolares(listaLibros);
-                ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
 
-                EmpresaBL empBL = new EmpresaBL();
-                ViewBag.TipoCambio = empBL.getEmpresa((int)miUsuario.IdEmpresa).TipoCambio;
+                ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros, miTipoCambio);
+                ViewBag.TipoCambio = miTipoCambio;
             }
             else
             {
@@ -1914,7 +1916,7 @@ namespace BullardLibros.Controllers
             }
             return Total;
         }
-        private static Decimal DameTotalConsolidado(List<CuentaBancariaDTO> listaLibros)
+        private static Decimal DameTotalConsolidado(List<CuentaBancariaDTO> listaLibros, Decimal TipoCambio)
         {
             Decimal Total = 0;
 
@@ -1929,7 +1931,7 @@ namespace BullardLibros.Controllers
             {
                 if (libro.IdMoneda.GetValueOrDefault() == 2 && libro.Estado && libro.IdTipoCuenta == 1) //Dolares
                 {
-                    Total += libro.SaldoDisponible * 3;
+                    Total += libro.SaldoDisponible * TipoCambio;
                 }
             }
 
