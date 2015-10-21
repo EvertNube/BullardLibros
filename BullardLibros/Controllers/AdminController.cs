@@ -348,9 +348,14 @@ namespace BullardLibros.Controllers
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
             MenuNavBarSelected(4, 3);
+            EmpresaBL empBL = new EmpresaBL();
+            int vPeriodo = empBL.getEmpresa(getCurrentUser().IdEmpresa).IdPeriodo;
+            ViewBag.IdPeriodo = vPeriodo;
+
             UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
+            ViewBag.Periodos = objBL.GetPeriodosEnEmpresaViewBag(vPeriodo);
             List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
             if(miUsuario.IdEmpresa > 0)
             {
@@ -1281,6 +1286,14 @@ namespace BullardLibros.Controllers
             var listaCat = CategoriasBucle(null, null);
 
             return Json(new { listaCat }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetPeriodos()
+        {
+            PeriodoBL periodoBL = new PeriodoBL();
+            var periodos = periodoBL.getPeriodosEnEmpresa(getCurrentUser().IdEmpresa);
+            return Json(periodos, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

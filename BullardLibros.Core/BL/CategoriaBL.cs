@@ -243,5 +243,11 @@ namespace BullardLibros.Core.BL
             }
             return obj;
         }
+
+        public List<PeriodoDTO> GetPeriodosEnEmpresaViewBag(int idEmpresa)
+        {
+            PeriodoBL objBL = new PeriodoBL();
+            return objBL.getPeriodosEnEmpresaViewBag(idEmpresa);
+        }
     }
 }
