@@ -1,4 +1,5 @@
-﻿@{
+﻿@using BullardLibros.Core.DTO
+@{
     ViewBag.Title = "NubeLabs SCI - Categorias";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
@@ -18,6 +19,20 @@
     @Scripts.Render("~/Content/themes/admin/js/nestable/demo.js")
 
     <script type="text/javascript">
+        $(function () {
+            var vPeriodo = '@ViewBag.IdPeriodo';
+
+            $.getJSON("/Admin/GetPeriodos", function (data) {
+            }).done(function (data) {
+                var chekOp = '<input type="radio">';
+                var select = $('#grupoPeriodos');
+                select.empty();
+                $.each(data, function (index, itemData) {
+                    select.append
+                });
+            })
+        });
+
         var defaultText = '0';
 
         function endEdit(e) {
@@ -26,7 +41,7 @@
 
             label.text(input.val() === '' ? defaultText : input.val());
             input.hide();
-            label.show(); 
+            label.show();
         }
 
         $('.clickedit').hide()
@@ -103,33 +118,50 @@
                     }
                     <div class="panel-body">
                         <div class="row">
-                            <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
-                                <i class="fa fa-plus text"></i> <span class="text">Expandir</span>
-                                <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
-                            </button>
+                            <div class="col-md-6 text-left">
+                                <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
+                                    <i class="fa fa-plus text"></i> <span class="text">Expandir</span>
+                                    <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="btn-group pull-right m-r">
+                                    <button data-toggle="dropdown" class="btn btn-sm btn-info dropdown-toggle">
+                                        <span class="dropdown-label">Option1</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-select">
+                                        <li class="active"><a href="#"><input type="radio" checked>Option1</a></li>
+                                        <li><a href="#"><input type="radio">Option2</a></li>
+                                        <li><a href="#"><input type="radio">Option3</a></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group pull-right m-r" id="grupoPeriodos">
+                                    @{string vOption = "Periodos";}
+                                    <button data-toggle="dropdown" class="btn btn-sm btn-info dropdown-toggle">
+                                        @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
+                                        {
+                                            if (item.IdPeriodo == ViewBag.IdPeriodo)
+                                            {
+                                                vOption = item.Nombre;
+                                            }
+                                        }
+                                        <span class="dropdown-label">@vOption</span>&nbsp;
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-select">
+                                        @{string pCadena = "";}
+                                        @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
+                                        {
+                                            pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
+                                            <li class="@pCadena"><a href="#"><input type="radio">@item.Nombre</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="dd" id="nestable3">
-                                @*<ol class="dd-list">
-                                    <li class="dd-item dd3-item" data-id="1">
-                                        <div class="dd3-content row" style="">
-                                            <div class="col-md-6">
-                                                No tiene categoría
-                                                <b class="badge bg-warning dot green"></b>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input class="form-control input-sm" type="text" />
-                                            </div>
-                                            <div class="col-md-3 text-right">
-                                                <div class="btn-group">
-                                                    <a class="btn-add" href="/Admin/Categoria/1"><i class="fa fa-pencil"></i></a>
-                                                    <a class="btn-add" href="/Admin/Categoria/0?idPadre=1" title="Nueva Categoría Interna"><i class="fa fa-plus"></i></a>
-                                                    &nbsp;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ol>*@
                                 @Html.Raw(printTree(Model, 1))
                             </div>
                         </div>

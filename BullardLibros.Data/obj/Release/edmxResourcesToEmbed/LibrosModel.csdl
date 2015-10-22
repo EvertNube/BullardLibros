@@ -71,6 +71,7 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Ejecutado" Type="Boolean" Nullable="false" />
     <Property Name="IdHonorario" Type="Int32" />
+    <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <NavigationProperty Name="AreaPorComprobante" Relationship="Self.FK_AreaPorComprobante_Comprobante" FromRole="Comprobante" ToRole="AreaPorComprobante" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_Comprobante_Empresa" FromRole="Comprobante" ToRole="Empresa" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="Comprobante" ToRole="EntidadResponsable" />
@@ -110,10 +111,12 @@
     <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="IGV" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="IdPeriodo" Type="Int32" />
+    <Property Name="IdMoneda" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Area" Relationship="Self.FK_Area_Empresa" FromRole="Empresa" ToRole="Area" />
     <NavigationProperty Name="Categoria" Relationship="Self.FK_Categoria_Empresa" FromRole="Empresa" ToRole="Categoria" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Empresa" FromRole="Empresa" ToRole="Comprobante" />
     <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_CuentaBancaria_Empresa" FromRole="Empresa" ToRole="CuentaBancaria" />
+    <NavigationProperty Name="Moneda" Relationship="Self.FK_Empresa_Moneda" FromRole="Empresa" ToRole="Moneda" />
     <NavigationProperty Name="Periodo" Relationship="Self.FK_Empresa_Periodo" FromRole="Empresa" ToRole="Periodo" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="Empresa" ToRole="EntidadResponsable" />
     <NavigationProperty Name="Honorario" Relationship="Self.FK_Honorario_Empresa" FromRole="Empresa" ToRole="Honorario" />
@@ -180,6 +183,7 @@
     <Property Name="Simbolo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Moneda" FromRole="Moneda" ToRole="Comprobante" />
     <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_CuentaBancaria_Moneda" FromRole="Moneda" ToRole="CuentaBancaria" />
+    <NavigationProperty Name="Empresa" Relationship="Self.FK_Empresa_Moneda" FromRole="Moneda" ToRole="Empresa" />
   </EntityType>
   <EntityType Name="Movimiento">
     <Key>
@@ -255,16 +259,6 @@
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="DescripcionRol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="TipoComprobante">
     <Key>
@@ -568,6 +562,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Empresa_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="Empresa">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Empresa_Periodo">
     <End Role="Periodo" Type="Self.Periodo" Multiplicity="0..1" />
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
@@ -766,7 +772,6 @@
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" />
     <EntitySet Name="Rol" EntityType="Self.Rol" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" />
     <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" />
     <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" />
@@ -850,6 +855,10 @@
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
+    <AssociationSet Name="FK_Empresa_Moneda" Association="Self.FK_Empresa_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="Empresa" EntitySet="Empresa" />
+    </AssociationSet>
     <AssociationSet Name="FK_Empresa_Periodo" Association="Self.FK_Empresa_Periodo">
       <End Role="Periodo" EntitySet="Periodo" />
       <End Role="Empresa" EntitySet="Empresa" />
@@ -913,22 +922,6 @@
     <FunctionImport Name="SP_ActualizarMontos">
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_alterdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_creatediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_dropdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(LibrosDBModel.SP_GetReporteDetalleMovimientos_Result)">
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
@@ -944,20 +937,6 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
-    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(LibrosDBModel.sp_helpdiagramdefinition_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(LibrosDBModel.sp_helpdiagrams_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_renamediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="new_diagramname" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
   <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
     <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
@@ -990,16 +969,5 @@
     <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
     <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
     <Property Type="String" Name="Tipo" Nullable="true" MaxLength="250" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagramdefinition_Result">
-    <Property Type="Int32" Name="version" Nullable="true" />
-    <Property Type="Binary" Name="definition" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagrams_Result">
-    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
 </Schema>
