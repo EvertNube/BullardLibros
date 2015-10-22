@@ -349,13 +349,13 @@ namespace BullardLibros.Controllers
 
             MenuNavBarSelected(4, 3);
             EmpresaBL empBL = new EmpresaBL();
-            int vPeriodo = empBL.getEmpresa(getCurrentUser().IdEmpresa).IdPeriodo;
-            ViewBag.IdPeriodo = vPeriodo;
 
             UsuarioDTO miUsuario = getCurrentUser();
+            int vPeriodo = empBL.getEmpresa(miUsuario.IdEmpresa).IdPeriodo;
+            ViewBag.IdPeriodo = vPeriodo;
 
             CategoriaBL objBL = new CategoriaBL();
-            ViewBag.Periodos = objBL.GetPeriodosEnEmpresaViewBag(vPeriodo);
+            ViewBag.Periodos = objBL.GetPeriodosEnEmpresaViewBag(miUsuario.IdEmpresa);
             List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
             if(miUsuario.IdEmpresa > 0)
             {

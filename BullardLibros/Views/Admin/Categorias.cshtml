@@ -20,7 +20,7 @@
 
     <script type="text/javascript">
         $(function () {
-            var vPeriodo = '@ViewBag.IdPeriodo';
+            @*var vPeriodo = '@ViewBag.IdPeriodo';
 
             $.getJSON("/Admin/GetPeriodos", function (data) {
             }).done(function (data) {
@@ -30,7 +30,7 @@
                 $.each(data, function (index, itemData) {
                     select.append
                 });
-            })
+            })*@
         });
 
         var defaultText = '0';
@@ -125,20 +125,9 @@
                                 </button>
                             </div>
                             <div class="col-md-6">
-                                <div class="btn-group pull-right m-r">
-                                    <button data-toggle="dropdown" class="btn btn-sm btn-info dropdown-toggle">
-                                        <span class="dropdown-label">Option1</span>
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-select">
-                                        <li class="active"><a href="#"><input type="radio" checked>Option1</a></li>
-                                        <li><a href="#"><input type="radio">Option2</a></li>
-                                        <li><a href="#"><input type="radio">Option3</a></li>
-                                    </ul>
-                                </div>
                                 <div class="btn-group pull-right m-r" id="grupoPeriodos">
                                     @{string vOption = "Periodos";}
-                                    <button data-toggle="dropdown" class="btn btn-sm btn-info dropdown-toggle">
+                                    <button data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
                                         @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
                                         {
                                             if (item.IdPeriodo == ViewBag.IdPeriodo)
@@ -146,15 +135,15 @@
                                                 vOption = item.Nombre;
                                             }
                                         }
-                                        <span class="dropdown-label">@vOption</span>&nbsp;
+                                        @vOption &nbsp;
                                         <span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-select">
+                                    <ul class="dropdown-menu">
                                         @{string pCadena = "";}
                                         @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
                                         {
                                             pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
-                                            <li class="@pCadena"><a href="#"><input type="radio">@item.Nombre</a></li>
+                                            <li class="@pCadena"><a href="#">@item.Nombre</a></li>
                                         }
                                     </ul>
                                 </div>
