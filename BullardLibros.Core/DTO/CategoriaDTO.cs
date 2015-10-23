@@ -16,5 +16,7 @@ namespace BullardLibros.Core.DTO
         public int? IdCategoriaPadre { get; set; }
         public int IdEmpresa { get; set; }
         public IList<CategoriaDTO> Hijos { get; set; }
+
+        public Decimal? Presupuesto { get; set; }
     }
 }

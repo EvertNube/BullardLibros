@@ -43,7 +43,8 @@ namespace BullardLibros.Core.BL
                                  Orden = r.Orden,
                                  Estado = r.Estado,
                                  IdCategoriaPadre = r.IdCategoriaPadre,
-                                 IdEmpresa = r.IdEmpresa
+                                 IdEmpresa = r.IdEmpresa,
+                                 Presupuesto = r.CategoriaPorPeriodo.FirstOrDefault().Monto
                              };
                 List<CategoriaDTO> categoriasTree = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
 
