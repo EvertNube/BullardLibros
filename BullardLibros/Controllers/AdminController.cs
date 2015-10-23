@@ -351,7 +351,7 @@ namespace BullardLibros.Controllers
             EmpresaBL empBL = new EmpresaBL();
 
             UsuarioDTO miUsuario = getCurrentUser();
-            int vPeriodo = empBL.getEmpresa(miUsuario.IdEmpresa).IdPeriodo;
+            int vPeriodo = empBL.getEmpresa(miUsuario.IdEmpresa).IdPeriodo.GetValueOrDefault();
             ViewBag.IdPeriodo = vPeriodo;
 
             CategoriaBL objBL = new CategoriaBL();
@@ -1310,6 +1310,21 @@ namespace BullardLibros.Controllers
             ProyectoBL objBL = new ProyectoBL();
             var listaProyectos = objBL.getProyectosPorEntidad(idEntidad);
             return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string ActualizarPeriodo(int idPeriodo)
+        {
+            if (!this.currentUser() || !isAdministrator()) { return "false"; }
+
+            EmpresaBL objBL = new EmpresaBL();
+            UsuarioDTO miUsuario = getCurrentUser();
+            EmpresaDTO obj = new EmpresaDTO() { IdEmpresa = miUsuario.IdEmpresa, IdPeriodo = idPeriodo };
+            if (objBL.updatePeriodo(obj))
+            {
+                return "true";
+            }
+            return "false";
         }
 
         public JsonResult BuscarComprobante(int idComprobante)

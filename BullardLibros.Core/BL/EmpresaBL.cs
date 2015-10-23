@@ -23,7 +23,8 @@ namespace BullardLibros.Core.BL
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Descripcion = x.Descripcion,
-                    TipoCambio = x.TipoCambio
+                    TipoCambio = x.TipoCambio,
+                    IdPeriodo = x.IdPeriodo
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -39,7 +40,8 @@ namespace BullardLibros.Core.BL
                         Nombre = x.Nombre,
                         Estado = x.Estado,
                         Descripcion = x.Descripcion,
-                        TipoCambio = x.TipoCambio
+                        TipoCambio = x.TipoCambio,
+                        IdPeriodo = x.IdPeriodo
                     }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -56,7 +58,8 @@ namespace BullardLibros.Core.BL
                         Nombre = r.Nombre,
                         Estado = r.Estado,
                         Descripcion = r.Descripcion,
-                        TipoCambio = r.TipoCambio
+                        TipoCambio = r.TipoCambio,
+                        IdPeriodo = r.IdPeriodo
                     }).SingleOrDefault();
                 return result;
             }
@@ -72,6 +75,7 @@ namespace BullardLibros.Core.BL
                     nuevo.Estado = true;
                     nuevo.Descripcion = Empresa.Descripcion;
                     nuevo.TipoCambio = Empresa.TipoCambio == 0 ? 1 : Empresa.TipoCambio;
+                    nuevo.IdPeriodo = Empresa.IdPeriodo;
                     context.Empresa.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -93,6 +97,7 @@ namespace BullardLibros.Core.BL
                     row.Estado = Empresa.Estado;
                     row.Descripcion = Empresa.Descripcion;
                     row.TipoCambio = Empresa.TipoCambio;
+                    row.IdPeriodo = Empresa.IdPeriodo;
                     context.SaveChanges();
                     return true;
                 }
@@ -111,6 +116,24 @@ namespace BullardLibros.Core.BL
                 {
                     var row = context.Empresa.Where(x => x.IdEmpresa == Empresa.IdEmpresa).SingleOrDefault();
                     row.TipoCambio = Empresa.TipoCambio;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public bool updatePeriodo(EmpresaDTO Empresa)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Empresa.Where(x => x.IdEmpresa == Empresa.IdEmpresa).SingleOrDefault();
+                    row.IdPeriodo = Empresa.IdPeriodo;
                     context.SaveChanges();
                     return true;
                 }
