@@ -1,4 +1,5 @@
 ﻿@using BullardLibros.Core.DTO
+@using System.Globalization;
 @{
     ViewBag.Title = "NubeLabs SCI - Categorias";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -34,7 +35,9 @@
             var input = $(e.target),
                 label = input && input.prev();
 
-            label.text(input.val() === '' ? defaultText : input.val());
+            //label.text(input.val() === '' ? defaultText : input.val();
+            var jValor = parseFloat(input.val()).toFixed(2);
+            label.text(input.val() === '' ? defaultText : jValor.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             input.hide();
             label.show();
         }
@@ -44,22 +47,28 @@
         .keyup(function (e) {
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                 endEdit(e);
-                //console.log("Hola1");
                 //console.log($('#idPeriodo').data('periodo'));
+                var jPeriodo = $('#idPeriodo').data('periodo');
+                if (jPeriodo == null || jPeriodo == 0)
+                {
+                    alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
+                    return false;
+                }
                 var pValor = $(this).val();
                 var pId = $(this).data('id')
-                //console.log(pValor);
-                //console.log(pId);
                 actualizarPresupuesto(pId, pValor);
 
                 return false;
             } else {
-                //console.log("Hola3");
                 //console.log($('#idPeriodo').data('periodo'));
+                var jPeriodo = $('#idPeriodo').data('periodo');
+                if (jPeriodo == null || jPeriodo == 0) {
+                    alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
+                    return true;
+                }
+
                 var pValor = $(this).val();
                 var pId = $(this).data('id')
-                //console.log(pValor);
-                //console.log(pId);
                 actualizarPresupuesto(pId, pValor);
 
                 return true;
@@ -68,7 +77,6 @@
         .prev().click(function () {
             $(this).hide();
             $(this).next().show().focus();
-            //console.log("Hola2");
         });
 
         function actualizarPeriodo(idPeriodo) {
@@ -96,7 +104,7 @@
                 data: { idCategoria: idCategoria, Monto: Monto },
                 dataType: 'json',
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
                 }
             });
         }
@@ -116,7 +124,7 @@
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
                 output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
                 output.Append("<div class='col-md-3 text-right'>");
-                if (obj.Hijos == null || obj.Hijos.Count == 0) output.AppendFormat("<label class='pull-left'>Sin valor</label><input class='form-control input-sm clickedit' data-id='{0}' type='text' />", obj.IdCategoria);
+                if (obj.Hijos == null || obj.Hijos.Count == 0) output.AppendFormat("<label class='pull-left'>{0}</label><input class='form-control input-sm clickedit' data-id='{1}' type='text' value='{2}' />", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Sin valor", obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null);
                 else output.AppendFormat("<label class='pull-left'>{0}</label>", "Monto Padre");
                 output.Append("</div>");
                 output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");

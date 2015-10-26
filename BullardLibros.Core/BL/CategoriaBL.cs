@@ -44,7 +44,7 @@ namespace BullardLibros.Core.BL
                                  Estado = r.Estado,
                                  IdCategoriaPadre = r.IdCategoriaPadre,
                                  IdEmpresa = r.IdEmpresa,
-                                 Presupuesto = r.CategoriaPorPeriodo.FirstOrDefault().Monto
+                                 Presupuesto = r.CategoriaPorPeriodo.Where(x => x.IdPeriodo == r.Empresa.IdPeriodo).FirstOrDefault().Monto
                              };
                 List<CategoriaDTO> categoriasTree = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
 
@@ -180,14 +180,14 @@ namespace BullardLibros.Core.BL
                 try
                 {
                     var row = context.Categoria.Where(x => x.IdCategoria == dto.IdCategoria).SingleOrDefault();
-                    if(row.CategoriaPorPeriodo.Count() == 0)
+                    if(row.CategoriaPorPeriodo.Where(x => x.IdPeriodo == dto.IdPeriodo).Count() == 0)
                     {
                         CategoriaPorPeriodo novo = new CategoriaPorPeriodo() { IdCategoria = dto.IdCategoria, IdPeriodo = dto.IdPeriodo, Monto = dto.Monto };
                         row.CategoriaPorPeriodo.Add(novo);
                     }
                     else
                     {
-                        row.CategoriaPorPeriodo.Single().Monto = dto.Monto;
+                        row.CategoriaPorPeriodo.Where(x => x.IdPeriodo == dto.IdPeriodo).Single().Monto = dto.Monto;
                     }
                     context.SaveChanges();
                     return true;

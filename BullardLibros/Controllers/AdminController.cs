@@ -1334,8 +1334,9 @@ namespace BullardLibros.Controllers
 
             CategoriaBL objBL = new CategoriaBL();
             EmpresaBL empBL = new EmpresaBL();
-            
             int pPeriodo = empBL.getEmpresa(getCurrentUser().IdEmpresa).IdPeriodo.GetValueOrDefault();
+            if (pPeriodo == 0) { return Json(false, JsonRequestBehavior.AllowGet); }
+            
             CategoriaPorPeriodoDTO dto = new CategoriaPorPeriodoDTO() { IdCategoria = idCategoria, IdPeriodo = pPeriodo, Monto = Monto };
             objBL.updatePresupuesto(dto);
 
