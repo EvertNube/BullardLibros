@@ -21,11 +21,10 @@
     <script type="text/javascript">
         $(function () {
             $('#grupoPeriodos li a').on('click', function (event) {
-                console.log($(this).text());
+                //console.log($(this).text());
                 var pPeriodo = $(this).attr('id');
-                console.log(pPeriodo);
+                //console.log(pPeriodo);
                 actualizarPeriodo(pPeriodo);
-                //alert($(this).children());
             });
         });
 
@@ -46,20 +45,30 @@
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                 endEdit(e);
                 //console.log("Hola1");
-                console.log($(this).val());
-
+                //console.log($('#idPeriodo').data('periodo'));
+                var pValor = $(this).val();
+                var pId = $(this).data('id')
+                //console.log(pValor);
+                //console.log(pId);
+                actualizarPresupuesto(pId, pValor);
 
                 return false;
             } else {
                 //console.log("Hola3");
-                console.log($(this).val());
+                //console.log($('#idPeriodo').data('periodo'));
+                var pValor = $(this).val();
+                var pId = $(this).data('id')
+                //console.log(pValor);
+                //console.log(pId);
+                actualizarPresupuesto(pId, pValor);
+
                 return true;
             }
         })
         .prev().click(function () {
             $(this).hide();
             $(this).next().show().focus();
-            console.log("Hola2");
+            //console.log("Hola2");
         });
 
         function actualizarPeriodo(idPeriodo) {
@@ -74,6 +83,20 @@
                     {window.location.href = "@Url.Action("Categorias","Admin")";}
                     else
                     { alert("Error al actualizar el periodo");}
+                }
+            });
+        }
+
+        function actualizarPresupuesto(idCategoria, Monto)
+        {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/ActualizarPresupuesto",
+                cache: false,
+                data: { idCategoria: idCategoria, Monto: Monto },
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
                 }
             });
         }
@@ -93,7 +116,7 @@
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
                 output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
                 output.Append("<div class='col-md-3 text-right'>");
-                if (obj.Hijos == null || obj.Hijos.Count == 0) output.Append("<label class='pull-left'>Sin valor</label><input class='form-control input-sm clickedit' type='text' />");
+                if (obj.Hijos == null || obj.Hijos.Count == 0) output.AppendFormat("<label class='pull-left'>Sin valor</label><input class='form-control input-sm clickedit' data-id='{0}' type='text' />", obj.IdCategoria);
                 else output.AppendFormat("<label class='pull-left'>{0}</label>", "Monto Padre");
                 output.Append("</div>");
                 output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");
@@ -147,7 +170,7 @@
                             <div class="col-md-6">
                                 <div class="btn-group pull-right m-r">
                                     @{string vOption = "Periodos";}
-                                    <button id="@("btnPeriodo" + ViewBag.IdPeriodo)" data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
+                                    <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
                                         @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
                                         {
                                             if (item.IdPeriodo == ViewBag.IdPeriodo)

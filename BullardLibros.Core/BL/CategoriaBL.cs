@@ -173,6 +173,32 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public bool updatePresupuesto(CategoriaPorPeriodoDTO dto)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Categoria.Where(x => x.IdCategoria == dto.IdCategoria).SingleOrDefault();
+                    if(row.CategoriaPorPeriodo.Count() == 0)
+                    {
+                        CategoriaPorPeriodo novo = new CategoriaPorPeriodo() { IdCategoria = dto.IdCategoria, IdPeriodo = dto.IdPeriodo, Monto = dto.Monto };
+                        row.CategoriaPorPeriodo.Add(novo);
+                    }
+                    else
+                    {
+                        row.CategoriaPorPeriodo.Single().Monto = dto.Monto;
+                    }
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
         public int getUltimoHijo(int idPadre)
         {
             using (var context = getContext())
@@ -196,7 +222,7 @@ namespace BullardLibros.Core.BL
 
         public string getNombreCategoria(int id)
         {
-            if (id != 0 && id != null)
+            if (id != 0)
             {
                 CategoriaBL oBL = new CategoriaBL();
                 return oBL.getCategoria(id).Nombre;

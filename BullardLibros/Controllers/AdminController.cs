@@ -1327,6 +1327,21 @@ namespace BullardLibros.Controllers
             return "false";
         }
 
+        [HttpPost]
+        public JsonResult ActualizarPresupuesto(int idCategoria, Decimal Monto)
+        {
+            if (!this.currentUser() || !isAdministrator()) { return Json(false, JsonRequestBehavior.AllowGet); }
+
+            CategoriaBL objBL = new CategoriaBL();
+            EmpresaBL empBL = new EmpresaBL();
+            
+            int pPeriodo = empBL.getEmpresa(getCurrentUser().IdEmpresa).IdPeriodo.GetValueOrDefault();
+            CategoriaPorPeriodoDTO dto = new CategoriaPorPeriodoDTO() { IdCategoria = idCategoria, IdPeriodo = pPeriodo, Monto = Monto };
+            objBL.updatePresupuesto(dto);
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult BuscarComprobante(int idComprobante)
         {
             ComprobanteBL objBL = new ComprobanteBL();
