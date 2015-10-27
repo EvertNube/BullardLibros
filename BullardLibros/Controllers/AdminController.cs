@@ -426,7 +426,10 @@ namespace BullardLibros.Controllers
                 }
                 else if (dto.IdCategoria != 0)
                 {
-                    if (objBL.update(dto))
+                    EmpresaBL empBL = new EmpresaBL();
+                    int vPeriodo = empBL.getEmpresa(getCurrentUser().IdEmpresa).IdPeriodo.GetValueOrDefault();
+
+                    if (objBL.update(dto, vPeriodo))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Categorias");

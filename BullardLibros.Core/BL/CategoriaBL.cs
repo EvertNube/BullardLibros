@@ -147,7 +147,7 @@ namespace BullardLibros.Core.BL
                 }
             }
         }
-        public bool update(CategoriaDTO Categoria)
+        public bool update(CategoriaDTO Categoria, int idPeriodo)
         {
             using (var context = getContext())
             {
@@ -155,15 +155,26 @@ namespace BullardLibros.Core.BL
                 {
                     var datoRow = context.Categoria.Where(x => x.IdCategoria == Categoria.IdCategoria).SingleOrDefault();
                     datoRow.Nombre = Categoria.Nombre;
-                    //datoRow.Orden = Categoria.Orden;
                     if (Categoria.IdCategoriaPadre != 0 && Categoria.IdCategoriaPadre != null)
                         datoRow.Orden = getUltimoHijo(Categoria.IdCategoriaPadre.GetValueOrDefault());
                     else
                         datoRow.Orden = 1;
+
+                    int pPadreAnterior = datoRow.IdCategoriaPadre.GetValueOrDefault();
+
                     datoRow.Estado = Categoria.Estado;
                     datoRow.IdCategoriaPadre = Categoria.IdCategoriaPadre;
                     datoRow.IdEmpresa = Categoria.IdEmpresa;
                     context.SaveChanges();
+
+                    //Actualizamos padres
+                    if(idPeriodo != 0)
+                    {
+                        //Actualizamos padre antiguo
+                        if (pPadreAnterior != 0) context.SP_ActualizarPresupuestoPadre(pPadreAnterior, idPeriodo);
+                        //Actualizamos padre nuevo
+                        if (Categoria.IdCategoriaPadre.GetValueOrDefault() != 0) context.SP_ActualizarPresupuestoPadre(Categoria.IdCategoriaPadre, idPeriodo);
+                    }
                     return true;
                 }
                 catch (Exception e)
@@ -190,6 +201,12 @@ namespace BullardLibros.Core.BL
                         row.CategoriaPorPeriodo.Where(x => x.IdPeriodo == dto.IdPeriodo).Single().Monto = dto.Monto;
                     }
                     context.SaveChanges();
+                    //Actualizacion de Padres
+                    int pPadreCategoria = getCategoria(dto.IdCategoria).IdCategoriaPadre.GetValueOrDefault();
+                    if(pPadreCategoria != 0)
+                    {
+                        context.SP_ActualizarPresupuestoPadre(pPadreCategoria, dto.IdPeriodo);
+                    }
                     return true;
                 }
                 catch (Exception e)

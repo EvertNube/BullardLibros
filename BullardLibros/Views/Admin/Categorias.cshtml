@@ -125,7 +125,7 @@
                 output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
                 output.Append("<div class='col-md-3 text-right'>");
                 if (obj.Hijos == null || obj.Hijos.Count == 0) output.AppendFormat("<label class='pull-left'>{0}</label><input class='form-control input-sm clickedit' data-id='{1}' type='text' value='{2}' />", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Sin valor", obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null);
-                else output.AppendFormat("<label class='pull-left'>{0}</label>", "Monto Padre");
+                else output.AppendFormat("<label class='pull-left'>{0}</label>", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Monto Padre");
                 output.Append("</div>");
                 output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");
                 if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-add' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
