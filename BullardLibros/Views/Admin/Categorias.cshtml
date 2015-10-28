@@ -36,6 +36,7 @@
                 label = input && input.prev();
 
             //label.text(input.val() === '' ? defaultText : input.val();
+            
             var jValor = parseFloat(input.val()).toFixed(2);
             label.text(input.val() === '' ? defaultText : jValor.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             input.hide();
@@ -47,7 +48,6 @@
         .keyup(function (e) {
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                 endEdit(e);
-                //console.log($('#idPeriodo').data('periodo'));
                 var jPeriodo = $('#idPeriodo').data('periodo');
                 if (jPeriodo == null || jPeriodo == 0)
                 {
@@ -55,21 +55,23 @@
                     return false;
                 }
                 var pValor = $(this).val();
-                var pId = $(this).data('id')
+                var pId = $(this).data('id');
+                $("label[data-lblid='" + pId + "']").text(pValor);
                 actualizarPresupuesto(pId, pValor);
+                actualizarMontoPadre($(this));
 
                 return false;
             } else {
-                //console.log($('#idPeriodo').data('periodo'));
                 var jPeriodo = $('#idPeriodo').data('periodo');
                 if (jPeriodo == null || jPeriodo == 0) {
                     alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
                     return true;
                 }
-
                 var pValor = $(this).val();
                 var pId = $(this).data('id')
+                $("label[data-lblid='" + pId + "']").text(pValor);
                 actualizarPresupuesto(pId, pValor);
+                actualizarMontoPadre($(this));
 
                 return true;
             }
@@ -109,6 +111,34 @@
             });
         }
 
+        function actualizarMontoPadre(e)
+        {
+            var pValor = e.val();
+            var pId = e.data('id');
+            var pPadre = e.data('padre');
+            var suma = 0;
+            $("label[data-lblpadre='" + pPadre + "']").each(function () {
+                suma += Number($(this).text().replace(/[^0-9\.]+/g, ""));
+            });
+            suma = (parseFloat(suma).toFixed(2)).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $("label[data-lblid='" + pPadre + "']").text(suma);
+            if(pPadre != 0)
+            {
+                actualizarMontoPadre($("input[data-id='" + pPadre + "']"));
+            }
+        }
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar caracteres numericos");
+                return false;
+            }
+        }
+
     </script>
 }
 @functions{
@@ -123,10 +153,14 @@
                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? " inactive" : "";
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
                 output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
+                
                 output.Append("<div class='col-md-3 text-right'>");
-                if (obj.Hijos == null || obj.Hijos.Count == 0) output.AppendFormat("<label class='pull-left'>{0}</label><input class='form-control input-sm clickedit' data-id='{1}' type='text' value='{2}' />", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Sin valor", obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null);
-                else output.AppendFormat("<label class='pull-left'>{0}</label>", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Monto Padre");
+                if (obj.Hijos == null || obj.Hijos.Count == 0)
+                    output.AppendFormat("<label class='pull-left' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input class='form-control input-sm clickedit' data-padre='{0}' data-id='{1}' type='text' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Sin valor", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null);
+                else
+                    output.AppendFormat("<label class='pull-left' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input data-padre='{0}' data-id='{1}' type='hidden' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Monto Padre", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null);
                 output.Append("</div>");
+                
                 output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");
                 if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-add' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
                 if (nivel < 3) { output.AppendFormat("<a class='btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
