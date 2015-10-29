@@ -41,7 +41,9 @@ namespace BullardLibros.Core.BL
                         Estado = x.Estado,
                         Descripcion = x.Descripcion,
                         TipoCambio = x.TipoCambio,
-                        IdPeriodo = x.IdPeriodo
+                        IdPeriodo = x.IdPeriodo,
+                        IdMoneda = x.IdMoneda,
+                        SimboloMoneda = x.Moneda.Simbolo
                     }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -59,7 +61,9 @@ namespace BullardLibros.Core.BL
                         Estado = r.Estado,
                         Descripcion = r.Descripcion,
                         TipoCambio = r.TipoCambio,
-                        IdPeriodo = r.IdPeriodo
+                        IdPeriodo = r.IdPeriodo,
+                        IdMoneda = r.IdMoneda,
+                        SimboloMoneda = r.Moneda.Simbolo
                     }).SingleOrDefault();
                 return result;
             }

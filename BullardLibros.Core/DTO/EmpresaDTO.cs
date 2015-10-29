@@ -16,5 +16,8 @@ namespace BullardLibros.Core.DTO
         public Decimal TipoCambio { get; set; }
         public Decimal? IGV { get; set; }
         public int? IdPeriodo { get; set; }
+        public int IdMoneda { get; set; }
+
+        public string SimboloMoneda { get; set; }
     }
 }

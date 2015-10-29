@@ -351,8 +351,9 @@ namespace BullardLibros.Controllers
             EmpresaBL empBL = new EmpresaBL();
 
             UsuarioDTO miUsuario = getCurrentUser();
-            int vPeriodo = empBL.getEmpresa(miUsuario.IdEmpresa).IdPeriodo.GetValueOrDefault();
-            ViewBag.IdPeriodo = vPeriodo;
+            EmpresaDTO empresa = empBL.getEmpresa(miUsuario.IdEmpresa);
+            ViewBag.IdPeriodo = empresa.IdPeriodo.GetValueOrDefault();
+            ViewBag.SimboloMoneda = empresa.SimboloMoneda;
 
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.Periodos = objBL.GetPeriodosEnEmpresaViewBag(miUsuario.IdEmpresa);

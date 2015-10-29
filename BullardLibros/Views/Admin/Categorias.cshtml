@@ -44,7 +44,19 @@
         }
 
         $('.clickedit').hide()
-        .focusout(endEdit)
+        .focusout(function (e) {
+            endEdit(e);
+            var jPeriodo = $('#idPeriodo').data('periodo');
+            if (jPeriodo == null || jPeriodo == 0) {
+                alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
+                return false;
+            }
+            var pValor = $(this).val();
+            var pId = $(this).data('id');
+            $("label[data-lblid='" + pId + "']").text(parseFloat(pValor).toFixed(2));
+            actualizarPresupuesto(pId, pValor);
+            actualizarMontoPadre($(this));
+        })
         .keyup(function (e) {
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                 endEdit(e);
@@ -54,11 +66,11 @@
                     alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
                     return false;
                 }
-                var pValor = $(this).val();
-                var pId = $(this).data('id');
-                $("label[data-lblid='" + pId + "']").text(pValor);
-                actualizarPresupuesto(pId, pValor);
-                actualizarMontoPadre($(this));
+                //var pValor = $(this).val();
+                //var pId = $(this).data('id');
+                //$("label[data-lblid='" + pId + "']").text(pValor);
+                //actualizarPresupuesto(pId, pValor);
+                //actualizarMontoPadre($(this));
 
                 return false;
             } else {
@@ -69,7 +81,7 @@
                 }
                 var pValor = $(this).val();
                 var pId = $(this).data('id')
-                $("label[data-lblid='" + pId + "']").text(pValor);
+                $("label[data-lblid='" + pId + "']").text(parseFloat(pValor).toFixed(2));
                 actualizarPresupuesto(pId, pValor);
                 actualizarMontoPadre($(this));
 
@@ -209,31 +221,36 @@
                                     <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
                                 </button>
                             </div>
-                            <div class="col-md-6">
-                                <div class="btn-group pull-right m-r">
-                                    @{string vOption = "Periodos";}
-                                    <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
-                                        @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
-                                        {
-                                            if (item.IdPeriodo == ViewBag.IdPeriodo)
+                            <div class="col-md-2 text-center">
+                                <label>
+                                    Moneda (@(ViewBag.SimboloMoneda))
+                                </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="btn-group pull-right m-r">
+                                        @{string vOption = "Periodos";}
+                                        <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
+                                            @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
                                             {
-                                                vOption = item.Nombre;
+                                                if (item.IdPeriodo == ViewBag.IdPeriodo)
+                                                {
+                                                    vOption = item.Nombre;
+                                                }
                                             }
-                                        }
-                                        @vOption &nbsp;
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" id="grupoPeriodos">
-                                        @{string pCadena = "";}
-                                        @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
-                                        {
-                                            pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
-                                            <li class="@pCadena"><a href="#" id="@item.IdPeriodo" >@item.Nombre</a></li>
-                                        }
-                                    </ul>
+                                            @vOption &nbsp;
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" id="grupoPeriodos">
+                                            @{string pCadena = "";}
+                                            @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
+                                            {
+                                                pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
+                                                <li class="@pCadena"><a href="#" id="@item.IdPeriodo">@item.Nombre</a></li>
+                                            }
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="col-md-12">
                             <div class="dd" id="nestable3">
                                 @Html.Raw(printTree(Model, 1))
