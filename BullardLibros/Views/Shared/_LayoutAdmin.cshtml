@@ -105,14 +105,17 @@
                                                 <span>Comprobantes</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.lstOptions[2].cadena">
-                                            <a href="@Url.Action("ReporteCategorias")" class="active">
-                                                <i class="fa fa-bar-chart-o icon">
-                                                    <b class="bg-primary"></b>
-                                                </i>
-                                                <span>Reportes</span>
-                                            </a>
-                                        </li>
+                                        @if(!ViewBag.EsUsuarioInterno)
+                                        { 
+                                            <li class="@ViewBag.navbar.lstOptions[2].cadena">
+                                                <a href="@Url.Action("ReporteCategorias")" class="active">
+                                                    <i class="fa fa-bar-chart-o icon">
+                                                        <b class="bg-primary"></b>
+                                                    </i>
+                                                    <span>Reportes</span>
+                                                </a>
+                                            </li>
+                                        }
                                         @if (ViewBag.EsAdmin)
                                         {
                                             <li class="@ViewBag.navbar.lstOptions[3].cadena">
@@ -134,8 +137,7 @@
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena"> <a href="@Url.Action("Categorias")" class="active"> <i class="fa fa-angle-right"></i> <span>Partidas de Presupuesto</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena"> <a href="@Url.Action("Entidades")" class="active"> <i class="fa fa-angle-right"></i> <span>Entidades</span> </a> </li> 
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena"> <a href="@Url.Action("Responsables")" class="active"> <i class="fa fa-angle-right"></i> <span>Consultores</span> </a> </li> 
-                                                    @if (ViewBag.EsSuperAdmin)
-                                                    {<li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <a href="@Url.Action("Usuarios")" class="active"> <i class="fa fa-angle-right"></i> <span>Usuarios</span> </a> </li> }
+                                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena"> <a href="@Url.Action("Usuarios")" class="active"> <i class="fa fa-angle-right"></i> <span>Usuarios</span> </a> </li>
                                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[6].cadena"> <a href="@Url.Action("Periodos")" class="active"> <i class="fa fa-angle-right"></i> <span>Periodos</span> </a> </li> 
                                                 </ul>
                                             </li>

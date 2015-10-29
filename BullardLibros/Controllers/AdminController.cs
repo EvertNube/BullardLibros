@@ -47,6 +47,16 @@ namespace BullardLibros.Controllers
             if (getCurrentUser().IdRol <= 2) return true;
             return false;
         }
+        private bool isUsuarioInterno()
+        {
+            if (getCurrentUser().IdRol == 3) return true;
+            return false;
+        }
+        private bool isUsuarioExterno()
+        {
+            if (getCurrentUser().IdRol == 4) return true;
+            return false;
+        }
         private void createResponseMessage(string status, string message = "", string status_field = "status", string message_field = "message")
         {
             TempData[status_field] = status;
@@ -68,6 +78,8 @@ namespace BullardLibros.Controllers
 
                 ViewBag.EsAdmin = isAdministrator();
                 ViewBag.EsSuperAdmin = isSuperAdministrator();
+                ViewBag.EsUsuarioInterno = isUsuarioInterno();
+                ViewBag.EsUsuarioExterno = isUsuarioExterno();
                 ViewBag.IdRol = user.IdRol;
 
                 EmpresaBL empBL = new EmpresaBL();
@@ -234,7 +246,7 @@ namespace BullardLibros.Controllers
         public ActionResult Libro(int? id = null, int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             
             MenuNavBarSelected(1);
             UsuarioDTO miUsuario = getCurrentUser();
@@ -369,7 +381,8 @@ namespace BullardLibros.Controllers
         public ActionResult Categoria(int? id = null, int? idPadre = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            
             MenuNavBarSelected(4, 3);
             UsuarioDTO miUsuario = getCurrentUser();
 
@@ -414,6 +427,8 @@ namespace BullardLibros.Controllers
         public ActionResult AddCategoria(CategoriaDTO dto)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+
             try
             {
                 CategoriaBL objBL = new CategoriaBL();
@@ -755,8 +770,7 @@ namespace BullardLibros.Controllers
         public ActionResult Comprobantes(int? idTipoComprobante = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            if (!isAdministrator()) { return RedirectToAction("Index"); }
-
+            //if (!isAdministrator()) { return RedirectToAction("Index"); }
             MenuNavBarSelected(2);
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -774,7 +788,7 @@ namespace BullardLibros.Controllers
         public ActionResult Comprobante(int? id = null, int? idTipoComprobante = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MenuNavBarSelected(2);
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -908,6 +922,7 @@ namespace BullardLibros.Controllers
         public ActionResult AddArea(AreaDTO dto)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             try
             {
                 AreaBL objBL = new AreaBL();
@@ -1390,6 +1405,8 @@ namespace BullardLibros.Controllers
         public ActionResult ReporteCategorias(int? message = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            //No hay reportes para usuarios internos
+            if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
 
             MenuNavBarSelected(3);
 
