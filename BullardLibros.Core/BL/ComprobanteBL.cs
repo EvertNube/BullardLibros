@@ -40,7 +40,9 @@ namespace BullardLibros.Core.BL
                     NombreTipoDocumento = x.TipoDocumento.Nombre,
                     SimboloMoneda = x.Moneda.Simbolo,
                     MontoSinIGV = x.MontoSinIGV,
-                    TipoCambio = x.TipoCambio
+                    TipoCambio = x.TipoCambio,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    NombreUsuario = x.Usuario.Cuenta
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -74,7 +76,9 @@ namespace BullardLibros.Core.BL
                     NombreTipoDocumento = x.TipoDocumento.Nombre,
                     SimboloMoneda = x.Moneda.Simbolo,
                     MontoSinIGV = x.MontoSinIGV,
-                    TipoCambio = x.TipoCambio
+                    TipoCambio = x.TipoCambio,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    NombreUsuario = x.Usuario.Cuenta
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -110,6 +114,8 @@ namespace BullardLibros.Core.BL
                         SimboloMoneda = r.Moneda.Simbolo,
                         MontoSinIGV = r.MontoSinIGV,
                         TipoCambio = r.TipoCambio,
+                        UsuarioCreacion = r.UsuarioCreacion,
+                        NombreUsuario = r.Usuario.Cuenta,
                         lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO 
                         {
                             IdArea = x.IdArea,
@@ -147,6 +153,7 @@ namespace BullardLibros.Core.BL
                     nuevo.IdHonorario = Comprobante.IdHonorario;
                     nuevo.MontoSinIGV = Comprobante.MontoSinIGV;
                     nuevo.TipoCambio = Comprobante.TipoCambio;
+                    nuevo.UsuarioCreacion = Comprobante.UsuarioCreacion;
                     context.Comprobante.Add(nuevo);
 
                     foreach (var item in Comprobante.lstMontos)
@@ -192,6 +199,7 @@ namespace BullardLibros.Core.BL
                     row.IdHonorario = Comprobante.IdHonorario;
                     row.MontoSinIGV = Comprobante.MontoSinIGV;
                     row.TipoCambio = Comprobante.TipoCambio;
+                    row.UsuarioCreacion = Comprobante.UsuarioCreacion;
 
                     var allmontos = from m in context.AreaPorComprobante
                                     where m.IdComprobante == row.IdComprobante

@@ -40,6 +40,7 @@ namespace BullardLibros.Data
         public bool Ejecutado { get; set; }
         public Nullable<int> IdHonorario { get; set; }
         public decimal TipoCambio { get; set; }
+        public int UsuarioCreacion { get; set; }
     
         public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
@@ -49,6 +50,7 @@ namespace BullardLibros.Data
         public virtual Proyecto Proyecto { get; set; }
         public virtual TipoComprobante TipoComprobante { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
+        public virtual Usuario Usuario { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

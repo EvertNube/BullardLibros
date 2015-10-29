@@ -16,6 +16,7 @@ namespace BullardLibros.Data
     {
         public Usuario()
         {
+            this.Comprobante = new HashSet<Comprobante>();
             this.Movimiento = new HashSet<Movimiento>();
         }
     
@@ -31,6 +32,7 @@ namespace BullardLibros.Data
         public Nullable<int> IdCargo { get; set; }
         public int IdEmpresa { get; set; }
     
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual ICollection<Movimiento> Movimiento { get; set; }
         public virtual Rol Rol { get; set; }

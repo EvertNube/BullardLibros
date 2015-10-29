@@ -86,9 +86,9 @@ namespace BullardLibros.Core.BL
         public int[] getRoleKeys(int IdRol)
         {
             var roles = new int[1];
-            if (IdRol == CONSTANTES.SUPER_ADMIN_ROL) roles = new int[] { CONSTANTES.SUPER_ADMIN_ROL, CONSTANTES.ROL_ADMIN, CONSTANTES.ROL_RESPONSABLE };
-            if (IdRol == CONSTANTES.ROL_ADMIN) roles = new int[] { CONSTANTES.ROL_RESPONSABLE };
-            if (IdRol == CONSTANTES.ROL_RESPONSABLE) roles = new int[] { CONSTANTES.ROL_RESPONSABLE };
+            if (IdRol == CONSTANTES.SUPER_ADMIN_ROL) roles = new int[] { CONSTANTES.SUPER_ADMIN_ROL, CONSTANTES.ROL_ADMIN, CONSTANTES.ROL_USUARIO_INT, CONSTANTES.ROL_USUARIO_EXT };
+            if (IdRol == CONSTANTES.ROL_ADMIN) roles = new int[] { CONSTANTES.ROL_ADMIN, CONSTANTES.ROL_USUARIO_INT, CONSTANTES.ROL_USUARIO_EXT };
+            if (IdRol == CONSTANTES.ROL_USUARIO_INT) roles = new int[] { CONSTANTES.ROL_USUARIO_INT, CONSTANTES.ROL_USUARIO_EXT };
             return roles;
         }
 
@@ -344,7 +344,8 @@ namespace BullardLibros.Core.BL
                     Usuario usuario = context.Usuario.Where(x => x.IdUsuario == user.IdUsuario).SingleOrDefault();
                     if (usuario != null)
                     {
-                        usuario.Nombre = user.Nombre;
+                        //No se podra actualizar el nombre
+                        //usuario.Nombre = user.Nombre;
                         usuario.InicialesNombre = user.InicialesNombre;
                         usuario.Email = user.Email;
                         usuario.IdRol = user.IdRol;// >= 2 ? user.IdRol : 3;

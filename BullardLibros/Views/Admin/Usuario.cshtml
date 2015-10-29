@@ -39,8 +39,15 @@
                                 <div class="panel-body">
                                     <div class="form-group">
                                         <label>Nombre</label>
-                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Nombre)
+                                        @if(Model.IdUsuario == 0)
+                                        {
+                                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.Nombre)
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text", @disabled = "disabled" })
+                                        }
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre Corto</label>

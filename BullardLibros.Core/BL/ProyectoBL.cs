@@ -82,7 +82,7 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public List<Select2DTO_B> getProyectosPorEntidad(int idEntidad)
+        public List<Select2DTO_B> getProyectosPorEntidad(int idEntidad, bool? esNull = false)
         {
             using (var context = getContext())
             {
@@ -91,6 +91,12 @@ namespace BullardLibros.Core.BL
                     id = x.IdProyecto,
                     text = x.Nombre
                 }).ToList();
+
+                if(esNull != null)
+                {
+                    result.Insert(0, new Select2DTO_B() { id = null, text = "Vacio" });
+                }
+
                 return result;
             }
         }

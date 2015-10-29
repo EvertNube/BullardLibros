@@ -9,7 +9,7 @@ namespace BullardLibros.Core.DTO
     [Serializable]
     public class Select2DTO_B
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string text { get; set; }
     }
 }

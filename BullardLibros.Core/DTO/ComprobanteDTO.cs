@@ -29,6 +29,7 @@ namespace BullardLibros.Core.DTO
         public bool Ejecutado { get; set; }
         public int? IdHonorario { get; set; }
         public Decimal TipoCambio { get; set; }
+        public int UsuarioCreacion { get; set; }
 
         //Nombres
         public string NombreTipoComprobante { get; set; }
@@ -36,6 +37,7 @@ namespace BullardLibros.Core.DTO
         public string NombreEntidad { get; set; }
         public string NombreMoneda { get; set; }
         public string SimboloMoneda { get; set; }
+        public string NombreUsuario { get; set; }
 
         //Listas
         public List<AreaPorComprobanteDTO> lstMontos { get; set; }

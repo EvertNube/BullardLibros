@@ -36,7 +36,8 @@ namespace BullardLibros.Helpers
         public static string URL_BITLY_API = "https://api-ssl.bitly.com/v3/shorten";
 
         public static int ROL_ADMIN = 2;
-        public static int ROL_RESPONSABLE = 3;
+        public static int ROL_USUARIO_INT = 3;
+        public static int ROL_USUARIO_EXT = 4;
 
         public static string ERROR_SELECT_RESPONSABLE = "<strong>Hubo un error.</strong> Por favor, seleccione al menos un responsable.";
     }

@@ -610,12 +610,14 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             UsuarioDTO currentUser = getCurrentUser();
             if (!this.isAdministrator() && user.IdUsuario != currentUser.IdUsuario) { return RedirectToAction("Index"); }
-            if (user.IdUsuario == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+            if (user.IdRol == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
             try
             {
                 UsuariosBL usuariosBL = new UsuariosBL();
                 if (user.IdUsuario == 0 && usuariosBL.validateUsuario(user))
                 {
+                    if (!this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+
                     usuariosBL.add(user);
                     createResponseMessage(CONSTANTES.SUCCESS);
                     return RedirectToAction("Usuarios");
@@ -794,6 +796,7 @@ namespace BullardLibros.Controllers
             if (id != null && id != 0)
             {
                 obj = objBL.getComprobanteEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                obj.UsuarioCreacion = currentUser.IdUsuario;
                 if (obj == null) return RedirectToAction("Comprobantes");
                 if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Comprobantes");
                 ViewBag.Montos = obj.lstMontos;
@@ -803,7 +806,9 @@ namespace BullardLibros.Controllers
             obj = new ComprobanteDTO();
             obj.IdEmpresa = currentUser.IdEmpresa;
             obj.TipoCambio = (new EmpresaBL()).getEmpresa(currentUser.IdEmpresa).TipoCambio;
+            obj.UsuarioCreacion = currentUser.IdUsuario;
             obj.FechaEmision = DateTime.Now;
+            
             if (idTipoComprobante != null && idTipoComprobante != 0) obj.IdTipoComprobante = idTipoComprobante.GetValueOrDefault();
             return View(obj);
         }
@@ -1312,7 +1317,7 @@ namespace BullardLibros.Controllers
         public JsonResult GetProyectos(int idEntidad)
         {
             ProyectoBL objBL = new ProyectoBL();
-            var listaProyectos = objBL.getProyectosPorEntidad(idEntidad);
+            var listaProyectos = objBL.getProyectosPorEntidad(idEntidad, true);
             return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
         }
 
