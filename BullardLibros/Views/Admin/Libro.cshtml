@@ -201,10 +201,9 @@
                                                             {
                                                                 <td class="text-center" style="color:#8EC100;">R</td> }
                                                             <td class="text-center" width="10%">@obj.NombreUsuario</td>
-                                                            @if (ViewBag.EsAdmin)
-                                                            {
-                                                                <td class="text-center" width="7%"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil" title="Editar"></i></a></td>
-                                                            }
+                                                            @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                                            <td class="text-center" width="7%"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
+                                                            
                                                         </tr>
                                                     }
                                                 }

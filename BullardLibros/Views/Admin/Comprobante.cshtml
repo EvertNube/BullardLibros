@@ -192,6 +192,7 @@
             <div class="col-xs-12">
                 @{
                     string strTitulo = "", strFechaIni = "", strEntidad = "", strFechaFin = "";
+                    string rDisabled = ViewBag.EsUsuarioExterno ? "disabled" : "";
                     if (Model != null)
                     {
                         switch (Model.IdTipoComprobante)
