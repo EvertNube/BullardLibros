@@ -285,6 +285,7 @@ namespace BullardLibros.Controllers
         public ActionResult AddLibro(CuentaBancariaDTO dto)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Libros", "Admin"); }
             try
             {
                 int TipoCuenta = 1; //Por defecto tipo de comprobante Ingreso
@@ -526,6 +527,7 @@ namespace BullardLibros.Controllers
         public ActionResult AddMovimiento(MovimientoDTO dto)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria }); }
             try
             {
                 MovimientoBL objBL = new MovimientoBL();
@@ -591,14 +593,13 @@ namespace BullardLibros.Controllers
             MenuNavBarSelected(4, 6);
 
             UsuarioDTO currentUser = getCurrentUser();
-            //if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
-            if (!this.isSuperAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
-            //if (id == 1 && !this.isSuperAdministrator()) { return RedirectToAction("Index"); }
-            if (id == 1 && currentUser.IdUsuario != 1) { return RedirectToAction("Index"); }
             UsuariosBL usuariosBL = new UsuariosBL();
 
-            //ViewBag.vbRoles = usuariosBL.getRolesViewBag(true);
-            ViewBag.vbRls = usuariosBL.getRolesViewBag(false);
+            if (!this.isAdministrator() && id != currentUser.IdUsuario) { return RedirectToAction("Index"); }
+            if (!this.isSuperAdministrator() && usuariosBL.getUsuario(id.GetValueOrDefault()).IdRol == 1) { return RedirectToAction("Usuarios"); }
+
+            //ViewBag.vbRls = usuariosBL.getAllRolesViewBag(false);
+            ViewBag.vbRls = usuariosBL.getRolesDown(currentUser.IdRol);
 
             var objSent = TempData["Usuario"];
             if (objSent != null) { TempData["Usuario"] = null; return View(objSent); }
@@ -608,9 +609,6 @@ namespace BullardLibros.Controllers
                 usuario = usuariosBL.getUsuarioEnEmpresa(currentUser.IdEmpresa, id.GetValueOrDefault());
                 if (usuario == null) return RedirectToAction("Usuarios");
                 if (usuario.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Usuarios");
-                
-                if (usuario.IdRol == 1)
-                    ViewBag.vbRls = usuariosBL.getAllRolesViewBag(false);
 
                 return View(usuario);
             }
@@ -647,10 +645,7 @@ namespace BullardLibros.Controllers
                             System.Web.HttpContext.Current.Session["User"] = usuariosBL.getUsuario(user.IdUsuario);
                             if (!this.getCurrentUser().Active) System.Web.HttpContext.Current.Session["User"] = null;
                         }
-                        if (getCurrentUser().IdRol == 1)
-                            return RedirectToAction("Usuarios");
-                        else
-                            return RedirectToAction("Index");
+                        return RedirectToAction("Usuarios");
                     }
                     else
                     {
@@ -830,6 +825,7 @@ namespace BullardLibros.Controllers
         public ActionResult AddComprobante(ComprobanteDTO dto)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Comprobantes", "Admin"); }
             try
             {
                 int TipoComprobante = 1; //Por defecto tipo de comprobante Ingreso

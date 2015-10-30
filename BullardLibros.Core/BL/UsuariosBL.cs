@@ -89,6 +89,7 @@ namespace BullardLibros.Core.BL
             if (IdRol == CONSTANTES.SUPER_ADMIN_ROL) roles = new int[] { CONSTANTES.SUPER_ADMIN_ROL, CONSTANTES.ROL_ADMIN, CONSTANTES.ROL_USUARIO_INT, CONSTANTES.ROL_USUARIO_EXT };
             if (IdRol == CONSTANTES.ROL_ADMIN) roles = new int[] { CONSTANTES.ROL_ADMIN, CONSTANTES.ROL_USUARIO_INT, CONSTANTES.ROL_USUARIO_EXT };
             if (IdRol == CONSTANTES.ROL_USUARIO_INT) roles = new int[] { CONSTANTES.ROL_USUARIO_INT, CONSTANTES.ROL_USUARIO_EXT };
+            if (IdRol == CONSTANTES.ROL_USUARIO_EXT) roles = new int[] { CONSTANTES.ROL_USUARIO_EXT };
             return roles;
         }
 
@@ -215,6 +216,21 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public IList<RolDTO> getRolesDown(int idRol)
+        {
+            using (var context = getContext())
+            {
+                var result = from r in context.Rol.AsEnumerable()
+                             where getRoleKeys(idRol).Contains(r.IdRol)
+                             select new RolDTO
+                             {
+                                 IdRol = r.IdRol,
+                                 Nombre = r.Nombre
+                             };
+                return result.ToList<RolDTO>();
+            }
+        }
+
         public IList<SelectDTO> getRolesViewBag(bool AsSelectList = false)
         {
             if (!AsSelectList)
@@ -224,7 +240,7 @@ namespace BullardLibros.Core.BL
             else
             {
                 var lista = getSelectRoles();
-                lista.Insert(0, new SelectDTO() { SelectItemId = 0, SelectItemName = "Seleccione el Tipo de Usuario." });
+                lista.Insert(0, new SelectDTO() { SelectItemId = 0, SelectItemName = "Seleccione el Rol del usuario." });
                 return lista;
             }
         }
@@ -238,7 +254,7 @@ namespace BullardLibros.Core.BL
             else
             {
                 var lista = getSelectAllRoles();
-                lista.Insert(0, new SelectDTO() { SelectItemId = 0, SelectItemName = "Seleccione el Tipo de Usuario." });
+                lista.Insert(0, new SelectDTO() { SelectItemId = 0, SelectItemName = "Seleccione el Rol del usuario." });
                 return lista;
             }
         }

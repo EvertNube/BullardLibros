@@ -5,10 +5,9 @@
     ViewBag.Title = "NubeLabs SCI - Usuario";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
 @section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(function () {
             $("#btnChangePassword").click(function () {
                 $("#passUser").removeClass("hide").focus();
                 $("#passChange").removeClass("hide");
@@ -59,7 +58,7 @@
                                         @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese su correo", @type = "email" })
                                         @Html.ValidationMessageFor(u => u.Email)
                                     </div>
-                                    @if (ViewBag.EsSuperAdmin)
+                                    @if (ViewBag.EsAdmin)
                                     {
                                         var rol = "Sin Rol";
                                         if(Model != null)
@@ -67,8 +66,16 @@
                                             rol = Model.NombreRol;
                                         }
                                         <div class="form-group">
-                                            <label>Rol Actual : <font color="#3498db">@rol</font></label>
-                                            @Html.DropDownListFor(u => u.IdRol, new SelectList(ViewBag.vbRls, "SelectItemId", "SelectItemName", Model != null ? (Model.IdRol != null ? Model.IdRol : 0) : 0), new { @class = "form-control parsley-validated" })
+                                            @*<label>Rol Actual : <font color="#3498db">@rol</font></label>*@
+                                            <label>Rol</label>
+                                            @*@Html.DropDownListFor(u => u.IdRol, new SelectList(ViewBag.vbRls, "IdRol", "Nombre", Model != null ? (Model.IdRol != null ? Model.IdRol : 0) : 0), new { @class = "form-control parsley-validated" })*@
+                                            <select class="form-control parsley-validated" data-val="true" data-val-number="The field IdRol must be a number." data-val-required="The IdRol field is required." id="IdRol" name="IdRol">
+                                                @{var rRol = Model != null ? Model.IdRol : 0; }
+                                                @foreach (var item in (List<RolDTO>)ViewBag.vbRls)
+                                                {
+                                                    <option value="@item.IdRol" @(item.IdRol == rRol ? "selected=selected" : "")>@item.Nombre</option>
+                                                }
+                                            </select>
                                             @Html.ValidationMessageFor(u => u.IdRol)
                                         </div>
                                         
