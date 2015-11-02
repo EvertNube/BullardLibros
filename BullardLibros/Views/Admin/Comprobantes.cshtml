@@ -76,16 +76,17 @@
                                                 <thead>
                                                     <tr>
                                                         @{
-                                                    var fechaIni = item.IdTipoComprobante == 1 ? "Fecha Facturación" : "Fecha Documento";
+                                                    var fechaIni = item.IdTipoComprobante == 1 ? "Fecha fra." : "Fecha doc.";
                                                     var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
                                                         }
-                                                        <th width="15%">@fechaIni</th>
-                                                        <th class="text-center" width="10%">Tipo Documento</th>
-                                                        <th class="text-center" width="20%">Nro Documento</th>
+                                                        <th class="text-center" width="10%">@fechaIni</th>
+                                                        <th class="text-center" width="12%">Tipo doc.</th>
+                                                        <th class="text-center" width="13%">Nro doc.</th>
                                                         <th class="text-center" width="20%">@strEntidad</th>
-                                                        <th class="text-center" width="15%">Monto Sin IGV</th>
+                                                        <th class="text-center" width="15%">Monto S. IGV</th>
+                                                        <th class="text-center" width="15%">P. Presupuesto</th>
                                                         <th class="text-center" width="10%">Moneda</th>
-                                                        <th class="text-center" width="10%">Opciones</th>
+                                                        <th class="text-center" width="5%">Opc.</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -97,11 +98,12 @@
                                                             {
                                                                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
-                                                                    <td class="text-center" width="15%">@obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                                    <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
-                                                                    <td class="text-center" width="20%">@obj.NroDocumento</td>
+                                                                    <td class="text-center" width="10%">@obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                                    <td class="text-center" width="12%">@obj.NombreTipoDocumento</td>
+                                                                    <td class="text-center" width="13%">@obj.NroDocumento</td>
                                                                     <td class="text-center" width="20%">@obj.NombreEntidad</td>
                                                                     <td class="text-center" width="15%">@obj.SimboloMoneda @obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                                    <td class="text-center" width="15%">@obj.NombreCategoria</td>
                                                                     <td class="text-center" width="10%">@obj.NombreMoneda</td>
                                                                     @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                                     <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>

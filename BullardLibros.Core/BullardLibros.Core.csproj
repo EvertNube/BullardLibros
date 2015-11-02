@@ -68,6 +68,7 @@
     <Compile Include="BL\MovimientoBL.cs" />
     <Compile Include="BL\PeriodoBL.cs" />
     <Compile Include="BL\ProyectoBL.cs" />
+    <Compile Include="BL\ReportesBL.cs" />
     <Compile Include="BL\ResponsableBL.cs" />
     <Compile Include="BL\TipoMovimientoBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />

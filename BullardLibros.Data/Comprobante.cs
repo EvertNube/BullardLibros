@@ -43,6 +43,7 @@ namespace BullardLibros.Data
         public int UsuarioCreacion { get; set; }
     
         public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
+        public virtual Categoria Categoria { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual Honorario Honorario { get; set; }

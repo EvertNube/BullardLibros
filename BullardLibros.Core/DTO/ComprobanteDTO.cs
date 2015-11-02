@@ -38,6 +38,7 @@ namespace BullardLibros.Core.DTO
         public string NombreMoneda { get; set; }
         public string SimboloMoneda { get; set; }
         public string NombreUsuario { get; set; }
+        public string NombreCategoria { get; set; }
 
         //Listas
         public List<AreaPorComprobanteDTO> lstMontos { get; set; }

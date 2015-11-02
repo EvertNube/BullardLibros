@@ -1741,6 +1741,153 @@ namespace BullardLibros.Controllers
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
 
+        #region Reportes
+
+        public ActionResult GenerarRep_AvanceDePresupuesto(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            CuentaBancariaDTO objCuenta = (new CuentaBancariaBL()).getCuentaBancaria(IdCuentaB.GetValueOrDefault());
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);    
+
+            ReportesBL repBL = new ReportesBL();
+            var data = repBL.AvanceDePresupuesto(IdCuentaB, FechaInicio, FechaFin);
+
+            CategoriaBL catBL = new CategoriaBL();
+            List<CategoriaDTO> lstCats = catBL.getCategorias();
+
+            if (data == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            //Llenado de Padres
+            for (int i = 0; i < data.Count; i++)
+            {
+                data[i] = catBL.obtenerPadreEntidadReporte(data[i], lstCats, 0);
+            }
+
+            dt.Columns.Add("");
+            dt.Columns.Add("Total (" + objCuenta.SimboloMoneda + ")");
+            dt.Columns.Add("PRESUPUESTO ANUAL " + objEmpresa.SimboloMoneda);
+            dt.Columns.Add("PRESUPUESTO EJECUTADO A LA FECHA %");
+
+            Decimal MontoCategoria = 0;
+            Decimal MontoSubCategoria = 0;
+
+            
+
+            //Pintado de Padres
+            for (int i = 0; i < data.Count; i++)
+            {
+                System.Data.DataRow row = dt.NewRow();
+
+                row = DameRowPintarPadres(row, data[i]);
+                row["Montos Totales"] = data[i].MontoTotal.ToString("N2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+
+                if (i + 1 < data.Count)
+                {
+                    System.Data.DataRow rowFutura = dt.NewRow();
+                    rowFutura = DameRowPintarPadres(rowFutura, data[i + 1]);
+
+                    string miCadena = (string)row["Categoria"];
+                    string miCadena2 = (string)rowFutura["Categoria"];
+                    //if (miCadena != "OTROS" && miCadena != "INGRESOS")
+                    //{
+                    MontoCategoria += data[i].MontoTotal;
+                    MontoSubCategoria += data[i].MontoTotal;
+                    if (CONSTANTES.NivelCat > 0)
+                    {
+                        if (row["Categoria Sub 1"] != rowFutura["Categoria Sub 1"] && !string.IsNullOrEmpty(row["Categoria Sub 1"].ToString()))
+                        {
+                            System.Data.DataRow aux1 = dt.NewRow();
+                            aux1["Categoria Sub 1"] = "TOTAL :";
+                            aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
+                            dt.Rows.Add(aux1);
+                            MontoSubCategoria = 0;
+                        }
+                    }
+                    if (row["Categoria"] != rowFutura["Categoria"])
+                    {
+                        MontoSubCategoria = 0;
+                        System.Data.DataRow aux = dt.NewRow();
+                        aux["Categoria"] = "TOTAL :";
+                        aux["Montos Totales"] = MontoCategoria.ToString("N2", CultureInfo.InvariantCulture);
+                        dt.Rows.Add(aux);
+                        MontoCategoria = 0;
+                    }
+                    //}
+                }
+                else
+                {
+                    MontoCategoria += data[i].MontoTotal;
+                    MontoSubCategoria += data[i].MontoTotal;
+                    //Sub Categoria
+                    if (CONSTANTES.NivelCat > 0)
+                    {
+                        System.Data.DataRow aux1 = dt.NewRow();
+                        aux1["Categoria Sub 1"] = "TOTAL :";
+                        aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
+                        dt.Rows.Add(aux1);
+                        MontoSubCategoria = 0;
+                    }
+                    //Categoria Principal
+                    System.Data.DataRow aux = dt.NewRow();
+                    aux["Categoria"] = "TOTAL :";
+                    aux["Montos Totales"] = MontoCategoria.ToString("N2", CultureInfo.InvariantCulture);
+                    dt.Rows.Add(aux);
+                    MontoCategoria = 0;
+                }
+            }
+
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                CuentaBancariaBL oBL = new CuentaBancariaBL();
+                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
+
+                PintarCabeceraTabla(gv);
+                PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, "Avance de Presupuesto - Libro:" + obj.NombreCuenta);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
+                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
+
+                PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + "_RCategorias.xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+
+        #endregion
+
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
         {
             if (categoria.Padre != null)

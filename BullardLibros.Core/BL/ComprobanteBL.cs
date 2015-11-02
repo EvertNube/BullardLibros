@@ -42,7 +42,8 @@ namespace BullardLibros.Core.BL
                     MontoSinIGV = x.MontoSinIGV,
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
-                    NombreUsuario = x.Usuario.Cuenta
+                    NombreUsuario = x.Usuario.Cuenta,
+                    NombreCategoria = x.Categoria.Nombre
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -78,7 +79,8 @@ namespace BullardLibros.Core.BL
                     MontoSinIGV = x.MontoSinIGV,
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
-                    NombreUsuario = x.Usuario.Cuenta
+                    NombreUsuario = x.Usuario.Cuenta,
+                    NombreCategoria = x.Categoria.Nombre
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -116,6 +118,7 @@ namespace BullardLibros.Core.BL
                         TipoCambio = r.TipoCambio,
                         UsuarioCreacion = r.UsuarioCreacion,
                         NombreUsuario = r.Usuario.Cuenta,
+                        NombreCategoria = r.Categoria.Nombre,
                         lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO 
                         {
                             IdArea = x.IdArea,
