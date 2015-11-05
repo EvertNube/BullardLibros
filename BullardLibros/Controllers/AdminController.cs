@@ -489,13 +489,17 @@ namespace BullardLibros.Controllers
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
-            ViewBag.lstFormaMovs = objBL.getListaFormaDeMovimientos();
+            
+            ViewBag.IdTipoCuenta = new CuentaBancariaBL().getCuentaBancariaSolo(idLibro.GetValueOrDefault()).IdTipoCuenta;
+            ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta != 2 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
+            
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true); 
             ViewBag.NombreCategoria = "Sin Categoría"; 
             ViewBag.Categorias = CategoriasBucle(null, null);
-            
             ViewBag.Comprobantes = objBL.getComprobantesPendientesEnEmpresa(miUsuario.IdEmpresa);
+
+            
 
             var objSent = TempData["Movimiento"];
             if (objSent != null) { TempData["Movimiento"] = null; return View(objSent); }
@@ -573,7 +577,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 6);
+            MenuNavBarSelected(4, 7);
             UsuarioDTO currentUser = getCurrentUser();
 
             UsuariosBL usuariosBL = new UsuariosBL();
@@ -590,7 +594,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
-            MenuNavBarSelected(4, 6);
+            MenuNavBarSelected(4, 7);
 
             UsuarioDTO currentUser = getCurrentUser();
             UsuariosBL usuariosBL = new UsuariosBL();
@@ -675,7 +679,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(4, 5);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
@@ -694,7 +698,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(4, 5);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
@@ -962,7 +966,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 5);
+            MenuNavBarSelected(4, 6);
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -978,7 +982,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 5);
+            MenuNavBarSelected(4, 6);
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -1213,7 +1217,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 7);
+            MenuNavBarSelected(4, 4);
 
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -1231,7 +1235,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 7);
+            MenuNavBarSelected(4, 4);
             UsuarioDTO currentUser = getCurrentUser();
 
             PeriodoBL objBL = new PeriodoBL();

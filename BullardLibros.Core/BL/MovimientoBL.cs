@@ -279,6 +279,16 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public List<FormaMovimientoDTO> getListaFormaDeMovimientosBasic()
+        {
+            List<FormaMovimientoDTO> lista = new List<FormaMovimientoDTO>();
+
+            lista.Add(new FormaMovimientoDTO() { IdFormaMovimiento = 4, IdTipoMovimiento = 1, Nombre = "Otro", Estado = true, NombreTipo = "Entrada" });
+            lista.Add(new FormaMovimientoDTO() { IdFormaMovimiento = 8, IdTipoMovimiento = 2, Nombre = "Otro", Estado = true, NombreTipo = "Salida" });
+
+            return lista;
+        }
+
         public List<TipoDocumentoDTO> getListaTiposDeDocumento()
         {
             using (var context = getContext())

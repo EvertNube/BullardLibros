@@ -144,7 +144,7 @@
                                 <header class="panel-heading font-bold">
                                     <div class="row">
                                         <div class="col-md-4" style="transform: translateY(35%)">Movimientos</div>
-                                        @if (ViewBag.EsAdmin)
+                                        @if (!ViewBag.EsUsuarioExterno)
                                         {
                                             <div class="col-md-4 text-sm">
                                                 <div class="btn-group">
@@ -184,7 +184,7 @@
                                                 {
                                                     var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                     <tr @Html.Raw(classInactive)>
-                                                        <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                        <td class="text-center" width="7%">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                                         @if (obj.IdTipoMovimiento == 1)
                                                         {
                                                             <td class="text-center" width="8%" style="color:#8EC100;">Entrada</td>}

@@ -98,7 +98,7 @@
                                                             {
                                                                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
-                                                                    <td class="text-center" width="10%">@obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                                    <td class="text-center" width="10%">@obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                                                     <td class="text-center" width="12%">@obj.NombreTipoDocumento</td>
                                                                     <td class="text-center" width="13%">@obj.NroDocumento</td>
                                                                     <td class="text-center" width="20%">@obj.NombreEntidad</td>

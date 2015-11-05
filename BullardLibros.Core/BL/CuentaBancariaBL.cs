@@ -98,6 +98,29 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public CuentaBancariaDTO getCuentaBancariaSolo(int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id)
+                    .Select(r => new CuentaBancariaDTO
+                    {
+                        IdCuentaBancaria = r.IdCuentaBancaria,
+                        NombreCuenta = r.NombreCuenta,
+                        FechaConciliacion = r.FechaConciliacion,
+                        SaldoDisponible = r.SaldoDisponible,
+                        SaldoBancario = r.SaldoBancario,
+                        Estado = r.Estado,
+                        IdMoneda = r.IdMoneda,
+                        NombreMoneda = r.Moneda.Nombre,
+                        SimboloMoneda = r.Moneda.Simbolo,
+                        IdEmpresa = r.IdEmpresa,
+                        IdTipoCuenta = r.IdTipoCuenta
+                    }).SingleOrDefault();
+                return result;
+            }
+        }
+
         public CuentaBancariaDTO getCuentaBancaria(int id)
         {
             //Actualizar Saldo Disponible

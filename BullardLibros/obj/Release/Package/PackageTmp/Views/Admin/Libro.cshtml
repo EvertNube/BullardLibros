@@ -14,8 +14,14 @@
 @section Scripts{
     @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     <script type="text/javascript">
+        var jUserExt = '@ViewBag.EsUsuarioExterno';
         $(function () {
             $('.dataTable').DataTable();
+
+
+            $('.rol-accs').each(function () {
+                if(jUserExt == 'True') $(this).prop('disabled', true);
+            });
         });
         function CheckNumericValue(e) {
             var key = e.which ? e.which : e.keyCode;
@@ -35,6 +41,9 @@
     <section class="scrollable padder">
         <div class="row m-b">
             <div class="col-xs-12 col-md-12">
+                @{
+                    var rDisabled = ViewBag.EsUsuarioExterno ? "disabled" : "";
+                }
                 @if (Model == null || Model.IdCuentaBancaria == 0)
                 {
                     <h2>Nueva Cuenta</h2>
@@ -56,17 +65,17 @@
                                 <div class="panel-body">
                                     <div class="form-group col-md-6">
                                         <label>Nombre de Cuenta</label>
-                                        @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre del libro", @type = "text" })
+                                        @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del libro", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.NombreCuenta)
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Fecha de conciliación</label>
-                                        @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                        @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(u => u.FechaConciliacion)
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Moneda</label>
-                                        @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.Monedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "form-control parsley-validated" })
+                                        @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.Monedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
                                         @Html.ValidationMessageFor(u => u.IdMoneda)
                                     </div>
                                     @if (Model != null && Model.IdCuentaBancaria != 0)
@@ -122,7 +131,8 @@
                                     @Html.TextBoxFor(u => u.SaldoDisponible, new { @value = Model != null ? Model.SaldoDisponible : 0, @type = "hidden" })
                                     @Html.TextBoxFor(u => u.SaldoBancario, new { @value = Model != null ? Model.SaldoBancario : 0, @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    @if(!ViewBag.EsUsuarioExterno)
+                                    {<button type="submit" class="btn btn-sm btn-success">@btnName</button>}
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Libros", "Admin", new { idTipoCuenta = Model.IdTipoCuenta })">Salir</a>
                                 </div>
                             </section>
@@ -134,11 +144,11 @@
                                 <header class="panel-heading font-bold">
                                     <div class="row">
                                         <div class="col-md-4" style="transform: translateY(35%)">Movimientos</div>
-                                        @if (ViewBag.EsAdmin)
+                                        @if (!ViewBag.EsUsuarioExterno)
                                         {
                                             <div class="col-md-4 text-sm">
                                                 <div class="btn-group">
-                                                    <label><input type="checkbox" id="btn-showInactive"/> Mostrar Inactivos</label>
+                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -147,70 +157,69 @@
 
                                         }
                                     </div>
-                                    </header>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped m-b-none dataTable">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-center" width="7%">Fecha</th>
-                                                    <th class="text-center" width="8%">Tipo</th>
-                                                    <th width="15%">Nro Movimiento</th>
+                                </header>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" width="7%">Fecha</th>
+                                                <th class="text-center" width="8%">Tipo</th>
+                                                <th width="15%">Nro Movimiento</th>
 
-                                                    <th class="text-center" width="15%">Monto</th>
-                                                    <th class="text-center" width="10%">Categoria</th>
-                                                    <th class="text-center" width="10%">Entidad</th>
-                                                    
-                                                    <th class="text-center" width="8%">N° Doc</th>
-                                                    <th class="text-center">E</th>
-                                                    <th class="text-center" width="10%">Usuario</th>
+                                                <th class="text-center" width="15%">Monto</th>
+                                                <th class="text-center" width="10%">Categoria</th>
+                                                <th class="text-center" width="10%">Entidad</th>
 
-                                                    <th class="text-center" width="7%">Opc.</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.listaMovimiento != null)
+                                                <th class="text-center" width="8%">N° Doc</th>
+                                                <th class="text-center">E</th>
+                                                <th class="text-center" width="10%">Usuario</th>
+
+                                                <th class="text-center" width="7%">Opc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.listaMovimiento != null)
+                                            {
+                                                foreach (var obj in Model.listaMovimiento)
                                                 {
-                                                    foreach (var obj in Model.listaMovimiento)
-                                                    {
-                                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                                        <tr @Html.Raw(classInactive)>
-                                                            <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                            @if (obj.IdTipoMovimiento == 1)
-                                                            {
-                                                                <td class="text-center" width="8%" style="color:#8EC100;">Entrada</td>}
-                                                            else
-                                                            {
-                                                                <td class="text-center" width="8%" style="color:red">Salida</td> }
-                                                            <td width="15%">@obj.NroOperacion</td>
-                                                            <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                                            @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
-                                                            <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
-                                                            <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
-                                                            @if (obj.NumeroDocumento != null)
-                                                            {
-                                                                <td class="text-center" width="8%">@obj.NumeroDocumento</td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-center" width="8%">N/A</td>
-                                                            }
-                                                            @if (obj.IdEstadoMovimiento == 1)
-                                                            {
-                                                                <td class="text-center" style="color:red">P</td>}
-                                                            else
-                                                            {
-                                                                <td class="text-center" style="color:#8EC100;">R</td> }
-                                                            <td class="text-center" width="10%">@obj.NombreUsuario</td>
-                                                            @if (ViewBag.EsAdmin)
-                                                            {
-                                                                <td class="text-center" width="7%"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-pencil" title="Editar"></i></a></td>
-                                                            }
-                                                        </tr>
-                                                    }
+                                                    var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                    <tr @Html.Raw(classInactive)>
+                                                        <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                        @if (obj.IdTipoMovimiento == 1)
+                                                        {
+                                                            <td class="text-center" width="8%" style="color:#8EC100;">Entrada</td>}
+                                                        else
+                                                        {
+                                                            <td class="text-center" width="8%" style="color:red">Salida</td> }
+                                                        <td width="15%">@obj.NroOperacion</td>
+                                                        <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                        @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
+                                                        <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
+                                                        <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
+                                                        @if (obj.NumeroDocumento != null)
+                                                        {
+                                                            <td class="text-center" width="8%">@obj.NumeroDocumento</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center" width="8%">N/A</td>
+                                                        }
+                                                        @if (obj.IdEstadoMovimiento == 1)
+                                                        {
+                                                            <td class="text-center" style="color:red">P</td>}
+                                                        else
+                                                        {
+                                                            <td class="text-center" style="color:#8EC100;">R</td> }
+                                                        <td class="text-center" width="10%">@obj.NombreUsuario</td>
+                                                        @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                                        <td class="text-center" width="7%"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
+
+                                                    </tr>
                                                 }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </section>
                         }
 

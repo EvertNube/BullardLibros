@@ -63,6 +63,7 @@
     <Property Name="Ejecutado" Type="bit" Nullable="false" />
     <Property Name="IdHonorario" Type="int" />
     <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -200,6 +201,16 @@
     <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="TipoComprobante">
     <Key>
       <PropertyRef Name="IdTipoComprobante" />
@@ -336,6 +347,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Comprobante_Categoria">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="IdCategoria" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Comprobante_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
@@ -417,6 +440,18 @@
       </Principal>
       <Dependent Role="Comprobante">
         <PropertyRef Name="IdTipoDocumento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="UsuarioCreacion" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -684,6 +719,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
   </Function>
@@ -702,8 +738,32 @@
     <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="FN_GetSumaPresupuestoPadre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="IdPeriodo" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_ActualizarMontos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_ActualizarPresupuestoPadre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="IdPeriodo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
   </Function>
   <Function Name="SP_GetReporteDetalleMovimientos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCuentaB" Type="int" Mode="In" />
@@ -720,6 +780,25 @@
     <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_AvanceDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="LibrosDBModelStoreContainer">
     <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AreaPorComprobante" EntityType="Self.AreaPorComprobante" Schema="dbo" store:Type="Tables" />
@@ -738,6 +817,7 @@
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
@@ -769,6 +849,10 @@
       <End Role="Periodo" EntitySet="Periodo" />
       <End Role="CategoriaPorPeriodo" EntitySet="CategoriaPorPeriodo" />
     </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Categoria" Association="Self.FK_Comprobante_Categoria">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
     <AssociationSet Name="FK_Comprobante_Empresa" Association="Self.FK_Comprobante_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Comprobante" EntitySet="Comprobante" />
@@ -795,6 +879,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Comprobante_TipoDocumento" Association="Self.FK_Comprobante_TipoDocumento">
       <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Usuario" Association="Self.FK_Comprobante_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>
     <AssociationSet Name="FK_CuentaBancaria_Empresa" Association="Self.FK_CuentaBancaria_Empresa">

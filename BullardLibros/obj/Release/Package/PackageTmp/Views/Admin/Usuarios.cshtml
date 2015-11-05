@@ -36,7 +36,10 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Usuario")"><i class="fa fa-plus"></i> Crear nuevo usuario</a>
+                                    @if(ViewBag.EsSuperAdmin)
+                                    { 
+                                        <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Usuario")"><i class="fa fa-plus"></i> Crear nuevo usuario</a>
+                                    }
                                 </div>
                             </div>
                         </header>

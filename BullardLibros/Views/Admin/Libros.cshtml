@@ -226,7 +226,7 @@
                                                                 var classInactive = (!obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
                                                                     <td width="30%">@obj.NombreCuenta</td>
-                                                                    <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                                    <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                                                     <td class="text-right">@obj.SimboloMoneda @obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                                     @if (item.IdTipoCuenta == 1)
                                                                     {<td class="text-right" width="15%">@obj.SimboloMoneda @obj.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>}
