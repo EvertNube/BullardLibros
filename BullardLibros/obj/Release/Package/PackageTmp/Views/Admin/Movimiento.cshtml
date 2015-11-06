@@ -164,7 +164,8 @@
                                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label>Número de movimiento</label>
+                                            @{var rCadenaOp = ViewBag.IdTipoCuenta != 2 ? "Número de movimiento" : "Descripción"; }
+                                            <label>@rCadenaOp</label>
                                             @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
                                             @Html.ValidationMessageFor(u => u.NroOperacion)
                                         </div>
@@ -197,14 +198,25 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Nro Documento del Comprobante</label>
-                                            @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this)" })
-                                            @Html.ValidationMessageFor(u => u.IdComprobante)
+                                            @if (ViewBag.IdTipoCuenta != 2)
+                                            {
+                                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this)" })
+                                                @Html.ValidationMessageFor(u => u.IdComprobante)
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(u => u.NumeroDocumento, new { @class = "form-control rol-accs", @placeholder = "Número del comprobante", @type = "text" })
+                                                @Html.ValidationMessageFor(u => u.NumeroDocumento)
+                                            }
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Categoría</label>
-                                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                                            @Html.ValidationMessageFor(u => u.IdCategoria)
-                                        </div>
+                                        @if (ViewBag.IdTipoCuenta != 2)
+                                        {
+                                            <div class="form-group col-md-6">
+                                                <label>Categoría</label>
+                                                @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
+                                                @Html.ValidationMessageFor(u => u.IdCategoria)
+                                            </div>
+                                        }
                                     </div>
                                     <div class="form-group">
                                         <label>Comentario</label>

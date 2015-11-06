@@ -163,14 +163,14 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" width="7%">Fecha</th>
-                                                <th class="text-center" width="8%">Tipo</th>
-                                                <th width="15%">Nro Movimiento</th>
+                                                <th class="text-center" width="12%">Movimiento</th>
+                                                <th class="text-center" width="11%">Número</th>
 
-                                                <th class="text-center" width="15%">Monto</th>
+                                                <th class="text-center" width="13%">Monto</th>
                                                 <th class="text-center" width="10%">Categoria</th>
                                                 <th class="text-center" width="10%">Entidad</th>
 
-                                                <th class="text-center" width="8%">N° Doc</th>
+                                                <th class="text-center" width="10%">Número<br>Docum.&nbsp;</th>
                                                 <th class="text-center">E</th>
                                                 <th class="text-center" width="10%">Usuario</th>
 
@@ -184,25 +184,25 @@
                                                 {
                                                     var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                     <tr @Html.Raw(classInactive)>
-                                                        <td class="text-center" width="7%">@obj.Fecha.ToString("dd/MMM/yy", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                        <td class="text-center" width="7%">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                                         @if (obj.IdTipoMovimiento == 1)
                                                         {
-                                                            <td class="text-center" width="8%" style="color:#8EC100;">Entrada</td>}
+                                                            <td class="text-center" width="12%" style="color:#8EC100;">Entrada</td>}
                                                         else
                                                         {
-                                                            <td class="text-center" width="8%" style="color:red">Salida</td> }
-                                                        <td width="15%">@obj.NroOperacion</td>
-                                                        <td class="text-right" width="15%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                            <td class="text-center" width="12%" style="color:red">Salida</td> }
+                                                        <td class="text-center" width="11%">@obj.NroOperacion</td>
+                                                        <td class="text-right" width="13%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                         @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
                                                         <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
                                                         <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
                                                         @if (obj.NumeroDocumento != null)
                                                         {
-                                                            <td class="text-center" width="8%">@obj.NumeroDocumento</td>
+                                                            <td class="text-center" width="10%">@obj.NumeroDocumento</td>
                                                         }
                                                         else
                                                         {
-                                                            <td class="text-center" width="8%">N/A</td>
+                                                            <td class="text-center" width="10%">N/A</td>
                                                         }
                                                         @if (obj.IdEstadoMovimiento == 1)
                                                         {
