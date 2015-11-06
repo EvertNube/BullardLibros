@@ -1747,106 +1747,38 @@ namespace BullardLibros.Controllers
 
         #region Reportes
 
-        public ActionResult GenerarRep_AvanceDePresupuesto(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
+        public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
         {
-            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
+            if (FechaInicio == null || FechaFin == null)
             {
                 return RedirectToAction("ReporteCategorias", new { message = 1 });
             }
 
-            CuentaBancariaDTO objCuenta = (new CuentaBancariaBL()).getCuentaBancaria(IdCuentaB.GetValueOrDefault());
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);    
 
             ReportesBL repBL = new ReportesBL();
-            var data = repBL.AvanceDePresupuesto(IdCuentaB, FechaInicio, FechaFin);
+            List<CategoriaDTO> lstCatsMontos = repBL.AvanceDePresupuesto(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
+            //Sumatoria de Presupuestos de Padres y armado de Arbol
+            List<CategoriaDTO> lstCats = repBL.getCategoriasTreeEnEmpresa(lstCatsMontos, objEmpresa.IdEmpresa);
+            //Arbol de presupuestos
             CategoriaBL catBL = new CategoriaBL();
-            List<CategoriaDTO> lstCats = catBL.getCategorias();
+            List<CategoriaDTO> arbolPresupuestos = catBL.getCategoriasTreeEnEmpresa(objEmpresa.IdEmpresa);
 
-            if (data == null)
+            if (lstCats == null)
                 return RedirectToAction("ReporteCategorias", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
 
-            //Llenado de Padres
-            for (int i = 0; i < data.Count; i++)
-            {
-                data[i] = catBL.obtenerPadreEntidadReporte(data[i], lstCats, 0);
-            }
-
             dt.Columns.Add("");
-            dt.Columns.Add("Total (" + objCuenta.SimboloMoneda + ")");
+            dt.Columns.Add("Total (" + objEmpresa.SimboloMoneda + ")");
             dt.Columns.Add("PRESUPUESTO ANUAL " + objEmpresa.SimboloMoneda);
             dt.Columns.Add("PRESUPUESTO EJECUTADO A LA FECHA %");
 
-            Decimal MontoCategoria = 0;
-            Decimal MontoSubCategoria = 0;
-
-            
-
-            //Pintado de Padres
-            for (int i = 0; i < data.Count; i++)
+            foreach (var obj in arbolPresupuestos)
             {
-                System.Data.DataRow row = dt.NewRow();
-
-                row = DameRowPintarPadres(row, data[i]);
-                row["Montos Totales"] = data[i].MontoTotal.ToString("N2", CultureInfo.InvariantCulture);
-                dt.Rows.Add(row);
-
-                if (i + 1 < data.Count)
-                {
-                    System.Data.DataRow rowFutura = dt.NewRow();
-                    rowFutura = DameRowPintarPadres(rowFutura, data[i + 1]);
-
-                    string miCadena = (string)row["Categoria"];
-                    string miCadena2 = (string)rowFutura["Categoria"];
-                    //if (miCadena != "OTROS" && miCadena != "INGRESOS")
-                    //{
-                    MontoCategoria += data[i].MontoTotal;
-                    MontoSubCategoria += data[i].MontoTotal;
-                    if (CONSTANTES.NivelCat > 0)
-                    {
-                        if (row["Categoria Sub 1"] != rowFutura["Categoria Sub 1"] && !string.IsNullOrEmpty(row["Categoria Sub 1"].ToString()))
-                        {
-                            System.Data.DataRow aux1 = dt.NewRow();
-                            aux1["Categoria Sub 1"] = "TOTAL :";
-                            aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                            dt.Rows.Add(aux1);
-                            MontoSubCategoria = 0;
-                        }
-                    }
-                    if (row["Categoria"] != rowFutura["Categoria"])
-                    {
-                        MontoSubCategoria = 0;
-                        System.Data.DataRow aux = dt.NewRow();
-                        aux["Categoria"] = "TOTAL :";
-                        aux["Montos Totales"] = MontoCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                        dt.Rows.Add(aux);
-                        MontoCategoria = 0;
-                    }
-                    //}
-                }
-                else
-                {
-                    MontoCategoria += data[i].MontoTotal;
-                    MontoSubCategoria += data[i].MontoTotal;
-                    //Sub Categoria
-                    if (CONSTANTES.NivelCat > 0)
-                    {
-                        System.Data.DataRow aux1 = dt.NewRow();
-                        aux1["Categoria Sub 1"] = "TOTAL :";
-                        aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                        dt.Rows.Add(aux1);
-                        MontoSubCategoria = 0;
-                    }
-                    //Categoria Principal
-                    System.Data.DataRow aux = dt.NewRow();
-                    aux["Categoria"] = "TOTAL :";
-                    aux["Montos Totales"] = MontoCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                    dt.Rows.Add(aux);
-                    MontoCategoria = 0;
-                }
+                PintarArbolPadre(obj, lstCatsMontos, objEmpresa, dt);
             }
 
             GridView gv = new GridView();
@@ -1858,7 +1790,7 @@ namespace BullardLibros.Controllers
             if (dt.Rows.Count > 0)
             {
                 CuentaBancariaBL oBL = new CuentaBancariaBL();
-                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
+                CuentaBancariaDTO obj = oBL.getCuentaBancaria(1);
 
                 PintarCabeceraTabla(gv);
                 PintarIntercaladoCategorias(gv);
@@ -1888,6 +1820,22 @@ namespace BullardLibros.Controllers
                 sw.Close();
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+
+        private static void PintarArbolPadre(CategoriaDTO obj, List<CategoriaDTO> lstCatMontos, EmpresaDTO objEmpresa, System.Data.DataTable dt)
+        {
+            System.Data.DataRow row = dt.NewRow();
+            row[0] = obj.Nombre;
+            Decimal pMonto = lstCatMontos.SingleOrDefault(x => x.IdCategoria == obj.IdCategoria).Presupuesto.GetValueOrDefault();
+            row["Total (" + objEmpresa.SimboloMoneda + ")"] = pMonto;
+            row["PRESUPUESTO ANUAL " + objEmpresa.SimboloMoneda] = obj.Presupuesto ?? 0;
+            Decimal porcentaje = obj.Presupuesto.GetValueOrDefault() != 0 ? pMonto / obj.Presupuesto.GetValueOrDefault() : 0;
+            row["PRESUPUESTO EJECUTADO A LA FECHA %"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row);
+            foreach (var hijo in obj.Hijos)
+            {
+                PintarArbolPadre(hijo, lstCatMontos, objEmpresa, dt);
+            }
         }
 
         #endregion
