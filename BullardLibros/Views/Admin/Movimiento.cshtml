@@ -197,7 +197,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label>Nro Documento del Comprobante</label>
+                                            <label>Número de Documento</label>
                                             @if (ViewBag.IdTipoCuenta != 2)
                                             {
                                                 @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this)" })
@@ -212,7 +212,7 @@
                                         @if (ViewBag.IdTipoCuenta != 2)
                                         {
                                             <div class="form-group col-md-6">
-                                                <label>Categoría</label>
+                                                <label>Partida de Presupuesto</label>
                                                 @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
                                                 @Html.ValidationMessageFor(u => u.IdCategoria)
                                             </div>

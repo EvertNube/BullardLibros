@@ -48,7 +48,7 @@
             endEdit(e);
             var jPeriodo = $('#idPeriodo').data('periodo');
             if (jPeriodo == null || jPeriodo == 0) {
-                alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
+                confirm("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
                 return false;
             }
             var pValor = $(this).val();
@@ -63,7 +63,7 @@
                 var jPeriodo = $('#idPeriodo').data('periodo');
                 if (jPeriodo == null || jPeriodo == 0)
                 {
-                    alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
+                    confirm("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
                     return false;
                 }
                 //var pValor = $(this).val();
@@ -76,7 +76,7 @@
             } else {
                 var jPeriodo = $('#idPeriodo').data('periodo');
                 if (jPeriodo == null || jPeriodo == 0) {
-                    alert("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
+                    confirm("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
                     return true;
                 }
                 var pValor = $(this).val();
