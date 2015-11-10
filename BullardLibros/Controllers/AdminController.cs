@@ -1763,7 +1763,7 @@ namespace BullardLibros.Controllers
             List<CategoriaDTO> lstCats = repBL.getCategoriasTreeEnEmpresa(lstCatsMontos, objEmpresa.IdEmpresa);
             //Arbol de presupuestos
             CategoriaBL catBL = new CategoriaBL();
-            List<CategoriaDTO> arbolPresupuestos = catBL.getCategoriasTreeEnEmpresa(objEmpresa.IdEmpresa);
+            List<CategoriaDTO> arbolPresupuestos = repBL.getCategoriasPresupuestosTreeEnEmpresa(objEmpresa.IdEmpresa, 0);
 
             if (lstCats == null)
                 return RedirectToAction("ReporteCategorias", new { message = 2 });
@@ -1790,23 +1790,22 @@ namespace BullardLibros.Controllers
             if (dt.Rows.Count > 0)
             {
                 CuentaBancariaBL oBL = new CuentaBancariaBL();
-                CuentaBancariaDTO obj = oBL.getCuentaBancaria(1);
+                //CuentaBancariaDTO obj = oBL.getCuentaBancaria(1);
 
                 PintarCabeceraTabla(gv);
                 PintarIntercaladoCategorias(gv);
 
-                AddSuperHeader(gv, "Avance de Presupuesto - Libro:" + obj.NombreCuenta);
+                AddSuperHeader(gv, "Avance de Presupuesto - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
-                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
-                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
+                AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Moneda: " + objEmpresa.SimboloMoneda);
 
                 PintarCategorias(gv);
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + "_RCategorias.xls");
+                Response.AddHeader("content-disposition", "attachment; filename=" + "AvanceDePresupuesto_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 

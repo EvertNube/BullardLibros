@@ -18,5 +18,6 @@ namespace BullardLibros.Core.DTO
         public IList<CategoriaDTO> Hijos { get; set; }
 
         public Decimal? Presupuesto { get; set; }
+        public int Nivel { get; set; }
     }
 }

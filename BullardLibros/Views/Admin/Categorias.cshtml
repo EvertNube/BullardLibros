@@ -130,7 +130,8 @@
             var pPadre = e.data('padre');
             var suma = 0;
             $("label[data-lblpadre='" + pPadre + "']").each(function () {
-                suma += Number($(this).text().replace(/[^0-9\.]+/g, ""));
+                if (!$(this).hasClass("inactive"))
+                { suma += Number($(this).text().replace(/[^0-9\.]+/g, "")); }
             });
             suma = (parseFloat(suma).toFixed(2)).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             $("label[data-lblid='" + pPadre + "']").text(suma);
@@ -168,9 +169,9 @@
                 
                 output.Append("<div class='col-md-3 text-right'>");
                 if (obj.Hijos == null || obj.Hijos.Count == 0)
-                    output.AppendFormat("<label class='pull-left' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input class='form-control input-sm clickedit' data-padre='{0}' data-id='{1}' type='text' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Sin valor", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null);
+                    output.AppendFormat("<label class='pull-left {4}' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input class='form-control input-sm clickedit' data-padre='{0}' data-id='{1}' type='text' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Sin valor", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null, classInactive);
                 else
-                    output.AppendFormat("<label class='pull-left' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input data-padre='{0}' data-id='{1}' type='hidden' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Monto Padre", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null);
+                    output.AppendFormat("<label class='pull-left {4}' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input data-padre='{0}' data-id='{1}' type='hidden' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Monto Padre", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null, classInactive);
                 output.Append("</div>");
                 
                 output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");
