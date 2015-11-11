@@ -1746,7 +1746,6 @@ namespace BullardLibros.Controllers
         }
 
         #region Reportes
-
         public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
@@ -1771,10 +1770,19 @@ namespace BullardLibros.Controllers
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
 
-            dt.Columns.Add("");
+            dt.Columns.Add("Nivel");
+            dt.Columns.Add("P. Presupuesto");
             dt.Columns.Add("Total (" + objEmpresa.SimboloMoneda + ")");
-            dt.Columns.Add("PRESUPUESTO ANUAL " + objEmpresa.SimboloMoneda);
+            dt.Columns.Add("PRESUPUESTO ANUAL (" + objEmpresa.SimboloMoneda + ")");
             dt.Columns.Add("PRESUPUESTO EJECUTADO A LA FECHA %");
+
+            //Suma de Padres de Nivel 0
+            Decimal SumaPadres0 = lstCatsMontos.Where(x => x.IdCategoriaPadre == null).Sum(x => x.Presupuesto.GetValueOrDefault());
+            Decimal SumaPresupuesto = arbolPresupuestos.Sum(x => x.Presupuesto.GetValueOrDefault());
+
+            System.Data.DataRow auxRow = dt.NewRow();
+            auxRow[0] = ""; auxRow[1] = ""; auxRow[2] = SumaPadres0.ToString("N2", CultureInfo.InvariantCulture); auxRow[3] = SumaPresupuesto.ToString("N2", CultureInfo.InvariantCulture); auxRow[4] = (SumaPresupuesto == 0) ? "0.00%" : (SumaPresupuesto / SumaPresupuesto).ToString("P2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(auxRow);
 
             foreach (var obj in arbolPresupuestos)
             {
@@ -1789,17 +1797,14 @@ namespace BullardLibros.Controllers
 
             if (dt.Rows.Count > 0)
             {
-                CuentaBancariaBL oBL = new CuentaBancariaBL();
-                //CuentaBancariaDTO obj = oBL.getCuentaBancaria(1);
-
                 PintarCabeceraTabla(gv);
-                PintarIntercaladoCategorias(gv);
+                //PintarIntercaladoCategorias(gv);
 
                 AddSuperHeader(gv, "Avance de Presupuesto - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 3, "Moneda: " + objEmpresa.SimboloMoneda);
+                AddWhiteHeader(gv, 3, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
 
                 PintarCategorias(gv);
 
@@ -1820,14 +1825,14 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
-
         private static void PintarArbolPadre(CategoriaDTO obj, List<CategoriaDTO> lstCatMontos, EmpresaDTO objEmpresa, System.Data.DataTable dt)
         {
             System.Data.DataRow row = dt.NewRow();
-            row[0] = obj.Nombre;
+            row["Nivel"] = obj.Nivel;
+            row["P. Presupuesto"] = obj.Nombre;
             Decimal pMonto = lstCatMontos.SingleOrDefault(x => x.IdCategoria == obj.IdCategoria).Presupuesto.GetValueOrDefault();
-            row["Total (" + objEmpresa.SimboloMoneda + ")"] = pMonto;
-            row["PRESUPUESTO ANUAL " + objEmpresa.SimboloMoneda] = obj.Presupuesto ?? 0;
+            row["Total (" + objEmpresa.SimboloMoneda + ")"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
+            row["PRESUPUESTO ANUAL (" + objEmpresa.SimboloMoneda + ")"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
             Decimal porcentaje = obj.Presupuesto.GetValueOrDefault() != 0 ? pMonto / obj.Presupuesto.GetValueOrDefault() : 0;
             row["PRESUPUESTO EJECUTADO A LA FECHA %"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row);
@@ -1836,9 +1841,7 @@ namespace BullardLibros.Controllers
                 PintarArbolPadre(hijo, lstCatMontos, objEmpresa, dt);
             }
         }
-
         #endregion
-
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
         {
             if (categoria.Padre != null)
@@ -1857,7 +1860,6 @@ namespace BullardLibros.Controllers
             }
             return row;
         }
-
         private static void AddSuperHeader(GridView gridView, string text = null)
         {
             var myTable = (Table)gridView.Controls[0];
@@ -1903,7 +1905,6 @@ namespace BullardLibros.Controllers
                 }
             }
         }
-
         private static void PintarIntercaladoCategorias(GridView gridView)
         {
             var myTable = (Table)gridView.Controls[0];
