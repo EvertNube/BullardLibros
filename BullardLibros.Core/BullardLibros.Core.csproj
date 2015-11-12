@@ -73,6 +73,7 @@
     <Compile Include="BL\TipoMovimientoBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />
     <Compile Include="DTO\AreaDTO.cs" />
+    <Compile Include="DTO\AreaNDTO.cs" />
     <Compile Include="DTO\AreaPorComprobanteDTO.cs" />
     <Compile Include="DTO\CategoriaDTO.cs" />
     <Compile Include="DTO\CategoriaPorPeriodoDTO.cs" />

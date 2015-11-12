@@ -983,6 +983,12 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="SP_Rep_FacturacionPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorAreas_Result)">
+      <Parameter Name="IdArea" Mode="In" Type="Int32" />
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
     <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
@@ -1024,5 +1030,10 @@
     <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="Decimal" Name="MontoFinal" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="SP_Rep_FacturacionPorAreas_Result">
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
 </Schema>

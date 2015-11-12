@@ -334,12 +334,12 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public List<AreaDTO> getListaAreasEnEmpresa(int idEmpresa, bool? esNull = false)
+        public List<AreaNDTO> getListaAreasEnEmpresa(int idEmpresa, bool? esNull = false)
         {
             //SOLO ACTIVOS
             using (var context = getContext())
             {
-                var result = context.Area.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new AreaDTO
+                var result = context.Area.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new AreaNDTO
                 {
                     IdArea = x.IdArea,
                     Nombre = x.Nombre,
@@ -348,7 +348,7 @@ namespace BullardLibros.Core.BL
 
                 if(esNull != null)
                 {
-                    result.Insert(0, new AreaDTO() { IdArea = 0, Nombre = "Seleccione un área" });
+                    result.Insert(0, new AreaNDTO() { IdArea = null, Nombre = "Seleccione un área" });
                 }
                 return result;
             }
