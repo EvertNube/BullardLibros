@@ -1753,7 +1753,7 @@ namespace BullardLibros.Controllers
                 return RedirectToAction("ReporteCategorias", new { message = 1 });
             }
 
-            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);    
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
             List<CategoriaDTO> lstCatsMontos = repBL.AvanceDePresupuesto(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
@@ -1825,6 +1825,77 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
+        public ActionResult GenerarRep_FacturacionPorAreas(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<AreaDTO> lstAreasMontos = repBL.getAreasEnEmpresa(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
+
+            if (lstAreasMontos == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Áreas");
+            dt.Columns.Add("Clientes");
+            dt.Columns.Add("Montos");
+            dt.Columns.Add("Porcentaje");
+
+            Decimal SumaTotal = lstAreasMontos.Sum(x => x.SumaClientes);
+
+            foreach (var obj in lstAreasMontos)
+            {
+                PintarAreas(obj, SumaTotal, objEmpresa, dt);
+            }
+
+            System.Data.DataRow rowFinal = dt.NewRow();
+            rowFinal[0] = "TOTAL";
+            rowFinal[2] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(rowFinal);
+
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, "Facturación por áreas - Empresa:" + objEmpresa.Nombre);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
+
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + "FacturacionPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
         private static void PintarArbolPadre(CategoriaDTO obj, List<CategoriaDTO> lstCatMontos, EmpresaDTO objEmpresa, System.Data.DataTable dt)
         {
             System.Data.DataRow row = dt.NewRow();
@@ -1840,6 +1911,23 @@ namespace BullardLibros.Controllers
             {
                 PintarArbolPadre(hijo, lstCatMontos, objEmpresa, dt);
             }
+        }
+        private static void PintarAreas(AreaDTO obj, Decimal SumaTotal, EmpresaDTO objEmpresa, System.Data.DataTable dt)
+        {
+            System.Data.DataRow row1 = dt.NewRow();
+            row1[0] = obj.Nombre;
+            row1["Montos"] = obj.SumaClientes.ToString("N2", CultureInfo.InvariantCulture);
+            Decimal porcentaje = SumaTotal == 0 ? 0 : obj.SumaClientes / SumaTotal;
+            row1["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row1);
+
+            foreach (var item in obj.lstClientes)
+	        {
+		        System.Data.DataRow row2 = dt.NewRow();
+                row2["Clientes"] = item.Nombre;
+                row2["Montos"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row2);
+	        }
         }
         #endregion
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)

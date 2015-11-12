@@ -89,6 +89,34 @@ namespace BullardLibros.Core.BL
         }
         #endregion
 
+        #region Facturacion por areas
+        public List<AreaDTO> getAreasEnEmpresa(int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Area.AsEnumerable().Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa,
+                    lstClientes = context.SP_Rep_FacturacionPorAreas(x.IdArea, x.IdEmpresa, fechaInicio, fechaFin).Select(r => new EntidadResponsableR_DTO 
+                    {
+                        IdEntidadResponsable = r.IdEntidadResponsable,
+                        Nombre = r.Nombre,
+                        Monto = r.Monto.GetValueOrDefault()
+                    }).ToList()
+                }).OrderBy(x => x.Nombre).ToList();
 
+                foreach (var item in result)
+                {
+                    item.SumaClientes = item.lstClientes.Sum(x => x.Monto);
+                }
+
+                return result;
+            }
+        }
+        #endregion
     }
 }

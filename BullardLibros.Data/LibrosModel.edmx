@@ -736,6 +736,13 @@
           <Parameter Name="IdCategoria" Type="int" Mode="In" />
           <Parameter Name="IdPeriodo" Type="int" Mode="In" />
         </Function>
+        <Function Name="FN_MontoAreaXEntidadEnComp_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdArea" Type="int" Mode="In" />
+          <Parameter Name="IdEntidad" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="FN_MontoCat_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="IdCategoria" Type="int" Mode="In" />
@@ -771,6 +778,12 @@
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_Rep_AvanceDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Rep_FacturacionPorAreas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdArea" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
@@ -1937,6 +1950,12 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Rep_FacturacionPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorAreas_Result)">
+            <Parameter Name="IdArea" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
           <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
@@ -1978,6 +1997,11 @@
           <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
           <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
           <Property Type="Decimal" Name="MontoFinal" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
+        <ComplexType Name="SP_Rep_FacturacionPorAreas_Result">
+          <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2328,6 +2352,15 @@
                 <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
                 <ScalarProperty Name="MontoFinal" ColumnName="MontoFinal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_FacturacionPorAreas" FunctionName="LibrosDBModel.Store.SP_Rep_FacturacionPorAreas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_FacturacionPorAreas_Result">
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

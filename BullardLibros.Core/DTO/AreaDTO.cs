@@ -14,5 +14,8 @@ namespace BullardLibros.Core.DTO
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
+
+        public List<EntidadResponsableR_DTO> lstClientes { get; set; }
+        public Decimal SumaClientes { get; set; }
     }
 }

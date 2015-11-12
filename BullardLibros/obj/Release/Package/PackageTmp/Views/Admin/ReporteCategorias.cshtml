@@ -31,7 +31,7 @@
         switch(nrep)
         {
             case 1:
-                return "/Admin/GenerarRep_AvanceDePresupuesto/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                return "/Admin/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
             case 2:
                 return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);

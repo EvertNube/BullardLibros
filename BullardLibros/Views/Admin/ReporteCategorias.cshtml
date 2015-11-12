@@ -14,12 +14,15 @@
         $('#reporte3').click(function () {
             this.href = GenerarReporte(3);
         });
+        $('#reporte4').click(function () {
+            this.href = GenerarReporte(3);
+        });
 
     });
 
     function GenerarReporte(nrep)
     {
-        var IdCuentaB = $("#IdCuentaB").val();
+        //var IdCuentaB = $("#IdCuentaB").val();
 
         var FechaInicio = $("#FechaInicio").val().split("/");
 
@@ -34,11 +37,14 @@
                 return "/Admin/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
             case 2:
+                return "/Admin/GenerarRep_FacturacionPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            /*case 3:
                 return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
-            case 3:
+            case 4:
                 return "/Admin/GenerarReporteResumenEntidadesR/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
-                break;
+                break;*/
         }
     }
 
@@ -58,33 +64,27 @@
                         <section class="panel panel-default">
                             <header class="panel-heading font-bold">Generar Reportes</header>
                             <div class="panel-body">
-                                <div class="form-group col-lg-4">
+                                @*<div class="form-group col-lg-4">
                                     <label>Tipo de Movimiento</label>
                                     @Html.DropDownList("IdCuentaB", new SelectList(ViewBag.Libros, "IdCuentaBancaria", "NombreCuenta", 0), new { @class = "form-control parsley-validated" })
-                                </div>
-                                <div class="form-group col-lg-4">
+                                </div>*@
+                                <div class="form-group col-lg-6">
                                     <label for="FechaInicio">Fecha Inicio:</label>
                                     @Html.TextBox("FechaInicio", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                 </div>
-                                <div class="form-group col-lg-4">
+                                <div class="form-group col-lg-6">
                                     <label for="FechaFin">Fecha Fin:</label>
                                     @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                 </div>
-                                <div class="form-group col-md-4 text-center">
-                                    <label>Reporte por Categorías </label>
+                                <div class="form-group col-md-6 text-center">
+                                    <label>Avance de Presupuesto </label>
                                     <a class="btn btn-sm btn-success" id="reporte1">
                                         Generar Reporte
                                     </a>
                                 </div>
-                                <div class="form-group col-md-4 text-center">
-                                    <label>Reporte Detalle de Movimientos </label>
+                                <div class="form-group col-md-6 text-center">
+                                    <label>Facturación por Áreas </label>
                                     <a class="btn btn-sm btn-success" id="reporte2">
-                                        Generar Reporte
-                                    </a>
-                                </div>
-                                <div class="form-group col-md-4 text-center">
-                                    <label>Reporte por Entidades </label>
-                                    <a class="btn btn-sm btn-success" id="reporte3">
                                         Generar Reporte
                                     </a>
                                 </div>
