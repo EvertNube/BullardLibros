@@ -989,6 +989,11 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="SP_Rep_IngresosEgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
     <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
@@ -1035,5 +1040,14 @@
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="SP_Rep_IngresosEgresosPorAreas_Result">
+    <Property Type="Int32" Name="IdArea" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+    <Property Type="Boolean" Name="Estado" Nullable="false" />
+    <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+    <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
 </Schema>

@@ -118,5 +118,26 @@ namespace BullardLibros.Core.BL
             }
         }
         #endregion
+
+        #region Ingresos y Egresos por Areas
+        public List<AreaDTO> getIngresosEgresosAreas(int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Rep_IngresosEgresosPorAreas(idEmpresa, fechaInicio, fechaFin).Select(x => new AreaDTO
+                    {
+                        IdArea = x.IdArea,
+                        Nombre = x.Nombre,
+                        Descripcion = x.Descripcion,
+                        Estado = x.Estado,
+                        IdEmpresa = x.IdEmpresa,
+                        Ingresos = x.Ingreso.GetValueOrDefault(),
+                        Egresos = x.Egreso.GetValueOrDefault()
+                    }).OrderBy(x => x.Nombre).ToList();
+                
+                return result;
+            }
+        }
+        #endregion
     }
 }

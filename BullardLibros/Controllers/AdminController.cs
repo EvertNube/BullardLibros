@@ -1852,7 +1852,7 @@ namespace BullardLibros.Controllers
 
             foreach (var obj in lstAreasMontos)
             {
-                PintarAreas(obj, SumaTotal, objEmpresa, dt);
+                PintarAreas(obj, SumaTotal, dt);
             }
 
             System.Data.DataRow rowFinal = dt.NewRow();
@@ -1871,7 +1871,7 @@ namespace BullardLibros.Controllers
                 PintarCabeceraTabla(gv);
                 //PintarIntercaladoCategorias(gv);
 
-                AddSuperHeader(gv, "Facturación por áreas - Empresa:" + objEmpresa.Nombre);
+                AddSuperHeader(gv, "Facturaci&oacute;n por &aacute;reas - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
@@ -1896,6 +1896,74 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
+        public ActionResult GenerarRep_IngresosEgresosPorAreas(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<AreaDTO> lstAreasIE = repBL.getIngresosEgresosAreas(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
+
+            if (lstAreasIE == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Áreas");
+            dt.Columns.Add("V/G");
+            dt.Columns.Add("Montos");
+
+            foreach (var obj in lstAreasIE)
+            {
+                PintarAreasIE(obj, dt);
+            }
+
+            GenerarPdf(dt, "Ingresos y Egresos por &Aacute;reas", "IngresosYEgresosPorAreas", objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+        private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
+        {
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
+
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + nombreDoc + "_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }   
+        }
         private static void PintarArbolPadre(CategoriaDTO obj, List<CategoriaDTO> lstCatMontos, EmpresaDTO objEmpresa, System.Data.DataTable dt)
         {
             System.Data.DataRow row = dt.NewRow();
@@ -1912,7 +1980,7 @@ namespace BullardLibros.Controllers
                 PintarArbolPadre(hijo, lstCatMontos, objEmpresa, dt);
             }
         }
-        private static void PintarAreas(AreaDTO obj, Decimal SumaTotal, EmpresaDTO objEmpresa, System.Data.DataTable dt)
+        private static void PintarAreas(AreaDTO obj, Decimal SumaTotal, System.Data.DataTable dt)
         {
             System.Data.DataRow row1 = dt.NewRow();
             row1[0] = obj.Nombre;
@@ -1929,6 +1997,25 @@ namespace BullardLibros.Controllers
                 dt.Rows.Add(row2);
 	        }
         }
+        private static void PintarAreasIE(AreaDTO obj, System.Data.DataTable dt)
+        {
+            DataRow row1 = dt.NewRow();
+            row1[0] = obj.Nombre.ToUpper();
+            dt.Rows.Add(row1);
+            DataRow row2 = dt.NewRow();
+            row2[1] = "VENTAS";
+            row2[2] = obj.Ingresos.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row2);
+            DataRow row3 = dt.NewRow();
+            row3[1] = "GASTOS";
+            row3[2] = obj.Egresos.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row3);
+            DataRow row4 = dt.NewRow();
+            row4[0] = "NETO";
+            row4[2] = (obj.Ingresos + obj.Egresos).ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row4);
+        }
+
         #endregion
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
         {

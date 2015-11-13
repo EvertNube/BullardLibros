@@ -131,6 +131,9 @@
     <Compile Include="SP_Rep_FacturacionPorAreas_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Rep_IngresosEgresosPorAreas_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TipoComprobante.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -159,25 +162,23 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>LibrosModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="LibrosModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+      <LastGenOutput>LibrosModel.Context.cs</LastGenOutput>
+    </None>
     <None Include="LibrosModel.edmx.diagram">
       <DependentUpon>LibrosModel.edmx</DependentUpon>
+    </None>
+    <None Include="LibrosModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+      <LastGenOutput>LibrosModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LibrosModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LibrosModel.edmx</DependentUpon>
-      <LastGenOutput>LibrosModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="LibrosModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LibrosModel.edmx</DependentUpon>
-      <LastGenOutput>LibrosModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
