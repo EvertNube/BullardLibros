@@ -30,7 +30,6 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
-
         public List<CategoriaDTO> getCategoriasTreeEnEmpresa(List<CategoriaDTO> lstCatsMontos, int idEmpresa, int? id = null)
         {
             
@@ -60,7 +59,6 @@ namespace BullardLibros.Core.BL
 
             return categoriasTree;
         }
-
         public List<CategoriaDTO> getCategoriasPresupuestosTreeEnEmpresa(int idEmpresa, int nivel, int? id = null)
         {
             using (var context = getContext())
@@ -135,6 +133,25 @@ namespace BullardLibros.Core.BL
                         Egresos = x.Egreso.GetValueOrDefault()
                     }).OrderBy(x => x.Nombre).ToList();
                 
+                return result;
+            }
+        }
+        #endregion
+
+        #region Facturación por Cliente
+        public List<EntidadResponsableR_DTO> getFacturacionPorClientes(int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Rep_FacturacionPorCliente(idEmpresa, fechaInicio, fechaFin).Select(x => new EntidadResponsableR_DTO
+                    {
+                        IdEntidadResponsable = x.IdEntidadResponsable,
+                        Nombre = x.Nombre,
+                        Estado = x.Estado,
+                        Tipo = x.Tipo,
+                        IdEmpresa = x.IdEmpresa,
+                        Monto = x.Monto.GetValueOrDefault()
+                    }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }

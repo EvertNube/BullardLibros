@@ -131,6 +131,9 @@
     <Compile Include="SP_Rep_FacturacionPorAreas_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Rep_FacturacionPorCliente_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Rep_IngresosEgresosPorAreas_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
