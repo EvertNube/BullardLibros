@@ -709,6 +709,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="FN_FacturacionPorCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdCliente" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
   </Function>
@@ -786,6 +792,11 @@
   </Function>
   <Function Name="SP_Rep_FacturacionPorAreas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdArea" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_FacturacionPorCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />

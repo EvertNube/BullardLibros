@@ -989,6 +989,11 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="SP_Rep_FacturacionPorCliente" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorCliente_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
     <FunctionImport Name="SP_Rep_IngresosEgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result)">
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
@@ -1040,6 +1045,18 @@
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="SP_Rep_FacturacionPorCliente_Result">
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="Int32" Name="IdTipoIdentificacion" Nullable="true" />
+    <Property Type="Int32" Name="IdTipoEntidad" Nullable="true" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Boolean" Name="Estado" Nullable="false" />
+    <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Tipo" Nullable="true" MaxLength="250" />
+    <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+    <Property Type="String" Name="NroIdentificacion" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
   <ComplexType Name="SP_Rep_IngresosEgresosPorAreas_Result">
     <Property Type="Int32" Name="IdArea" Nullable="false" />

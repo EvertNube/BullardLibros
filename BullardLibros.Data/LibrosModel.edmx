@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="IdArea" />
@@ -985,7 +985,8 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibrosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1946,7 +1947,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="SP_ActualizarMontos">
-          <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarPresupuestoPadre">
             <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
@@ -1978,12 +1979,12 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_Rep_IngresosEgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result)">
+          <FunctionImport Name="SP_Rep_FacturacionPorCliente" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorCliente_Result)">
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_Rep_FacturacionPorCliente" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorCliente_Result)">
+          <FunctionImport Name="SP_Rep_IngresosEgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result)">
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
@@ -2035,15 +2036,6 @@
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
-        <ComplexType Name="SP_Rep_IngresosEgresosPorAreas_Result">
-          <Property Type="Int32" Name="IdArea" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
-          <Property Type="Boolean" Name="Estado" Nullable="false" />
-          <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
-          <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
-        </ComplexType>
         <ComplexType Name="SP_Rep_FacturacionPorCliente_Result">
           <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
           <Property Type="Int32" Name="IdTipoIdentificacion" Nullable="true" />
@@ -2055,6 +2047,15 @@
           <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
           <Property Type="String" Name="NroIdentificacion" Nullable="true" MaxLength="100" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="SP_Rep_IngresosEgresosPorAreas_Result">
+          <Property Type="Int32" Name="IdArea" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+          <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2417,19 +2418,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresosPorAreas" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresosPorAreas">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result">
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
-                <ScalarProperty Name="Egreso" ColumnName="Egreso" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Rep_FacturacionPorCliente" FunctionName="LibrosDBModel.Store.SP_Rep_FacturacionPorCliente">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_FacturacionPorCliente_Result">
@@ -2443,6 +2431,19 @@
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
                 <ScalarProperty Name="NroIdentificacion" ColumnName="NroIdentificacion" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresosPorAreas" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresosPorAreas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result">
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
+                <ScalarProperty Name="Egreso" ColumnName="Egreso" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
