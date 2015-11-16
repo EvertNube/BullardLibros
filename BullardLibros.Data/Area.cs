@@ -14,6 +14,7 @@ namespace BullardLibros.Data
     
     public partial class Area
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Area()
         {
             this.AreaPorComprobante = new HashSet<AreaPorComprobante>();
@@ -26,6 +27,7 @@ namespace BullardLibros.Data
         public int IdEmpresa { get; set; }
     
         public virtual Empresa Empresa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
     }
 }

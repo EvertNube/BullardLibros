@@ -180,6 +180,40 @@ namespace BullardLibros.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_FacturacionPorCliente_Result>("SP_Rep_FacturacionPorCliente", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
+        public virtual ObjectResult<SP_Rep_FacturacionPorVendedor_Result> SP_Rep_FacturacionPorVendedor(Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_FacturacionPorVendedor_Result>("SP_Rep_FacturacionPorVendedor", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_Rep_GastosPorProveedor_Result> SP_Rep_GastosPorProveedor(Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_GastosPorProveedor_Result>("SP_Rep_GastosPorProveedor", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
         public virtual ObjectResult<SP_Rep_IngresosEgresosPorAreas_Result> SP_Rep_IngresosEgresosPorAreas(Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var idEmpresaParameter = idEmpresa.HasValue ?

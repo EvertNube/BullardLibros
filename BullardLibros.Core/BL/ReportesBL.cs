@@ -156,5 +156,43 @@ namespace BullardLibros.Core.BL
             }
         }
         #endregion
+
+        #region Gastos por Proveedores
+        public List<EntidadResponsableR_DTO> getGastosPorProveedores(int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Rep_GastosPorProveedor(idEmpresa, fechaInicio, fechaFin).Select(x => new EntidadResponsableR_DTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    Monto = x.Monto.GetValueOrDefault()
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+        #endregion
+
+        #region Facturacion por Vendedor
+        public List<ResponsableDTO> getFacturacionPorVendedores(int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Rep_FacturacionPorVendedor(idEmpresa, fechaInicio, fechaFin).Select(x => new ResponsableDTO
+                {
+                    IdResponsable = x.IdResponsable,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa,
+                    Monto = x.Monto.GetValueOrDefault()
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+        #endregion
     }
 }

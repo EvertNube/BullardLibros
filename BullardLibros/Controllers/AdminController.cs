@@ -1970,10 +1970,92 @@ namespace BullardLibros.Controllers
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
-        /*public ActionResult GenerarRep_GastosPorProveedor(DateTime? FechaInicio, DateTime? FechaFin)
+        public ActionResult GenerarRep_GastosPorProveedor(DateTime? FechaInicio, DateTime? FechaFin)
         {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
 
-        }*/
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<EntidadResponsableR_DTO> lstProveedores = repBL.getGastosPorProveedores(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
+
+            if (lstProveedores == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Proveedores");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Porcentaje");
+
+            Decimal SumaTotal = lstProveedores.Sum(x => x.Monto);
+
+            foreach (var obj in lstProveedores)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Proveedores"] = obj.Nombre;
+                row["Monto"] = obj.Monto;
+                Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
+                row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+            }
+
+            System.Data.DataRow rowFinal = dt.NewRow();
+            rowFinal["Proveedores"] = "TOTAL";
+            rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(rowFinal);
+
+            GenerarPdf(dt, "Gastos por Proveedores", "GastosPorProveedores", objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+        public ActionResult GenerarRep_FacturacionPorVendedor(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<ResponsableDTO> lstVendedores = repBL.getFacturacionPorVendedores(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
+
+            if (lstVendedores == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Vendedores");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Porcentaje");
+
+            Decimal SumaTotal = lstVendedores.Sum(x => x.Monto);
+
+            foreach (var obj in lstVendedores)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Vendedores"] = obj.Nombre;
+                row["Monto"] = obj.Monto;
+                Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
+                row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+            }
+
+            System.Data.DataRow rowFinal = dt.NewRow();
+            rowFinal["Vendedores"] = "TOTAL";
+            rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(rowFinal);
+
+            GenerarPdf(dt, "Facturación por Vendedor", "FacturacionPorVendedor", objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
         {
             GridView gv = new GridView();

@@ -10,21 +10,14 @@
 namespace BullardLibros.Data
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TipoCuenta
+    public partial class SP_Rep_FacturacionPorVendedor_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TipoCuenta()
-        {
-            this.CuentaBancaria = new HashSet<CuentaBancaria>();
-        }
-    
-        public int IdTipoCuenta { get; set; }
+        public int IdResponsable { get; set; }
         public string Nombre { get; set; }
+        public string Descripcion { get; set; }
         public bool Estado { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
+        public int IdEmpresa { get; set; }
+        public Nullable<decimal> Monto { get; set; }
     }
 }

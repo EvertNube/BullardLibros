@@ -720,6 +720,18 @@
           <Parameter Name="FechaIni" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="FN_FacturacionPorVendedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="IdVendedor" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="FN_GastosPorProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="IdCliente" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
         </Function>
@@ -802,6 +814,16 @@
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_Rep_FacturacionPorCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Rep_FacturacionPorVendedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Rep_GastosPorProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
@@ -1984,6 +2006,16 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Rep_FacturacionPorVendedor" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorVendedor_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Rep_GastosPorProveedor" ReturnType="Collection(LibrosDBModel.SP_Rep_GastosPorProveedor_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="SP_Rep_IngresosEgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result)">
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
@@ -2037,6 +2069,26 @@
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
         <ComplexType Name="SP_Rep_FacturacionPorCliente_Result">
+          <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+          <Property Type="Int32" Name="IdTipoIdentificacion" Nullable="true" />
+          <Property Type="Int32" Name="IdTipoEntidad" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+          <Property Type="String" Name="NroIdentificacion" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="SP_Rep_FacturacionPorVendedor_Result">
+          <Property Type="Int32" Name="IdResponsable" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+          <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="SP_Rep_GastosPorProveedor_Result">
           <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
           <Property Type="Int32" Name="IdTipoIdentificacion" Nullable="true" />
           <Property Type="Int32" Name="IdTipoEntidad" Nullable="true" />
@@ -2421,6 +2473,34 @@
           <FunctionImportMapping FunctionImportName="SP_Rep_FacturacionPorCliente" FunctionName="LibrosDBModel.Store.SP_Rep_FacturacionPorCliente">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_FacturacionPorCliente_Result">
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdTipoIdentificacion" ColumnName="IdTipoIdentificacion" />
+                <ScalarProperty Name="IdTipoEntidad" ColumnName="IdTipoEntidad" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NroIdentificacion" ColumnName="NroIdentificacion" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_FacturacionPorVendedor" FunctionName="LibrosDBModel.Store.SP_Rep_FacturacionPorVendedor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_FacturacionPorVendedor_Result">
+                <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_GastosPorProveedor" FunctionName="LibrosDBModel.Store.SP_Rep_GastosPorProveedor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_GastosPorProveedor_Result">
                 <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
                 <ScalarProperty Name="IdTipoIdentificacion" ColumnName="IdTipoIdentificacion" />
                 <ScalarProperty Name="IdTipoEntidad" ColumnName="IdTipoEntidad" />
