@@ -1927,6 +1927,53 @@ namespace BullardLibros.Controllers
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
+        public ActionResult GenerarRep_FacturacionPorCliente(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+            
+            ReportesBL repBL = new ReportesBL();
+            List<EntidadResponsableR_DTO> lstClientes = repBL.getFacturacionPorClientes(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
+
+            if (lstClientes == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Clientes");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Porcentaje");
+
+            Decimal SumaTotal = lstClientes.Sum(x => x.Monto);
+
+            foreach (var obj in lstClientes)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Clientes"] = obj.Nombre;
+                row["Monto"] = obj.Monto;
+                Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
+                row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+            }
+
+            System.Data.DataRow rowFinal = dt.NewRow();
+            rowFinal["Clientes"] = "TOTAL";
+            rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(rowFinal);
+
+            GenerarPdf(dt, "Facturaci&oacute;n por Clientes", "FacturacionPorClientes", objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+        /*public ActionResult GenerarRep_GastosPorProveedor(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+
+        }*/
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
         {
             GridView gv = new GridView();

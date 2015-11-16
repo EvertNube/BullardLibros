@@ -20,7 +20,7 @@
 
 
             $('.rol-accs').each(function () {
-                if(jUserExt == 'True') $(this).prop('disabled', true);
+                if (jUserExt == 'True') $(this).prop('disabled', true);
             });
         });
         function CheckNumericValue(e) {
@@ -131,7 +131,7 @@
                                     @Html.TextBoxFor(u => u.SaldoDisponible, new { @value = Model != null ? Model.SaldoDisponible : 0, @type = "hidden" })
                                     @Html.TextBoxFor(u => u.SaldoBancario, new { @value = Model != null ? Model.SaldoBancario : 0, @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
-                                    @if(!ViewBag.EsUsuarioExterno)
+                                    @if (!ViewBag.EsUsuarioExterno)
                                     {<button type="submit" class="btn btn-sm btn-success">@btnName</button>}
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Libros", "Admin", new { idTipoCuenta = Model.IdTipoCuenta })">Salir</a>
                                 </div>
@@ -164,7 +164,7 @@
                                             <tr>
                                                 <th class="text-center" width="7%">Fecha</th>
                                                 <th class="text-center" width="12%">Movimiento</th>
-                                                <th class="text-center" width="11%">Número</th>
+                                                <th class="text-center" width="11%">Detalle</th>
 
                                                 <th class="text-center" width="13%">Monto</th>
                                                 <th class="text-center" width="10%">Partida<br>Presupuesto&nbsp;</th>
@@ -202,7 +202,12 @@
                                                         }
                                                         else
                                                         {
-                                                            <td class="text-center" width="10%">N/A</td>
+                                                            if (obj.NumeroDocumento2 != null)
+                                                            {
+                                                            <td class="text-center" width="10%">@obj.NumeroDocumento2</td>}
+                                                            else
+                                                            {
+                                                            <td class="text-center" width="10%">N/A</td>}
                                                         }
                                                         @if (obj.IdEstadoMovimiento == 1)
                                                         {

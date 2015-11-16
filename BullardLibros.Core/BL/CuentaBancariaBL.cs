@@ -141,7 +141,8 @@ namespace BullardLibros.Core.BL
                         SimboloMoneda = r.Moneda.Simbolo,
                         IdEmpresa = r.IdEmpresa,
                         IdTipoCuenta = r.IdTipoCuenta,
-                        listaMovimiento = r.Movimiento.Select(x => new MovimientoDTO {
+                        listaMovimiento = r.Movimiento.Select(x => new MovimientoDTO
+                        {
                             IdMovimiento = x.IdMovimiento,
                             IdCuentaBancaria = x.IdCuentaBancaria,
                             IdEntidadResponsable = x.IdEntidadResponsable,
@@ -158,7 +159,8 @@ namespace BullardLibros.Core.BL
                             FechaCreacion = x.FechaCreacion,
                             NombreEntidadR = x.EntidadResponsable.Nombre,
                             NombreCategoria = x.Categoria.Nombre,
-                            NombreUsuario = x.Usuario.Cuenta
+                            NombreUsuario = x.Usuario.Cuenta,
+                            NumeroDocumento2 = x.NumeroDocumento
                         }).OrderByDescending(x => x.Fecha).ToList()
                     }).SingleOrDefault();
                 return result;
