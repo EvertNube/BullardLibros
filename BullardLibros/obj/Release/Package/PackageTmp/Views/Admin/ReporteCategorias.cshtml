@@ -4,8 +4,11 @@
 }
 @section Scripts{
     <script type="text/javascript">
-    $(document).ready(function () {
-        $('#reporte1').click(function () {
+    $(function () {
+        $('.reporte').click(function () {
+            this.href = GenerarReporte($(this).data("idreporte"));
+        })
+        /*$('#reporte1').click(function () {
             this.href = GenerarReporte(1);
         });
         $('#reporte2').click(function () {
@@ -16,7 +19,7 @@
         });
         $('#reporte4').click(function () {
             this.href = GenerarReporte(3);
-        });
+        });*/
 
     });
 
@@ -38,6 +41,18 @@
                 break;
             case 2:
                 return "/Admin/GenerarRep_FacturacionPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            case 3:
+                return "/Admin/GenerarRep_IngresosEgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            case 4:
+                return "/Admin/GenerarRep_FacturacionPorCliente/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            case 5:
+                return "/Admin/GenerarRep_GastosPorProveedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            case 6:
+                return "/Admin/GenerarRep_FacturacionPorVendedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
             /*case 3:
                 return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
@@ -76,15 +91,39 @@
                                     <label for="FechaFin">Fecha Fin:</label>
                                     @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                 </div>
-                                <div class="form-group col-md-6 text-center">
+                                <div class="form-group col-md-4 text-center">
                                     <label>Avance de Presupuesto </label>
-                                    <a class="btn btn-sm btn-success" id="reporte1">
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="1">
                                         Generar Reporte
                                     </a>
                                 </div>
-                                <div class="form-group col-md-6 text-center">
+                                <div class="form-group col-md-4 text-center">
                                     <label>Facturación por Áreas </label>
-                                    <a class="btn btn-sm btn-success" id="reporte2">
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="2">
+                                        Generar Reporte
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label>Ingresos y Egresos por Áreas </label>
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="3">
+                                        Generar Reporte
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label>Facturación por clientes</label>
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="4">
+                                        Generar Reporte
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label>Gastos por proveedores</label>
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="5">
+                                        Generar Reporte
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label>Facturación por vendedores</label>
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="6">
                                         Generar Reporte
                                     </a>
                                 </div>

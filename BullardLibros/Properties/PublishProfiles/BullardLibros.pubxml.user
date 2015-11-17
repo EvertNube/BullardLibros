@@ -22,19 +22,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2014 16:13:32</publishTime>
     </File>
     <File Include="bin/BullardLibros.Core.dll">
-      <publishTime>11/12/2015 16:25:42</publishTime>
+      <publishTime>11/17/2015 12:41:11</publishTime>
     </File>
     <File Include="bin/BullardLibros.Data.dll">
-      <publishTime>11/12/2015 16:12:37</publishTime>
+      <publishTime>11/17/2015 12:41:10</publishTime>
     </File>
     <File Include="bin/BullardLibros.dll">
-      <publishTime>11/12/2015 16:25:44</publishTime>
+      <publishTime>11/17/2015 12:41:12</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.dll">
-      <publishTime>11/05/2015 12:06:27</publishTime>
+      <publishTime>11/16/2015 14:19:32</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.Razor.dll">
-      <publishTime>11/09/2015 09:24:01</publishTime>
+      <publishTime>11/17/2015 12:41:10</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>08/18/2015 13:23:34</publishTime>
@@ -2200,7 +2200,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/02/2015 12:59:20</publishTime>
     </File>
     <File Include="Views/Admin/Entidades.cshtml">
-      <publishTime>10/02/2015 17:39:17</publishTime>
+      <publishTime>11/16/2015 14:25:52</publishTime>
     </File>
     <File Include="Views/Admin/Honorario.cshtml">
       <publishTime>09/25/2015 13:30:59</publishTime>
@@ -2215,7 +2215,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/20/2015 16:24:45</publishTime>
     </File>
     <File Include="Views/Admin/Libro.cshtml">
-      <publishTime>11/09/2015 13:16:14</publishTime>
+      <publishTime>11/16/2015 14:52:37</publishTime>
     </File>
     <File Include="Views/Admin/Libros.cshtml">
       <publishTime>11/05/2015 12:55:57</publishTime>
@@ -2239,7 +2239,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2015 17:32:08</publishTime>
     </File>
     <File Include="Views/Admin/ReporteCategorias.cshtml">
-      <publishTime>11/12/2015 16:12:37</publishTime>
+      <publishTime>11/16/2015 17:48:08</publishTime>
     </File>
     <File Include="Views/Admin/Responsable.cshtml">
       <publishTime>10/12/2015 13:38:30</publishTime>

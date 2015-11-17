@@ -79,7 +79,7 @@
                                                         @if (item.IdTipoEntidad == 2)
                                                         {
                                                             <th class="text-center">Detracción</th>
-                                                            <th class="text-center">Tipo de Entidad</th>
+                                                            <th class="text-center">Bien o Servicio</th>
                                                         }
                                                         <th class="text-center" width="12%">Estado</th>
                                                         <th class="text-center" width="12%">Opc.</th>
@@ -99,8 +99,8 @@
                                                                     @*<td class="text-center" width="20%">@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>*@
                                                                     @if (item.IdTipoEntidad == 2)
                                                                     {
-                                                                        <td class="text-center" >@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
-                                                                        <td class="text-center">@obj.NombreTipoEntidad</td>
+                                                                        <td class="text-center">@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
+                                                                        <td class="text-center">@obj.Tipo</td>
                                                                     }
                                                                     @if (obj.Estado == true)
                                                                     {
