@@ -194,5 +194,111 @@ namespace BullardLibros.Core.BL
             }
         }
         #endregion
+
+        #region Exportacion de Detalles
+        public List<CuentaBancariaDTO> getCuentasBancariasEnEmpresa(int idEmpresa, int idTipoCuenta, DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.CuentaBancaria.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoCuenta == idTipoCuenta && x.FechaConciliacion >= fechaInicio && x.FechaConciliacion <= fechaFin).Select(x => new CuentaBancariaDTO
+                {
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    NombreCuenta = x.NombreCuenta,
+                    FechaConciliacion = x.FechaConciliacion,
+                    SaldoDisponible = x.SaldoDisponible,
+                    SaldoBancario = x.SaldoBancario,
+                    Estado = x.Estado,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa,
+                    IdTipoCuenta = x.IdTipoCuenta
+                }).ToList();
+                return result;
+            }
+        }
+
+        public CuentaBancariaDTO getCuentaBancaria(int id, DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id)
+                    .Select(r => new CuentaBancariaDTO
+                    {
+                        IdCuentaBancaria = r.IdCuentaBancaria,
+                        NombreCuenta = r.NombreCuenta,
+                        FechaConciliacion = r.FechaConciliacion,
+                        SaldoDisponible = r.SaldoDisponible,
+                        SaldoBancario = r.SaldoBancario,
+                        Estado = r.Estado,
+                        IdMoneda = r.IdMoneda,
+                        NombreMoneda = r.Moneda.Nombre,
+                        SimboloMoneda = r.Moneda.Simbolo,
+                        IdEmpresa = r.IdEmpresa,
+                        IdTipoCuenta = r.IdTipoCuenta,
+                        listaMovimiento = r.Movimiento.Where(x => x.Fecha >= fechaInicio && x.Fecha <= fechaFin).Select(x => new MovimientoDTO
+                        {
+                            IdMovimiento = x.IdMovimiento,
+                            IdCuentaBancaria = x.IdCuentaBancaria,
+                            IdEntidadResponsable = x.IdEntidadResponsable,
+                            IdTipoMovimiento = x.FormaMovimiento.IdTipoMovimiento,
+                            IdCategoria = x.IdCategoria,
+                            IdEstadoMovimiento = x.IdEstadoMovimiento,
+                            NroOperacion = x.NroOperacion,
+                            Fecha = x.Fecha,
+                            Monto = x.Monto,
+                            NumeroDocumento = x.Comprobante.NroDocumento,
+                            Comentario = x.Comentario,
+                            Estado = x.Estado,
+                            UsuarioCreacion = x.UsuarioCreacion,
+                            FechaCreacion = x.FechaCreacion,
+                            NombreEntidadR = x.EntidadResponsable.Nombre,
+                            NombreCategoria = x.Categoria.Nombre,
+                            NombreUsuario = x.Usuario.Cuenta,
+                            NumeroDocumento2 = x.NumeroDocumento
+                        }).OrderByDescending(x => x.Fecha).ToList()
+                    }).SingleOrDefault();
+                return result;
+            }
+        }
+
+        public List<ComprobanteDTO> getComprobantesEnEmpresa(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    IdTipoComprobante = x.IdTipoComprobante,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa,
+                    NroDocumento = x.NroDocumento,
+                    Monto = x.Monto,
+                    IdArea = x.IdArea,
+                    IdResponsable = x.IdResponsable,
+                    IdCategoria = x.IdCategoria,
+                    IdProyecto = x.IdProyecto,
+                    FechaEmision = x.FechaEmision,
+                    FechaConclusion = x.FechaConclusion,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    IdHonorario = x.IdHonorario,
+                    NombreEntidad = x.EntidadResponsable.Nombre,
+                    NombreMoneda = x.Moneda.Nombre,
+                    NombreTipoComprobante = x.TipoComprobante.Nombre,
+                    NombreTipoDocumento = x.TipoDocumento.Nombre,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    MontoSinIGV = x.MontoSinIGV,
+                    TipoCambio = x.TipoCambio,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    NombreUsuario = x.Usuario.Cuenta,
+                    NombreCategoria = x.Categoria.Nombre,
+                    NombreProyecto = x.Proyecto.Nombre
+                }).OrderBy(x => x.NroDocumento).ToList();
+                return result;
+            }
+        }
+        #endregion
     }
 }

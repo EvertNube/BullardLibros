@@ -31,9 +31,12 @@
             $('.dataTable').DataTable();
 
             $('#idreporte').click(function () {
+                var miURL = "/Admin/Libros";
                 $('.titulo').each(function(index){
-                    if($(this).hasClass('active')) exportarDetalle(index+1);
+                    if ($(this).hasClass('active'))
+                    { miURL = exportarDetalle(index + 1); }
                 })
+                this.href = miURL;
             })
         });
 
@@ -103,7 +106,10 @@
         }
         function exportarDetalle(tipoCuenta)
         {
-            alert(tipoCuenta);
+            var FechaInicio = $("#FechaInicio").val().split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = $("#FechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+            
+            return "/Admin/ExportarLibros/?idTipoCuenta=" + tipoCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
     </script>
 }

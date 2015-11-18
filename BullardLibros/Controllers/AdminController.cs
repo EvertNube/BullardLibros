@@ -260,6 +260,8 @@ namespace BullardLibros.Controllers
             CuentaBancariaDTO obj;
             if (id != null && id != 0)
             {
+                //Actualizar Saldo Disponible
+                objBL.updateSaldos((int)id);
                 obj = objBL.getCuentaBancaria((int)id);
                 if (obj == null) return RedirectToAction("Index");
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
@@ -1586,7 +1588,6 @@ namespace BullardLibros.Controllers
             return RedirectToAction("ReporteCategorias", new { message = 2 });
             //return View();
         }
-
         public ActionResult GenerarReporteDetalleMovimientos(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
@@ -1670,7 +1671,6 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
-
         public ActionResult GenerarReporteResumenEntidadesR(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
@@ -1744,7 +1744,6 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
-
         #region Reportes
         public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
         {
@@ -2144,6 +2143,113 @@ namespace BullardLibros.Controllers
             row4[2] = (obj.Ingresos + obj.Egresos).ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row4);
         }
+
+        #endregion
+
+        #region Exportar Detalles
+        public ActionResult ExportarLibros(int idTipoCuenta, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
+                return RedirectToAction("Libros", "Admin");
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<CuentaBancariaDTO> lstCuentas = repBL.getCuentasBancariasEnEmpresa(objEmpresa.IdEmpresa, idTipoCuenta, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+
+            if (lstCuentas == null || lstCuentas.Count == 0)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
+                return RedirectToAction("Libros", "Admin");
+            }
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Moneda");
+            string miSaldo = idTipoCuenta == 1 ? "Saldo Disponible" : "Saldo Total";
+            dt.Columns.Add(miSaldo);
+            if (idTipoCuenta == 1) { dt.Columns.Add("Saldo Bancario"); }
+            dt.Columns.Add("Estado");
+
+            foreach (var obj in lstCuentas)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Nombre"] = obj.NombreCuenta;
+                row["Fecha"] = obj.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row["Moneda"] = obj.SimboloMoneda;
+                row[3] = obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture);
+                if (idTipoCuenta == 1) { row["Saldo Bancario"] = obj.SaldoBancario.ToString("N2", CultureInfo.CreateSpecificCulture("es-PE")); }
+                row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf(dt, "Detalle de Libros", "DetalleLibros", objEmpresa, FechaInicio, FechaFin, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Libros", "Admin");
+        }
+
+        public ActionResult ExportarMovimientos(int idLibro, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
+                return RedirectToAction("Libros", "Admin");
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            CuentaBancariaDTO CuentaBancaria = repBL.getCuentaBancaria(idLibro, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+
+            if (CuentaBancaria == null || CuentaBancaria.listaMovimiento.Count == 0)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
+                return RedirectToAction("Libros", "Admin");
+            }
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Movimiento");
+            dt.Columns.Add("Detalle");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Partida de Presupuesto");
+            dt.Columns.Add("Entidad");
+            dt.Columns.Add("Numero de documento");
+            dt.Columns.Add("Estado");
+            dt.Columns.Add("Usuario");
+            dt.Columns.Add("Activo");
+
+            foreach (var obj in CuentaBancaria.listaMovimiento)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")); ;
+                row["Movimiento"] = obj.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
+                row["Detalle"] = obj.NroOperacion;
+                row["Monto"] = CuentaBancaria.SimboloMoneda + obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Partida de Presupuesto"] = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;
+                row["Entidad"] = obj.NombreEntidadR;
+                row["Numero de documento"] = obj.NumeroDocumento != null ? obj.NumeroDocumento : obj.NumeroDocumento2 != null ? obj.NumeroDocumento2 : "N/A";
+                row["Estado"] = obj.IdEstadoMovimiento == 1 ? "Pendiente" : "Realizado";
+                row["Usuario"] = obj.NombreUsuario;
+                row["Activo"] = obj.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf(dt, "Detalle de Movimientos en la Cuenta - " + CuentaBancaria.NombreCuenta, "DetalleMovimientosEnLibro", objEmpresa, FechaInicio, FechaFin, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Libros", "Admin");
+        }
+
 
         #endregion
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
