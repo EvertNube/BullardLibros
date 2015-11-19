@@ -17,7 +17,23 @@
     <script type="text/javascript">
         $(function () {
             $('.dataTable').DataTable();
+
+            $('#idreporte').click(function () {
+                var miURL = "/Admin/Comprobantes";
+                $('.titulo').each(function (index) {
+                    if ($(this).hasClass('active'))
+                    { miURL = exportarDetalle(index + 1); }
+                })
+                this.href = miURL;
+            })
         });
+
+        function exportarDetalle(tipoComprobante) {
+            var FechaInicio = $("#FechaInicio").val().split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = $("#FechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return "/Admin/ExportarComprobantes/?idTipoComprobante=" + tipoComprobante + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
     </script>
 }
 <section class="vbox">
@@ -37,7 +53,7 @@
                                 { cadena1 = ViewBag.idTipoComprobante == item.IdTipoComprobante ? "active" : ""; }
                                 else if (!idnull1)
                                 { idnull1 = true; cadena1 = "active"; }
-                                <li class="@cadena1">
+                                <li class="titulo @cadena1">
                                     <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
                                 </li>
                                 if (idnull1) { cadena1 = ""; }
@@ -76,20 +92,20 @@
                                                 <thead>
                                                     <tr>
                                                         @{
-                                                    var fechaIni = item.IdTipoComprobante == 1 ? "Fecha fra." : "Fecha doc.";
                                                     var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
                                                     var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
                                                         }
                                                         <th class="text-center" width="7%">Fecha</th>
-                                                        <th class="text-center" width="10%">Docum.</th>
-                                                        <th class="text-center" width="10%">Numero</th>
-                                                        <th class="text-center" width="18%">@strEntidad</th>
+                                                        <th class="text-center" width="11%">Docum.</th>
+                                                        <th class="text-center" width="11%">Numero</th>
+                                                        <th class="text-center" width="15%">@strEntidad</th>
                                                         @if (item.IdTipoComprobante == 1)
                                                         {
-                                                        <th class="text-center" width="12%">Proyecto</th>}
+                                                        <th class="text-center" width="10%">Proy&nbsp;</th>}
                                                         <th class="text-center" width="15%">Monto<br />&nbsp;Sin IGV</th>
                                                         <th class="text-center" width="14%">Partida<br />&nbsp;Presupuesto</th>
-                                                        <th class="text-center" width="9%">Fecha<br />&nbsp;@rFechaFin &nbsp;</th>
+                                                        <th class="text-center" width="7%">Fecha<br />&nbsp;@rFechaFin &nbsp;</th>
+                                                        <th class="text-center" width="5%">Usuario</th>
                                                         <th class="text-center" width="5%">Opc.</th>
                                                     </tr>
                                                 </thead>
@@ -103,15 +119,16 @@
                                                                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
                                                                     <td class="text-center" width="7%">@obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                                    <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
-                                                                    <td class="text-center" width="10%">@obj.NroDocumento</td>
-                                                                    <td class="text-center" width="18%">@obj.NombreEntidad</td>
+                                                                    <td class="text-center" width="11%">@obj.NombreTipoDocumento</td>
+                                                                    <td class="text-center" width="11%">@obj.NroDocumento</td>
+                                                                    <td class="text-center" width="15%">@obj.NombreEntidad</td>
                                                                     @if (item.IdTipoComprobante == 1)
                                                                     {
-                                                                    <td class="text-center" width="12%">@(obj.NombreProyecto == null ? "N/A" : obj.NombreProyecto)</td>}
+                                                                    <td class="text-center" width="10%">@(obj.NombreProyecto == null ? "N/A" : obj.NombreProyecto)</td>}
                                                                     <td class="text-center" width="15%">@obj.SimboloMoneda @obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                                     <td class="text-center" width="14%">@obj.NombreCategoria</td>
-                                                                    <td class="text-center" width="9%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
+                                                                    <td class="text-center" width="7%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
+                                                                    <td class="text-center" width="5%">@obj.NombreUsuario</td>
                                                                     @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                                     <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
                                                                 </tr>
@@ -127,6 +144,21 @@
                             }
                         </div>
                     </div>
+                    <footer class="panel-footer">
+                        <div class="row col-md-offset-6">
+                            <div class="col-xs-4 col-md-4">
+                                @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <a class="btn btn-s-md btn-success" id="idreporte">
+                                    Exportar
+                                </a>
+                            </div>
+                        </div>
+                    </footer>
                 </section>
 
             </div>

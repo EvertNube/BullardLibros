@@ -9,6 +9,13 @@
     @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+
+    <style type="text/css">
+        .datepicker {
+            position: relative !important;
+            top: -325px !important;
+        }
+    </style>
 }
 @section scripts{
     @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
@@ -22,7 +29,18 @@
         $(function () {
             timer.cancel();
             $('.dataTable').DataTable();
+
+            $('#idreporte').click(function () {
+                var miURL = "/Admin/Libros";
+                $('.titulo').each(function(index){
+                    if ($(this).hasClass('active'))
+                    { miURL = exportarDetalle(index + 1); }
+                })
+                this.href = miURL;
+            })
         });
+
+
 
         function funcTipoCambio() {
             //ResetearTimer
@@ -86,6 +104,13 @@
                 dataType: 'text'
             });
         }
+        function exportarDetalle(tipoCuenta)
+        {
+            var FechaInicio = $("#FechaInicio").val().split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = $("#FechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+            
+            return "/Admin/ExportarLibros/?idTipoCuenta=" + tipoCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
     </script>
 }
 
@@ -106,7 +131,7 @@
                                 { cadena1 = ViewBag.idTipoCuenta == item.IdTipoCuenta ? "active" : ""; }
                                 else if (!idnull1)
                                 { idnull1 = true; cadena1 = "active"; }
-                                <li class="@cadena1">
+                                <li class="titulo @cadena1">
                                     <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
                                 </li>
                                 if (idnull1) { cadena1 = ""; }
@@ -189,18 +214,18 @@
                                     <section class="panel panel-default">
                                         @if (ViewBag.EsAdmin)
                                         {
-                                            <header class="panel-heading">
-                                                <div class="row text-sm">
-                                                    <div class="col-sm-8">
-                                                        <div class="btn-group">
-                                                            <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Libro", "Admin", new { id = 0, idTipoCuenta = item.IdTipoCuenta })"><i class="fa fa-plus"></i> Crear nueva cuenta</a>
+                                        <header class="panel-heading">
+                                            <div class="row text-sm">
+                                                <div class="col-sm-8">
+                                                    <div class="btn-group">
+                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                                     </div>
                                                 </div>
-                                            </header>
+                                                <div class="col-sm-4">
+                                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Libro", "Admin", new { id = 0, idTipoCuenta = item.IdTipoCuenta })"><i class="fa fa-plus"></i> Crear nueva cuenta</a>
+                                                </div>
+                                            </div>
+                                        </header>
                                         }
                                         <div class="table-responsive">
                                             <table class="table table-striped m-b-none dataTable no-footer">
@@ -211,7 +236,8 @@
                                                         @{ var miSaldo = item.IdTipoCuenta == 1 ? "Saldo Disponible" : "Saldo Total"; }
                                                         <th class="text-center">@miSaldo</th>
                                                         @if (item.IdTipoCuenta == 1)
-                                                        {<th class="text-center" width="15%">Saldo Bancario</th>}
+                                                        {
+                                                        <th class="text-center" width="15%">Saldo Bancario</th>}
                                                         <th class="text-center" width="10%">Estado</th>
                                                         <th class="text-center" width="10%">Opc.</th>
                                                     </tr>
@@ -224,23 +250,26 @@
                                                             if (item.IdTipoCuenta == obj.IdTipoCuenta)
                                                             {
                                                                 var classInactive = (!obj.Estado) ? "class='inactive'" : "";
-                                                                <tr @Html.Raw(classInactive)>
-                                                                    <td width="30%">@obj.NombreCuenta</td>
-                                                                    <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                                    <td class="text-right">@obj.SimboloMoneda @obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                                                    @if (item.IdTipoCuenta == 1)
-                                                                    {<td class="text-right" width="15%">@obj.SimboloMoneda @obj.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>}
-                                                                    @if (obj.Estado == true)
-                                                                    {<td class="text-center" width="10%">Activo</td>}
-                                                                    else
-                                                                    {<td class="text-center" width="10%">Inactivo</td>}
-                                                                    @{var rIcon = ViewBag.EsUsuarioExterno == true ? "search" : "pencil"; }
-                                                                    <td align="center" width="10%"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-@rIcon"></i></a></td>
-                                                                    @*else
+                                                    <tr @Html.Raw(classInactive)>
+                                                        <td width="30%">@obj.NombreCuenta</td>
+                                                        <td class="text-center" width="20%">@obj.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                        <td class="text-right">@obj.SimboloMoneda @obj.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                        @if (item.IdTipoCuenta == 1)
                                                                     {
-                                                                        <td align="center" width="10%"><a href="@Url.Action("LibroVista", new { id = obj.IdCuentaBancaria })"><i class="fa fa-search"></i></a></td>
-                                                                    }*@
-                                                                </tr>
+                                                                    <td class="text-right" width="15%">@obj.SimboloMoneda @obj.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>}
+                                                        @if (obj.Estado == true)
+                                                                    {
+                                                                    <td class="text-center" width="10%">Activo</td>}
+                                                                    else
+                                                                    {
+                                                                    <td class="text-center" width="10%">Inactivo</td>}
+                                                        @{var rIcon = ViewBag.EsUsuarioExterno == true ? "search" : "pencil"; }
+                                                        <td align="center" width="10%"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-@rIcon"></i></a></td>
+                                                        @*else
+                                                            {
+                                                                <td align="center" width="10%"><a href="@Url.Action("LibroVista", new { id = obj.IdCuentaBancaria })"><i class="fa fa-search"></i></a></td>
+                                                            }*@
+                                                    </tr>
                                                             }
                                                         }
                                                     }
@@ -253,6 +282,21 @@
                             }
                         </div>
                     </div>
+                    <footer class="panel-footer">
+                        <div class="row col-md-offset-6">
+                            <div class="col-xs-4 col-md-4">
+                                @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <a class="btn btn-s-md btn-success" id="idreporte">
+                                    Exportar
+                                </a>
+                            </div>
+                        </div>
+                    </footer>
                 </section>
 
             </div>
