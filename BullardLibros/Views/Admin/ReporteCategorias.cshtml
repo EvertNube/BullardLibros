@@ -85,11 +85,11 @@
                                 </div>*@
                                 <div class="form-group col-lg-6">
                                     <label for="FechaInicio">Fecha Inicio:</label>
-                                    @Html.TextBox("FechaInicio", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                    @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <label for="FechaFin">Fecha Fin:</label>
-                                    @Html.TextBox("FechaFin", "", "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                    @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
                                 </div>
                                 <div class="form-group col-md-4 text-center">
                                     <label>Avance de Presupuesto </label>
