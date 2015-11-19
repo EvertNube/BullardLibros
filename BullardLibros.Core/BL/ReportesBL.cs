@@ -261,11 +261,11 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public List<ComprobanteDTO> getComprobantesEnEmpresa(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
+        public List<ComprobanteDTO> getComprobantesEnEmpresa(int idEmpresa, int idTipoComprobante, DateTime fechaInicio, DateTime fechaFin)
         {
             using (var context = getContext())
             {
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin).Select(x => new ComprobanteDTO
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin).Select(x => new ComprobanteDTO
                 {
                     IdComprobante = x.IdComprobante,
                     IdTipoComprobante = x.IdTipoComprobante,

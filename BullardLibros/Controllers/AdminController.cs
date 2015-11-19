@@ -2250,6 +2250,66 @@ namespace BullardLibros.Controllers
             return RedirectToAction("Libros", "Admin");
         }
 
+        public ActionResult ExportarComprobantes(int idTipoComprobante, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
+                return RedirectToAction("Libros", "Admin");
+            }
+            
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<ComprobanteDTO> lstComprobantes = repBL.getComprobantesEnEmpresa(objEmpresa.IdEmpresa, idTipoComprobante, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+
+            if (lstComprobantes == null || lstComprobantes.Count == 0)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
+                return RedirectToAction("Comprobantes", "Admin");
+            }
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            var rFechaFin = idTipoComprobante == 1 ? "Fecha de Cobro" : "Fecha de Pago";
+            var strEntidad = idTipoComprobante == 1 ? "Cliente" : "Proveedor";
+
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("Numero");
+            dt.Columns.Add(strEntidad);
+            if (idTipoComprobante == 1)
+            { dt.Columns.Add("Proyecto"); }
+            dt.Columns.Add("Moneda");
+            dt.Columns.Add("Monto Sin IGV");
+            dt.Columns.Add("Partida de Presupuesto");
+            dt.Columns.Add(rFechaFin);
+            dt.Columns.Add("Usuario");
+            dt.Columns.Add("Estado");
+
+            foreach (var obj in lstComprobantes)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row["Documento"] = obj.NombreTipoDocumento;
+                row["Numero"] = obj.NroDocumento;
+                row[strEntidad] = obj.NombreEntidad;
+                if(idTipoComprobante == 1) { row["Proyecto"] = obj.NombreProyecto; }
+                row["Moneda"] = obj.SimboloMoneda;
+                row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
+                row["Partida de Presupuesto"] = obj.NombreCategoria;
+                row[rFechaFin] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row["Usuario"] = obj.NombreUsuario;
+                row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf(dt, "Detalle de Comprobantes", "DetalleComprobantes", objEmpresa, FechaInicio, FechaFin, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Comprobantes", "Admin");
+        }
 
         #endregion
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
