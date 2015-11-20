@@ -41,6 +41,9 @@ namespace BullardLibros.Core.DTO
         public string NombreCategoria { get; set; }
         public string NombreProyecto { get; set; }
 
+        //Montos Auxs
+        public Decimal MontoIncompleto { get; set; }
+
         //Listas
         public List<AreaPorComprobanteDTO> lstMontos { get; set; }
     }

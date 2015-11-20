@@ -33,6 +33,7 @@ namespace BullardLibros.Core.BL
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
+                    Ejecutado = x.Ejecutado,
                     IdHonorario = x.IdHonorario,
                     NombreEntidad = x.EntidadResponsable.Nombre,
                     NombreMoneda = x.Moneda.Nombre,
@@ -71,6 +72,7 @@ namespace BullardLibros.Core.BL
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
+                    Ejecutado = x.Ejecutado,
                     IdHonorario = x.IdHonorario,
                     NombreEntidad = x.EntidadResponsable.Nombre,
                     NombreMoneda = x.Moneda.Nombre,
@@ -110,6 +112,7 @@ namespace BullardLibros.Core.BL
                         FechaConclusion = r.FechaConclusion,
                         Comentario = r.Comentario,
                         Estado = r.Estado,
+                        Ejecutado = r.Ejecutado,
                         IdHonorario = r.IdHonorario,
                         NombreEntidad = r.EntidadResponsable.Nombre,
                         NombreMoneda = r.Moneda.Nombre,
@@ -133,6 +136,40 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
+
+        public ComprobanteDTO getComprobanteEjecutadoEnEmpresa(int idEmpresa, int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Comprobante.Where(x => x.IdComprobante == id && x.IdEmpresa == idEmpresa)
+                    .Select(r => new ComprobanteDTO
+                    {
+                        IdComprobante = r.IdComprobante,
+                        IdTipoComprobante = r.IdTipoComprobante,
+                        IdTipoDocumento = r.IdTipoDocumento,
+                        IdEntidadResponsable = r.IdEntidadResponsable,
+                        IdMoneda = r.IdMoneda,
+                        IdEmpresa = r.IdEmpresa,
+                        NroDocumento = r.NroDocumento,
+                        Monto = r.Monto,
+                        MontoSinIGV = r.MontoSinIGV,
+                        IdArea = r.IdArea,
+                        IdResponsable = r.IdResponsable,
+                        IdCategoria = r.IdCategoria,
+                        IdProyecto = r.IdProyecto,
+                        FechaEmision = r.FechaEmision,
+                        FechaConclusion = r.FechaConclusion,
+                        Comentario = r.Comentario,
+                        Estado = r.Estado,
+                        Ejecutado = r.Ejecutado,
+                        IdHonorario = r.IdHonorario,
+                        TipoCambio = r.TipoCambio,
+                        UsuarioCreacion = r.UsuarioCreacion
+                    }).SingleOrDefault();
+                return result;
+            }
+        }
+
         public bool add(ComprobanteDTO Comprobante)
         {
             using (var context = getContext())
