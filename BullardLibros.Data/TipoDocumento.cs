@@ -24,6 +24,7 @@ namespace BullardLibros.Data
         public int IdTipoDocumento { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
+        public bool Activo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }

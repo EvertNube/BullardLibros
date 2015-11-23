@@ -291,6 +291,7 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_TipoDocumento" FromRole="TipoDocumento" ToRole="Comprobante" />
     <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_TipoDocumento" FromRole="TipoDocumento" ToRole="Movimiento" />
+    <Property Name="Activo" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoEntidad">
     <Key>
@@ -1009,6 +1010,11 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="SP_Get_MontoIncompletoEnComprobante" ReturnType="Collection(LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result)">
+      <Parameter Name="IdComprobante" Mode="In" Type="Int32" />
+      <Parameter Name="IdCuentaBancaria" Mode="In" Type="Int32" />
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
     <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
@@ -1096,5 +1102,29 @@
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
     <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="SP_Get_MontoIncompletoEnComprobante_Result">
+    <Property Type="Int32" Name="IdComprobante" Nullable="false" />
+    <Property Type="Int32" Name="IdTipoComprobante" Nullable="false" />
+    <Property Type="Int32" Name="IdTipoDocumento" Nullable="false" />
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="Int32" Name="IdMoneda" Nullable="false" />
+    <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+    <Property Type="String" Name="NroDocumento" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="MontoSinIGV" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="IdArea" Nullable="true" />
+    <Property Type="Int32" Name="IdResponsable" Nullable="true" />
+    <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+    <Property Type="Int32" Name="IdProyecto" Nullable="true" />
+    <Property Type="DateTime" Name="FechaEmision" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="FechaConclusion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
+    <Property Type="Boolean" Name="Estado" Nullable="false" />
+    <Property Type="Boolean" Name="Ejecutado" Nullable="false" />
+    <Property Type="Int32" Name="IdHonorario" Nullable="true" />
+    <Property Type="Decimal" Name="TipoCambio" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="UsuarioCreacion" Nullable="false" />
+    <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
 </Schema>

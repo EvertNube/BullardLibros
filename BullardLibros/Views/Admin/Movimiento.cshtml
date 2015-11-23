@@ -87,10 +87,8 @@
                 if (cambio == 1) {
                     $('#IdComprobante').select2("val", "");
                     $('#IdCategoria').select2("val", "");
-                } else
-                {
-                    if ($('#IdComprobante').val() != null && $('#IdComprobante').val() != 0)
-                    {
+                } else {
+                    if ($('#IdComprobante').val() != null && $('#IdComprobante').val() != 0) {
                         BuscarCategoria($('#IdComprobante').val());
                     }
                 }
@@ -121,13 +119,15 @@
 
         function BuscarCategoria(sel) {
             //var miIdComprobante = sel.value;
+            var jIdCuentaBancaria = $('#IdCuentaBancaria').val();
             var miIdComprobante = sel;
+
             $.ajax({
                 type: "POST",
                 url: "/Admin/BuscarComprobante",
-                //async: false,
+                async: true,
                 cache: false,
-                data: { idComprobante: miIdComprobante },
+                data: { idComprobante: miIdComprobante, idCuentaBancaria: jIdCuentaBancaria },
                 dataType: 'json',
                 success: function (data) {
                     if (data.comprobante.IdCategoria != null) {
@@ -135,9 +135,26 @@
                     } else {
                         $('#IdCategoria').select2("val", "");
                     }
-                    $('#cmpMonto').val(data.comprobante.MontoSinIGV);
+                    $('#cmpMonto').val(data.comprobante.MontoIncompleto);
+                    //$('#cmpCancelado').prop("checked", true);
+                    $('#cmpCancelado').prop("checked", data.comprobante.Ejecutado);
                 }
             });
+        }
+
+        function ActualizarEjecucionDeComprobante() {
+            var jCheck = $('#cmpCancelado').prop("checked");
+            var jIdComprobante = $('#IdComprobante').val();
+
+            if (jIdComprobante != null && jIdComprobante != 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/ActualizarEjecucionComprobante',
+                    cache: false,
+                    data: { idComprobante: jIdComprobante, ejecutado: jCheck },
+                    dataType: 'text'
+                });
+            }
         }
 
 
@@ -228,17 +245,20 @@
                                                 @Html.ValidationMessageFor(u => u.IdComprobante)
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label>Monto del comprobante</label>
+                                                <label>Monto Faltante Por Pagar</label>
                                                 <input id="cmpMonto" type="text" class="form-control" placeholder="Monto del Comprobantes" />
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label>Estado del comprobante</label>
-                                                <div class="checkbox"> 
-                                                    <label class="checkbox-custom"> 
-                                                    <input id="cmpCancelado" type="checkbox" class="form-control"> 
-                                                        <i class="fa fa-fw fa-square-o"></i> Cancelado 
-                                                    </label> 
+                                                <div class="checkbox">
+                                                    <label><input id="cmpCancelado" type="checkbox"> Cancelado</label>
                                                 </div>
+                                                @*<div class="checkbox">
+                                                    <label class="checkbox-custom">
+                                                        <input id="cmpCancelado" type="checkbox" class="form-control">
+                                                        <i class="fa fa-fw fa-square-o"></i> Cancelado
+                                                    </label>
+                                                </div>*@
                                             </div>
                                         }
                                         <div class="form-group col-md-@col_cmp">
@@ -272,7 +292,7 @@
                                     @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<button type="submit" class="btn btn-sm btn-success">@btnName </button>}
+                                    {<button type="submit" class="btn btn-sm btn-success" onclick="return ActualizarEjecucionDeComprobante();">@btnName </button>}
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Salir</a>
                                 </div>
                             </section>

@@ -230,5 +230,22 @@ namespace BullardLibros.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreas_Result>("SP_Rep_IngresosEgresosPorAreas", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
+    
+        public virtual ObjectResult<SP_Get_MontoIncompletoEnComprobante_Result> SP_Get_MontoIncompletoEnComprobante(Nullable<int> idComprobante, Nullable<int> idCuentaBancaria, Nullable<int> idEmpresa)
+        {
+            var idComprobanteParameter = idComprobante.HasValue ?
+                new ObjectParameter("IdComprobante", idComprobante) :
+                new ObjectParameter("IdComprobante", typeof(int));
+    
+            var idCuentaBancariaParameter = idCuentaBancaria.HasValue ?
+                new ObjectParameter("IdCuentaBancaria", idCuentaBancaria) :
+                new ObjectParameter("IdCuentaBancaria", typeof(int));
+    
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_MontoIncompletoEnComprobante_Result>("SP_Get_MontoIncompletoEnComprobante", idComprobanteParameter, idCuentaBancariaParameter, idEmpresaParameter);
+        }
     }
 }

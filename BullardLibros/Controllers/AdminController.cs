@@ -1369,10 +1369,10 @@ namespace BullardLibros.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult BuscarComprobante(int idComprobante)
+        public JsonResult BuscarComprobante(int idComprobante, int idCuentaBancaria)
         {
             ComprobanteBL objBL = new ComprobanteBL();
-            var comprobante = objBL.getComprobanteEnEmpresa(getCurrentUser().IdEmpresa, idComprobante);
+            var comprobante = objBL.getComprobanteEjecutadoEnEmpresa(idComprobante, idCuentaBancaria, getCurrentUser().IdEmpresa);
             return Json(new { comprobante }, JsonRequestBehavior.AllowGet);
         }
 
@@ -2607,6 +2607,17 @@ namespace BullardLibros.Controllers
         {
             TempData["AreasXMontos"] = lista;
             return Json(new { success = true, mensaje = "Si funciona" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string ActualizarEjecucionComprobante(int idComprobante, bool ejecutado)
+        {
+            if (!this.currentUser() || isUsuarioExterno()) { return "false"; }
+
+            ComprobanteBL objBL = new ComprobanteBL();
+            if (objBL.actualizarEjecutado(idComprobante, ejecutado, getCurrentUser().IdEmpresa))
+            { return "true"; }
+            return "false";
         }
 
         public void MenuNavBarSelected(int num, int? subNum = null)

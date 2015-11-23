@@ -137,11 +137,11 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public ComprobanteDTO getComprobanteEjecutadoEnEmpresa(int idEmpresa, int id)
+        public ComprobanteDTO getComprobanteEjecutadoEnEmpresa(int id, int idCuentaBancaria, int idEmpresa)
         {
             using (var context = getContext())
             {
-                var result = context.Comprobante.Where(x => x.IdComprobante == id && x.IdEmpresa == idEmpresa)
+                var result = context.SP_Get_MontoIncompletoEnComprobante(id, idCuentaBancaria, idEmpresa)
                     .Select(r => new ComprobanteDTO
                     {
                         IdComprobante = r.IdComprobante,
@@ -164,7 +164,8 @@ namespace BullardLibros.Core.BL
                         Ejecutado = r.Ejecutado,
                         IdHonorario = r.IdHonorario,
                         TipoCambio = r.TipoCambio,
-                        UsuarioCreacion = r.UsuarioCreacion
+                        UsuarioCreacion = r.UsuarioCreacion,
+                        MontoIncompleto = r.MontoIncompleto.GetValueOrDefault()
                     }).SingleOrDefault();
                 return result;
             }
@@ -269,6 +270,24 @@ namespace BullardLibros.Core.BL
                 {
                     throw e;
                 }
+            }
+        }
+
+        public bool actualizarEjecutado(int idComprobante, bool ejecutado, int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Comprobante.Where(x => x.IdComprobante == idComprobante && x.IdEmpresa == idEmpresa).SingleOrDefault();
+                    row.Ejecutado = ejecutado;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }   
             }
         }
 
@@ -410,7 +429,7 @@ namespace BullardLibros.Core.BL
         {
             using (var context = getContext())
             {
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && !x.Ejecutado && x.Estado).Select(x => new Select2DTO_B
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && x.Estado).Select(x => new Select2DTO_B
                     {
                         id = x.IdComprobante,
                         text = x.NroDocumento
