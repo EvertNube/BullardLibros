@@ -96,9 +96,9 @@
                                                     var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
                                                         }
                                                         <th class="text-center" width="7%">Fecha</th>
-                                                        <th class="text-center" width="11%">Docum.</th>
-                                                        <th class="text-center" width="11%">Numero</th>
-                                                        <th class="text-center" width="15%">@strEntidad</th>
+                                                        <th class="text-center" width="10%">Docum.</th>
+                                                        <th class="text-center" width="10%">Numero</th>
+                                                        <th class="text-center" width="14%">@strEntidad</th>
                                                         @if (item.IdTipoComprobante == 1)
                                                         {
                                                         <th class="text-center" width="10%">Proy&nbsp;</th>}
@@ -106,7 +106,8 @@
                                                         <th class="text-center" width="14%">Partida<br />&nbsp;Presupuesto</th>
                                                         <th class="text-center" width="7%">Fecha<br />&nbsp;@rFechaFin &nbsp;</th>
                                                         <th class="text-center" width="5%">Usuario</th>
-                                                        <th class="text-center" width="5%">Opc.</th>
+                                                        <th class="text-center" width="4%">E.</th>
+                                                        <th class="text-center" width="4%">Opc.</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -119,9 +120,9 @@
                                                                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
                                                                     <td class="text-center" width="7%">@obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                                    <td class="text-center" width="11%">@obj.NombreTipoDocumento</td>
-                                                                    <td class="text-center" width="11%">@obj.NroDocumento</td>
-                                                                    <td class="text-center" width="15%">@obj.NombreEntidad</td>
+                                                                    <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
+                                                                    <td class="text-center" width="10%">@obj.NroDocumento</td>
+                                                                    <td class="text-center" width="14%">@obj.NombreEntidad</td>
                                                                     @if (item.IdTipoComprobante == 1)
                                                                     {
                                                                     <td class="text-center" width="10%">@(obj.NombreProyecto == null ? "N/A" : obj.NombreProyecto)</td>}
@@ -129,6 +130,13 @@
                                                                     <td class="text-center" width="14%">@obj.NombreCategoria</td>
                                                                     <td class="text-center" width="7%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
                                                                     <td class="text-center" width="5%">@obj.NombreUsuario</td>
+                                                                    @if (!obj.Ejecutado)
+                                                                    {
+                                                                        <td class="text-center" width="4%" style="color:red">P</td>}
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center" width="4%" style="color:#8EC100;">R</td> }
+                                                                    @*<td class="text-center" width="4%">@(obj.Ejecutado ? "O" : "X")</td>*@
                                                                     @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                                     <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
                                                                 </tr>

@@ -69,7 +69,7 @@
                 ActualizarMontos();
             });
 
-            BloquearStaff();
+            BloquearTDocumentos();
 
             ListarProyectos(0);
 
@@ -110,11 +110,19 @@
             $('#Monto').val(montoConIGV);
         }
 
-        function BloquearStaff()
+        function BloquearTDocumentos()
         {
             if(@Model.IdTipoComprobante == 1)
             {
+                //Bloqueo de Staff
                 $("#IdTipoDocumento option[value='4']").attr('disabled', true);
+                //Bloqueo de Ordenes de Compra
+                $("#IdTipoDocumento option[value='10']").attr('disabled', true);
+            }
+            else
+            {
+                //Bloquear Proforma
+                $("#IdTipoDocumento option[value='9']").attr('disabled', true);
             }
         }
 

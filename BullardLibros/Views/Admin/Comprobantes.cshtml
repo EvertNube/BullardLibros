@@ -130,7 +130,13 @@
                                                                     <td class="text-center" width="14%">@obj.NombreCategoria</td>
                                                                     <td class="text-center" width="7%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
                                                                     <td class="text-center" width="5%">@obj.NombreUsuario</td>
-                                                                    <td class="text-center" width="4%">@(obj.Ejecutado ? "O" : "X")</td>
+                                                                    @if (!obj.Ejecutado)
+                                                                    {
+                                                                        <td class="text-center" width="4%" style="color:red">P</td>}
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center" width="4%" style="color:#8EC100;">R</td> }
+                                                                    @*<td class="text-center" width="4%">@(obj.Ejecutado ? "O" : "X")</td>*@
                                                                     @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                                     <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
                                                                 </tr>

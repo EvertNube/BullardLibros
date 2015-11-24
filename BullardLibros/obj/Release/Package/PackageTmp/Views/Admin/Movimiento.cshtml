@@ -5,11 +5,13 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
+    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
     @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
     @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
 }
 
 @section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         @{
@@ -21,6 +23,7 @@
         var lstComps = JSON.parse('@Html.Raw(userInfoJson2)');
 
         var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var montoCmp = 0;
 
         $(function () {
             $('.miselect2').select2();
@@ -84,12 +87,16 @@
                 if (cambio == 1) {
                     $('#IdComprobante').select2("val", "");
                     $('#IdCategoria').select2("val", "");
+                } else {
+                    if ($('#IdComprobante').val() != null && $('#IdComprobante').val() != 0) {
+                        BuscarCategoria($('#IdComprobante').val());
+                    }
                 }
 
                 GetComprobantesAjax(identidad, idtdoc);
-                $('#IdComprobante').select2({
+                /*$('#IdComprobante').select2({
                     data: lstComps
-                })
+                })*/
             }
         }
 
@@ -97,24 +104,30 @@
             $.ajax({
                 type: "POST",
                 url: "/Admin/GetComprobantes",
-                async: false,
+                //async: false,
                 cache: false,
                 data: { idEntidad: identidad, idTipoDoc: idtdoc },
                 dataType: 'json',
                 success: function (data) {
-                    lstComps = data.listaComp;
+                    //lstComps = data.listaComp;
+                    $('#IdComprobante').select2({
+                        data: data.listaComp
+                    })
                 }
             });
         }
 
         function BuscarCategoria(sel) {
-            var miIdComprobante = sel.value;
+            //var miIdComprobante = sel.value;
+            var jIdCuentaBancaria = $('#IdCuentaBancaria').val();
+            var miIdComprobante = sel;
+
             $.ajax({
                 type: "POST",
                 url: "/Admin/BuscarComprobante",
-                async: false,
+                async: true,
                 cache: false,
-                data: { idComprobante: miIdComprobante },
+                data: { idComprobante: miIdComprobante, idCuentaBancaria: jIdCuentaBancaria },
                 dataType: 'json',
                 success: function (data) {
                     if (data.comprobante.IdCategoria != null) {
@@ -122,8 +135,26 @@
                     } else {
                         $('#IdCategoria').select2("val", "");
                     }
+                    $('#cmpMonto').val(data.comprobante.MontoIncompleto);
+                    //$('#cmpCancelado').prop("checked", true);
+                    $('#cmpCancelado').prop("checked", data.comprobante.Ejecutado);
                 }
             });
+        }
+
+        function ActualizarEjecucionDeComprobante() {
+            var jCheck = $('#cmpCancelado').prop("checked");
+            var jIdComprobante = $('#IdComprobante').val();
+
+            if (jIdComprobante != null && jIdComprobante != 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/ActualizarEjecucionComprobante',
+                    cache: false,
+                    data: { idComprobante: jIdComprobante, ejecutado: jCheck },
+                    dataType: 'text'
+                });
+            }
         }
 
 
@@ -205,15 +236,26 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        @{var col_cmp = ViewBag.IdTipoCuenta != 1 ? 6 : 3;}
                                         @if (ViewBag.IdTipoCuenta != 2)
                                         {
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-3">
                                                 <label>Número de Documento</label>
-                                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this)" })
+                                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this.value)" })
                                                 @Html.ValidationMessageFor(u => u.IdComprobante)
                                             </div>
+                                            <div class="form-group col-md-3">
+                                                <label>Monto Pendiente</label>
+                                                <input id="cmpMonto" type="text" class="form-control" placeholder="Monto del Comprobantes" readonly />
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label>Estado del comprobante</label>
+                                                <div class="checkbox">
+                                                    <label><input id="cmpCancelado" type="checkbox"> Cancelado</label>
+                                                </div>
+                                            </div>
                                         }
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-@col_cmp">
                                             <label>Partida de Presupuesto</label>
                                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
                                             @Html.ValidationMessageFor(u => u.IdCategoria)
@@ -244,7 +286,7 @@
                                     @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<button type="submit" class="btn btn-sm btn-success">@btnName </button>}
+                                    {<button type="submit" class="btn btn-sm btn-success" onclick="return ActualizarEjecucionDeComprobante();">@btnName </button>}
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Salir</a>
                                 </div>
                             </section>

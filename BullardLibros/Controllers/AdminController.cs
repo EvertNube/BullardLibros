@@ -2055,6 +2055,33 @@ namespace BullardLibros.Controllers
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
+        public ActionResult GenerarRep_FacturasPagadasYPorCobrar(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<ComprobanteDTO> lstCmpPagados = repBL.getComprobantesPagadosEnEmpresa(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            List<ComprobanteDTO> lstCmpPorCobrar = repBL.getComprobantesPorCobrarEnEmpresa(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+
+            if (lstCmpPagados == null && lstCmpPorCobrar == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+
+
+            dt.Columns.Add("Vendedores");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Porcentaje");
+
+            return View();
+        }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
         {
             GridView gv = new GridView();

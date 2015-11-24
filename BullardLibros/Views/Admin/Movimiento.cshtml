@@ -245,20 +245,14 @@
                                                 @Html.ValidationMessageFor(u => u.IdComprobante)
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label>Monto Faltante Por Pagar</label>
-                                                <input id="cmpMonto" type="text" class="form-control" placeholder="Monto del Comprobantes" />
+                                                <label>Monto Pendiente</label>
+                                                <input id="cmpMonto" type="text" class="form-control" placeholder="Monto del Comprobantes" readonly />
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label>Estado del comprobante</label>
                                                 <div class="checkbox">
                                                     <label><input id="cmpCancelado" type="checkbox"> Cancelado</label>
                                                 </div>
-                                                @*<div class="checkbox">
-                                                    <label class="checkbox-custom">
-                                                        <input id="cmpCancelado" type="checkbox" class="form-control">
-                                                        <i class="fa fa-fw fa-square-o"></i> Cancelado
-                                                    </label>
-                                                </div>*@
                                             </div>
                                         }
                                         <div class="form-group col-md-@col_cmp">
