@@ -23,7 +23,7 @@ namespace BullardLibros.Core.BL
                     IdEstadoMovimiento = x.IdEstadoMovimiento,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
-                }).ToList();
+                }).OrderByDescending(x => x.Nombre).ToList();
                 return result;
             }
         }

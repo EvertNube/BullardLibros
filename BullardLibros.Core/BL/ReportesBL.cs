@@ -249,51 +249,6 @@ namespace BullardLibros.Core.BL
                 return lista;
             }
         }
-        /*public List<ComprobanteDTO> getComprobantesEgresosEnEmpresa(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
-        {
-            using (var context = getContext())
-            {
-                var lstMontosIncompletos = context.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar(2, idEmpresa, fechaInicio, fechaFin).Select(x => new ComprobanteDTO
-                {
-                    IdComprobante = x.IdComprobante,
-                    MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
-                }).ToList();
-                
-                var result = context.Comprobante.AsEnumerable().Where(x => x.IdTipoComprobante == 2 && x.IdEmpresa == idEmpresa && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin && x.Estado).Select(x => new ComprobanteDTO
-                {
-                    IdComprobante = x.IdComprobante,
-                    IdTipoComprobante = x.IdTipoComprobante,
-                    IdTipoDocumento = x.IdTipoDocumento,
-                    IdEntidadResponsable = x.IdEntidadResponsable,
-                    IdMoneda = x.IdMoneda,
-                    IdEmpresa = x.IdEmpresa,
-                    NroDocumento = x.NroDocumento,
-                    Monto = x.Monto,
-                    IdArea = x.IdArea,
-                    IdResponsable = x.IdResponsable,
-                    IdCategoria = x.IdCategoria,
-                    IdProyecto = x.IdProyecto,
-                    FechaEmision = x.FechaEmision,
-                    FechaConclusion = x.FechaConclusion,
-                    Comentario = x.Comentario,
-                    Estado = x.Estado,
-                    Ejecutado = x.Ejecutado,
-                    IdHonorario = x.IdHonorario,
-                    NombreEntidad = x.EntidadResponsable.Nombre,
-                    NombreMoneda = x.Moneda.Nombre,
-                    NombreTipoComprobante = x.TipoComprobante.Nombre,
-                    NombreTipoDocumento = x.TipoDocumento.Nombre,
-                    SimboloMoneda = x.Moneda.Simbolo,
-                    MontoSinIGV = x.MontoSinIGV,
-                    TipoCambio = x.TipoCambio,
-                    UsuarioCreacion = x.UsuarioCreacion,
-                    NombreUsuario = x.Usuario.Cuenta,
-                    NombreCategoria = x.Categoria.Nombre,
-                    NombreProyecto = x.Proyecto.Nombre
-                }).OrderBy(x => x.NroDocumento).ToList();
-                return result;
-            }
-        } */
         #endregion
 
         #region Exportacion de Detalles

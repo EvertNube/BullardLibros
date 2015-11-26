@@ -150,15 +150,15 @@ namespace BullardLibros.Core.BL
                             NroOperacion = x.NroOperacion,
                             Fecha = x.Fecha,
                             Monto = x.Monto,
-                            NumeroDocumento = x.Comprobante.NroDocumento,
+                            NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : x.NumeroDocumento,
                             Comentario = x.Comentario,
                             Estado = x.Estado,
                             UsuarioCreacion = x.UsuarioCreacion,
                             FechaCreacion = x.FechaCreacion,
                             NombreEntidadR = x.EntidadResponsable.Nombre,
                             NombreCategoria = x.Categoria.Nombre,
-                            NombreUsuario = x.Usuario.Cuenta,
-                            NumeroDocumento2 = x.NumeroDocumento
+                            NombreUsuario = x.Usuario.Cuenta
+                            //NumeroDocumento2 = x.NumeroDocumento
                         }).OrderByDescending(x => x.Fecha).ToList()
                     }).SingleOrDefault();
                 return result;
