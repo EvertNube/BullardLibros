@@ -14,7 +14,6 @@ namespace BullardLibros.Data
     
     public partial class Comprobante
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Comprobante()
         {
             this.AreaPorComprobante = new HashSet<AreaPorComprobante>();
@@ -30,6 +29,7 @@ namespace BullardLibros.Data
         public string NroDocumento { get; set; }
         public decimal Monto { get; set; }
         public decimal MontoSinIGV { get; set; }
+        public decimal TipoCambio { get; set; }
         public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdResponsable { get; set; }
         public Nullable<int> IdCategoria { get; set; }
@@ -40,10 +40,8 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
         public Nullable<int> IdHonorario { get; set; }
-        public decimal TipoCambio { get; set; }
         public int UsuarioCreacion { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AreaPorComprobante> AreaPorComprobante { get; set; }
         public virtual Categoria Categoria { get; set; }
         public virtual Empresa Empresa { get; set; }
@@ -54,7 +52,6 @@ namespace BullardLibros.Data
         public virtual TipoComprobante TipoComprobante { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual Usuario Usuario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

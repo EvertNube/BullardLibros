@@ -195,12 +195,71 @@ namespace BullardLibros.Core.BL
         }
         #endregion
 
-        #region Facturas Pagadas y Por Cobrar
-        public List<ComprobanteDTO> getComprobantesPagadosEnEmpresa(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
+        #region Documentos Pagadas y Por Cobrar
+        public List<ComprobanteDTO> getComprobantesIngresosYEgresosEnEmpresa(int idEmpresa, int idTipoComprobante, DateTime fechaInicio, DateTime fechaFin)
         {
             using (var context = getContext())
             {
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.Estado && x.Ejecutado && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin).Select(x => new ComprobanteDTO
+                var lstMontosIncompletos = context.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar(idTipoComprobante, idEmpresa, fechaInicio, fechaFin).Select(x => new ComprobanteDTO
+                    {
+                        IdComprobante = x.IdComprobante,
+                        MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
+                    }).ToList<ComprobanteDTO>();
+
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin && x.Estado).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    IdTipoComprobante = x.IdTipoComprobante,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa,
+                    NroDocumento = x.NroDocumento,
+                    Monto = x.Monto,
+                    IdArea = x.IdArea,
+                    IdResponsable = x.IdResponsable,
+                    IdCategoria = x.IdCategoria,
+                    IdProyecto = x.IdProyecto,
+                    FechaEmision = x.FechaEmision,
+                    FechaConclusion = x.FechaConclusion,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    IdHonorario = x.IdHonorario,
+                    NombreEntidad = x.EntidadResponsable.Nombre,
+                    NombreMoneda = x.Moneda.Nombre,
+                    NombreTipoComprobante = x.TipoComprobante.Nombre,
+                    NombreTipoDocumento = x.TipoDocumento.Nombre,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    MontoSinIGV = x.MontoSinIGV,
+                    TipoCambio = x.TipoCambio,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    NombreUsuario = x.Usuario.Cuenta,
+                    NombreCategoria = x.Categoria.Nombre,
+                    NombreProyecto = x.Proyecto.Nombre,
+                    Ejecutado = x.Ejecutado
+                }).OrderBy(x => x.NroDocumento).ToList<ComprobanteDTO>();
+
+                List<ComprobanteDTO> lista = result;
+
+                foreach (var item in lista)
+                {
+                    item.MontoIncompleto = lstMontosIncompletos.SingleOrDefault(r => r.IdComprobante == item.IdComprobante).MontoIncompleto;
+                }
+
+                return lista;
+            }
+        }
+        /*public List<ComprobanteDTO> getComprobantesEgresosEnEmpresa(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var lstMontosIncompletos = context.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar(2, idEmpresa, fechaInicio, fechaFin).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
+                }).ToList();
+                
+                var result = context.Comprobante.AsEnumerable().Where(x => x.IdTipoComprobante == 2 && x.IdEmpresa == idEmpresa && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin && x.Estado).Select(x => new ComprobanteDTO
                 {
                     IdComprobante = x.IdComprobante,
                     IdTipoComprobante = x.IdTipoComprobante,
@@ -234,46 +293,7 @@ namespace BullardLibros.Core.BL
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
-        }
-        public List<ComprobanteDTO> getComprobantesPorCobrarEnEmpresa(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
-        {
-            using (var context = getContext())
-            {
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.Estado && !x.Ejecutado && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin).Select(x => new ComprobanteDTO
-                {
-                    IdComprobante = x.IdComprobante,
-                    IdTipoComprobante = x.IdTipoComprobante,
-                    IdTipoDocumento = x.IdTipoDocumento,
-                    IdEntidadResponsable = x.IdEntidadResponsable,
-                    IdMoneda = x.IdMoneda,
-                    IdEmpresa = x.IdEmpresa,
-                    NroDocumento = x.NroDocumento,
-                    Monto = x.Monto,
-                    IdArea = x.IdArea,
-                    IdResponsable = x.IdResponsable,
-                    IdCategoria = x.IdCategoria,
-                    IdProyecto = x.IdProyecto,
-                    FechaEmision = x.FechaEmision,
-                    FechaConclusion = x.FechaConclusion,
-                    Comentario = x.Comentario,
-                    Estado = x.Estado,
-                    Ejecutado = x.Ejecutado,
-                    IdHonorario = x.IdHonorario,
-                    NombreEntidad = x.EntidadResponsable.Nombre,
-                    NombreMoneda = x.Moneda.Nombre,
-                    NombreTipoComprobante = x.TipoComprobante.Nombre,
-                    NombreTipoDocumento = x.TipoDocumento.Nombre,
-                    SimboloMoneda = x.Moneda.Simbolo,
-                    MontoSinIGV = x.MontoSinIGV,
-                    TipoCambio = x.TipoCambio,
-                    UsuarioCreacion = x.UsuarioCreacion,
-                    NombreUsuario = x.Usuario.Cuenta,
-                    NombreCategoria = x.Categoria.Nombre,
-                    NombreProyecto = x.Proyecto.Nombre
-                }).OrderBy(x => x.NroDocumento).ToList();
-                return result;
-            }
-        }
+        } */
         #endregion
 
         #region Exportacion de Detalles

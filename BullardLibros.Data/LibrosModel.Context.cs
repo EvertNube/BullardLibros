@@ -74,6 +74,23 @@ namespace BullardLibros.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ActualizarPresupuestoPadre", idCategoriaParameter, idPeriodoParameter);
         }
     
+        public virtual ObjectResult<SP_Get_MontoIncompletoEnComprobante_Result> SP_Get_MontoIncompletoEnComprobante(Nullable<int> idComprobante, Nullable<int> idCuentaBancaria, Nullable<int> idEmpresa)
+        {
+            var idComprobanteParameter = idComprobante.HasValue ?
+                new ObjectParameter("IdComprobante", idComprobante) :
+                new ObjectParameter("IdComprobante", typeof(int));
+    
+            var idCuentaBancariaParameter = idCuentaBancaria.HasValue ?
+                new ObjectParameter("IdCuentaBancaria", idCuentaBancaria) :
+                new ObjectParameter("IdCuentaBancaria", typeof(int));
+    
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_MontoIncompletoEnComprobante_Result>("SP_Get_MontoIncompletoEnComprobante", idComprobanteParameter, idCuentaBancariaParameter, idEmpresaParameter);
+        }
+    
         public virtual ObjectResult<SP_GetReporteDetalleMovimientos_Result> SP_GetReporteDetalleMovimientos(Nullable<int> idCuentaB, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var idCuentaBParameter = idCuentaB.HasValue ?
@@ -231,21 +248,25 @@ namespace BullardLibros.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreas_Result>("SP_Rep_IngresosEgresosPorAreas", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
-        public virtual ObjectResult<SP_Get_MontoIncompletoEnComprobante_Result> SP_Get_MontoIncompletoEnComprobante(Nullable<int> idComprobante, Nullable<int> idCuentaBancaria, Nullable<int> idEmpresa)
+        public virtual ObjectResult<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result> SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar(Nullable<int> idTipoComprobante, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
-            var idComprobanteParameter = idComprobante.HasValue ?
-                new ObjectParameter("IdComprobante", idComprobante) :
-                new ObjectParameter("IdComprobante", typeof(int));
-    
-            var idCuentaBancariaParameter = idCuentaBancaria.HasValue ?
-                new ObjectParameter("IdCuentaBancaria", idCuentaBancaria) :
-                new ObjectParameter("IdCuentaBancaria", typeof(int));
+            var idTipoComprobanteParameter = idTipoComprobante.HasValue ?
+                new ObjectParameter("IdTipoComprobante", idTipoComprobante) :
+                new ObjectParameter("IdTipoComprobante", typeof(int));
     
             var idEmpresaParameter = idEmpresa.HasValue ?
                 new ObjectParameter("IdEmpresa", idEmpresa) :
                 new ObjectParameter("IdEmpresa", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_MontoIncompletoEnComprobante_Result>("SP_Get_MontoIncompletoEnComprobante", idComprobanteParameter, idCuentaBancariaParameter, idEmpresaParameter);
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result>("SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar", idTipoComprobanteParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     }
 }

@@ -57,6 +57,7 @@
           <Property Name="NroDocumento" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
           <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="4" Nullable="false" />
           <Property Name="IdArea" Type="int" />
           <Property Name="IdResponsable" Type="int" />
           <Property Name="IdCategoria" Type="int" />
@@ -67,7 +68,6 @@
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="Ejecutado" Type="bit" Nullable="false" />
           <Property Name="IdHonorario" Type="int" />
-          <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
           <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CuentaBancaria">
@@ -153,19 +153,20 @@
           <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
           <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
           <Property Name="IdFormaMovimiento" Type="int" Nullable="false" />
+          <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
           <Property Name="IdTipoDocumento" Type="int" />
           <Property Name="IdCategoria" Type="int" />
-          <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
+          <Property Name="IdComprobante" Type="int" />
           <Property Name="NroOperacion" Type="nvarchar" MaxLength="100" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
+          <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="4" Nullable="false" />
           <Property Name="NumeroDocumento" Type="nvarchar" MaxLength="100" />
           <Property Name="Comentario" Type="nvarchar(max)" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
-          <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
-          <Property Name="IdComprobante" Type="int" />
         </EntityType>
         <EntityType Name="Periodo">
           <Key>
@@ -738,6 +739,10 @@
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
         </Function>
+        <Function Name="FN_Get_Rep_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdComprobante" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+        </Function>
         <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
         </Function>
@@ -814,6 +819,12 @@
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_Rep_AvanceDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
@@ -1084,6 +1095,7 @@
           <Property Name="NroDocumento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Monto" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="MontoSinIGV" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="IdArea" Type="Int32" />
           <Property Name="IdResponsable" Type="Int32" />
           <Property Name="IdCategoria" Type="Int32" />
@@ -1094,7 +1106,6 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="Ejecutado" Type="Boolean" Nullable="false" />
           <Property Name="IdHonorario" Type="Int32" />
-          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AreaPorComprobante" Relationship="Self.FK_AreaPorComprobante_Comprobante" FromRole="Comprobante" ToRole="AreaPorComprobante" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Comprobante_Categoria" FromRole="Comprobante" ToRole="Categoria" />
@@ -1219,19 +1230,20 @@
           <Property Name="IdCuentaBancaria" Type="Int32" Nullable="false" />
           <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
           <Property Name="IdFormaMovimiento" Type="Int32" Nullable="false" />
+          <Property Name="IdEstadoMovimiento" Type="Int32" Nullable="false" />
           <Property Name="IdTipoDocumento" Type="Int32" />
           <Property Name="IdCategoria" Type="Int32" />
-          <Property Name="IdEstadoMovimiento" Type="Int32" Nullable="false" />
+          <Property Name="IdComprobante" Type="Int32" />
           <Property Name="NroOperacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Monto" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="MontoSinIGV" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="NumeroDocumento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MontoSinIGV" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdComprobante" Type="Int32" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Movimiento_Categoria" FromRole="Movimiento" ToRole="Categoria" />
           <NavigationProperty Name="Comprobante" Relationship="Self.FK_Movimiento_Comprobante" FromRole="Movimiento" ToRole="Comprobante" />
           <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_Movimiento_CuentaBancaria" FromRole="Movimiento" ToRole="CuentaBancaria" />
@@ -1310,10 +1322,10 @@
           </Key>
           <Property Name="IdTipoDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_TipoDocumento" FromRole="TipoDocumento" ToRole="Comprobante" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_TipoDocumento" FromRole="TipoDocumento" ToRole="Movimiento" />
-          <Property Name="Activo" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="TipoEntidad">
           <Key>
@@ -1986,6 +1998,11 @@
             <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
             <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_Get_MontoIncompletoEnComprobante" ReturnType="Collection(LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result)">
+            <Parameter Name="IdComprobante" Mode="In" Type="Int32" />
+            <Parameter Name="IdCuentaBancaria" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(LibrosDBModel.SP_GetReporteDetalleMovimientos_Result)">
             <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
@@ -2032,12 +2049,37 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_Get_MontoIncompletoEnComprobante" ReturnType="Collection(LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result)">
-            <Parameter Name="IdComprobante" Mode="In" Type="Int32" />
-            <Parameter Name="IdCuentaBancaria" Mode="In" Type="Int32" />
+          <FunctionImport Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" ReturnType="Collection(LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result)">
+            <Parameter Name="IdTipoComprobante" Mode="In" Type="Int32" />
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="SP_Get_MontoIncompletoEnComprobante_Result">
+          <Property Type="Int32" Name="IdComprobante" Nullable="false" />
+          <Property Type="Int32" Name="IdTipoComprobante" Nullable="false" />
+          <Property Type="Int32" Name="IdTipoDocumento" Nullable="false" />
+          <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+          <Property Type="Int32" Name="IdMoneda" Nullable="false" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+          <Property Type="String" Name="NroDocumento" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="MontoSinIGV" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="TipoCambio" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="Int32" Name="IdArea" Nullable="true" />
+          <Property Type="Int32" Name="IdResponsable" Nullable="true" />
+          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+          <Property Type="Int32" Name="IdProyecto" Nullable="true" />
+          <Property Type="DateTime" Name="FechaEmision" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FechaConclusion" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="Boolean" Name="Ejecutado" Nullable="false" />
+          <Property Type="Int32" Name="IdHonorario" Nullable="true" />
+          <Property Type="Int32" Name="UsuarioCreacion" Nullable="false" />
+          <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
         <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
           <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
           <Property Type="Int32" Name="IdCuentaBancaria" Nullable="false" />
@@ -2125,28 +2167,8 @@
           <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
-        <ComplexType Name="SP_Get_MontoIncompletoEnComprobante_Result">
+        <ComplexType Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
           <Property Type="Int32" Name="IdComprobante" Nullable="false" />
-          <Property Type="Int32" Name="IdTipoComprobante" Nullable="false" />
-          <Property Type="Int32" Name="IdTipoDocumento" Nullable="false" />
-          <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
-          <Property Type="Int32" Name="IdMoneda" Nullable="false" />
-          <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
-          <Property Type="String" Name="NroDocumento" Nullable="false" MaxLength="100" />
-          <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="MontoSinIGV" Nullable="false" Precision="18" Scale="4" />
-          <Property Type="Int32" Name="IdArea" Nullable="true" />
-          <Property Type="Int32" Name="IdResponsable" Nullable="true" />
-          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
-          <Property Type="Int32" Name="IdProyecto" Nullable="true" />
-          <Property Type="DateTime" Name="FechaEmision" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="FechaConclusion" Nullable="true" Precision="23" />
-          <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
-          <Property Type="Boolean" Name="Estado" Nullable="false" />
-          <Property Type="Boolean" Name="Ejecutado" Nullable="false" />
-          <Property Type="Int32" Name="IdHonorario" Nullable="true" />
-          <Property Type="Decimal" Name="TipoCambio" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="UsuarioCreacion" Nullable="false" />
           <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
       </Schema>
@@ -2208,6 +2230,7 @@
                 <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
                 <ScalarProperty Name="IdArea" ColumnName="IdArea" />
                 <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
                 <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
@@ -2218,7 +2241,6 @@
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Ejecutado" ColumnName="Ejecutado" />
                 <ScalarProperty Name="IdHonorario" ColumnName="IdHonorario" />
-                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
                 <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2312,19 +2334,20 @@
                 <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
                 <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
                 <ScalarProperty Name="IdFormaMovimiento" ColumnName="IdFormaMovimiento" />
+                <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
                 <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
                 <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-                <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
                 <ScalarProperty Name="NroOperacion" ColumnName="NroOperacion" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
                 <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
                 <ScalarProperty Name="Comentario" ColumnName="Comentario" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
                 <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-                <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
-                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2392,9 +2415,9 @@
           <EntitySetMapping Name="TipoDocumento">
             <EntityTypeMapping TypeName="LibrosDBModel.TipoDocumento">
               <MappingFragment StoreEntitySet="TipoDocumento">
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2445,6 +2468,34 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos" />
           <FunctionImportMapping FunctionImportName="SP_ActualizarPresupuestoPadre" FunctionName="LibrosDBModel.Store.SP_ActualizarPresupuestoPadre" />
+          <FunctionImportMapping FunctionImportName="SP_Get_MontoIncompletoEnComprobante" FunctionName="LibrosDBModel.Store.SP_Get_MontoIncompletoEnComprobante">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result">
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+                <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
+                <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Ejecutado" ColumnName="Ejecutado" />
+                <ScalarProperty Name="IdHonorario" ColumnName="IdHonorario" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_GetReporteDetalleMovimientos" FunctionName="LibrosDBModel.Store.SP_GetReporteDetalleMovimientos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_GetReporteDetalleMovimientos_Result">
@@ -2568,30 +2619,10 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Get_MontoIncompletoEnComprobante" FunctionName="LibrosDBModel.Store.SP_Get_MontoIncompletoEnComprobante">
+          <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result">
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
                 <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
-                <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
-                <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
-                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
-                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
-                <ScalarProperty Name="Monto" ColumnName="Monto" />
-                <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
-                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
-                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
-                <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
-                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Ejecutado" ColumnName="Ejecutado" />
-                <ScalarProperty Name="IdHonorario" ColumnName="IdHonorario" />
-                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
-                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
                 <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
               </ComplexTypeMapping>
             </ResultMapping>

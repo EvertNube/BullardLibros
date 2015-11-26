@@ -10,19 +10,10 @@
 namespace BullardLibros.Data
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TipoMovimiento
+    public partial class SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result
     {
-        public TipoMovimiento()
-        {
-            this.FormaMovimiento = new HashSet<FormaMovimiento>();
-        }
-    
-        public int IdTipoMovimiento { get; set; }
-        public string Nombre { get; set; }
-        public bool Estado { get; set; }
-    
-        public virtual ICollection<FormaMovimiento> FormaMovimiento { get; set; }
+        public int IdComprobante { get; set; }
+        public Nullable<decimal> MontoIncompleto { get; set; }
     }
 }

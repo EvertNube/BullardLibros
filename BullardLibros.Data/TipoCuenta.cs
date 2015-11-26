@@ -14,7 +14,6 @@ namespace BullardLibros.Data
     
     public partial class TipoCuenta
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TipoCuenta()
         {
             this.CuentaBancaria = new HashSet<CuentaBancaria>();
@@ -24,7 +23,6 @@ namespace BullardLibros.Data
         public string Nombre { get; set; }
         public bool Estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
     }
 }

@@ -54,6 +54,12 @@
             case 6:
                 return "/Admin/GenerarRep_FacturacionPorVendedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
+            case 7:
+                return "/Admin/GenerarRep_DocumentosIngresoPagadosYPorCobrar/?IdTipoComprobante=" + 1 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
+            case 8:
+                return "/Admin/GenerarRep_DocumentosIngresoPagadosYPorCobrar/?IdTipoComprobante=" + 2 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
             /*case 3:
                 return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
@@ -124,6 +130,18 @@
                                 <div class="form-group col-md-4 text-center">
                                     <label>Facturación por vendedores</label>
                                     <a class="btn btn-sm btn-success reporte" data-idreporte="6">
+                                        Generar Reporte
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label>Comprobantes de Ingresos Pagados y Cobrar</label>
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="7">
+                                        Generar Reporte
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label>Comprobantes de Egresos Pagados y Cobrar</label>
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="8">
                                         Generar Reporte
                                     </a>
                                 </div>

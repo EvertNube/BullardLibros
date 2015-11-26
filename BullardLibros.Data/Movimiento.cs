@@ -18,19 +18,20 @@ namespace BullardLibros.Data
         public int IdCuentaBancaria { get; set; }
         public int IdEntidadResponsable { get; set; }
         public int IdFormaMovimiento { get; set; }
+        public int IdEstadoMovimiento { get; set; }
         public Nullable<int> IdTipoDocumento { get; set; }
         public Nullable<int> IdCategoria { get; set; }
-        public int IdEstadoMovimiento { get; set; }
+        public Nullable<int> IdComprobante { get; set; }
         public string NroOperacion { get; set; }
         public System.DateTime Fecha { get; set; }
         public decimal Monto { get; set; }
+        public Nullable<decimal> MontoSinIGV { get; set; }
+        public decimal TipoCambio { get; set; }
         public string NumeroDocumento { get; set; }
         public string Comentario { get; set; }
         public bool Estado { get; set; }
         public int UsuarioCreacion { get; set; }
         public System.DateTime FechaCreacion { get; set; }
-        public Nullable<decimal> MontoSinIGV { get; set; }
-        public Nullable<int> IdComprobante { get; set; }
     
         public virtual Categoria Categoria { get; set; }
         public virtual Comprobante Comprobante { get; set; }

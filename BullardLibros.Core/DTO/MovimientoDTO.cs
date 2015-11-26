@@ -20,6 +20,7 @@ namespace BullardLibros.Core.DTO
         public string NroOperacion { get; set; }
         public DateTime Fecha { get; set; }
         public Decimal Monto { get; set; }
+        public Decimal TipoCambio { get; set; }
         public string NumeroDocumento { get; set; }
         public string Comentario { get; set; }
         public bool Estado { get; set; }

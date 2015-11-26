@@ -52,6 +52,7 @@
     <Property Name="NroDocumento" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
     <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="4" Nullable="false" />
     <Property Name="IdArea" Type="int" />
     <Property Name="IdResponsable" Type="int" />
     <Property Name="IdCategoria" Type="int" />
@@ -62,7 +63,6 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Ejecutado" Type="bit" Nullable="false" />
     <Property Name="IdHonorario" Type="int" />
-    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
@@ -148,19 +148,20 @@
     <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
     <Property Name="IdFormaMovimiento" Type="int" Nullable="false" />
+    <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
     <Property Name="IdTipoDocumento" Type="int" />
     <Property Name="IdCategoria" Type="int" />
-    <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
+    <Property Name="IdComprobante" Type="int" />
     <Property Name="NroOperacion" Type="nvarchar" MaxLength="100" />
     <Property Name="Fecha" Type="datetime" Nullable="false" />
     <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
+    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="4" Nullable="false" />
     <Property Name="NumeroDocumento" Type="nvarchar" MaxLength="100" />
     <Property Name="Comentario" Type="nvarchar(max)" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
     <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
-    <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
-    <Property Name="IdComprobante" Type="int" />
   </EntityType>
   <EntityType Name="Periodo">
     <Key>
@@ -733,6 +734,10 @@
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
   </Function>
+  <Function Name="FN_Get_Rep_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
   <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
   </Function>
@@ -809,6 +814,12 @@
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
   <Function Name="SP_Rep_AvanceDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />

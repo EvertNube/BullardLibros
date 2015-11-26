@@ -510,6 +510,7 @@ namespace BullardLibros.Controllers
                 MovimientoDTO nuevo = new MovimientoDTO();
                 nuevo.IdCuentaBancaria = (int)idLibro;
                 nuevo.Fecha = DateTime.Now;
+                nuevo.TipoCambio = (new EmpresaBL()).getEmpresa(miUsuario.IdEmpresa).TipoCambio;
                 nuevo.NumeroDocumento = null;
                 nuevo.Comentario = "No existe comentario";
                 nuevo.Estado = true;
@@ -2055,7 +2056,7 @@ namespace BullardLibros.Controllers
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
-        public ActionResult GenerarRep_FacturasPagadasYPorCobrar(DateTime? FechaInicio, DateTime? FechaFin)
+        public ActionResult GenerarRep_DocumentosIngresoPagadosYPorCobrar(int IdTipoComprobante, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
@@ -2065,21 +2066,106 @@ namespace BullardLibros.Controllers
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
-            List<ComprobanteDTO> lstCmpPagados = repBL.getComprobantesPagadosEnEmpresa(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
-            List<ComprobanteDTO> lstCmpPorCobrar = repBL.getComprobantesPorCobrarEnEmpresa(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
 
-            if (lstCmpPagados == null && lstCmpPorCobrar == null)
+            List<ComprobanteDTO> lstComprobantes = repBL.getComprobantesIngresosYEgresosEnEmpresa(objEmpresa.IdEmpresa, IdTipoComprobante, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            List<ComprobanteDTO> lstPagados = lstComprobantes.Where(x => x.Ejecutado).OrderBy(x => x.FechaEmision).ToList();
+            List<ComprobanteDTO> lstPorCobrar = lstComprobantes.Where(x => !x.Ejecutado).OrderBy(x => x.FechaEmision).ToList();
+
+            if (lstComprobantes == null)
                 return RedirectToAction("ReporteCategorias", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
+            System.Data.DataTable dt2 = new System.Data.DataTable();
+            dt2.Clear();
 
+            string Entidad = IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+            string FechaEjecucion = IdTipoComprobante == 1 ? "Fecha Cobro" : "Fecha Pago";
 
-
-            dt.Columns.Add("Vendedores");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("Numero");
+            dt.Columns.Add(Entidad);
+            if (IdTipoComprobante == 1)
+            { dt.Columns.Add("Proyecto"); }
+            dt.Columns.Add("Moneda");
+            dt.Columns.Add("Monto Sin IGV");
             dt.Columns.Add("Monto");
-            dt.Columns.Add("Porcentaje");
+            dt.Columns.Add("Partida de Presupuesto");
+            dt.Columns.Add(FechaEjecucion);
+            dt.Columns.Add("Usuario");
+            dt.Columns.Add("Monto Por Cancelar");
+            dt.Columns.Add("Ejecutado");
 
+            foreach (var obj in lstPagados)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
+                row["Documento"] = obj.NombreTipoDocumento;
+                row["Numero"] = obj.NroDocumento;
+                row[Entidad] = obj.NombreEntidad;
+                if (IdTipoComprobante == 1)
+                { row["Proyecto"] = obj.NombreProyecto; }
+                row["Moneda"] = obj.SimboloMoneda;
+                row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Partida de Presupuesto"] = obj.NombreCategoria;
+                row[FechaEjecucion] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
+                row["Usuario"] = obj.NombreUsuario;
+                row["Monto Por Cancelar"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Ejecutado"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
+                dt.Rows.Add(row);
+            }
+                
+            DataRow space = dt.NewRow();
+            dt.Rows.Add(space);
+
+            dt2.Columns.Add("Fecha");
+            dt2.Columns.Add("Documento");
+            dt2.Columns.Add("Numero");
+            dt2.Columns.Add(Entidad);
+            if (IdTipoComprobante == 1)
+            { dt2.Columns.Add("Proyecto"); }
+            dt2.Columns.Add("Moneda");
+            dt2.Columns.Add("Monto Sin IGV");
+            dt2.Columns.Add("Monto");
+            dt2.Columns.Add("Partida de Presupuesto");
+            dt2.Columns.Add(FechaEjecucion);
+            dt2.Columns.Add("Usuario");
+            dt2.Columns.Add("Monto Por Cancelar");
+            dt2.Columns.Add("Ejecutado");
+
+            foreach (var obj in lstPorCobrar)
+            {
+                System.Data.DataRow row = dt2.NewRow();
+                row["Fecha"] = obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
+                row["Documento"] = obj.NombreTipoDocumento;
+                row["Numero"] = obj.NroDocumento;
+                row[Entidad] = obj.NombreEntidad;
+                if (IdTipoComprobante == 1)
+                { row["Proyecto"] = obj.NombreProyecto; }
+                row["Moneda"] = obj.SimboloMoneda;
+                row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Partida de Presupuesto"] = obj.NombreCategoria;
+                row[FechaEjecucion] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
+                row["Usuario"] = obj.NombreUsuario;
+                row["Monto Por Cancelar"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Ejecutado"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
+                dt2.Rows.Add(row);
+            }
+            
+            dt.Merge(dt2, false, MissingSchemaAction.Add);
+
+            string titulo = IdTipoComprobante == 1 ? "Documentos de Ingresos Pagados y Por Cobrar" : "Documentos de Egresos Pagados y Por Cobrar";
+            string nombreFile = IdTipoComprobante == 1 ? "ComprobantesIngresosPagadosYPorCobrar" : "ComprobantesEgresosPagadosYPorCobrar";
+
+            GenerarPdf(dt, titulo, nombreFile, objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+        public ActionResult GenerarRep_DocumentosEgresoPagadosYPorCobrar(DateTime? FechaInicio, DateTime? FechaFin)
+        {
             return View();
         }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)

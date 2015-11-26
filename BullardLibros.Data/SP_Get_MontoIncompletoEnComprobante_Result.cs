@@ -22,6 +22,7 @@ namespace BullardLibros.Data
         public string NroDocumento { get; set; }
         public decimal Monto { get; set; }
         public decimal MontoSinIGV { get; set; }
+        public decimal TipoCambio { get; set; }
         public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdResponsable { get; set; }
         public Nullable<int> IdCategoria { get; set; }
@@ -32,7 +33,6 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
         public Nullable<int> IdHonorario { get; set; }
-        public decimal TipoCambio { get; set; }
         public int UsuarioCreacion { get; set; }
         public Nullable<decimal> MontoIncompleto { get; set; }
     }

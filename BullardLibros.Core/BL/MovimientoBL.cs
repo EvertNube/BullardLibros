@@ -32,6 +32,7 @@ namespace BullardLibros.Core.BL
                     NroOperacion = x.NroOperacion,
                     Fecha = x.Fecha,
                     Monto = x.Monto,
+                    TipoCambio = x.TipoCambio,
                     NumeroDocumento = x.Comprobante.NroDocumento,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
@@ -61,6 +62,7 @@ namespace BullardLibros.Core.BL
                         NroOperacion = r.NroOperacion,
                         Fecha = r.Fecha,
                         Monto = r.Monto,
+                        TipoCambio = r.TipoCambio,
                         NumeroDocumento = r.Comprobante.NroDocumento,
                         Comentario = r.Comentario,
                         Estado = r.Estado,
@@ -90,6 +92,7 @@ namespace BullardLibros.Core.BL
                     //nuevo.Fecha = Movimiento.Fecha;
                     nuevo.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     nuevo.Monto = Movimiento.Monto;
+                    nuevo.TipoCambio = Movimiento.TipoCambio;
                     nuevo.NumeroDocumento = Movimiento.NumeroDocumento;
                     nuevo.Comentario = Movimiento.Comentario;
                     nuevo.Estado = true;
@@ -128,6 +131,7 @@ namespace BullardLibros.Core.BL
                     //datoRow.Fecha = Movimiento.Fecha;
                     datoRow.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     datoRow.Monto = Movimiento.Monto;
+                    datoRow.TipoCambio = Movimiento.TipoCambio;
                     datoRow.NumeroDocumento = Movimiento.NumeroDocumento;
                     datoRow.Comentario = Movimiento.Comentario;
                     datoRow.Estado = Movimiento.Estado;
