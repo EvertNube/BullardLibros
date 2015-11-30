@@ -1430,6 +1430,7 @@ namespace BullardLibros.Controllers
             return View();
         }
 
+        /*
         [HttpGet]
         public ActionResult GenerarReporteCategorias(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
         {
@@ -1743,6 +1744,8 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
+         */
+
         #region Reportes
         public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
         {
@@ -2133,6 +2136,21 @@ namespace BullardLibros.Controllers
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
+        public ActionResult GenerarRep_DetalleGastosPorPartidaDePresupuesto(int IdCategoria, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+
+            CategoriaR_DTO catPadre = repBL.getDetalleGastos_PorPartidaDePresupuesto(IdCategoria, objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            //List<ComprobanteDTO> lstComprobantes = repBL.getComprobantesIngresosYEgresosEnEmpresa(objEmpresa.IdEmpresa, IdTipoComprobante, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
         {
             GridView gv = new GridView();
@@ -2426,13 +2444,14 @@ namespace BullardLibros.Controllers
         }
 
         #endregion
+        /*
         private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
         {
             if (categoria.Padre != null)
             {
                 row = DameRowPintarPadres(row, categoria.Padre);
             }
-            //row["Categoria N." + categoria.Nivel.ToString()] = categoria.Nombre;
+
             switch (categoria.Nivel)
             {
                 case 0:
@@ -2443,7 +2462,7 @@ namespace BullardLibros.Controllers
                     break;
             }
             return row;
-        }
+        }*/
         private static void AddSuperHeader(GridView gridView, string text = null)
         {
             var myTable = (Table)gridView.Controls[0];

@@ -743,6 +743,9 @@
           <Parameter Name="IdComprobante" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
         </Function>
+        <Function Name="FN_GetAreaOsEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+          <Parameter Name="IdComprobante" Type="int" Mode="In" />
+        </Function>
         <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
         </Function>
@@ -798,6 +801,9 @@
           <Parameter Name="IdCategoria" Type="int" Mode="In" />
           <Parameter Name="IdPeriodo" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_Get_Arbol_Categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCategoria" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Get_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdComprobante" Type="int" Mode="In" />
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
@@ -819,6 +825,12 @@
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_Rep_AvanceDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCategoria" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
@@ -2055,6 +2067,15 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto" ReturnType="Collection(LibrosDBModel.SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result)">
+            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
+            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_Get_MontoIncompletoEnComprobante_Result">
           <Property Type="Int32" Name="IdComprobante" Nullable="false" />
@@ -2170,6 +2191,28 @@
         <ComplexType Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
           <Property Type="Int32" Name="IdComprobante" Nullable="false" />
           <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
+        <ComplexType Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result">
+          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="IdComprobante" Nullable="false" />
+          <Property Type="DateTime" Name="FechaEmision" Nullable="false" Precision="23" />
+          <Property Type="String" Name="NombreEntidad" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreDocumento" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="NroDocumento" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Moneda" Nullable="true" MaxLength="5" />
+          <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="String" Name="Areas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Get_Arbol_Categoria_Result">
+          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Orden" Nullable="true" />
+          <Property Type="Boolean" Name="Estado" Nullable="true" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
+          <Property Type="Int32" Name="Nivel" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2624,6 +2667,36 @@
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
                 <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
                 <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_DetalleGastosPorPartidaDePresupuesto" FunctionName="LibrosDBModel.Store.SP_Rep_DetalleGastosPorPartidaDePresupuesto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="NombreEntidad" ColumnName="NombreEntidad" />
+                <ScalarProperty Name="NombreDocumento" ColumnName="NombreDocumento" />
+                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Areas" ColumnName="Areas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_Arbol_Categoria" FunctionName="LibrosDBModel.Store.SP_Get_Arbol_Categoria">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Arbol_Categoria_Result">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

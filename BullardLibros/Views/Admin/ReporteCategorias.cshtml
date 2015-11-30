@@ -60,6 +60,9 @@
             case 8:
                 return "/Admin/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 2 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
+            case 9:
+                return "/Admin/GenerarRep_DetalleGastosPorPartidaDePresupuesto/?IdCategoria=" + 4 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                break;
             /*case 3:
                 return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                 break;
@@ -142,6 +145,12 @@
                                 <div class="form-group col-md-4 text-center">
                                     <label>Comprobantes de Egresos Pagados y Cobrar</label>
                                     <a class="btn btn-sm btn-success reporte" data-idreporte="8">
+                                        Generar Reporte
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label>Detalle de gastos por Partida de Presupuesto</label>
+                                    <a class="btn btn-sm btn-success reporte" data-idreporte="9">
                                         Generar Reporte
                                     </a>
                                 </div>

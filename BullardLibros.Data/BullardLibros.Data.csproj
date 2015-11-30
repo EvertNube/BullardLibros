@@ -125,10 +125,16 @@
     <Compile Include="SP_GetReporteResumenEntidadesRes_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Get_Arbol_Categoria_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Get_MontoIncompletoEnComprobante_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Rep_AvanceDePresupuesto_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result.cs">

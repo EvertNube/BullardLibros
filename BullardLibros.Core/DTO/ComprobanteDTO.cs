@@ -40,6 +40,7 @@ namespace BullardLibros.Core.DTO
         public string NombreUsuario { get; set; }
         public string NombreCategoria { get; set; }
         public string NombreProyecto { get; set; }
+        public string NombreAreas { get; set; }
 
         //Montos Auxs
         public Decimal MontoIncompleto { get; set; }

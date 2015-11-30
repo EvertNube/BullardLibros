@@ -79,6 +79,7 @@
     <Compile Include="DTO\CategoriaPorPeriodoDTO.cs" />
     <Compile Include="DTO\CategoriaR_DTO.cs" />
     <Compile Include="DTO\ComprobanteDTO.cs" />
+    <Compile Include="DTO\ComprobanteR_DTO.cs" />
     <Compile Include="DTO\CuentaBancariaDTO.cs" />
     <Compile Include="DTO\EmpresaDTO.cs" />
     <Compile Include="DTO\EntidadResponsableDTO.cs" />

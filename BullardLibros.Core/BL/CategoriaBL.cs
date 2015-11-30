@@ -246,6 +246,7 @@ namespace BullardLibros.Core.BL
             return "Sin Categoría";
         }
 
+        /*
         public IList<CategoriaR_DTO> getReporteCategorias(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
         {
             using (var context = getContext())
@@ -260,7 +261,7 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
-
+        
         public CategoriaR_DTO obtenerPadreEntidadReporte(CategoriaR_DTO obj, List<CategoriaDTO> lstCategorias, int Nivel)
         {
             if (obj.IdCategoriaPadre != null)
@@ -285,7 +286,7 @@ namespace BullardLibros.Core.BL
                     CONSTANTES.NivelCat = obj.Nivel;
             }
             return obj;
-        }
+        }*/
 
         public List<PeriodoDTO> GetPeriodosEnEmpresaViewBag(int idEmpresa)
         {

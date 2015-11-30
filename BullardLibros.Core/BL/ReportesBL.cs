@@ -356,5 +356,72 @@ namespace BullardLibros.Core.BL
             }
         }
         #endregion
+
+        #region Detalle de Gastos por Partida de Presupuesto
+        public CategoriaR_DTO getDetalleGastos_PorPartidaDePresupuesto(int idCategoria, int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            using (var context = getContext())
+            {
+                List<CategoriaR_DTO> lstArbol = context.SP_Get_Arbol_Categoria(idCategoria).Select(x => new CategoriaR_DTO
+                    {
+                        IdCategoria = x.IdCategoria.GetValueOrDefault(),
+                        IdCategoriaPadre = x.IdCategoriaPadre,
+                        Nombre = x.Nombre,
+                        Orden = x.Orden.GetValueOrDefault(),
+                        Estado = x.Estado.GetValueOrDefault(),
+                        IdEmpresa = x.IdEmpresa.GetValueOrDefault(),
+                        Nivel = x.Nivel.GetValueOrDefault()
+                    }).ToList<CategoriaR_DTO>();
+
+                List<ComprobanteR_DTO> lstDetalle = context.SP_Rep_DetalleGastosPorPartidaDePresupuesto(idCategoria, idEmpresa, fechaInicio, fechaFin).Select(x => new ComprobanteR_DTO
+                    {
+                        IdCategoria = x.IdCategoria,
+                        IdCategoriaPadre = x.IdCategoriaPadre,
+                        NombreCategoria = x.Nombre,
+                        IdComprobante = x.IdComprobante,
+                        Fecha = x.FechaEmision,
+                        NombreEntidad = x.NombreEntidad,
+                        NombreDocumento = x.NombreDocumento,
+                        NroDocumento = x.NroDocumento,
+                        Moneda = x.Moneda,
+                        Monto = x.Monto,
+                        Areas = x.Areas
+                    }).ToList<ComprobanteR_DTO>();
+
+                CategoriaR_DTO result = GetArbolEnCategoria(idCategoria, lstArbol, lstDetalle);
+
+                return result;
+            }
+        }
+
+        public CategoriaR_DTO GetArbolEnCategoria(int idCategoria, List<CategoriaR_DTO> lstArbol, List<ComprobanteR_DTO> lstDetalle)
+        {
+            if (idCategoria == 0)
+                return null;
+
+            CategoriaR_DTO result = lstArbol.Where(x => x.IdCategoria == idCategoria).Select(x => new CategoriaR_DTO
+            {
+                IdCategoria = x.IdCategoria,
+                Nombre = x.Nombre,
+                Orden = x.Orden,
+                Estado = x.Estado,
+                IdCategoriaPadre = x.IdCategoriaPadre,
+                IdEmpresa = x.IdEmpresa,
+                Nivel = x.Nivel,
+                Comprobantes = lstDetalle.Where(r => r.IdCategoria == idCategoria).ToList()
+                //Hijos = lstArbol.Where(r => r.IdCategoria == idCategoria).Select(r => new CategoriaR_DTO()).ToList()
+            }).SingleOrDefault();
+
+            List<CategoriaR_DTO> auxHijos = lstArbol.Where(x => x.IdCategoriaPadre == result.IdCategoria).OrderBy(x => x.Orden).ToList();
+            foreach (var item in auxHijos)
+            {
+                result.Hijos.Add(GetArbolEnCategoria(item.IdCategoria, lstArbol, lstDetalle));
+            }
+
+            return result;
+        }
+
+
+        #endregion
     }
 }
