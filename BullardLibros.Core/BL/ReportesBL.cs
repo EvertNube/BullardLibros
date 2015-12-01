@@ -388,18 +388,20 @@ namespace BullardLibros.Core.BL
                         Areas = x.Areas
                     }).ToList<ComprobanteR_DTO>();
 
-                CategoriaR_DTO result = GetArbolEnCategoria(idCategoria, lstArbol, lstDetalle);
+                CategoriaR_DTO result = lstArbol.Where(x => x.IdCategoria == idCategoria).SingleOrDefault();
+                result.Comprobantes = lstDetalle.Where(x => x.IdCategoria == idCategoria).ToList();
+                result.Hijos = GetArbolEnCategoria(idCategoria, lstArbol, lstDetalle);
 
                 return result;
             }
         }
 
-        public CategoriaR_DTO GetArbolEnCategoria(int idCategoria, List<CategoriaR_DTO> lstArbol, List<ComprobanteR_DTO> lstDetalle)
+        public List<CategoriaR_DTO> GetArbolEnCategoria(int idCategoria, List<CategoriaR_DTO> lstArbol, List<ComprobanteR_DTO> lstDetalle)
         {
             if (idCategoria == 0)
                 return null;
 
-            CategoriaR_DTO result = lstArbol.Where(x => x.IdCategoria == idCategoria).Select(x => new CategoriaR_DTO
+            List<CategoriaR_DTO> result = lstArbol.Where(x => x.IdCategoriaPadre == idCategoria).Select(x => new CategoriaR_DTO
             {
                 IdCategoria = x.IdCategoria,
                 Nombre = x.Nombre,
@@ -408,15 +410,9 @@ namespace BullardLibros.Core.BL
                 IdCategoriaPadre = x.IdCategoriaPadre,
                 IdEmpresa = x.IdEmpresa,
                 Nivel = x.Nivel,
-                Comprobantes = lstDetalle.Where(r => r.IdCategoria == idCategoria).ToList()
-                //Hijos = lstArbol.Where(r => r.IdCategoria == idCategoria).Select(r => new CategoriaR_DTO()).ToList()
-            }).SingleOrDefault();
-
-            List<CategoriaR_DTO> auxHijos = lstArbol.Where(x => x.IdCategoriaPadre == result.IdCategoria).OrderBy(x => x.Orden).ToList();
-            foreach (var item in auxHijos)
-            {
-                result.Hijos.Add(GetArbolEnCategoria(item.IdCategoria, lstArbol, lstDetalle));
-            }
+                Comprobantes = lstDetalle.Where(r => r.IdCategoria == x.IdCategoria).ToList(),
+                Hijos = GetArbolEnCategoria(x.IdCategoria, lstArbol, lstDetalle)
+            }).ToList();
 
             return result;
         }

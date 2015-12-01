@@ -1412,7 +1412,8 @@ namespace BullardLibros.Controllers
             MenuNavBarSelected(3);
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
-            ViewBag.Libros = objBL.getCuentasBancariasEnEmpresaBag((int)getCurrentUser().IdEmpresa, true);
+            ViewBag.Categorias = CategoriasBucle(null, null);
+            //ViewBag.Libros = objBL.getCuentasBancariasEnEmpresaBag((int)getCurrentUser().IdEmpresa, true);
 
             if (message != null)
             {
@@ -2147,8 +2148,45 @@ namespace BullardLibros.Controllers
 
             ReportesBL repBL = new ReportesBL();
 
-            CategoriaR_DTO catPadre = repBL.getDetalleGastos_PorPartidaDePresupuesto(IdCategoria, objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
-            //List<ComprobanteDTO> lstComprobantes = repBL.getComprobantesIngresosYEgresosEnEmpresa(objEmpresa.IdEmpresa, IdTipoComprobante, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            CategoriaR_DTO catArbol = repBL.getDetalleGastos_PorPartidaDePresupuesto(IdCategoria, objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            
+            if(catArbol == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nivel");
+            dt.Columns.Add("Partida");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Proveedor");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("# Documento");
+            dt.Columns.Add("Moneda");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Area(s)");
+
+            DataRow rowP = dt.NewRow();
+            rowP["Nivel"] = catArbol.Nivel;
+            rowP["Partida"] = catArbol.Nombre;
+            dt.Rows.Add(rowP);
+            foreach (var obj in catArbol.Comprobantes)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
+                row["Proveedor"] = obj.NombreEntidad;
+                row["Documento"] = obj.NombreDocumento;
+                row["# Documento"] = obj.NroDocumento;
+                row["Moneda"] = obj.Moneda;
+                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Area(s)"] = obj.Areas;
+                
+                dt.Rows.Add(row);
+            }
+            PintarGastoPorPartidaPresupuesto(catArbol.Hijos.ToList(), dt);
+
+            GenerarPdf2(dt, "Detalle de Gastos por Partida de Presupuesto", "DetalleGastos_PartidaDePresupuestos", objEmpresa, FechaInicio, FechaFin, Response);
+
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
@@ -2222,6 +2260,30 @@ namespace BullardLibros.Controllers
                 Response.End();
                 htw.Close();
                 sw.Close();
+            }
+        }
+        private static void PintarGastoPorPartidaPresupuesto(List<CategoriaR_DTO> lista, DataTable dt)
+        {
+            foreach (var obj in lista)
+            {
+                DataRow row1 = dt.NewRow();
+                row1["Nivel"] = obj.Nivel;
+                row1["Partida"] = obj.Nombre;
+                dt.Rows.Add(row1);
+                foreach (var com in obj.Comprobantes)
+                {
+                    DataRow row2 = dt.NewRow();
+                    row2["Fecha"] = com.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
+                    row2["Proveedor"] = com.NombreEntidad;
+                    row2["Documento"] = com.NombreDocumento;
+                    row2["# Documento"] = com.NroDocumento;
+                    row2["Moneda"] = com.Moneda;
+                    row2["Monto"] = com.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                    row2["Area(s)"] = com.Areas;
+
+                    dt.Rows.Add(row2);
+                }
+                PintarGastoPorPartidaPresupuesto(obj.Hijos.ToList(), dt);
             }
         }
         private static void PintarArbolPadre(CategoriaDTO obj, List<CategoriaDTO> lstCatMontos, EmpresaDTO objEmpresa, System.Data.DataTable dt)
