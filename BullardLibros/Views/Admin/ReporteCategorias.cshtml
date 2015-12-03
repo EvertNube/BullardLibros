@@ -40,6 +40,8 @@
             var FechaFin = $("#FechaFin").val().split("/");
             FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
+            var jIdCategoria = $('#IdCategoria').select2("val");
+
             switch (nrep) {
                 case 1:
                     return "/Admin/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
@@ -66,7 +68,7 @@
                     return "/Admin/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 2 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 9:
-                    return "/Admin/GenerarRep_DetalleGastosPorPartidaDePresupuesto/?IdCategoria=" + 6 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return "/Admin/GenerarRep_DetalleGastosPorPartidaDePresupuesto/?IdCategoria=" + jIdCategoria + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                     /*case 3:
                         return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
@@ -109,60 +111,54 @@
                                         </div>
                                     </div>
                                     <div class="line line-dashed line-lg pull-in"></div>
-                                    <div class="form-group col-md-4 text-center">
-                                        <label>Avance de Presupuesto </label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="1">
-                                            Generar Reporte
-                                        </a>
-                                    </div>
-                                    <div class="form-group col-md-4 text-center">
-                                        <label>Facturación por Áreas </label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="2">
-                                            Generar Reporte
-                                        </a>
-                                    </div>
-                                    <div class="form-group col-md-4 text-center">
-                                        <label>Ingresos y Egresos por Áreas </label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="3">
-                                            Generar Reporte
-                                        </a>
-                                    </div>
-                                    <div class="form-group col-md-4 text-center">
-                                        <label>Facturación por clientes</label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="4">
-                                            Generar Reporte
-                                        </a>
-                                    </div>
-                                    <div class="form-group col-md-4 text-center">
-                                        <label>Gastos por proveedores</label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="5">
-                                            Generar Reporte
-                                        </a>
-                                    </div>
-                                    <div class="form-group col-md-4 text-center">
-                                        <label>Facturación por vendedores</label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="6">
-                                            Generar Reporte
-                                        </a>
-                                    </div>
-                                    <div class="form-group col-md-6 text-center">
-                                        <label>Comprobantes de Ingresos Pagados y Cobrar</label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="7">
-                                            Generar Reporte
-                                        </a>
-                                    </div>
-                                    <div class="form-group col-md-6 text-center">
-                                        <label>Comprobantes de Egresos Pagados y Cobrar</label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="8">
-                                            Generar Reporte
-                                        </a>
+                                    <div class="form-group">
+                                        <label class="col-md-2 text-center">Avance de Presupuesto </label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-2 text-center">Facturación por Áreas </label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-2 text-center">Ingresos y Egresos por Áreas </label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="3">Generar Reporte</a>
+                                        </div>
                                     </div>
                                     <div class="line line-dashed line-lg pull-in"></div>
-                                    <div class="form-group col-md-4 text-center">
-                                        <label>Detalle de gastos por Partida de Presupuesto</label>
-                                        <a class="btn btn-sm btn-success reporte" data-idreporte="9">
-                                            Generar Reporte
-                                        </a>
+                                    <div class="form-group">
+                                        <label class="col-md-2 text-center">Facturación por clientes</label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="4">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-2 text-center">Gastos por proveedores</label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="5">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-2 text-center">Facturación por vendedores</label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="6">Generar Reporte</a>
+                                        </div>
+                                    </div>
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-md-offset-2 text-center">Comprobantes de Ingresos Pagados y Cobrar</label>
+                                        <div class="col-md-1 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="7">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-3 text-center">Comprobantes de Egresos Pagados y Cobrar</label>
+                                        <div class="col-md-1 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="8">Generar Reporte</a>
+                                        </div>
+                                    </div>
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-md-offset-2 text-center">Partida de Presupuesto</label>
+                                        @Html.TextBox("IdCategoria", "", new { @class = "col-xs-2 col-sm-2 col-md-2 no-padder rol-accs" })
+                                        <label class="col-md-3 text-center">Detalle de gastos por Partida de Presupuesto</label>
+                                        <div class="col-md-1 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="9">Generar Reporte</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

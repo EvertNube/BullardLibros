@@ -210,7 +210,9 @@
                                                         @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
                                                         <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
                                                         <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
-                                                        @if (obj.NumeroDocumento != null)
+                                                        @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
+                                                        <td class="text-center" width="10%">@rNumDoc</td>
+                                                        @*@if (obj.NumeroDocumento != null)
                                                         {
                                                             <td class="text-center" width="10%">@obj.NumeroDocumento</td>
                                                         }
@@ -222,7 +224,7 @@
                                                             else
                                                             {
                                                             <td class="text-center" width="10%">N/A</td>}
-                                                        }
+                                                        }*@
                                                         @if (obj.IdEstadoMovimiento == 1)
                                                         {
                                                             <td class="text-center" style="color:red">P</td>}

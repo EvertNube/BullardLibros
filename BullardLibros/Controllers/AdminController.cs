@@ -362,7 +362,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 3);
+            MenuNavBarSelected(4, 5);
             EmpresaBL empBL = new EmpresaBL();
 
             UsuarioDTO miUsuario = getCurrentUser();
@@ -386,7 +386,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             
-            MenuNavBarSelected(4, 3);
+            MenuNavBarSelected(4, 5);
             UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
@@ -680,7 +680,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 5);
+            MenuNavBarSelected(4, 3);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
@@ -699,7 +699,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 5);
+            MenuNavBarSelected(4, 3);
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
@@ -967,7 +967,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 6);
+            MenuNavBarSelected(4, 2);
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -983,7 +983,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 6);
+            MenuNavBarSelected(4, 2);
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -1052,7 +1052,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 2);
+            MenuNavBarSelected(4, 4);
             UsuarioDTO currentUser = getCurrentUser();
 
             HonorarioBL objBL = new HonorarioBL();
@@ -1069,7 +1069,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 2);
+            MenuNavBarSelected(4, 4);
             UsuarioDTO currentUser = getCurrentUser();
 
             HonorarioBL objBL = new HonorarioBL();
@@ -1218,7 +1218,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(4, 6);
 
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -1236,7 +1236,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(4, 6);
             UsuarioDTO currentUser = getCurrentUser();
 
             PeriodoBL objBL = new PeriodoBL();
@@ -2163,7 +2163,7 @@ namespace BullardLibros.Controllers
             dt.Columns.Add("Documento");
             dt.Columns.Add("# Documento");
             dt.Columns.Add("Moneda");
-            dt.Columns.Add("Monto");
+            dt.Columns.Add("Monto Total");
             dt.Columns.Add("Area(s)");
 
             DataRow rowP = dt.NewRow();
@@ -2178,7 +2178,7 @@ namespace BullardLibros.Controllers
                 row["Documento"] = obj.NombreDocumento;
                 row["# Documento"] = obj.NroDocumento;
                 row["Moneda"] = obj.Moneda;
-                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 row["Area(s)"] = obj.Areas;
                 
                 dt.Rows.Add(row);
@@ -2278,7 +2278,7 @@ namespace BullardLibros.Controllers
                     row2["Documento"] = com.NombreDocumento;
                     row2["# Documento"] = com.NroDocumento;
                     row2["Moneda"] = com.Moneda;
-                    row2["Monto"] = com.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                    row2["Monto Total"] = com.Monto.ToString("N2", CultureInfo.InvariantCulture);
                     row2["Area(s)"] = com.Areas;
 
                     dt.Rows.Add(row2);
@@ -2481,6 +2481,8 @@ namespace BullardLibros.Controllers
             dt.Columns.Add(rFechaFin);
             dt.Columns.Add("Usuario");
             dt.Columns.Add("Estado");
+            dt.Columns.Add("Status");
+            dt.Columns.Add("Comentario");
 
             foreach (var obj in lstComprobantes)
             {
@@ -2496,6 +2498,8 @@ namespace BullardLibros.Controllers
                 row[rFechaFin] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
                 row["Usuario"] = obj.NombreUsuario;
                 row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
+                row["Status"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
+                row["Comentario"] = obj.Comentario;
                 dt.Rows.Add(row);
             }
 

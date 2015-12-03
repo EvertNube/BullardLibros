@@ -350,7 +350,8 @@ namespace BullardLibros.Core.BL
                     UsuarioCreacion = x.UsuarioCreacion,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre,
-                    NombreProyecto = x.Proyecto.Nombre
+                    NombreProyecto = x.Proyecto.Nombre,
+                    Ejecutado = x.Ejecutado
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
