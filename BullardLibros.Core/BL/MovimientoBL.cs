@@ -152,6 +152,25 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public void ActualizarEstadoMovimiento(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var dataRow = context.Movimiento.Where(x => x.IdMovimiento == id).SingleOrDefault();
+                    dataRow.IdEstadoMovimiento = dataRow.IdEstadoMovimiento == 1 ? 2 : 1;
+                    context.SaveChanges();
+                    ActualizarSaldos(dataRow.IdCuentaBancaria);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                
+            }
+        }
+
         public IList<TipoMovimientoDTO> getTiposMovimientos(bool AsSelectList = false)
         {
             TipoMovimientoBL oBL = new TipoMovimientoBL();

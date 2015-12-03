@@ -572,6 +572,7 @@ namespace BullardLibros.Controllers
             TempData["Movimiento"] = dto;
             return RedirectToAction("Movimiento");
         }
+        
 
         public ActionResult Usuarios()
         {
@@ -1335,6 +1336,17 @@ namespace BullardLibros.Controllers
             ProyectoBL objBL = new ProyectoBL();
             var listaProyectos = objBL.getProyectosPorEntidad(idEntidad, true);
             return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string ActualizarEstadoEnMovimiento(int idMovimiento)
+        {
+            if (!this.currentUser() || isUsuarioExterno()) return "false";
+
+            UsuarioDTO miUsuario = getCurrentUser();
+            MovimientoBL obj = new MovimientoBL();
+            obj.ActualizarEstadoMovimiento(idMovimiento);
+            return "true";
         }
 
         [HttpPost]
@@ -2421,6 +2433,7 @@ namespace BullardLibros.Controllers
             dt.Columns.Add("Estado");
             dt.Columns.Add("Usuario");
             dt.Columns.Add("Activo");
+            dt.Columns.Add("Comentario");
 
             foreach (var obj in CuentaBancaria.listaMovimiento)
             {
@@ -2435,6 +2448,7 @@ namespace BullardLibros.Controllers
                 row["Estado"] = obj.IdEstadoMovimiento == 1 ? "Pendiente" : "Realizado";
                 row["Usuario"] = obj.NombreUsuario;
                 row["Activo"] = obj.Estado ? "Activo" : "Inactivo";
+                row["Comentario"] = obj.Comentario;
                 dt.Rows.Add(row);
             }
 
