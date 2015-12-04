@@ -74,6 +74,15 @@ namespace BullardLibros.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ActualizarPresupuestoPadre", idCategoriaParameter, idPeriodoParameter);
         }
     
+        public virtual ObjectResult<SP_Get_Arbol_Categoria_Result> SP_Get_Arbol_Categoria(Nullable<int> idCategoria)
+        {
+            var idCategoriaParameter = idCategoria.HasValue ?
+                new ObjectParameter("IdCategoria", idCategoria) :
+                new ObjectParameter("IdCategoria", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Arbol_Categoria_Result>("SP_Get_Arbol_Categoria", idCategoriaParameter);
+        }
+    
         public virtual ObjectResult<SP_Get_MontoIncompletoEnComprobante_Result> SP_Get_MontoIncompletoEnComprobante(Nullable<int> idComprobante, Nullable<int> idCuentaBancaria, Nullable<int> idEmpresa)
         {
             var idComprobanteParameter = idComprobante.HasValue ?
@@ -157,6 +166,48 @@ namespace BullardLibros.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_AvanceDePresupuesto_Result>("SP_Rep_AvanceDePresupuesto", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result> SP_Rep_DetalleGastosPorPartidaDePresupuesto(Nullable<int> idCategoria, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idCategoriaParameter = idCategoria.HasValue ?
+                new ObjectParameter("IdCategoria", idCategoria) :
+                new ObjectParameter("IdCategoria", typeof(int));
+    
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result>("SP_Rep_DetalleGastosPorPartidaDePresupuesto", idCategoriaParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result> SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar(Nullable<int> idTipoComprobante, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idTipoComprobanteParameter = idTipoComprobante.HasValue ?
+                new ObjectParameter("IdTipoComprobante", idTipoComprobante) :
+                new ObjectParameter("IdTipoComprobante", typeof(int));
+    
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result>("SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar", idTipoComprobanteParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
         public virtual ObjectResult<SP_Rep_FacturacionPorAreas_Result> SP_Rep_FacturacionPorAreas(Nullable<int> idArea, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
@@ -246,57 +297,6 @@ namespace BullardLibros.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreas_Result>("SP_Rep_IngresosEgresosPorAreas", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result> SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar(Nullable<int> idTipoComprobante, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var idTipoComprobanteParameter = idTipoComprobante.HasValue ?
-                new ObjectParameter("IdTipoComprobante", idTipoComprobante) :
-                new ObjectParameter("IdTipoComprobante", typeof(int));
-    
-            var idEmpresaParameter = idEmpresa.HasValue ?
-                new ObjectParameter("IdEmpresa", idEmpresa) :
-                new ObjectParameter("IdEmpresa", typeof(int));
-    
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result>("SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar", idTipoComprobanteParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result> SP_Rep_DetalleGastosPorPartidaDePresupuesto(Nullable<int> idCategoria, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var idCategoriaParameter = idCategoria.HasValue ?
-                new ObjectParameter("IdCategoria", idCategoria) :
-                new ObjectParameter("IdCategoria", typeof(int));
-    
-            var idEmpresaParameter = idEmpresa.HasValue ?
-                new ObjectParameter("IdEmpresa", idEmpresa) :
-                new ObjectParameter("IdEmpresa", typeof(int));
-    
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result>("SP_Rep_DetalleGastosPorPartidaDePresupuesto", idCategoriaParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_Get_Arbol_Categoria_Result> SP_Get_Arbol_Categoria(Nullable<int> idCategoria)
-        {
-            var idCategoriaParameter = idCategoria.HasValue ?
-                new ObjectParameter("IdCategoria", idCategoria) :
-                new ObjectParameter("IdCategoria", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Arbol_Categoria_Result>("SP_Get_Arbol_Categoria", idCategoriaParameter);
         }
     }
 }

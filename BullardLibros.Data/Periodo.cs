@@ -14,6 +14,7 @@ namespace BullardLibros.Data
     
     public partial class Periodo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Periodo()
         {
             this.CategoriaPorPeriodo = new HashSet<CategoriaPorPeriodo>();
@@ -27,7 +28,9 @@ namespace BullardLibros.Data
         public bool Active { get; set; }
         public int IdEmpresa { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoriaPorPeriodo> CategoriaPorPeriodo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Empresa> Empresa { get; set; }
     }
 }

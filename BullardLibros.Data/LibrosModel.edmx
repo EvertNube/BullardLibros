@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="IdArea" />
@@ -271,6 +271,7 @@
           <Property Name="IdRol" Type="int" Nullable="false" />
           <Property Name="IdCargo" Type="int" />
           <Property Name="IdEmpresa" Type="int" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="FK_Area_Empresa">
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
@@ -1041,7 +1042,8 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibrosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1381,6 +1383,7 @@
           <Property Name="IdRol" Type="Int32" Nullable="false" />
           <Property Name="IdCargo" Type="Int32" />
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Usuario" FromRole="Usuario" ToRole="Comprobante" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Usuario_Empresa" FromRole="Usuario" ToRole="Empresa" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_Usuario" FromRole="Usuario" ToRole="Movimiento" />
@@ -2004,11 +2007,14 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="SP_ActualizarMontos">
-          <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarPresupuestoPadre">
             <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
             <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
+            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_MontoIncompletoEnComprobante" ReturnType="Collection(LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result)">
             <Parameter Name="IdComprobante" Mode="In" Type="Int32" />
@@ -2031,6 +2037,18 @@
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="SP_Rep_AvanceDePresupuesto" ReturnType="Collection(LibrosDBModel.SP_Rep_AvanceDePresupuesto_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto" ReturnType="Collection(LibrosDBModel.SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result)">
+            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" ReturnType="Collection(LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result)">
+            <Parameter Name="IdTipoComprobante" Mode="In" Type="Int32" />
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
@@ -2061,22 +2079,16 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" ReturnType="Collection(LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result)">
-            <Parameter Name="IdTipoComprobante" Mode="In" Type="Int32" />
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto" ReturnType="Collection(LibrosDBModel.SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result)">
-            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
-            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
-          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="SP_Get_Arbol_Categoria_Result">
+          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Orden" Nullable="true" />
+          <Property Type="Boolean" Name="Estado" Nullable="true" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
+          <Property Type="Int32" Name="Nivel" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="SP_Get_MontoIncompletoEnComprobante_Result">
           <Property Type="Int32" Name="IdComprobante" Nullable="false" />
           <Property Type="Int32" Name="IdTipoComprobante" Nullable="false" />
@@ -2142,6 +2154,23 @@
           <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
           <Property Type="Decimal" Name="MontoFinal" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
+        <ComplexType Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result">
+          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
+          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="IdComprobante" Nullable="false" />
+          <Property Type="DateTime" Name="FechaEmision" Nullable="false" Precision="23" />
+          <Property Type="String" Name="NombreEntidad" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreDocumento" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="NroDocumento" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Moneda" Nullable="true" MaxLength="5" />
+          <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
+          <Property Type="String" Name="Areas" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
+          <Property Type="Int32" Name="IdComprobante" Nullable="false" />
+          <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
         <ComplexType Name="SP_Rep_FacturacionPorAreas_Result">
           <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -2187,32 +2216,6 @@
           <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
           <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
-        </ComplexType>
-        <ComplexType Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
-          <Property Type="Int32" Name="IdComprobante" Nullable="false" />
-          <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
-        </ComplexType>
-        <ComplexType Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result">
-          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
-          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="IdComprobante" Nullable="false" />
-          <Property Type="DateTime" Name="FechaEmision" Nullable="false" Precision="23" />
-          <Property Type="String" Name="NombreEntidad" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="NombreDocumento" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="NroDocumento" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Moneda" Nullable="true" MaxLength="5" />
-          <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
-          <Property Type="String" Name="Areas" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="SP_Get_Arbol_Categoria_Result">
-          <Property Type="Int32" Name="IdCategoria" Nullable="true" />
-          <Property Type="Int32" Name="IdCategoriaPadre" Nullable="true" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="Orden" Nullable="true" />
-          <Property Type="Boolean" Name="Estado" Nullable="true" />
-          <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
-          <Property Type="Int32" Name="Nivel" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2506,11 +2509,25 @@
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="IdCargo" ColumnName="IdCargo" />
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos" />
           <FunctionImportMapping FunctionImportName="SP_ActualizarPresupuestoPadre" FunctionName="LibrosDBModel.Store.SP_ActualizarPresupuestoPadre" />
+          <FunctionImportMapping FunctionImportName="SP_Get_Arbol_Categoria" FunctionName="LibrosDBModel.Store.SP_Get_Arbol_Categoria">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Arbol_Categoria_Result">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Get_MontoIncompletoEnComprobante" FunctionName="LibrosDBModel.Store.SP_Get_MontoIncompletoEnComprobante">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result">
@@ -2596,6 +2613,31 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_DetalleGastosPorPartidaDePresupuesto" FunctionName="LibrosDBModel.Store.SP_Rep_DetalleGastosPorPartidaDePresupuesto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="NombreEntidad" ColumnName="NombreEntidad" />
+                <ScalarProperty Name="NombreDocumento" ColumnName="NombreDocumento" />
+                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Areas" ColumnName="Areas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+                <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Rep_FacturacionPorAreas" FunctionName="LibrosDBModel.Store.SP_Rep_FacturacionPorAreas">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_FacturacionPorAreas_Result">
@@ -2659,44 +2701,6 @@
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
                 <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
                 <ScalarProperty Name="Egreso" ColumnName="Egreso" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
-                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
-                <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Rep_DetalleGastosPorPartidaDePresupuesto" FunctionName="LibrosDBModel.Store.SP_Rep_DetalleGastosPorPartidaDePresupuesto">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result">
-                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
-                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
-                <ScalarProperty Name="NombreEntidad" ColumnName="NombreEntidad" />
-                <ScalarProperty Name="NombreDocumento" ColumnName="NombreDocumento" />
-                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
-                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
-                <ScalarProperty Name="Monto" ColumnName="Monto" />
-                <ScalarProperty Name="Areas" ColumnName="Areas" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Get_Arbol_Categoria" FunctionName="LibrosDBModel.Store.SP_Get_Arbol_Categoria">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Arbol_Categoria_Result">
-                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-                <ScalarProperty Name="IdCategoriaPadre" ColumnName="IdCategoriaPadre" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Orden" ColumnName="Orden" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

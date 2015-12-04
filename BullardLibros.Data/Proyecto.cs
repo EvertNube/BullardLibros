@@ -14,6 +14,7 @@ namespace BullardLibros.Data
     
     public partial class Proyecto
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Proyecto()
         {
             this.Comprobante = new HashSet<Comprobante>();
@@ -25,6 +26,7 @@ namespace BullardLibros.Data
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
     }
