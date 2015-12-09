@@ -14,7 +14,6 @@ namespace BullardLibros.Data
     
     public partial class TipoIdentificacion
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TipoIdentificacion()
         {
             this.EntidadResponsable = new HashSet<EntidadResponsable>();
@@ -24,7 +23,6 @@ namespace BullardLibros.Data
         public string Nombre { get; set; }
         public bool Estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
     }
 }

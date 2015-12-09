@@ -14,7 +14,6 @@ namespace BullardLibros.Data
     
     public partial class FormaMovimiento
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FormaMovimiento()
         {
             this.Movimiento = new HashSet<Movimiento>();
@@ -26,7 +25,6 @@ namespace BullardLibros.Data
         public bool Estado { get; set; }
     
         public virtual TipoMovimiento TipoMovimiento { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

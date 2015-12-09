@@ -1840,6 +1840,77 @@ namespace BullardLibros.Controllers
             }
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
+        public ActionResult GenerarRep_EgresosPorAreas(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<AreaDTO> lstAreasMontos = repBL.getEgresosAreasEnEmpresa(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
+
+            if (lstAreasMontos == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Áreas");
+            dt.Columns.Add("Clientes");
+            dt.Columns.Add("Montos");
+            dt.Columns.Add("Porcentaje");
+
+            Decimal SumaTotal = lstAreasMontos.Sum(x => x.SumaClientes);
+
+            foreach (var obj in lstAreasMontos)
+            {
+                PintarAreas(obj, SumaTotal, dt);
+            }
+
+            System.Data.DataRow rowFinal = dt.NewRow();
+            rowFinal[0] = "TOTAL";
+            rowFinal[2] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(rowFinal);
+
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, "Egresos por &aacute;reas - Empresa:" + objEmpresa.Nombre);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
+
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + "EgresosPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
         public ActionResult GenerarRep_FacturacionPorAreas(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)

@@ -362,3 +362,7 @@ C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros\bi
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros\obj\Debug\BullardLibros.csprojResolveAssemblyReference.cache
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros\obj\Debug\BullardLibros.dll
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros\obj\Debug\BullardLibros.pdb
+C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.Data.dll
+C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.WebData.dll
+C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.Data.xml
+C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.WebData.xml

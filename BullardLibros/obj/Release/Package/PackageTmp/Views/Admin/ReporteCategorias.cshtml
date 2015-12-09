@@ -70,6 +70,9 @@
                 case 9:
                     return "/Admin/GenerarRep_DetalleGastosPorPartidaDePresupuesto/?IdCategoria=" + jIdCategoria + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
+                case 10:
+                    return "/Admin/GenerarRep_EgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
                     /*case 3:
                         return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                         break;
@@ -116,13 +119,26 @@
                                         <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
                                         </div>
-                                        <label class="col-md-2 text-center">Facturación por Áreas </label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
+                                        <!--Line break-->
+                                        <label class="col-md-2 text-center">Partida de Presupuesto</label>
+                                        @Html.TextBox("IdCategoria", "", new { @class = "col-md-2" })
+                                        <label class="col-md-3 text-center">Detalle de gastos por Partida de Presupuesto</label>
+                                        <div class="col-md-1 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="9">Generar Reporte</a>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-md-2 text-center">Ingresos y Egresos por Áreas </label>
                                         <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="3">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-2 text-center">Ingresos por Áreas (Clientes)</label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-2 text-center">Egresos por Áreas (Proveedores)</label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="10">Generar Reporte</a>
                                         </div>
                                     </div>
                                     <div class="line line-dashed line-lg pull-in"></div>
@@ -135,30 +151,25 @@
                                         <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="5">Generar Reporte</a>
                                         </div>
-                                        <label class="col-md-2 text-center">Facturación por vendedores</label>
+                                        <label class="col-md-2 text-center">Facturación por consultores</label>
                                         <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="6">Generar Reporte</a>
                                         </div>
                                     </div>
                                     <div class="line line-dashed line-lg pull-in"></div>
                                     <div class="form-group">
-                                        <label class="col-md-3 col-md-offset-2 text-center">Comprobantes de Ingresos Pagados y Cobrar</label>
-                                        <div class="col-md-1 text-center">
+                                        <label class="col-md-4 text-center">Comprobantes de Ingresos Pagados y Cobrar</label>
+                                        <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="7">Generar Reporte</a>
                                         </div>
-                                        <label class="col-md-3 text-center">Comprobantes de Egresos Pagados y Cobrar</label>
-                                        <div class="col-md-1 text-center">
+                                        <label class="col-md-4 text-center">Comprobantes de Egresos Pagados y Cobrar</label>
+                                        <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="8">Generar Reporte</a>
                                         </div>
                                     </div>
                                     <div class="line line-dashed line-lg pull-in"></div>
                                     <div class="form-group">
-                                        <label class="col-md-2 col-md-offset-2 text-center">Partida de Presupuesto</label>
-                                        @Html.TextBox("IdCategoria", "", new { @class = "col-xs-2 col-sm-2 col-md-2 no-padder rol-accs" })
-                                        <label class="col-md-3 text-center">Detalle de gastos por Partida de Presupuesto</label>
-                                        <div class="col-md-1 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="9">Generar Reporte</a>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>

@@ -14,7 +14,6 @@ namespace BullardLibros.Data
     
     public partial class TipoDocumento
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TipoDocumento()
         {
             this.Comprobante = new HashSet<Comprobante>();
@@ -26,9 +25,7 @@ namespace BullardLibros.Data
         public bool Activo { get; set; }
         public bool Estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }
