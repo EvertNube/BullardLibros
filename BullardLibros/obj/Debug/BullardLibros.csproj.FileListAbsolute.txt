@@ -366,3 +366,7 @@ C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.Data.dll
 C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.WebData.dll
 C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.Data.xml
 C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.WebData.xml
+C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.Data.dll
+C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.WebData.dll
+C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.Data.xml
+C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros\bin\WebMatrix.WebData.xml

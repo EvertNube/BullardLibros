@@ -24,6 +24,7 @@ namespace BullardLibros.Helpers
         public static string ERROR_UPDATE_MESSAGE = "<strong>Hubo un error al actualizar.</strong> Por favor, verifique la información a actualizar.";
         public static string ERROR_INSERT_MESSAGE = "<strong>Hubo un error al insertar.</strong> Por favor, verifique que la información ingresada.";
         public static string ERROR_INSERT_ACCOUNT = "<strong>Hubo un error al insertar.</strong> Por favor, verifique que la información ingresada posiblementa ya exista otra cuenta con ese nombre y correo.";
+        public static string ERROR_LOGIN = "<strong>Hubo un error al realizar el Login.</strong> Por favor, verifique que su usuario y contraseña sean los correctos.";
         public static string ERROR_RECOVERY_PASSWORD = "<strong>La cuenta o correo ingresado no existe.</strong> Por favor, verifique la información.";
         public static string ERROR_FILE_DETAIL = "<strong>Error al generar el archivo.</strong> Por favor, verifique el rango de fechas.";
         public static string ERROR_EMPTY = "<strong>Error.</strong> No existe datos para exportar.";

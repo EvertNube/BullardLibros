@@ -175,6 +175,49 @@ namespace BullardLibros.Core.BL
                 return false;
             }
         }
+        
+        public UsuarioDTO getUserByAcountOrEmail(UsuarioDTO user)
+        {
+            using (var context = getContext())
+            {
+                if (user.Cuenta != null && user.Email != null)
+                {
+                    var result = context.Usuario.Where(x => x.Cuenta == user.Cuenta || x.Email == user.Email && x.IdEmpresa == user.IdEmpresa).Select(x => new UsuarioDTO
+                    {
+                        IdUsuario = x.IdUsuario,
+                        Nombre = x.Nombre,
+                        InicialesNombre = x.InicialesNombre,
+                        Email = x.Email,
+                        Cuenta = x.Cuenta,
+                        Token = x.Token
+                    }).FirstOrDefault();
+                    if (result == null)
+                    {
+                        return null;
+                    }
+                    return result;
+                }
+                return null;
+            }
+        }
+
+        public bool updateToken(UsuarioDTO usuario)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Usuario.Where(x => x.IdUsuario == usuario.IdUsuario).SingleOrDefault();
+                    row.Token = usuario.Token;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
 
         public List<RolDTO> getRoles()
         {
