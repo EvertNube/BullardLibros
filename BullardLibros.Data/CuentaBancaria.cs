@@ -14,6 +14,7 @@ namespace BullardLibros.Data
     
     public partial class CuentaBancaria
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CuentaBancaria()
         {
             this.Movimiento = new HashSet<Movimiento>();
@@ -32,6 +33,7 @@ namespace BullardLibros.Data
         public virtual Empresa Empresa { get; set; }
         public virtual Moneda Moneda { get; set; }
         public virtual TipoCuenta TipoCuenta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

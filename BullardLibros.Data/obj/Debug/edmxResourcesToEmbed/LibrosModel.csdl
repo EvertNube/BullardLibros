@@ -1006,12 +1006,6 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
-    <FunctionImport Name="SP_Rep_EgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_EgresosPorAreas_Result)">
-      <Parameter Name="IdArea" Mode="In" Type="Int32" />
-      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-    </FunctionImport>
     <FunctionImport Name="SP_Rep_FacturacionPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorAreas_Result)">
       <Parameter Name="IdArea" Mode="In" Type="Int32" />
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
@@ -1034,6 +1028,12 @@
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
     <FunctionImport Name="SP_Rep_IngresosEgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreas_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Rep_EgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_EgresosPorAreas_Result)">
+      <Parameter Name="IdArea" Mode="In" Type="Int32" />
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
@@ -1130,11 +1130,6 @@
     <Property Type="Int32" Name="IdComprobante" Nullable="false" />
     <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
-  <ComplexType Name="SP_Rep_EgresosPorAreas_Result">
-    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
-    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
-    <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
-  </ComplexType>
   <ComplexType Name="SP_Rep_FacturacionPorAreas_Result">
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -1180,5 +1175,10 @@
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
     <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="SP_Rep_EgresosPorAreas_Result">
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
 </Schema>

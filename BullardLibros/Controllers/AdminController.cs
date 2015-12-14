@@ -2030,7 +2030,7 @@ namespace BullardLibros.Controllers
             dt.Clear();
 
             dt.Columns.Add("Áreas");
-            dt.Columns.Add("Clientes");
+            dt.Columns.Add("Entidades");
             dt.Columns.Add("Montos");
             dt.Columns.Add("Porcentaje");
 
@@ -2152,7 +2152,7 @@ namespace BullardLibros.Controllers
             rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
-            GenerarPdf(dt, "Facturaci&oacute;n por Clientes", "FacturacionPorClientes", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf(dt, "Ingresos por Clientes", "IngresosPorClientes", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
@@ -2238,7 +2238,7 @@ namespace BullardLibros.Controllers
             rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
-            GenerarPdf(dt, "Facturación por Vendedor", "FacturacionPorVendedor", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf(dt, "Ingresos por Consultores", "IngresosPorConsultores", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
@@ -2314,14 +2314,14 @@ namespace BullardLibros.Controllers
                 }
             }
 
-            string titulo = IdTipoComprobante == 1 ? "Documentos de Ingresos Pagados y Por Cobrar" : "Documentos de Egresos Pagados y Por Cobrar";
-            string nombreFile = IdTipoComprobante == 1 ? "ComprobantesIngresosPagadosYPorCobrar" : "ComprobantesEgresosPagadosYPorCobrar";
+            string titulo = IdTipoComprobante == 1 ? "Status de Pago de documentos de Ingresos" : "Status de Pago de documentos de Egresos";
+            string nombreFile = IdTipoComprobante == 1 ? "StatusDePago_DocsDeIngresos" : "StatusDePago_DocsDeEgresos";
 
             GenerarPdf2(dt, titulo, nombreFile, objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
-        public ActionResult GenerarRep_DetalleGastosPorPartidaDePresupuesto(int IdCategoria, DateTime? FechaInicio, DateTime? FechaFin)
+        public ActionResult GenerarRep_DetalleIngresosYGastosPorPartidaDePresupuesto(int IdCategoria, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
@@ -2332,7 +2332,7 @@ namespace BullardLibros.Controllers
 
             ReportesBL repBL = new ReportesBL();
 
-            CategoriaR_DTO catArbol = repBL.getDetalleGastos_PorPartidaDePresupuesto(IdCategoria, objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            CategoriaR_DTO catArbol = repBL.getDetalleIngresosYGastos_PorPartidaDePresupuesto(IdCategoria, objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
             
             if(catArbol == null)
                 return RedirectToAction("ReporteCategorias", new { message = 2 });
@@ -2369,7 +2369,7 @@ namespace BullardLibros.Controllers
             }
             PintarGastoPorPartidaPresupuesto(catArbol.Hijos.ToList(), dt);
 
-            GenerarPdf2(dt, "Detalle de Gastos por Partida de Presupuesto", "DetalleGastos_PartidaDePresupuestos", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf2(dt, "Detalle de Ingresos y Gastos por Partida de Presupuesto", "DetalleIngresosYGastos_PartidaDePresupuestos", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
@@ -2498,7 +2498,7 @@ namespace BullardLibros.Controllers
             foreach (var item in obj.lstClientes)
 	        {
 		        System.Data.DataRow row2 = dt.NewRow();
-                row2["Clientes"] = item.Nombre;
+                row2["Entidades"] = item.Nombre;
                 row2["Montos"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 dt.Rows.Add(row2);
 	        }

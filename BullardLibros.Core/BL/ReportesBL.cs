@@ -389,7 +389,7 @@ namespace BullardLibros.Core.BL
         #endregion
 
         #region Detalle de Gastos por Partida de Presupuesto
-        public CategoriaR_DTO getDetalleGastos_PorPartidaDePresupuesto(int idCategoria, int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        public CategoriaR_DTO getDetalleIngresosYGastos_PorPartidaDePresupuesto(int idCategoria, int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
         {
             using (var context = getContext())
             {
