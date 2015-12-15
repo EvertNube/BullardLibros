@@ -416,7 +416,8 @@ namespace BullardLibros.Core.BL
                         NroDocumento = x.NroDocumento,
                         Moneda = x.Moneda,
                         Monto = x.Monto,
-                        Areas = x.Areas
+                        Areas = x.Areas,
+                        Comentario = x.Comentario
                     }).ToList<ComprobanteR_DTO>();
 
                 CategoriaR_DTO result = lstArbol.Where(x => x.IdCategoria == idCategoria).SingleOrDefault();

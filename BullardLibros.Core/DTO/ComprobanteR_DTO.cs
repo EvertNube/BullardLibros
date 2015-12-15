@@ -20,5 +20,6 @@ namespace BullardLibros.Core.DTO
         public string Moneda { get; set; }
         public Decimal Monto { get; set; }
         public string Areas { get; set; }
+        public string Comentario { get; set; }
     }
 }

@@ -24,5 +24,6 @@ namespace BullardLibros.Data
         public string Moneda { get; set; }
         public decimal Monto { get; set; }
         public string Areas { get; set; }
+        public string Comentario { get; set; }
     }
 }

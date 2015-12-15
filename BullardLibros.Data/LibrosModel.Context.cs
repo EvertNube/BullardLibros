@@ -210,6 +210,27 @@ namespace BullardLibros.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result>("SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar", idTipoComprobanteParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
+        public virtual ObjectResult<SP_Rep_EgresosPorAreas_Result> SP_Rep_EgresosPorAreas(Nullable<int> idArea, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idAreaParameter = idArea.HasValue ?
+                new ObjectParameter("IdArea", idArea) :
+                new ObjectParameter("IdArea", typeof(int));
+    
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_EgresosPorAreas_Result>("SP_Rep_EgresosPorAreas", idAreaParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
         public virtual ObjectResult<SP_Rep_FacturacionPorAreas_Result> SP_Rep_FacturacionPorAreas(Nullable<int> idArea, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var idAreaParameter = idArea.HasValue ?
@@ -297,27 +318,6 @@ namespace BullardLibros.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreas_Result>("SP_Rep_IngresosEgresosPorAreas", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_Rep_EgresosPorAreas_Result> SP_Rep_EgresosPorAreas(Nullable<int> idArea, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
-        {
-            var idAreaParameter = idArea.HasValue ?
-                new ObjectParameter("IdArea", idArea) :
-                new ObjectParameter("IdArea", typeof(int));
-    
-            var idEmpresaParameter = idEmpresa.HasValue ?
-                new ObjectParameter("IdEmpresa", idEmpresa) :
-                new ObjectParameter("IdEmpresa", typeof(int));
-    
-            var fechaInicioParameter = fechaInicio.HasValue ?
-                new ObjectParameter("FechaInicio", fechaInicio) :
-                new ObjectParameter("FechaInicio", typeof(System.DateTime));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_EgresosPorAreas_Result>("SP_Rep_EgresosPorAreas", idAreaParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     }
 }

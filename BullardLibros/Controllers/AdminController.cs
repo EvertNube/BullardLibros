@@ -2349,6 +2349,7 @@ namespace BullardLibros.Controllers
             dt.Columns.Add("Moneda");
             dt.Columns.Add("Monto Total");
             dt.Columns.Add("Area(s)");
+            dt.Columns.Add("Comentario");
 
             DataRow rowP = dt.NewRow();
             rowP["Nivel"] = catArbol.Nivel;
@@ -2364,6 +2365,7 @@ namespace BullardLibros.Controllers
                 row["Moneda"] = obj.Moneda;
                 row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 row["Area(s)"] = obj.Areas;
+                row["Comentario"] = obj.Comentario;
                 
                 dt.Rows.Add(row);
             }
@@ -2464,6 +2466,7 @@ namespace BullardLibros.Controllers
                     row2["Moneda"] = com.Moneda;
                     row2["Monto Total"] = com.Monto.ToString("N2", CultureInfo.InvariantCulture);
                     row2["Area(s)"] = com.Areas;
+                    row2["Comentario"] = com.Comentario;
 
                     dt.Rows.Add(row2);
                 }

@@ -405,6 +405,7 @@
           <ScalarProperty Name="Moneda" ColumnName="Moneda" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="Areas" ColumnName="Areas" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -413,6 +414,15 @@
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
           <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
           <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Rep_EgresosPorAreas" FunctionName="LibrosDBModel.Store.SP_Rep_EgresosPorAreas">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_EgresosPorAreas_Result">
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -479,15 +489,6 @@
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
           <ScalarProperty Name="Egreso" ColumnName="Egreso" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_Rep_EgresosPorAreas" FunctionName="LibrosDBModel.Store.SP_Rep_EgresosPorAreas">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_EgresosPorAreas_Result">
-          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="Monto" ColumnName="Monto" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
