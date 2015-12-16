@@ -23,7 +23,9 @@
         var lstComps = JSON.parse('@Html.Raw(userInfoJson2)');
 
         var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var montoMov = 0;
         var montoCmp = 0;
+        var montoPen = 0;
 
         $(function () {
             $('.miselect2').select2();
@@ -41,6 +43,8 @@
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
             });
+
+            montoMov = parseFloat($('#Monto').val());
             //$('#IdEntidadResponsable').on('change', ListarComprobantesEntidadXTipoDoc(1))
             //$('#IdTipoDocumento').on('change', ListarComprobantesEntidadXTipoDoc(1))
             //$('#IdComprobante').on('change', BuscarCategoria)
@@ -79,6 +83,17 @@
             $('#MontoSinIGV').val(montoSinIGV);
         }
 
+        function ActualizarMontoPendiente() {
+            if($('#IdComprobante').val() != 0 && $('#IdComprobante').val() != null)
+            {
+                var jmonto = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;
+                $('#cmpMonto').val((montoPen - jmonto).toFixed(2));
+
+                if($('#cmpMonto').val() == 0){$('#cmpCancelado').prop("checked", true);}
+                else {$('#cmpCancelado').prop("checked", false);}
+            }
+        }
+
         function ListarComprobantesEntidadXTipoDoc(cambio) {
             if ($('#IdEntidadResponsable').val() != 0 && $('#IdTipoDocumento').val() != 0) {
                 var identidad = parseInt($('#IdEntidadResponsable').val());
@@ -89,14 +104,10 @@
                     $('#IdCategoria').select2("val", "");
                 } else {
                     if ($('#IdComprobante').val() != null && $('#IdComprobante').val() != 0) {
-                        BuscarCategoria($('#IdComprobante').val());
+                        BuscarCategoria($('#IdComprobante').val(), false);
                     }
                 }
-
                 GetComprobantesAjax(identidad, idtdoc);
-                /*$('#IdComprobante').select2({
-                    data: lstComps
-                })*/
             }
         }
 
@@ -117,8 +128,12 @@
             });
         }
 
-        function BuscarCategoria(sel) {
-            //var miIdComprobante = sel.value;
+        function BuscarCategoria(sel, reset) {
+            if (reset == true)
+            {
+                $('#Monto').val(0);
+            }
+
             var jIdCuentaBancaria = $('#IdCuentaBancaria').val();
             var miIdComprobante = sel;
 
@@ -135,14 +150,24 @@
                     } else {
                         $('#IdCategoria').select2("val", "");
                     }
-                    $('#cmpMonto').val(data.comprobante.MontoIncompleto);
-                    //$('#cmpCancelado').prop("checked", true);
+                    montoCmp = data.comprobante.Monto;
+                    montoMov = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;;
+                    montoPen = data.comprobante.MontoIncompleto + montoMov;
+                    
+                    $('#cmpMonto').val((data.comprobante.MontoIncompleto).toFixed(2));
                     $('#cmpCancelado').prop("checked", data.comprobante.Ejecutado);
                 }
             });
         }
 
         function ActualizarEjecucionDeComprobante() {
+            var jMontoFaltante = $('#cmpMonto').val();
+            if (jMontoFaltante < 0)
+            {
+                alert("No se puede pagar un monto mayor al monto pendiente");
+                return false;
+            }
+
             var jCheck = $('#cmpCancelado').prop("checked");
             var jIdComprobante = $('#IdComprobante').val();
 
@@ -155,6 +180,7 @@
                     dataType: 'text'
                 });
             }
+            //return true;
         }
 
 
@@ -204,7 +230,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Monto</label>
-                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
+                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoPendiente()" })
                                             @Html.ValidationMessageFor(u => u.Monto)
                                         </div>
                                         <div class="form-group col-md-4">
@@ -246,7 +272,7 @@
                                         {
                                             <div class="form-group col-md-3">
                                                 <label>Número de Documento</label>
-                                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this.value)" })
+                                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this.value, true)" })
                                                 @Html.ValidationMessageFor(u => u.IdComprobante)
                                             </div>
                                             <div class="form-group col-md-3">

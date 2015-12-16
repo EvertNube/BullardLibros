@@ -405,6 +405,7 @@
           <ScalarProperty Name="Moneda" ColumnName="Moneda" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="Areas" ColumnName="Areas" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

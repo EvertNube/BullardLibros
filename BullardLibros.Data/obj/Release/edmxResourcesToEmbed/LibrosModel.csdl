@@ -1125,6 +1125,7 @@
     <Property Type="String" Name="Moneda" Nullable="true" MaxLength="5" />
     <Property Type="Decimal" Name="Monto" Nullable="false" Precision="18" Scale="4" />
     <Property Type="String" Name="Areas" Nullable="true" />
+    <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
   </ComplexType>
   <ComplexType Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
     <Property Type="Int32" Name="IdComprobante" Nullable="false" />
