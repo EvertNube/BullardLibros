@@ -2501,7 +2501,7 @@ namespace BullardLibros.Controllers
             foreach (var item in obj.lstClientes)
 	        {
 		        System.Data.DataRow row2 = dt.NewRow();
-                row2["Entidades"] = item.Nombre;
+                row2[1] = item.Nombre;
                 row2["Montos"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 dt.Rows.Add(row2);
 	        }

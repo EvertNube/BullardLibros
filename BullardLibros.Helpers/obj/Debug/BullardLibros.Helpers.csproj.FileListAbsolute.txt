@@ -163,3 +163,4 @@ C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.He
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.pdb
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.csprojResolveAssemblyReference.cache
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.csprojResolveAssemblyReference.cache
+C:\Archivos\NubeLabs\Books\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.csprojResolveAssemblyReference.cache
