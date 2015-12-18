@@ -114,84 +114,17 @@ namespace BullardLibros.Controllers
             }
             else
             {
-                var token = WebMatrix.WebData.WebSecurity.GeneratePasswordResetToken(usuario.Cuenta);
-                //Guardar Token en la BD
-                usuario.Token = token;
-                if(objBL.updateToken(usuario))
+                if (objBL.recoverPasswordNew(usuario))
                 {
-                    var resetLink = "<a href='" + Url.Action("ResetPassword", "Admin", new { un = usuario.Cuenta, emp = usuario.IdEmpresa, rt = token }, "http") + "'>Reset Password</a>";
-                    //send Mail
-                    string subject = "Password Reset Token";
-                    string body = "<b>Please find the Password Reset Token</b><br/>" + resetLink; //edit it
-
-                    try
-                    {
-                        MailHandler.Send2(usuario.Email, subject, body);
-                        createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_RECOVERY_PASSWORD);
-                    }
-                    catch (Exception ex)
-                    {
-                        createResponseMessage(CONSTANTES.ERROR, "<strong>Hubo un error mientras se enviaba el correo.</strong>" + ex.Message);
-                    }
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_RECOVERY_PASSWORD);   
                 }
                 else
                 {
-                    createResponseMessage(CONSTANTES.ERROR, "<strong>No se pudo actualizar el Token.</strong>");
+                    createResponseMessage(CONSTANTES.ERROR, "<strong>Hubo un error al recuperar la contraseña.</strong>");
                 }
             }
             
-            return View();
-        }
-        // un = username, rt = token
-        [AllowAnonymous]
-        public ActionResult ResetPassword(string un, int emp, string rt)
-        {
-            UsuariosBL objBL = new UsuariosBL();
-            UsuarioDTO usuario = new UsuarioDTO() { Cuenta = un, IdEmpresa = emp };
-            usuario = objBL.getUserByAcountOrEmail(usuario);
-
-            if(usuario.Token != null)
-            {
-                string newpassword = GenerateRandomPassword(7);
-
-                bool response = WebSecurity.ResetPassword(rt, newpassword);
-                if(response == true)
-                {
-                    string subject = "New Password";
-                    string body = "<b>Please find the New Password</b><br/>" + newpassword; //edit it
-                    try
-                    {
-                        MailHandler.Send2(usuario.Cuenta, subject, body);
-                        createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_RECOVERY_PASSWORD);
-                    }
-                    catch (Exception ex)
-                    {
-                        createResponseMessage(CONSTANTES.ERROR, "<strong>Hubo un error mientras se enviaba el correo.</strong>" + ex.Message);
-                    }
-                    createResponseMessage(CONSTANTES.SUCCESS, "Hemos enviado su nueva contraseña. Revise su correo.");
-                }
-                else
-                {
-                    createResponseMessage(CONSTANTES.ERROR, "<strong>Evite una consulta aleatoria a esta página</strong>");
-                }
-            }
-            else
-            {
-                createResponseMessage(CONSTANTES.ERROR, "<strong>El usuario y el token no coinciden.</strong>");
-            }
-            return View();
-        }
-
-        private string GenerateRandomPassword(int length)
-        {
-            string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-*&#+";
-            char[] chars = new char[length];
-            Random rd = new Random();
-            for (int i = 0; i < length; i++)
-            {
-                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
-            }
-            return new string(chars);
+            return RedirectToAction("Ingresar", "Admin");
         }
 
         [HttpPost]

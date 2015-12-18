@@ -180,16 +180,18 @@ namespace BullardLibros.Core.BL
         {
             using (var context = getContext())
             {
-                if (user.Cuenta != null && user.Email != null)
+                if (user.Cuenta != null || user.Email != null)
                 {
-                    var result = context.Usuario.Where(x => x.Cuenta == user.Cuenta || x.Email == user.Email && x.IdEmpresa == user.IdEmpresa).Select(x => new UsuarioDTO
+                    var result = context.Usuario.Where(x => (x.Cuenta == user.Cuenta || x.Email == user.Cuenta) && x.IdEmpresa == user.IdEmpresa).Select(x => new UsuarioDTO
                     {
                         IdUsuario = x.IdUsuario,
                         Nombre = x.Nombre,
                         InicialesNombre = x.InicialesNombre,
                         Email = x.Email,
                         Cuenta = x.Cuenta,
-                        Token = x.Token
+                        Token = x.Token,
+                        IdRol = x.IdRol,
+                        IdEmpresa = x.IdEmpresa
                     }).FirstOrDefault();
                     if (result == null)
                     {
@@ -434,12 +436,24 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public bool recoverPassword(string CuentaEmail)
+        public bool recoverPasswordNew(UsuarioDTO user)
+        {
+            if (user != null)
+            {
+                string newPassword = Functions.GenerateRandomPassword(10);
+                updatePassword(user, newPassword);
+                SendMailPassRecovery(user, newPassword);
+                return true;
+            }
+            else
+                return false;
+        }
+        public bool recoverPassword(string CuentaOEmail)
         {
             using (var context = getContext())
             {
                 var result = (from r in context.Usuario
-                              where r.Cuenta.Equals(CuentaEmail) || r.Email.Equals(CuentaEmail) && r.Estado == true
+                              where r.Cuenta.Equals(CuentaOEmail) || r.Email.Equals(CuentaOEmail) && r.Estado == true
                               select new UsuarioDTO
                               {
                                   IdUsuario = r.IdUsuario,
