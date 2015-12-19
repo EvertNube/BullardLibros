@@ -96,6 +96,10 @@ namespace BullardLibros.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+            EmpresaBL objBL = new EmpresaBL();
+
+            ViewBag.lstEmpresas = objBL.getEmpresasViewBag();
+
             return View();
         }
         [HttpPost]

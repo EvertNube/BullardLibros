@@ -165,7 +165,7 @@ namespace BullardLibros.Core.BL
                 if (user.Cuenta != null && user.Email != null)
                 {
                     var result = from r in context.Usuario
-                                 where r.Cuenta == user.Cuenta || r.Email == user.Email
+                                 where r.Cuenta == user.Cuenta || r.Email == user.Email && r.IdEmpresa == user.IdEmpresa
                                  select r;
                     if (result.FirstOrDefault<Usuario>() == null)
                     {

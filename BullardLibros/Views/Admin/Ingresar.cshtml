@@ -44,8 +44,8 @@
                         <label class="control-label">Contraseña</label>
                         @Html.TextBoxFor(u => u.Pass, new { @class = "form-control input-lg", @placeholder = "Ingrese la contraseña", @type = "password" })
                     </div>
-                    <a href="@Url.Action("ForgotPassword", "Admin")" class="pull-right m-t-xs"><small>Forgot password?</small></a>
                     <button type="submit" class="btn btn-success">Ingresar</button>
+                    <a href="@Url.Action("ForgotPassword", "Admin")" class="pull-right m-t-xs"><small>Olvidaste la contraseña?</small></a>
                 }
             </section>
         </div>
