@@ -75,7 +75,7 @@ namespace BullardLibros.Controllers
                 this.navbar = new Navbar();
                 ViewBag.currentUser = user;
                 ViewBag.NombreEmpresa = user.nombreEmpresa;
-                ViewBag.Title = "NubeLabs SCI";
+                ViewBag.Title = "NubeBooks";
 
                 ViewBag.EsAdmin = isAdministrator();
                 ViewBag.EsSuperAdmin = isSuperAdministrator();
@@ -248,7 +248,7 @@ namespace BullardLibros.Controllers
         public ActionResult Libros(int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-
+            ViewBag.Title += " - Libros";
             MenuNavBarSelected(1);
 
             UsuarioDTO miUsuario = getCurrentUser();
@@ -284,9 +284,9 @@ namespace BullardLibros.Controllers
         public ActionResult Libro(int? id = null, int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            
+            ViewBag.Title += " - Libro";
             MenuNavBarSelected(1);
+
             UsuarioDTO miUsuario = getCurrentUser();
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
@@ -400,6 +400,8 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
+            ViewBag.Title += " - Categorias";
+
             MenuNavBarSelected(4, 5);
             EmpresaBL empBL = new EmpresaBL();
 
@@ -423,6 +425,8 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+
+            ViewBag.Title += " - Categoría";
             
             MenuNavBarSelected(4, 5);
             UsuarioDTO miUsuario = getCurrentUser();
@@ -515,6 +519,9 @@ namespace BullardLibros.Controllers
         public ActionResult Movimientos()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+
+            ViewBag.Title += " - Movimientos";
+
             MovimientoBL objBL = new MovimientoBL();
             return View(objBL.getMovimientos());
         }
@@ -522,7 +529,7 @@ namespace BullardLibros.Controllers
         public ActionResult Movimiento(int? id = null, int? idLibro = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Movimiento";
             MenuNavBarSelected(1);
             UsuarioDTO miUsuario = getCurrentUser();
 
@@ -616,8 +623,9 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-
+            ViewBag.Title += " - Usuarios";
             MenuNavBarSelected(4, 7);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             UsuariosBL usuariosBL = new UsuariosBL();
@@ -633,7 +641,7 @@ namespace BullardLibros.Controllers
         public ActionResult Usuario(int? id = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-
+            ViewBag.Title += " - Usuario";
             MenuNavBarSelected(4, 7);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -719,6 +727,7 @@ namespace BullardLibros.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
+            ViewBag.Title += " - Entidades";
             MenuNavBarSelected(4, 3);
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -737,8 +746,9 @@ namespace BullardLibros.Controllers
         public ActionResult Entidad(int? id = null, int? idTipoEntidad = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Entidad";
             MenuNavBarSelected(4, 3);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
@@ -809,8 +819,9 @@ namespace BullardLibros.Controllers
         public ActionResult Comprobantes(int? idTipoComprobante = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            //if (!isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Comprobantes";
             MenuNavBarSelected(2);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             ComprobanteBL objBL = new ComprobanteBL();
@@ -827,7 +838,7 @@ namespace BullardLibros.Controllers
         public ActionResult Comprobante(int? id = null, int? idTipoComprobante = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Comprobante";
             MenuNavBarSelected(2);
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -920,7 +931,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-
+            ViewBag.Title += " - Areas";
             MenuNavBarSelected(4, 1);
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -937,7 +948,9 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Area";
             MenuNavBarSelected(4, 1);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             AreaBL objBL = new AreaBL();
@@ -1005,8 +1018,9 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-
+            ViewBag.Title += " - Responsables";
             MenuNavBarSelected(4, 2);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -1022,7 +1036,9 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Responsable";
             MenuNavBarSelected(4, 2);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
@@ -1090,8 +1106,9 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-
+            ViewBag.Title += " - Honorarios";
             MenuNavBarSelected(4, 4);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             HonorarioBL objBL = new HonorarioBL();
@@ -1108,7 +1125,9 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Honorario";
             MenuNavBarSelected(4, 4);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             HonorarioBL objBL = new HonorarioBL();
@@ -1183,6 +1202,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Proyecto";
             MenuNavBarSelected(4, 4);
             UsuarioDTO miUsuario = getCurrentUser();
 
@@ -1256,7 +1276,7 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-
+            ViewBag.Title += " - Periodos";
             MenuNavBarSelected(4, 6);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -1275,7 +1295,9 @@ namespace BullardLibros.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Periodo";
             MenuNavBarSelected(4, 6);
+
             UsuarioDTO currentUser = getCurrentUser();
 
             PeriodoBL objBL = new PeriodoBL();
@@ -1994,7 +2016,7 @@ namespace BullardLibros.Controllers
                 PintarCabeceraTabla(gv);
                 //PintarIntercaladoCategorias(gv);
 
-                AddSuperHeader(gv, "Facturaci&oacute;n por &aacute;reas - Empresa:" + objEmpresa.Nombre);
+                AddSuperHeader(gv, "Ingresos por &aacute;reas - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
@@ -2004,7 +2026,7 @@ namespace BullardLibros.Controllers
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + "FacturacionPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.AddHeader("content-disposition", "attachment; filename=" + "IngresosPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 
@@ -2154,7 +2176,7 @@ namespace BullardLibros.Controllers
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
 
-            dt.Columns.Add("Vendedores");
+            dt.Columns.Add("Consultores");
             dt.Columns.Add("Monto");
             dt.Columns.Add("Porcentaje");
 
@@ -2163,7 +2185,7 @@ namespace BullardLibros.Controllers
             foreach (var obj in lstVendedores)
             {
                 System.Data.DataRow row = dt.NewRow();
-                row["Vendedores"] = obj.Nombre;
+                row["Consultores"] = obj.Nombre;
                 row["Monto"] = obj.Monto;
                 Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
                 row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
@@ -2171,7 +2193,7 @@ namespace BullardLibros.Controllers
             }
 
             System.Data.DataRow rowFinal = dt.NewRow();
-            rowFinal["Vendedores"] = "TOTAL";
+            rowFinal["Consultores"] = "TOTAL";
             rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
@@ -2199,7 +2221,7 @@ namespace BullardLibros.Controllers
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
             
-            string Entidad = IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+            string Entidad = IdTipoComprobante == 1 ? "Cliente" : "Entidad";
             string FechaEjecucion = IdTipoComprobante == 1 ? "Fecha Cobro" : "Fecha Pago";
 
             dt.Columns.Add("Numero");
@@ -2216,6 +2238,7 @@ namespace BullardLibros.Controllers
             dt.Columns.Add("Monto Pendiente");
             dt.Columns.Add(FechaEjecucion);
             dt.Columns.Add("Dias Vencidos");
+            dt.Columns.Add("Comentarios");
 
             List<bool> Ejecutados = new List<bool>() { true, false };
             DateTime FechaActual = DateTime.Now;
@@ -2242,6 +2265,7 @@ namespace BullardLibros.Controllers
                     row["Monto Pendiente"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
                     row[FechaEjecucion] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
                     row["Dias Vencidos"] = obj.FechaConclusion != null ? (FechaActual - obj.FechaConclusion.GetValueOrDefault()).Days.ToString() : "N/A";
+                    row["Comentarios"] = obj.Comentario;
                     dt.Rows.Add(row);
                 }
                 if (elem != Ejecutados.Last())
@@ -2280,7 +2304,7 @@ namespace BullardLibros.Controllers
             dt.Columns.Add("Nivel");
             dt.Columns.Add("Partida");
             dt.Columns.Add("Fecha");
-            dt.Columns.Add("Proveedor");
+            dt.Columns.Add("Entidad");
             dt.Columns.Add("Documento");
             dt.Columns.Add("# Documento");
             dt.Columns.Add("Moneda");
@@ -2296,7 +2320,7 @@ namespace BullardLibros.Controllers
             {
                 System.Data.DataRow row = dt.NewRow();
                 row["Fecha"] = obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
-                row["Proveedor"] = obj.NombreEntidad;
+                row["Entidad"] = obj.NombreEntidad;
                 row["Documento"] = obj.NombreDocumento;
                 row["# Documento"] = obj.NroDocumento;
                 row["Moneda"] = obj.Moneda;
@@ -2397,7 +2421,7 @@ namespace BullardLibros.Controllers
                 {
                     DataRow row2 = dt.NewRow();
                     row2["Fecha"] = com.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
-                    row2["Proveedor"] = com.NombreEntidad;
+                    row2["Entidad"] = com.NombreEntidad;
                     row2["Documento"] = com.NombreDocumento;
                     row2["# Documento"] = com.NroDocumento;
                     row2["Moneda"] = com.Moneda;

@@ -19,8 +19,9 @@ namespace BullardLibros.Core.BL
         {
             using (var context = getContext())
             {
+                //where getRoleKeys(IdRol).Contains(r.IdRol) && r.IdUsuario != 1 && r.IdEmpresa == idEmpresa
                 var result = from r in context.Usuario.AsEnumerable()
-                             where getRoleKeys(IdRol).Contains(r.IdRol) && r.IdUsuario != 1 && r.IdEmpresa == idEmpresa
+                             where getRoleKeys(IdRol).Contains(r.IdRol) && r.IdEmpresa == idEmpresa
                              select new UsuarioDTO
                              {
                                  IdUsuario = r.IdUsuario,
@@ -33,7 +34,6 @@ namespace BullardLibros.Core.BL
                                  IdCargo = r.IdCargo,
                                  IdEmpresa = r.IdEmpresa,
                                  nombreEmpresa = r.Empresa.Nombre ?? "N/A"
-                                 //empresa = context.Empresa.Where(x => x.IdEmpresa == r.IdEmpresa).Select(y => new EmpresaDTO { IdEmpresa = y.IdEmpresa, Nombre = y.Nombre ?? "N/A", Estado = y.Estado, Descripcion = y.Descripcion, TipoCambio = y.TipoCambio }).FirstOrDefault()
                              };
                 return result.ToList<UsuarioDTO>();
             }
