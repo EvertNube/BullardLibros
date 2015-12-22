@@ -22,8 +22,8 @@
         var lstComps = JSON.parse('@Html.Raw(userInfoJson2)');
 
         var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var montoActual = 0, jIdComprobante = 0;
         var montoMov = 0;
-        var montoCmp = 0;
         var montoPen = 0;
 
         $(function () {
@@ -43,7 +43,8 @@
                 if (jUserExt == 'True') $(this).prop('disabled', true);
             });
 
-            montoMov = parseFloat($('#Monto').val());
+            jIdComprobante = $('#IdComprobante').val();
+            montoMov = montoActual = parseFloat($('#Monto').val());
             //$('#IdEntidadResponsable').on('change', ListarComprobantesEntidadXTipoDoc(1))
             //$('#IdTipoDocumento').on('change', ListarComprobantesEntidadXTipoDoc(1))
             //$('#IdComprobante').on('change', BuscarCategoria)
@@ -149,8 +150,11 @@
                     } else {
                         $('#IdCategoria').select2("val", "");
                     }
-                    montoCmp = data.comprobante.Monto;
-                    montoMov = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;;
+                    if (jIdComprobante == data.comprobante.IdComprobante) {
+                        $('#Monto').val(montoActual);
+                    } else {
+                        montoMov = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;;
+                    }
                     montoPen = data.comprobante.MontoIncompleto + montoMov;
                     
                     $('#cmpMonto').val((data.comprobante.MontoIncompleto).toFixed(2));

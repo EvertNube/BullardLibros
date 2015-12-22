@@ -309,7 +309,7 @@ namespace BullardLibros.Core.BL
             using (var context = getContext())
             {
                 var result = from r in context.Usuario
-                             where r.Estado == true & r.Cuenta == user.Cuenta
+                             where r.Estado == true && r.Cuenta == user.Cuenta
                              select new UsuarioDTO
                              {
                                  IdUsuario = r.IdUsuario,
@@ -337,7 +337,7 @@ namespace BullardLibros.Core.BL
             using (var context = getContext())
             {
                 var result = from r in context.Usuario
-                             where r.Estado == true & r.Cuenta == user.Cuenta
+                             where r.Estado == true && r.Cuenta == user.Cuenta
                              select r;
                 Usuario usuario = result.SingleOrDefault<Usuario>();
                 if (usuario != null)

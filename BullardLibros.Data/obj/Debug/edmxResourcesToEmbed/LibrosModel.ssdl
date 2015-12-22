@@ -85,6 +85,7 @@
     </Key>
     <Property Name="IdEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Codigo" Type="nvarchar" MaxLength="12" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
     <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />

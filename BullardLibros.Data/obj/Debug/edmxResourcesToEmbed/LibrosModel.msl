@@ -89,6 +89,7 @@
         <MappingFragment StoreEntitySet="Empresa">
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
