@@ -141,6 +141,11 @@
     <Property Name="Tipo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
     <Property Name="NroIdentificacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="NombreComercial" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Banco" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CuentaSoles" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CuentaDolares" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
     <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
@@ -1152,6 +1157,11 @@
     <Property Type="String" Name="Tipo" Nullable="true" MaxLength="250" />
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="String" Name="NroIdentificacion" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="NombreComercial" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Direccion" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Banco" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
   <ComplexType Name="SP_Rep_FacturacionPorVendedor_Result">
@@ -1172,6 +1182,11 @@
     <Property Type="String" Name="Tipo" Nullable="true" MaxLength="250" />
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="String" Name="NroIdentificacion" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="NombreComercial" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Direccion" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Banco" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
   <ComplexType Name="SP_Rep_IngresosEgresosPorAreas_Result">

@@ -18,6 +18,11 @@ namespace BullardLibros.Core.DTO
         public string Tipo { get; set; }
         public int IdEmpresa { get; set; }
         public string NroIdentificacion { get; set; }
+        public string NombreComercial { get; set; }
+        public string Direccion { get; set; }
+        public string Banco { get; set; }
+        public string CuentaSoles { get; set; }
+        public string CuentaDolares { get; set; }
 
         public string NombreTipoEntidad { get; set; }
         public string NombreIdentificacion { get; set; }

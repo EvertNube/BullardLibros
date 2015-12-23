@@ -111,6 +111,11 @@
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="NroIdentificacion" ColumnName="NroIdentificacion" />
+          <ScalarProperty Name="NombreComercial" ColumnName="NombreComercial" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
+          <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
+          <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -448,6 +453,11 @@
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="NroIdentificacion" ColumnName="NroIdentificacion" />
+          <ScalarProperty Name="NombreComercial" ColumnName="NombreComercial" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
+          <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
+          <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
         </ComplexTypeMapping>
       </ResultMapping>
@@ -476,6 +486,11 @@
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="NroIdentificacion" ColumnName="NroIdentificacion" />
+          <ScalarProperty Name="NombreComercial" ColumnName="NombreComercial" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
+          <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
+          <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
         </ComplexTypeMapping>
       </ResultMapping>

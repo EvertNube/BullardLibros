@@ -2443,7 +2443,7 @@ namespace BullardLibros.Controllers
             row["Total (" + objEmpresa.SimboloMoneda + ")"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
             row["PRESUPUESTO ANUAL (" + objEmpresa.SimboloMoneda + ")"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
             Decimal porcentaje = obj.Presupuesto.GetValueOrDefault() != 0 ? pMonto / obj.Presupuesto.GetValueOrDefault() : 0;
-            row["PRESUPUESTO EJECUTADO A LA FECHA %"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+            row["PRESUPUESTO EJECUTADO A LA FECHA %"] = Math.Abs(porcentaje).ToString("P2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row);
             foreach (var hijo in obj.Hijos)
             {

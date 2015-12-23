@@ -28,7 +28,12 @@ namespace BullardLibros.Core.BL
                     Tipo = x.Tipo,
                     IdEmpresa = x.IdEmpresa,
                     NroIdentificacion = x.NroIdentificacion,
-                    NombreIdentificacion = x.NroIdentificacion != null ? x.TipoIdentificacion.Nombre + " - " + x.NroIdentificacion : "N/A"
+                    NombreIdentificacion = x.NroIdentificacion != null ? x.TipoIdentificacion.Nombre + " - " + x.NroIdentificacion : "N/A",
+                    NombreComercial = x.NombreComercial,
+                    Direccion = x.Direccion,
+                    Banco = x.Banco,
+                    CuentaSoles = x.CuentaSoles,
+                    CuentaDolares = x.CuentaDolares
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -47,7 +52,12 @@ namespace BullardLibros.Core.BL
                     Detraccion = x.Detraccion,
                     Tipo = x.Tipo,
                     IdEmpresa = x.IdEmpresa,
-                    NroIdentificacion = x.NroIdentificacion
+                    NombreIdentificacion = x.NroIdentificacion,
+                    NombreComercial = x.NombreComercial,
+                    Direccion = x.Direccion,
+                    Banco = x.Banco,
+                    CuentaSoles = x.CuentaSoles,
+                    CuentaDolares = x.CuentaDolares
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -69,7 +79,12 @@ namespace BullardLibros.Core.BL
                     Detraccion = x.Detraccion,
                     Tipo = x.Tipo,
                     IdEmpresa = x.IdEmpresa,
-                    NroIdentificacion = x.NroIdentificacion
+                    NroIdentificacion = x.NroIdentificacion,
+                    NombreComercial = x.NombreComercial,
+                    Direccion = x.Direccion,
+                    Banco = x.Banco,
+                    CuentaSoles = x.CuentaSoles,
+                    CuentaDolares = x.CuentaDolares
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -89,7 +104,12 @@ namespace BullardLibros.Core.BL
                     Detraccion = x.Detraccion,
                     Tipo = x.Tipo,
                     IdEmpresa = x.IdEmpresa,
-                    NroIdentificacion = x.NroIdentificacion
+                    NroIdentificacion = x.NroIdentificacion,
+                    NombreComercial = x.NombreComercial,
+                    Direccion = x.Direccion,
+                    Banco = x.Banco,
+                    CuentaSoles = x.CuentaSoles,
+                    CuentaDolares = x.CuentaDolares
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -111,6 +131,11 @@ namespace BullardLibros.Core.BL
                         Tipo = r.Tipo,
                         IdEmpresa = r.IdEmpresa,
                         NroIdentificacion = r.NroIdentificacion,
+                        NombreComercial = r.NombreComercial,
+                        Direccion = r.Direccion,
+                        Banco = r.Banco,
+                        CuentaSoles = r.CuentaSoles,
+                        CuentaDolares = r.CuentaDolares,
                         lstProyectos = r.Proyecto.Select(x => new ProyectoDTO {
                             IdProyecto = x.IdProyecto,
                             IdEntidadResponsable = x.IdEntidadResponsable,
@@ -138,7 +163,12 @@ namespace BullardLibros.Core.BL
                         Detraccion = r.Detraccion,
                         Tipo = r.Tipo,
                         IdEmpresa = r.IdEmpresa,
-                        NroIdentificacion = r.NroIdentificacion
+                        NroIdentificacion = r.NroIdentificacion,
+                        NombreComercial = r.NombreComercial,
+                        Direccion = r.Direccion,
+                        Banco = r.Banco,
+                        CuentaSoles = r.CuentaSoles,
+                        CuentaDolares = r.CuentaDolares,
                     }).SingleOrDefault();
                 return result;
             }
@@ -158,6 +188,11 @@ namespace BullardLibros.Core.BL
                     nuevo.Tipo = EntidadResponsable.Tipo;
                     nuevo.IdEmpresa = EntidadResponsable.IdEmpresa;
                     nuevo.NroIdentificacion = EntidadResponsable.NroIdentificacion;
+                    nuevo.NombreComercial = EntidadResponsable.NombreComercial;
+                    nuevo.Direccion = EntidadResponsable.Direccion;
+                    nuevo.Banco = EntidadResponsable.Banco;
+                    nuevo.CuentaSoles = EntidadResponsable.CuentaSoles;
+                    nuevo.CuentaDolares = EntidadResponsable.CuentaDolares;
                     context.EntidadResponsable.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -183,6 +218,11 @@ namespace BullardLibros.Core.BL
                     datoRow.Tipo = EntidadResponsable.Tipo;
                     datoRow.IdEmpresa = EntidadResponsable.IdEmpresa;
                     datoRow.NroIdentificacion = EntidadResponsable.NroIdentificacion;
+                    datoRow.NombreComercial = EntidadResponsable.NombreComercial;
+                    datoRow.Direccion = EntidadResponsable.Direccion;
+                    datoRow.Banco = EntidadResponsable.Banco;
+                    datoRow.CuentaSoles = EntidadResponsable.CuentaSoles;
+                    datoRow.CuentaDolares = EntidadResponsable.CuentaDolares;
                     context.SaveChanges();
                     return true;
                 }
