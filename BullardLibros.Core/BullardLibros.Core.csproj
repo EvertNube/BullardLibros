@@ -60,6 +60,7 @@
     <Compile Include="BL\Base.cs" />
     <Compile Include="BL\CategoriaBL.cs" />
     <Compile Include="BL\ComprobanteBL.cs" />
+    <Compile Include="BL\ContactoBL.cs" />
     <Compile Include="BL\CuentaBancariaBL.cs" />
     <Compile Include="BL\EmpresaBL.cs" />
     <Compile Include="BL\EntidadResponsableBL.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="DTO\CategoriaR_DTO.cs" />
     <Compile Include="DTO\ComprobanteDTO.cs" />
     <Compile Include="DTO\ComprobanteR_DTO.cs" />
+    <Compile Include="DTO\ContactoDTO.cs" />
     <Compile Include="DTO\CuentaBancariaDTO.cs" />
     <Compile Include="DTO\EmpresaDTO.cs" />
     <Compile Include="DTO\EntidadResponsableDTO.cs" />

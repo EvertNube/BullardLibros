@@ -1,6 +1,6 @@
 ﻿@using BullardLibros.Core.DTO
 @model EntidadResponsableDTO
-@{ 
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
@@ -111,7 +111,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(Model != null && Model.IdTipoEntidad == 2)
+                                    @if (Model != null && Model.IdTipoEntidad == 2)
                                     {
                                         <div class="row">
                                             <div class="form-group col-md-5">
@@ -121,15 +121,15 @@
                                             </div>
                                             <div class="form-group col-md-7 m-b-n">
                                                 <div class="form-group">
-                                                        <label>Cuenta en Soles</label>
-                                                        @Html.TextBoxFor(u => u.CuentaSoles, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en soles", @type = "text" })
-                                                        @Html.ValidationMessageFor(u => u.NombreComercial)
+                                                    <label>Cuenta en Soles</label>
+                                                    @Html.TextBoxFor(u => u.CuentaSoles, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en soles", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.NombreComercial)
                                                 </div>
                                                 <div class="form-group">
-                                                        <label>Cuenta en Dólares</label>
-                                                        @Html.TextBoxFor(u => u.CuentaDolares, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en dólares", @type = "text" })
-                                                        @Html.ValidationMessageFor(u => u.NombreComercial)
-                                                    
+                                                    <label>Cuenta en Dólares</label>
+                                                    @Html.TextBoxFor(u => u.CuentaDolares, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en dólares", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.NombreComercial)
+
                                                 </div>
                                             </div>
                                         </div>
@@ -158,6 +158,59 @@
                                 </div>
                             </section>
                         }
+                        @if (Model != null && Model.IdEntidadResponsable != 0)
+                        {
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12" style="transform: translateY(35%)">Contactos</div>
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <div class="col-md-4 col-sm-6 text-sm">
+                                                <div class="btn-group">
+                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6">
+                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Contacto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Contacto</a>
+                                            </div>
+                                        }
+                                    </div>
+                                </header>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Nombre</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Teléfono</th>
+                                                <th class="text-center">Celular</th>
+                                                <th class="text-center" width="10%">Opc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.lstContactos != null)
+                                            {
+                                                foreach (var obj in Model.lstContactos)
+                                                {
+                                                    var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                    <tr @Html.Raw(classInactive)>
+                                                        <td>@obj.Nombre</td>
+                                                        <td class="text-center">@obj.Email</td>
+                                                        <td class="text-center">@obj.Telefono</td>
+                                                        <td class="text-center">@obj.Celular</td>
+                                                        @if (ViewBag.EsAdmin)
+                                                        {
+                                                            <td class="text-center" width="10%"><a href="@Url.Action("Contacto", new { id = obj.IdContacto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        }
 
                         @if (Model != null && Model.IdEntidadResponsable != 0 && Model.IdTipoEntidad == 1)
                         {
@@ -167,14 +220,14 @@
                                         <div class="col-md-4 col-sm-12" style="transform: translateY(35%)">Proyectos</div>
                                         @if (ViewBag.EsAdmin)
                                         {
-                                            <div class="col-md-4 col-sm-6 text-sm">
-                                                <div class="btn-group">
-                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                                </div>
+                                        <div class="col-md-4 col-sm-6 text-sm">
+                                            <div class="btn-group">
+                                                <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                             </div>
-                                            <div class="col-md-4 col-sm-6">
-                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Proyecto</a>
-                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Proyecto</a>
+                                        </div>
                                         }
                                     </div>
                                 </header>
@@ -193,14 +246,14 @@
                                                 foreach (var obj in Model.lstProyectos)
                                                 {
                                                     var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                                    <tr @Html.Raw(classInactive)>
-                                                        <td width="20%">@obj.Nombre</td>
-                                                        <td>@obj.Descripcion</td>
-                                                        @if (ViewBag.EsAdmin)
+                                            <tr @Html.Raw(classInactive)>
+                                                <td width="20%">@obj.Nombre</td>
+                                                <td>@obj.Descripcion</td>
+                                                @if (ViewBag.EsAdmin)
                                                         {
-                                                            <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                        <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
                                                         }
-                                                    </tr>
+                                            </tr>
                                                 }
                                             }
                                         </tbody>

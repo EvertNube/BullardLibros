@@ -142,6 +142,15 @@ namespace BullardLibros.Core.BL
                             Nombre = x.Nombre,
                             Descripcion = x.Descripcion,
                             Estado = x.Estado
+                        }).ToList(),
+                        lstContactos = r.Contacto.Select(x => new ContactoDTO {
+                            IdContacto = x.IdContacto,
+                            IdEntidadResponsable = x.IdEntidadResponsable,
+                            Nombre = x.Nombre,
+                            Telefono = x.Telefono,
+                            Celular = x.Celular,
+                            Email = x.Email,
+                            Estado = x.Estado
                         }).ToList()
                     }).SingleOrDefault();
                 return result;

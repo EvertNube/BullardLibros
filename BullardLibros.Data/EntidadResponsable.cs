@@ -18,6 +18,7 @@ namespace BullardLibros.Data
         public EntidadResponsable()
         {
             this.Comprobante = new HashSet<Comprobante>();
+            this.Contacto = new HashSet<Contacto>();
             this.Movimiento = new HashSet<Movimiento>();
             this.Proyecto = new HashSet<Proyecto>();
         }
@@ -39,6 +40,8 @@ namespace BullardLibros.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Contacto> Contacto { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual TipoEntidad TipoEntidad { get; set; }
         public virtual TipoIdentificacion TipoIdentificacion { get; set; }

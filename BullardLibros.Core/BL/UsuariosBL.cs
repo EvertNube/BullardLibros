@@ -182,7 +182,7 @@ namespace BullardLibros.Core.BL
             {
                 if (user.Cuenta != null || user.Email != null)
                 {
-                    var result = context.Usuario.Where(x => (x.Cuenta == user.Cuenta || x.Email == user.Cuenta) && x.IdEmpresa == user.IdEmpresa).Select(x => new UsuarioDTO
+                    var result = context.Usuario.Where(x => (x.Cuenta == user.Cuenta || x.Email == user.Cuenta) && x.Empresa.Codigo == user.codigoEmpresa).Select(x => new UsuarioDTO
                     {
                         IdUsuario = x.IdUsuario,
                         Nombre = x.Nombre,
@@ -331,13 +331,13 @@ namespace BullardLibros.Core.BL
 
         public bool isValidUser(UsuarioDTO user)
         {
-            if (user.Cuenta == null || user.Pass == null)
+            if (user.Cuenta == null || user.Pass == null || user.codigoEmpresa == null)
                 return false;
 
             using (var context = getContext())
             {
                 var result = from r in context.Usuario
-                             where r.Estado == true && r.Cuenta == user.Cuenta
+                             where r.Estado == true && r.Cuenta == user.Cuenta && r.Empresa.Codigo == user.codigoEmpresa
                              select r;
                 Usuario usuario = result.SingleOrDefault<Usuario>();
                 if (usuario != null)

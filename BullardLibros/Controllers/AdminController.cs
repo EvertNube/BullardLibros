@@ -105,16 +105,17 @@ namespace BullardLibros.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ForgotPassword(string UserName, int Empresa)
+        public ActionResult ForgotPassword(string UserName, string codigoEmpresa)
         {
             UsuariosBL objBL = new UsuariosBL();
 
-            UsuarioDTO usuario = new UsuarioDTO() { Cuenta = UserName, Email = UserName, IdEmpresa = Empresa };
+            UsuarioDTO usuario = new UsuarioDTO() { Cuenta = UserName, Email = UserName, codigoEmpresa = codigoEmpresa };
             usuario = objBL.getUserByAcountOrEmail(usuario);
 
             if(usuario == null)
             {
-                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_LOGIN);
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_RECOVERY_PASSWORD);
+                return RedirectToAction("ForgotPassword", "Admin");
             }
             else
             {
@@ -125,6 +126,7 @@ namespace BullardLibros.Controllers
                 else
                 {
                     createResponseMessage(CONSTANTES.ERROR, "<strong>Hubo un error al recuperar la contraseña.</strong>");
+                    return RedirectToAction("ForgotPassword", "Admin");
                 }
             }
             
@@ -1197,7 +1199,6 @@ namespace BullardLibros.Controllers
             ProyectoBL objBL = new ProyectoBL();
             return View(objBL.getProyectos());
         }
-
         public ActionResult Proyecto(int? id = null, int? idEntidad = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -1228,7 +1229,6 @@ namespace BullardLibros.Controllers
             }
             return View();
         }
-
         public ActionResult AddProyecto(ProyectoDTO dto)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -1270,6 +1270,84 @@ namespace BullardLibros.Controllers
             }
             TempData["Proyecto"] = dto;
             return RedirectToAction("Proyecto");
+        }
+        public ActionResult Contactos()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ContactoBL objBL = new ContactoBL();
+            return View(objBL.getContactos());
+        }
+        public ActionResult Contacto(int? id = null, int? idEntidad = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Contacto";
+            MenuNavBarSelected(4, 4);
+            UsuarioDTO miUsuario = getCurrentUser();
+
+            ContactoBL objBL = new ContactoBL();
+            ViewBag.IdContacto = id;
+
+            var objSent = TempData["Contacto"];
+            if (objSent != null) { TempData["Contacto"] = null; return View(objSent); }
+            if (id == 0 && idEntidad != null)
+            {
+                ContactoDTO nuevo = new ContactoDTO();
+                nuevo.IdEntidadResponsable = (int)idEntidad;
+                nuevo.Estado = true;
+                return View(nuevo);
+            }
+            else
+            {
+                if (id != null)
+                {
+                    ContactoDTO obj = objBL.getContacto((int)id);
+                    return View(obj);
+                }
+            }
+            return View();
+        }
+        public ActionResult AddContacto(ContactoDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            try
+            {
+                ContactoBL objBL = new ContactoBL();
+                if (dto.IdContacto == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Entidad", new { id = dto.IdEntidadResponsable });
+                    }
+                }
+                else if (dto.IdContacto != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Entidad", new { id = dto.IdEntidadResponsable });
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdContacto != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Contacto"] = dto;
+            return RedirectToAction("Contacto");
         }
 
         public ActionResult Periodos()
