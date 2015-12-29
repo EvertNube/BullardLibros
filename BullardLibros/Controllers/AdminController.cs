@@ -727,7 +727,9 @@ namespace BullardLibros.Controllers
         public ActionResult Entidades(int? idTipoEntidad = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            if (!isAdministrator()) { return RedirectToAction("Index"); }
+            //if (!isAdministrator()) { return RedirectToAction("Index"); }
+            //Solo usuario Externo no tiene acceso a esto
+            if (isUsuarioExterno()) { return RedirectToAction("Index"); }
 
             ViewBag.Title += " - Entidades";
             MenuNavBarSelected(4, 3);
@@ -748,6 +750,7 @@ namespace BullardLibros.Controllers
         public ActionResult Entidad(int? id = null, int? idTipoEntidad = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (isUsuarioExterno()) { return RedirectToAction("Index"); }
             ViewBag.Title += " - Entidad";
             MenuNavBarSelected(4, 3);
 

@@ -1,7 +1,6 @@
 ﻿@using BullardLibros.Core.DTO
 @model EntidadResponsableDTO
 @{
-    ViewBag.Title = "NubeLabs SCI - Entidad";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
@@ -59,38 +58,82 @@
                             <section class="panel panel-default">
                                 <header class="panel-heading font-bold">Formulario de Registro</header>
                                 <div class="panel-body">
-                                    <div class="form-group">
-                                        <label>Nombre de la Entidad</label>
-                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la entidad", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Nombre)
+                                    <div class="row">
+                                        <div class="form-group col-md-5">
+                                            <label>Razón Social</label>
+                                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la razón social", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.Nombre)
+                                        </div>
+                                        <div class="form-group col-md-7">
+                                            <label>Nombre Comercial</label>
+                                            @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Ingrese el nombre comercial", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.NombreComercial)
+                                        </div>
                                     </div>
-                                    @if (Model != null && Model.IdTipoEntidad == 2)
-                                    { 
+                                    <div class="row">
+                                        <div class="form-group col-md-5">
+                                            <label>Tipo de Identificación</label>
+                                            @Html.DropDownListFor(u => u.IdTipoIdentificacion, new SelectList(ViewBag.TipoIdentificacion, "IdTipoIdentificacion", "Nombre", Model != null ? (Model.IdTipoIdentificacion != null ? Model.IdTipoIdentificacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            @Html.ValidationMessageFor(u => u.IdTipoIdentificacion)
+                                        </div>
+                                        <div class="form-group col-md-7">
+                                            <label>Nro. de Identificación</label>
+                                            @Html.TextBoxFor(u => u.NroIdentificacion, new { @class = "form-control", @placeholder = "Ingrese el numero de identificación", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.NroIdentificacion)
+                                        </div>
+                                    </div>
+                                    @if (Model != null && Model.IdTipoEntidad == 1)
+                                    {
+                                        <div class="line line-dashed line-md pull-in"></div>
                                         <div class="row">
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-2 text-center" style="transform:translateY(30%)">Dirección</label>
+                                                <div class="col-md-10">
+                                                    @Html.TextBoxFor(u => u.Direccion, new { @class = "form-control", @placeholder = "Ingrese la dirección", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.Direccion)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (Model != null && Model.IdTipoEntidad == 2)
+                                    {
+                                        <div class="line line-dashed line-md pull-in"></div>
+                                        <div class="row">
+                                            <div class="form-group col-md-5">
                                                 <label>Detracción</label>
                                                 @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ing. la detracción", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                                                 @Html.ValidationMessageFor(u => u.Detraccion)
                                             </div>
-                                            <div class="form-group col-md-8">
+                                            <div class="form-group col-md-7">
                                                 <label>Tipo de bien o servicio</label>
                                                 @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Ingrese el tipo de bien o servicio", @type = "text" })
                                                 @Html.ValidationMessageFor(u => u.Tipo)
                                             </div>
                                         </div>
                                     }
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>Tipo de Identificación</label>
-                                            @Html.DropDownListFor(u => u.IdTipoIdentificacion, new SelectList(ViewBag.TipoIdentificacion, "IdTipoIdentificacion", "Nombre", Model != null ? (Model.IdTipoIdentificacion != null ? Model.IdTipoIdentificacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
-                                            @Html.ValidationMessageFor(u => u.IdTipoIdentificacion)
+                                    @if (Model != null && Model.IdTipoEntidad == 2)
+                                    {
+                                        <div class="row">
+                                            <div class="form-group col-md-5">
+                                                <label>Banco</label>
+                                                @Html.TextBoxFor(u => u.Banco, new { @class = "form-control", @placeholder = "Ingrese el nombre del banco", @type = "text" })
+                                                @Html.ValidationMessageFor(u => u.Banco)
+                                            </div>
+                                            <div class="form-group col-md-7 m-b-n">
+                                                <div class="form-group">
+                                                    <label>Cuenta en Soles</label>
+                                                    @Html.TextBoxFor(u => u.CuentaSoles, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en soles", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.NombreComercial)
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Cuenta en Dólares</label>
+                                                    @Html.TextBoxFor(u => u.CuentaDolares, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en dólares", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.NombreComercial)
+
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-8">
-                                            <label>Nro. de Identificación</label>
-                                            @Html.TextBoxFor(u => u.NroIdentificacion, new { @class = "form-control", @placeholder = "Ingrese el numero de identificación", @type = "text" })
-                                            @Html.ValidationMessageFor(u => u.NroIdentificacion)
-                                        </div>
-                                    </div>
+                                    }
                                     @if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
                                     {
                                         <div class="line line-dashed line-md pull-in"></div>
@@ -115,6 +158,59 @@
                                 </div>
                             </section>
                         }
+                        @if (Model != null && Model.IdEntidadResponsable != 0)
+                        {
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12" style="transform: translateY(35%)">Contactos</div>
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <div class="col-md-4 col-sm-6 text-sm">
+                                                <div class="btn-group">
+                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6">
+                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Contacto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Contacto</a>
+                                            </div>
+                                        }
+                                    </div>
+                                </header>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Nombre</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Teléfono</th>
+                                                <th class="text-center">Celular</th>
+                                                <th class="text-center" width="10%">Opc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.lstContactos != null)
+                                            {
+                                                foreach (var obj in Model.lstContactos)
+                                                {
+                                                    var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                    <tr @Html.Raw(classInactive)>
+                                                        <td>@obj.Nombre</td>
+                                                        <td class="text-center">@obj.Email</td>
+                                                        <td class="text-center">@obj.Telefono</td>
+                                                        <td class="text-center">@obj.Celular</td>
+                                                        @if (ViewBag.EsAdmin)
+                                                        {
+                                                            <td class="text-center" width="10%"><a href="@Url.Action("Contacto", new { id = obj.IdContacto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        }
 
                         @if (Model != null && Model.IdEntidadResponsable != 0 && Model.IdTipoEntidad == 1)
                         {
@@ -124,14 +220,14 @@
                                         <div class="col-md-4 col-sm-12" style="transform: translateY(35%)">Proyectos</div>
                                         @if (ViewBag.EsAdmin)
                                         {
-                                            <div class="col-md-4 col-sm-6 text-sm">
-                                                <div class="btn-group">
-                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                                </div>
+                                        <div class="col-md-4 col-sm-6 text-sm">
+                                            <div class="btn-group">
+                                                <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                             </div>
-                                            <div class="col-md-4 col-sm-6">
-                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Proyecto</a>
-                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Proyecto</a>
+                                        </div>
                                         }
                                     </div>
                                 </header>
@@ -150,14 +246,14 @@
                                                 foreach (var obj in Model.lstProyectos)
                                                 {
                                                     var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                                    <tr @Html.Raw(classInactive)>
-                                                        <td width="20%">@obj.Nombre</td>
-                                                        <td>@obj.Descripcion</td>
-                                                        @if (ViewBag.EsAdmin)
+                                            <tr @Html.Raw(classInactive)>
+                                                <td width="20%">@obj.Nombre</td>
+                                                <td>@obj.Descripcion</td>
+                                                @if (ViewBag.EsAdmin)
                                                         {
-                                                            <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                        <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
                                                         }
-                                                    </tr>
+                                            </tr>
                                                 }
                                             }
                                         </tbody>

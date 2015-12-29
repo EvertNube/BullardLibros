@@ -59,7 +59,7 @@
                                 { idnull2 = true; cadena2 = "active"; }
                                 <div class="tab-pane @cadena2" id="@item.Nombre">
                                     <section class="panel panel-default">
-                                        @if (ViewBag.EsAdmin)
+                                        @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
                                         {
                                             <header class="panel-heading">
                                                 <div class="row text-sm">
@@ -91,7 +91,7 @@
                                                         {
                                                             if (item.IdTipoEntidad == obj.IdTipoEntidad)
                                                             {
-                                                                var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                                var classInactive = (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && !obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
                                                                     <td width="25%">@obj.Nombre</td>
                                                                     <td class="text-center">@(obj.NombreIdentificacion)</td>
@@ -107,7 +107,7 @@
                                                                     else
                                                                     {
                                                                         <td class="text-center" width="12%">Inactivo</td>}
-                                                                    @if (ViewBag.EsAdmin)
+                                                                    @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
                                                                     {
                                                                         <td align="center" width="12%"><a href="@Url.Action("Entidad", new { id = obj.IdEntidadResponsable })"><i class="fa fa-pencil"></i></a></td>
                                                                     }

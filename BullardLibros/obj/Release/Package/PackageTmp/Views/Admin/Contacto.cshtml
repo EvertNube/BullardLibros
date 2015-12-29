@@ -1,7 +1,7 @@
 ﻿@using BullardLibros.Core.DTO
-@model ProyectoDTO
+@model ContactoDTO
 @{
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <section class="vbox">
@@ -9,7 +9,7 @@
         <div class="row m-b">
             <div class="col-xs-12 col-md-10 col-md-offset-1">
                 @{var cadena = "";}
-                @if (Model == null || Model.IdProyecto == 0)
+                @if (Model == null || Model.IdContacto == 0)
                 {
                     cadena = "Nuevo";
                 }
@@ -17,9 +17,9 @@
                 {
                     cadena = "Actualizar";
                 }
-                <h2>@cadena Proyecto</h2>
+                <h2>@cadena Contacto</h2>
 
-                @using (Html.BeginForm("AddProyecto", "Admin", FormMethod.Post))
+                @using (Html.BeginForm("AddContacto", "Admin", FormMethod.Post))
                 {
                     @Html.ValidationSummary(true)
                     <div class="row m-b">
@@ -30,16 +30,28 @@
                                 <header class="panel-heading font-bold">Formulario de Registro</header>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <label>Nombre del Proyecto</label>
-                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del Proyecto", @type = "text" })
+                                        <label>Nombre del Contacto</label>
+                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del Contacto", @type = "text" })
                                         @Html.ValidationMessageFor(u => u.Nombre)
                                     </div>
                                     <div class="form-group">
-                                        <label>Descripción</label>
-                                        @Html.TextAreaFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Ingrese la descripción", @type = "text", @rows = "6", @style = "resize: none;" })
-                                        @Html.ValidationMessageFor(u => u.Descripcion)
+                                        <label>Email</label>
+                                        @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese el email", @type = "email" })
+                                        @Html.ValidationMessageFor(u => u.Email)
                                     </div>
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdProyecto > 0)
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>Teléfono</label>
+                                            @Html.TextBoxFor(u => u.Telefono, new { @class = "form-control", @placeholder = "Ingrese el teléfono", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.Telefono)
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Celular</label>
+                                            @Html.TextBoxFor(u => u.Celular, new { @class = "form-control", @placeholder = "Ingrese el celular", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.Celular)
+                                        </div>
+                                    </div>
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdContacto > 0)
                                     {
                                         <div class="line line-dashed line-lg pull-in"></div>
                                         <div class="checkbox">
@@ -54,9 +66,9 @@
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
                                     }
                                     <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdProyecto, new { @value = Model.IdProyecto != 0 ? Model.IdProyecto.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdContacto, new { @value = Model.IdContacto != 0 ? Model.IdContacto.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model != null ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
-                                    @{var btnName = (Model != null && Model.IdProyecto > 0) ? "Guardar Cambios" : "Crear";}
+                                    @{var btnName = (Model != null && Model.IdContacto > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-success">@btnName</button>
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Entidad", new { id = Model.IdEntidadResponsable })">Salir</a>
                                 </div>
@@ -68,6 +80,8 @@
         </div>
     </section>
 </section>
+
+
 
 
 

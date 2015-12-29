@@ -2,12 +2,12 @@
     Layout = null;
 }
 @model BullardLibros.Core.DTO.UsuarioDTO
-
+ 
 <!DOCTYPE html>
 <html lang="es" class="bg-gray">
 <head>
     <meta charset="utf-8" />
-    <title>NubeLabs SCI</title>
+    <title>NubeBooks</title>
     <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     @Styles.Render("~/Content/themes/admin/css/bootstrap.css")
@@ -37,12 +37,16 @@
                 {
                     @Html.ValidationSummary(true)
                     <div class="form-group">
+                        <label class="control-label">Empresa</label>
+                        @Html.TextBoxFor(u => u.codigoEmpresa, new { @class = "form-control input-lg", @placeholder = "Código de la empresa", @type = "text", @required = "required" })
+                    </div>
+                    <div class="form-group">
                         <label class="control-label">Usuario</label>
-                        @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control input-lg", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
+                        @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control input-lg", @placeholder = "Ingrese el nombre de la cuenta", @type = "text", @required = "required" })
                     </div>
                     <div class="form-group">
                         <label class="control-label">Contraseña</label>
-                        @Html.TextBoxFor(u => u.Pass, new { @class = "form-control input-lg", @placeholder = "Ingrese la contraseña", @type = "password" })
+                        @Html.TextBoxFor(u => u.Pass, new { @class = "form-control input-lg", @placeholder = "Ingrese la contraseña", @type = "password", @required = "required" })
                     </div>
                     <button type="submit" class="btn btn-success">Ingresar</button>
                     <a href="@Url.Action("ForgotPassword", "Admin")" class="pull-right m-t-xs"><small>Olvidaste la contraseña?</small></a>
