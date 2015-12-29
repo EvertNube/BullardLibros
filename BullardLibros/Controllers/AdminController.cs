@@ -283,7 +283,7 @@ namespace BullardLibros.Controllers
             return View("Libros", listaLibros);
         }
 
-        public ActionResult Libro(int? id = null, int? idTipoCuenta = null)
+        public ActionResult Libro(int? id = null, int? idTipoCuenta = null, string sortOrder = null, string currentFilter = null, string searchString = null, int? page = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Libro";
@@ -321,6 +321,25 @@ namespace BullardLibros.Controllers
             if (idTipoCuenta != null && idTipoCuenta != 0) obj.IdTipoCuenta = idTipoCuenta.GetValueOrDefault();
 
             return View(obj);
+        }
+        private int BusquedaYPaginado_Movimiento(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            return 0;
         }
 
         [HttpPost]
