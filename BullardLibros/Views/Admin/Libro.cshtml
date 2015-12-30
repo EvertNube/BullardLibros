@@ -3,7 +3,7 @@
 @using PagedList.Mvc;
 @using System.Globalization;
 @model CuentaBancariaDTO
-@{ 
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
@@ -11,8 +11,13 @@
     @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
 
     <style type="text/css">
-        .red {color:red;}
-        .green {color:#8EC100;}
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: #8EC100;
+        }
     </style>
 }
 @section Scripts{
@@ -40,12 +45,11 @@
                 //"red" : "#8EC100"
 
                 //$("i", this).toggleClass("fa-square-o fa-check-square-o").toggleClass("red green");
-                
+
             })
         });
 
-        function ActualizarEstadoEnMovimiento(e)
-        {
+        function ActualizarEstadoEnMovimiento(e) {
             var jId = $(e).data('id');
             $.ajax({
                 type: "POST",
@@ -203,8 +207,23 @@
                                     </div>
                                 </header>
                                 <div class="table-responsive">
-                                    <table class="table table-striped m-b-none dataTable">
+                                    <table class="table table-striped m-b-none">
                                         <thead>
+                                            <tr>
+                                                <th colspan="10">
+                                                    <div class="row">
+                                                        @using (Html.BeginForm("Libro", "Admin", FormMethod.Get))
+                                                        {
+                                                            <div>
+                                                                Buscar: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                                                @Html.TextBox("idTipoCuenta", Model.IdTipoCuenta, new { @value = Model.IdTipoCuenta != 0 ? Model.IdTipoCuenta.ToString() : "", @type = "hidden" })
+                                                                @Html.TextBox("id", Model.IdCuentaBancaria, new { @value = Model.IdCuentaBancaria != 0 ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                                                <input type="submit" value="Search" />
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </th>
+                                            </tr>
                                             <tr>
                                                 <th class="text-center" width="7%">Fecha</th>
                                                 <th class="text-center" width="12%">Movimiento</th>
@@ -224,7 +243,7 @@
                                         <tbody>
                                             @if (Model.listaMovimiento != null)
                                             {
-                                                foreach (var obj in Model.listaMovimiento)
+                                                foreach (var obj in Model.listaMovimientoPL)
                                                 {
                                                     var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
                                                     <tr @Html.Raw(classInactive)>
@@ -243,15 +262,8 @@
                                                         @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
                                                         <td class="text-center" width="10%">@rNumDoc</td>
                                                         @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
-                                                          var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";}
+                                                        var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";}
                                                         <td class="text-center"><a href="#" class="mactivo" data-id="@obj.IdMovimiento"><i class="fa @rEstado @rColor"></i></a></td>
-
-                                                        @*@if (obj.IdEstadoMovimiento == 1)
-                                                        {
-                                                            <td class="text-center" style="color:red">P</td>}
-                                                        else
-                                                        {
-                                                            <td class="text-center" style="color:#8EC100;">R</td> }*@
                                                         <td class="text-center" width="10%">@obj.NombreUsuario</td>
                                                         @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                         <td class="text-center" width="7%"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
@@ -260,6 +272,21 @@
                                                 }
                                             }
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="10">
+                                                    <div class="row">
+                                                        <div class="col-sm-4"></div>
+                                                        <div class="col-sm-4 text-center">
+                                                            <small class="text-muted inline m-t-sm m-b-sm">Página @(Model.listaMovimientoPL.PageCount < Model.listaMovimientoPL.PageNumber ? 0 : Model.listaMovimientoPL.PageNumber) de @Model.listaMovimientoPL.PageCount</small>
+                                                        </div>
+                                                        <div class="col-sm-4 text-right text-center-xs">
+                                                            @Html.PagedListPager(Model.listaMovimientoPL, page => Url.Action("Libro", new { searchResponsable = ViewBag.IdResponsable, page }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                                 <footer class="panel-footer">

@@ -306,11 +306,14 @@ namespace BullardLibros.Controllers
                 if (obj == null) return RedirectToAction("Index");
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
 
+                obj.listaMovimientoPL = BusquedaYPaginado_Movimiento(obj.listaMovimiento, sortOrder, currentFilter, searchString, page);
                 /*int pageSize = 100;
                 int pageNumber = (page ?? 1);
                 //Guardar Paginado
                 TempData["PagMovs"] = (page ?? 1);
+
                 obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);*/
+                
                 //(int? id = null, int? idTipoComprobante = null)
                 return View(obj);
             }
@@ -322,7 +325,7 @@ namespace BullardLibros.Controllers
 
             return View(obj);
         }
-        private int BusquedaYPaginado_Movimiento(string sortOrder, string currentFilter, string searchString, int? page)
+        private IPagedList<MovimientoDTO> BusquedaYPaginado_Movimiento(IList<MovimientoDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -338,8 +341,44 @@ namespace BullardLibros.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
+            
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                lista = lista.Where(s => (s.NroOperacion ?? "").Contains(searchString)
+                    || (s.NombreCategoria ?? "").Contains(searchString) || (s.NombreEntidadR ?? "").Contains(searchString)
+                    || (s.NumeroDocumento ?? "").Contains(searchString) || (s.NombreUsuario ?? "").Contains(searchString)).ToList();
+            }
 
-            return 0;
+            switch(sortOrder)
+            {
+                case "numero":
+                    lista = lista.OrderBy(s => s.NumeroDocumento).ToList();
+                    break;
+                case "operacion":
+                    lista = lista.OrderBy(s => s.NroOperacion).ToList();
+                    break;
+                case "categoria":
+                    lista = lista.OrderBy(s => s.NombreCategoria).ToList();
+                    break;
+                case "entidad":
+                    lista = lista.OrderBy(s => s.NombreEntidadR).ToList();
+                    break;
+                case "usuario":
+                    lista = lista.OrderBy(s => s.NombreUsuario).ToList();
+                    break;
+                case "fecha":
+                    lista = lista.OrderBy(s => s.Fecha).ToList();
+                    break;
+            }
+
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            //Guardar Paginado
+            TempData["PagMovs"] = (page ?? 1);
+
+            return lista.ToPagedList(pageNumber, pageSize);
+            //obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
+            //return lista;
         }
 
         [HttpPost]
@@ -387,33 +426,6 @@ namespace BullardLibros.Controllers
             }
             TempData["Libro"] = dto;
             return RedirectToAction("Libro");
-        }
-
-        public ActionResult LibroVista(int? id = null, int? page = null)
-        {
-            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-
-            MenuNavBarSelected(1);
-
-            CuentaBancariaBL objBL = new CuentaBancariaBL();
-            ViewBag.IdCuentaBancaria = id;
-            ViewBag.Monedas = objBL.getMonedasBag(false);
-
-            if (id != null)
-            {
-                CuentaBancariaDTO obj = objBL.getCuentaBancaria((int)id);
-                if (obj == null) return RedirectToAction("Index");
-                if (obj.IdEmpresa != getCurrentUser().IdEmpresa) return RedirectToAction("Index");
-
-                int pageSize = 100;
-                int pageNumber = (page ?? 1);
-                //Guardar Paginado
-                TempData["PagMovs"] = (page ?? 1);
-
-                obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
-                return View(obj);
-            }
-            return View();
         }
 
         public ActionResult Categorias()

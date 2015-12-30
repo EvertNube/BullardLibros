@@ -843,7 +843,6 @@
     <Content Include="Views\Admin\Entidades.cshtml" />
     <Content Include="Views\Admin\Entidad.cshtml" />
     <Content Include="Views\Admin\ReporteCategorias.cshtml" />
-    <Content Include="Views\Admin\LibroVista.cshtml" />
     <Content Include="Views\Admin\Libros.cshtml" />
     <Content Include="Views\Admin\Empresa.cshtml" />
     <Content Include="Views\Admin\Comprobantes.cshtml" />
