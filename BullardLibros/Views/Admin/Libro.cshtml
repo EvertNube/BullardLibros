@@ -212,13 +212,16 @@
                                             <tr>
                                                 <th colspan="10">
                                                     <div class="row">
-                                                        @using (Html.BeginForm("Libro", "Admin", FormMethod.Get))
+                                                        @using (Html.BeginForm("Libro", "Admin", FormMethod.Get, new { @class = "pull-right" }))
                                                         {
-                                                            <div>
-                                                                Buscar: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                                            <div class="input-group search datagrid-search col-md-12">
+                                                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar:" })
                                                                 @Html.TextBox("idTipoCuenta", Model.IdTipoCuenta, new { @value = Model.IdTipoCuenta != 0 ? Model.IdTipoCuenta.ToString() : "", @type = "hidden" })
                                                                 @Html.TextBox("id", Model.IdCuentaBancaria, new { @value = Model.IdCuentaBancaria != 0 ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
-                                                                <input type="submit" value="Search" />
+                                                                @*<input type="submit" value="Search" />*@
+                                                                <div class="input-group-btn"> 
+                                                                    <button class="btn btn-default btn-sm" value="Search"><i class="fa fa-search"></i></button> 
+                                                                </div>
                                                             </div>
                                                         }
                                                     </div>

@@ -19,6 +19,7 @@ using PagedList.Mvc;
 using System.Globalization;
 using System.Data;
 using WebMatrix.WebData;
+using System.Text.RegularExpressions;
 
 namespace BullardLibros.Controllers
 {
@@ -307,14 +308,6 @@ namespace BullardLibros.Controllers
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
 
                 obj.listaMovimientoPL = BusquedaYPaginado_Movimiento(obj.listaMovimiento, sortOrder, currentFilter, searchString, page);
-                /*int pageSize = 100;
-                int pageNumber = (page ?? 1);
-                //Guardar Paginado
-                TempData["PagMovs"] = (page ?? 1);
-
-                obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);*/
-                
-                //(int? id = null, int? idTipoComprobante = null)
                 return View(obj);
             }
 
@@ -341,12 +334,21 @@ namespace BullardLibros.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            
+            //Comparador para fecha
+            DateTime pTiempo;
+            pTiempo = DateTime.TryParse(searchString, out pTiempo) ? Convert.ToDateTime(searchString) : DateTime.Now;
+            string sTiempo = pTiempo.ToShortDateString();
+            Decimal pDecimal;
+            pDecimal = Decimal.TryParse(searchString, out pDecimal) ? Convert.ToDecimal(searchString) : 0;
+            //DateTime.Compare(s.Fecha, pTiempo) <= 0
+            //|| s.Fecha.Year == pTiempo.Year && s.Fecha.Month == pTiempo.Month && s.Fecha.Day == pTiempo.Day
             if(!String.IsNullOrEmpty(searchString))
             {
                 lista = lista.Where(s => (s.NroOperacion ?? "").Contains(searchString)
                     || (s.NombreCategoria ?? "").Contains(searchString) || (s.NombreEntidadR ?? "").Contains(searchString)
-                    || (s.NumeroDocumento ?? "").Contains(searchString) || (s.NombreUsuario ?? "").Contains(searchString)).ToList();
+                    || (s.NumeroDocumento ?? "").Contains(searchString) || (s.NombreUsuario ?? "").Contains(searchString)
+                    || s.Fecha.Date == pTiempo.Date
+                    || s.Monto.ToString().Contains(pDecimal.ToString())).ToList();
             }
 
             switch(sortOrder)
@@ -371,7 +373,7 @@ namespace BullardLibros.Controllers
                     break;
             }
 
-            int pageSize = 100;
+            int pageSize = 20;
             int pageNumber = (page ?? 1);
             //Guardar Paginado
             TempData["PagMovs"] = (page ?? 1);
@@ -380,7 +382,6 @@ namespace BullardLibros.Controllers
             //obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
             //return lista;
         }
-
         [HttpPost]
         public ActionResult AddLibro(CuentaBancariaDTO dto)
         {
@@ -427,7 +428,6 @@ namespace BullardLibros.Controllers
             TempData["Libro"] = dto;
             return RedirectToAction("Libro");
         }
-
         public ActionResult Categorias()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -453,7 +453,6 @@ namespace BullardLibros.Controllers
             
             return View(listaCategorias);
         }
-
         public ActionResult Categoria(int? id = null, int? idPadre = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -500,7 +499,6 @@ namespace BullardLibros.Controllers
 
             return View(obj);
         }
-
         [HttpPost]
         public ActionResult AddCategoria(CategoriaDTO dto)
         {
@@ -548,7 +546,6 @@ namespace BullardLibros.Controllers
             TempData["Categoria"] = dto;
             return RedirectToAction("Categoria");
         }
-
         public ActionResult Movimientos()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -558,7 +555,6 @@ namespace BullardLibros.Controllers
             MovimientoBL objBL = new MovimientoBL();
             return View(objBL.getMovimientos());
         }
-
         public ActionResult Movimiento(int? id = null, int? idLibro = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -606,7 +602,6 @@ namespace BullardLibros.Controllers
             }
             return View();
         }
-
         public ActionResult AddMovimiento(MovimientoDTO dto)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -650,8 +645,6 @@ namespace BullardLibros.Controllers
             TempData["Movimiento"] = dto;
             return RedirectToAction("Movimiento");
         }
-        
-
         public ActionResult Usuarios()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -670,7 +663,6 @@ namespace BullardLibros.Controllers
 
             return View(listaUsuarios);
         }
-
         public ActionResult Usuario(int? id = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -701,7 +693,6 @@ namespace BullardLibros.Controllers
             usuario.IdEmpresa = currentUser.IdEmpresa;
             return View(usuario);
         }
-
         [HttpPost]
         public ActionResult AddUser(UsuarioDTO user, string passUser = "", string passChange = "")
         {
@@ -754,7 +745,6 @@ namespace BullardLibros.Controllers
             TempData["Usuario"] = user;
             return RedirectToAction("Usuario");
         }
-
         public ActionResult Entidades(int? idTipoEntidad = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -777,7 +767,6 @@ namespace BullardLibros.Controllers
             }
             return View(listaEntidades);
         }
-
         public ActionResult Entidad(int? id = null, int? idTipoEntidad = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -807,7 +796,6 @@ namespace BullardLibros.Controllers
 
             return View(obj);
         }
-
         [HttpPost]
         public ActionResult AddEntidad(EntidadResponsableDTO dto)
         {
@@ -870,6 +858,73 @@ namespace BullardLibros.Controllers
                 listaComprobantes = objBL.getComprobantesEnEmpresa(currentUser.IdEmpresa);
             }
             return View(listaComprobantes);
+        }
+        private IPagedList<ComprobanteDTO> BusquedaYPaginado_Comprobantes(IList<ComprobanteDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            //Comparador para fecha
+            DateTime pTiempo;
+            pTiempo = DateTime.TryParse(searchString, out pTiempo) ? Convert.ToDateTime(searchString) : DateTime.Now;
+            string sTiempo = pTiempo.ToShortDateString();
+            Decimal pDecimal;
+            pDecimal = Decimal.TryParse(searchString, out pDecimal) ? Convert.ToDecimal(searchString) : 0;
+            //DateTime.Compare(s.Fecha, pTiempo) <= 0
+            //|| s.Fecha.Year == pTiempo.Year && s.Fecha.Month == pTiempo.Month && s.Fecha.Day == pTiempo.Day
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                lista = lista.Where(s => (s.NombreTipoDocumento ?? "").Contains(searchString)
+                    || (s.NombreCategoria ?? "").Contains(searchString) || (s.NroDocumento ?? "").Contains(searchString)
+                    || (s.NombreEntidad ?? "").Contains(searchString) || (s.NombreUsuario ?? "").Contains(searchString)
+                    || s.FechaEmision.Date == pTiempo.Date
+                    || s.MontoSinIGV.ToString().Contains(pDecimal.ToString())).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case "Documento":
+                    lista = lista.OrderBy(s => s.NombreTipoDocumento).ToList();
+                    break;
+                case "Numero":
+                    lista = lista.OrderBy(s => s.NroDocumento).ToList();
+                    break;
+                case "Categoria":
+                    lista = lista.OrderBy(s => s.NombreCategoria).ToList();
+                    break;
+                case "Entidad":
+                    lista = lista.OrderBy(s => s.NombreEntidad).ToList();
+                    break;
+                case "Monto Sin IGV":
+                    lista = lista.OrderBy(s => s.MontoSinIGV).ToList();
+                    break;
+                case "usuario":
+                    lista = lista.OrderBy(s => s.NombreUsuario).ToList();
+                    break;
+                case "fecha":
+                    lista = lista.OrderBy(s => s.FechaEmision).ToList();
+                    break;
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            //Guardar Paginado
+            TempData["PagMovs"] = (page ?? 1);
+
+            return lista.ToPagedList(pageNumber, pageSize);
+            //obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
+            //return lista;
         }
         public ActionResult Comprobante(int? id = null, int? idTipoComprobante = null)
         {
