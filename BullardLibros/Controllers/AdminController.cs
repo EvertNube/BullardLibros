@@ -840,7 +840,7 @@ namespace BullardLibros.Controllers
             TempData["Entidad"] = dto;
             return RedirectToAction("Entidad");
         }
-        public ActionResult Comprobantes(int? idTipoComprobante = null)
+        public ActionResult Comprobantes(int? idTipoComprobante = null, string sortOrder = null, string currentFilter = null, string searchString = null, int? page = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Comprobantes";
@@ -856,8 +856,10 @@ namespace BullardLibros.Controllers
             if (currentUser.IdEmpresa > 0)
             {
                 listaComprobantes = objBL.getComprobantesEnEmpresa(currentUser.IdEmpresa);
+                IPagedList<ComprobanteDTO> lista = BusquedaYPaginado_Comprobantes(listaComprobantes, sortOrder, currentFilter, searchString, page);
+                return View(lista);
             }
-            return View(listaComprobantes);
+            return View();
         }
         private IPagedList<ComprobanteDTO> BusquedaYPaginado_Comprobantes(IList<ComprobanteDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {

@@ -1,7 +1,9 @@
 ﻿@using BullardLibros.Core.DTO
+@using PagedList;
+@using PagedList.Mvc;
 @using System.Globalization;
-@model IList<BullardLibros.Core.DTO.ComprobanteDTO>
-@{ 
+@model PagedList.IPagedList<BullardLibros.Core.DTO.ComprobanteDTO>
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
@@ -87,12 +89,34 @@
                                         </header>
 
                                         <div class="table-responsive">
-                                            <table class="table table-striped m-b-none dataTable no-footer">
+                                            <table class="table table-striped m-b-none no-footer">
                                                 <thead>
                                                     <tr>
+                                                        @{var columns = item.IdTipoComprobante == 1 ? 11 : 10;}
+                                                        <th colspan="@columns">
+                                                            <div class="row">
+                                                                @using (Html.BeginForm("Comprobantes", "Admin", FormMethod.Get, new { @class = "pull-right" }))
+                                                                {
+                                                                    <div class="input-group search datagrid-search">
+                                                                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
+                                                                        @Html.TextBox("idTipoComprobante", item.IdTipoComprobante, new { @value = item.IdTipoComprobante != 0 ? item.IdTipoComprobante.ToString() : "1", @type = "hidden" })
+                                                                        @Html.TextBox("sortOrder", "", new { @type = "hidden" })
+                                                                        @Html.TextBox("currentFilter", "", new { @type = "hidden" })
+                                                                        <div class="input-group-btn">
+                                                                            <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
+                                                                        </div>
+                                                                        @*<div class="input-group-btn">
+                                                                                <button class="btn btn-default btn-sm" value="Search" type="submit"><i class="fa fa-search"></i></button>
+                                                                            </div>*@
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
                                                         @{
-                                                    var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
-                                                    var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+                                                                var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
+                                                                var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
                                                         }
                                                         <th class="text-center" width="7%">Fecha</th>
                                                         <th class="text-center" width="10%">Docum.</th>
@@ -100,7 +124,7 @@
                                                         <th class="text-center" width="14%">@strEntidad</th>
                                                         @if (item.IdTipoComprobante == 1)
                                                         {
-                                                        <th class="text-center" width="10%">Proy&nbsp;</th>}
+                                                            <th class="text-center" width="10%">Proy&nbsp;</th>}
                                                         <th class="text-center" width="15%">Monto<br />&nbsp;Sin IGV</th>
                                                         <th class="text-center" width="14%">Partida<br />&nbsp;Presupuesto</th>
                                                         <th class="text-center" width="7%">Fecha<br />&nbsp;@rFechaFin &nbsp;</th>
@@ -110,7 +134,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (Model != null)
+                                                    @if (Model.Count > 0)
                                                     {
                                                         foreach (var obj in Model)
                                                         {
@@ -124,7 +148,7 @@
                                                                     <td class="text-center" width="14%">@obj.NombreEntidad</td>
                                                                     @if (item.IdTipoComprobante == 1)
                                                                     {
-                                                                    <td class="text-center" width="10%">@(obj.NombreProyecto == null ? "N/A" : obj.NombreProyecto)</td>}
+                                                                        <td class="text-center" width="10%">@(obj.NombreProyecto == null ? "N/A" : obj.NombreProyecto)</td>}
                                                                     <td class="text-center" width="15%">@obj.SimboloMoneda @obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture)</td>
                                                                     <td class="text-center" width="14%">@obj.NombreCategoria</td>
                                                                     <td class="text-center" width="7%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
@@ -143,6 +167,21 @@
                                                         }
                                                     }
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="@columns">
+                                                            <div class="row">
+                                                                <div class="col-sm-4"></div>
+                                                                <div class="col-sm-4 text-center">
+                                                                    <small class="text-muted inline m-t-sm m-b-sm">Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</small>
+                                                                </div>
+                                                                <div class="col-sm-4 text-right text-center-xs">
+                                                                    @Html.PagedListPager(Model, page => Url.Action("Comprobantes", new { idTipoComprobante = item.IdTipoComprobante, page }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </section>
