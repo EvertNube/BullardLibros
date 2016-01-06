@@ -105,9 +105,9 @@
                                                                         <div class="input-group-btn">
                                                                             <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
                                                                         </div>
-                                                                        @*<div class="input-group-btn">
-                                                                                <button class="btn btn-default btn-sm" value="Search" type="submit"><i class="fa fa-search"></i></button>
-                                                                            </div>*@
+                                                                        @*<div class="input-group">
+                                                                            <input type="submit" value="Buscar" class="input-sm form-control" />
+                                                                        </div>*@
                                                                     </div>
                                                                 }
                                                             </div>
@@ -118,10 +118,10 @@
                                                                 var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
                                                                 var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
                                                         }
-                                                        <th class="text-center" width="7%">Fecha</th>
-                                                        <th class="text-center" width="10%">Docum.</th>
-                                                        <th class="text-center" width="10%">Numero</th>
-                                                        <th class="text-center" width="14%">@strEntidad</th>
+                                                        <th class="text-center" width="7%">@Html.ActionLink("Fecha", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbFecha, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="10%">@Html.ActionLink("Docum.", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbDocumento, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="10%">@Html.ActionLink("Numero", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbNumero, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="14%">@Html.ActionLink(strEntidad, "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbEntidad, currentFilter = ViewBag.CurrentFilter }, null)</th>
                                                         @if (item.IdTipoComprobante == 1)
                                                         {
                                                             <th class="text-center" width="10%">Proy&nbsp;</th>}
@@ -176,7 +176,7 @@
                                                                     <small class="text-muted inline m-t-sm m-b-sm">Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</small>
                                                                 </div>
                                                                 <div class="col-sm-4 text-right text-center-xs">
-                                                                    @Html.PagedListPager(Model, page => Url.Action("Comprobantes", new { idTipoComprobante = item.IdTipoComprobante, page }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
+                                                                    @Html.PagedListPager(Model, page => Url.Action("Comprobantes", new { idTipoComprobante = item.IdTipoComprobante, page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
                                                                 </div>
                                                             </div>
                                                         </th>

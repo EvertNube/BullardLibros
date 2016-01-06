@@ -864,8 +864,14 @@ namespace BullardLibros.Controllers
         private IPagedList<ComprobanteDTO> BusquedaYPaginado_Comprobantes(IList<ComprobanteDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            ViewBag.vbDocumento = sortOrder == "Documento" ? "Documento_desc" : "Documento";
+            ViewBag.vbNumero = sortOrder == "Numero" ? "Numero_desc" : "Numero";
+            ViewBag.vbCategoria = sortOrder == "Categoria" ? "Categoria_desc" : "Categoria";
+            ViewBag.vbEntidad = sortOrder == "Entidad" ? "Entidad_desc" : "Entidad";
+            ViewBag.vbMontoSinIGV = sortOrder == "MontoSinIGV" ? "MontoSinIGV_desc" : "MontoSinIGV";
+            ViewBag.vbUsuario = sortOrder == "Usuario" ? "Usuario_desc" : "Usuario";
+            ViewBag.vbFecha = sortOrder == "Fecha" ? "Fecha_desc" : "Fecha";
 
             if (searchString != null)
             {
@@ -890,7 +896,7 @@ namespace BullardLibros.Controllers
                 lista = lista.Where(s => (s.NombreTipoDocumento ?? "").Contains(searchString)
                     || (s.NombreCategoria ?? "").Contains(searchString) || (s.NroDocumento ?? "").Contains(searchString)
                     || (s.NombreEntidad ?? "").Contains(searchString) || (s.NombreUsuario ?? "").Contains(searchString)
-                    || s.FechaEmision.Date == pTiempo.Date
+                    || DateTime.Compare(s.FechaEmision, pTiempo) == 0
                     || s.MontoSinIGV.ToString().Contains(pDecimal.ToString())).ToList();
             }
 
@@ -908,14 +914,38 @@ namespace BullardLibros.Controllers
                 case "Entidad":
                     lista = lista.OrderBy(s => s.NombreEntidad).ToList();
                     break;
-                case "Monto Sin IGV":
+                case "MontoSinIGV":
                     lista = lista.OrderBy(s => s.MontoSinIGV).ToList();
                     break;
-                case "usuario":
+                case "Usuario":
                     lista = lista.OrderBy(s => s.NombreUsuario).ToList();
                     break;
-                case "fecha":
+                case "Fecha":
                     lista = lista.OrderBy(s => s.FechaEmision).ToList();
+                    break;
+                case "Documento_desc":
+                    lista = lista.OrderByDescending(s => s.NombreTipoDocumento).ToList();
+                    break;
+                case "Numero_desc":
+                    lista = lista.OrderByDescending(s => s.NroDocumento).ToList();
+                    break;
+                case "Categoria_desc":
+                    lista = lista.OrderByDescending(s => s.NombreCategoria).ToList();
+                    break;
+                case "Entidad_desc":
+                    lista = lista.OrderByDescending(s => s.NombreEntidad).ToList();
+                    break;
+                case "MontoSinIGV_desc":
+                    lista = lista.OrderByDescending(s => s.MontoSinIGV).ToList();
+                    break;
+                case "Usuario_desc":
+                    lista = lista.OrderByDescending(s => s.NombreUsuario).ToList();
+                    break;
+                case "Fecha_desc":
+                    lista = lista.OrderByDescending(s => s.FechaEmision).ToList();
+                    break;
+                default:
+                    lista = lista.OrderByDescending(s => s.FechaEmision).ToList();
                     break;
             }
 
