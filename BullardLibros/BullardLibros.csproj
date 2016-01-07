@@ -168,6 +168,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\admin\css\animate.css" />
     <Content Include="Content\themes\admin\css\app.css" />
+    <Content Include="Content\themes\admin\css\app.v1.css" />
     <Content Include="Content\themes\admin\css\bootstrap.css" />
     <Content Include="Content\themes\admin\css\font-awesome.min.css" />
     <Content Include="Content\themes\admin\css\font.css" />
@@ -198,6 +199,7 @@
     <Content Include="Content\themes\admin\images\thumb_3.png" />
     <Content Include="Content\themes\admin\js\app.js" />
     <Content Include="Content\themes\admin\js\app.plugin.js" />
+    <Content Include="Content\themes\admin\js\app.v1.js" />
     <Content Include="Content\themes\admin\js\apps\Admin.js" />
     <Content Include="Content\themes\admin\js\apps\notes.js" />
     <Content Include="Content\themes\admin\js\bootstrap.js" />

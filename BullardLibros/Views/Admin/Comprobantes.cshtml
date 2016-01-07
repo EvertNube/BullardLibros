@@ -125,7 +125,8 @@
                                                         @if (item.IdTipoComprobante == 1)
                                                         {
                                                             <th class="text-center" width="10%">Proy&nbsp;</th>}
-                                                        <th class="text-center" width="15%">Monto<br />&nbsp;Sin IGV</th>
+                                                        @*<th class="text-center" width="15%">Monto<br />&nbsp;Sin IGV</th>*@
+                                                        <th class="text-center" width="15%">@Html.ActionLink("Monto Sin IGV", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbMontoSinIGV, currentFilter = ViewBag.CurrentFilter }, null)</th>
                                                         <th class="text-center" width="14%">Partida<br />&nbsp;Presupuesto</th>
                                                         <th class="text-center" width="7%">Fecha<br />&nbsp;@rFechaFin &nbsp;</th>
                                                         <th class="text-center" width="5%">Usuario</th>

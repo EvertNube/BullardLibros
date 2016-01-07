@@ -863,6 +863,8 @@ namespace BullardLibros.Controllers
         }
         private IPagedList<ComprobanteDTO> BusquedaYPaginado_Comprobantes(IList<ComprobanteDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (!String.IsNullOrEmpty(searchString))
+            { searchString = searchString.ToLower(); }
             ViewBag.CurrentSort = sortOrder;
 
             ViewBag.vbDocumento = sortOrder == "Documento" ? "Documento_desc" : "Documento";
@@ -883,21 +885,42 @@ namespace BullardLibros.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            //Comparador para fecha
+
+            string tipoDato = "cadena";
             DateTime pTiempo;
-            pTiempo = DateTime.TryParse(searchString, out pTiempo) ? Convert.ToDateTime(searchString) : DateTime.Now;
-            string sTiempo = pTiempo.ToShortDateString();
+            if (DateTime.TryParse(searchString, out pTiempo))
+            {
+                tipoDato = "tiempo";
+                pTiempo = Convert.ToDateTime(searchString);
+            }
+
             Decimal pDecimal;
-            pDecimal = Decimal.TryParse(searchString, out pDecimal) ? Convert.ToDecimal(searchString) : 0;
-            //DateTime.Compare(s.Fecha, pTiempo) <= 0
-            //|| s.Fecha.Year == pTiempo.Year && s.Fecha.Month == pTiempo.Month && s.Fecha.Day == pTiempo.Day
+            if (Decimal.TryParse(searchString, out pDecimal))
+            {
+                tipoDato = "numerico";
+                pDecimal = Convert.ToDecimal(searchString);
+            }
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                lista = lista.Where(s => (s.NombreTipoDocumento ?? "").Contains(searchString)
-                    || (s.NombreCategoria ?? "").Contains(searchString) || (s.NroDocumento ?? "").Contains(searchString)
-                    || (s.NombreEntidad ?? "").Contains(searchString) || (s.NombreUsuario ?? "").Contains(searchString)
-                    || DateTime.Compare(s.FechaEmision, pTiempo) == 0
-                    || s.MontoSinIGV.ToString().Contains(pDecimal.ToString())).ToList();
+                switch(tipoDato)
+                {
+                    case "tiempo":
+                        lista = lista.Where(s => DateTime.Compare(s.FechaEmision, pTiempo) <= 0 || DateTime.Compare(s.FechaConclusion.GetValueOrDefault(), pTiempo) <= 0).ToList();
+                        break;
+                    case "numerico":
+                        lista = lista.Where(s => s.MontoSinIGV.ToString().Contains(pDecimal.ToString())).ToList();
+                        break;
+                    default:
+                        lista = lista.Where(s => (s.NombreTipoDocumento.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreCategoria.ToLower() ?? "").Contains(searchString) 
+                        || (s.NroDocumento.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreEntidad.ToLower() ?? "").Contains(searchString) 
+                        || (s.NombreUsuario.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreProyecto.ToLower() ?? "").Contains(searchString)
+                        ).ToList();
+                        break;
+                }
             }
 
             switch (sortOrder)
