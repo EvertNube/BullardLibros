@@ -903,22 +903,27 @@ namespace BullardLibros.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
+                IList<ComprobanteDTO> listaP;
+                listaP = lista.Where(s => (s.NombreTipoDocumento.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreCategoria.ToLower() ?? "").Contains(searchString)
+                        || (s.NroDocumento.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreEntidad.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreUsuario.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreProyecto.ToLower() ?? "").Contains(searchString)
+                        ).ToList();
+
                 switch(tipoDato)
                 {
                     case "tiempo":
                         lista = lista.Where(s => DateTime.Compare(s.FechaEmision, pTiempo) <= 0 || DateTime.Compare(s.FechaConclusion.GetValueOrDefault(), pTiempo) <= 0).ToList();
+                        lista = lista.Union(listaP).ToList();
                         break;
                     case "numerico":
                         lista = lista.Where(s => s.MontoSinIGV.ToString().Contains(pDecimal.ToString())).ToList();
+                        lista = lista.Union(listaP).ToList();
                         break;
                     default:
-                        lista = lista.Where(s => (s.NombreTipoDocumento.ToLower() ?? "").Contains(searchString)
-                        || (s.NombreCategoria.ToLower() ?? "").Contains(searchString) 
-                        || (s.NroDocumento.ToLower() ?? "").Contains(searchString)
-                        || (s.NombreEntidad.ToLower() ?? "").Contains(searchString) 
-                        || (s.NombreUsuario.ToLower() ?? "").Contains(searchString)
-                        || (s.NombreProyecto.ToLower() ?? "").Contains(searchString)
-                        ).ToList();
+                        lista = listaP;
                         break;
                 }
             }
@@ -974,12 +979,10 @@ namespace BullardLibros.Controllers
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
-            //Guardar Paginado
+
             TempData["PagMovs"] = (page ?? 1);
 
             return lista.ToPagedList(pageNumber, pageSize);
-            //obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
-            //return lista;
         }
         public ActionResult Comprobante(int? id = null, int? idTipoComprobante = null)
         {
