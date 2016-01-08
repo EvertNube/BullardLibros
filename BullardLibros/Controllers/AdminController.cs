@@ -113,7 +113,7 @@ namespace BullardLibros.Controllers
             UsuarioDTO usuario = new UsuarioDTO() { Cuenta = UserName, Email = UserName, codigoEmpresa = codigoEmpresa };
             usuario = objBL.getUserByAcountOrEmail(usuario);
 
-            if(usuario == null)
+            if (usuario == null)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_RECOVERY_PASSWORD);
                 return RedirectToAction("ForgotPassword", "Admin");
@@ -122,7 +122,7 @@ namespace BullardLibros.Controllers
             {
                 if (objBL.recoverPasswordNew(usuario))
                 {
-                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_RECOVERY_PASSWORD);   
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_RECOVERY_PASSWORD);
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace BullardLibros.Controllers
                     return RedirectToAction("ForgotPassword", "Admin");
                 }
             }
-            
+
             return RedirectToAction("Ingresar", "Admin");
         }
 
@@ -196,7 +196,7 @@ namespace BullardLibros.Controllers
 
             var objSent = TempData["Empresa"];
             if (objSent != null) { TempData["Empresa"] = null; return View(objSent); }
-            if(id != null)
+            if (id != null)
             {
                 EmpresaDTO obj = objBL.getEmpresa((int)id);
                 if (obj == null) return RedirectToAction("Index");
@@ -255,13 +255,13 @@ namespace BullardLibros.Controllers
             MenuNavBarSelected(1);
 
             UsuarioDTO miUsuario = getCurrentUser();
-            
+
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             ViewBag.lstTipoCuentas = objBL.getTipoDeCuentas();
             ViewBag.idTipoCuenta = idTipoCuenta;
             List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
 
-            if(miUsuario.IdEmpresa != 0)
+            if (miUsuario.IdEmpresa != 0)
             {
                 EmpresaBL empBL = new EmpresaBL();
                 Decimal miTipoCambio = empBL.getEmpresa((int)miUsuario.IdEmpresa).TipoCambio;
@@ -386,7 +386,7 @@ namespace BullardLibros.Controllers
                 }
             }
 
-            switch(sortOrder)
+            switch (sortOrder)
             {
                 case "Fecha":
                     lista = lista.OrderBy(s => s.Fecha).ToList();
@@ -513,11 +513,11 @@ namespace BullardLibros.Controllers
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.Periodos = objBL.GetPeriodosEnEmpresaViewBag(miUsuario.IdEmpresa);
             List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
-            if(miUsuario.IdEmpresa > 0)
+            if (miUsuario.IdEmpresa > 0)
             {
                 listaCategorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa);
             }
-            
+
             return View(listaCategorias);
         }
         public ActionResult Categoria(int? id = null, int? idPadre = null)
@@ -526,13 +526,13 @@ namespace BullardLibros.Controllers
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
 
             ViewBag.Title += " - Categoría";
-            
+
             MenuNavBarSelected(4, 5);
             UsuarioDTO miUsuario = getCurrentUser();
 
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
-            
+
             ViewBag.Categorias = CategoriasBucle(null, null);
 
             ViewBag.NombreCategoria = "Sin Categoría";
@@ -632,13 +632,13 @@ namespace BullardLibros.Controllers
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
-            
+
             ViewBag.IdTipoCuenta = new CuentaBancariaBL().getCuentaBancariaSolo(idLibro.GetValueOrDefault()).IdTipoCuenta;
             ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta != 2 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
-            
+
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
-            ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true); 
-            ViewBag.NombreCategoria = "Sin Categoría"; 
+            ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true);
+            ViewBag.NombreCategoria = "Sin Categoría";
             ViewBag.Categorias = CategoriasBucle(null, null);
             ViewBag.Comprobantes = objBL.getComprobantesPendientesEnEmpresa(miUsuario.IdEmpresa);
 
@@ -723,7 +723,7 @@ namespace BullardLibros.Controllers
 
             UsuariosBL usuariosBL = new UsuariosBL();
             List<UsuarioDTO> listaUsuarios = new List<UsuarioDTO>();
-            if(currentUser.IdEmpresa > 0)
+            if (currentUser.IdEmpresa > 0)
             {
                 listaUsuarios = usuariosBL.getUsuariosEnEmpresa(currentUser.IdEmpresa, currentUser.IdRol);
             }
@@ -827,8 +827,8 @@ namespace BullardLibros.Controllers
             ViewBag.idTipoEntidad = idTipoEntidad;
             List<EntidadResponsableDTO> listaEntidades = new List<EntidadResponsableDTO>();
             ViewBag.lstTipoEntidades = objBL.getTipoDeEntidades();
-            
-            if(currentUser.IdEmpresa > 0)
+
+            if (currentUser.IdEmpresa > 0)
             {
                 listaEntidades = objBL.getEntidadResponsablesEnEmpresa(currentUser.IdEmpresa);
             }
@@ -986,7 +986,7 @@ namespace BullardLibros.Controllers
                         || (s.NombreProyecto.ToLower() ?? "").Contains(searchString)
                         ).ToList();
 
-                switch(tipoDato)
+                switch (tipoDato)
                 {
                     case "tiempo":
                         lista = lista.Where(s => DateTime.Compare(s.FechaEmision, pTiempo) <= 0 || DateTime.Compare(s.FechaConclusion.GetValueOrDefault(), pTiempo) <= 0).ToList();
@@ -1085,7 +1085,7 @@ namespace BullardLibros.Controllers
             ViewBag.lstHonorarios = objBL.getListaHonorariosEnEmpresa(currentUser.IdEmpresa);
             ViewBag.Proyectos = new List<ProyectoDTO>();
             ViewBag.Categorias = CategoriasBucle(null, null);
-            
+
             var objSent = TempData["Comprobante"];
             if (objSent != null) { TempData["Comprobante"] = null; return View(objSent); }
 
@@ -1105,7 +1105,7 @@ namespace BullardLibros.Controllers
             obj.TipoCambio = (new EmpresaBL()).getEmpresa(currentUser.IdEmpresa).TipoCambio;
             obj.UsuarioCreacion = currentUser.IdUsuario;
             obj.FechaEmision = DateTime.Now;
-            
+
             if (idTipoComprobante != null && idTipoComprobante != 0) obj.IdTipoComprobante = idTipoComprobante.GetValueOrDefault();
             return View(obj);
         }
@@ -1117,8 +1117,8 @@ namespace BullardLibros.Controllers
             try
             {
                 int TipoComprobante = 1; //Por defecto tipo de comprobante Ingreso
-                if (dto != null) 
-                { 
+                if (dto != null)
+                {
                     TipoComprobante = dto.IdTipoComprobante;
                     dto.lstMontos = (List<AreaPorComprobanteDTO>)TempData["AreasXMontos"] ?? new List<AreaPorComprobanteDTO>();
                 }
@@ -1593,7 +1593,7 @@ namespace BullardLibros.Controllers
             PeriodoBL objBL = new PeriodoBL();
             List<PeriodoDTO> listaPeriodos = new List<PeriodoDTO>();
 
-            if(currentUser.IdEmpresa > 0)
+            if (currentUser.IdEmpresa > 0)
             {
                 listaPeriodos = objBL.getPeriodosEnEmpresa(currentUser.IdEmpresa);
             }
@@ -1615,7 +1615,7 @@ namespace BullardLibros.Controllers
             if (objSent != null) { TempData["Periodo"] = null; return View(objSent); }
 
             PeriodoDTO obj;
-            if(id != null)
+            if (id != null)
             {
                 obj = objBL.getPeriodoEnEmpresa((int)currentUser.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Periodos");
@@ -1742,7 +1742,7 @@ namespace BullardLibros.Controllers
             EmpresaBL empBL = new EmpresaBL();
             int pPeriodo = empBL.getEmpresa(getCurrentUser().IdEmpresa).IdPeriodo.GetValueOrDefault();
             if (pPeriodo == 0) { return Json(false, JsonRequestBehavior.AllowGet); }
-            
+
             CategoriaPorPeriodoDTO dto = new CategoriaPorPeriodoDTO() { IdCategoria = idCategoria, IdPeriodo = pPeriodo, Monto = Monto };
             objBL.updatePresupuesto(dto);
 
@@ -2389,7 +2389,7 @@ namespace BullardLibros.Controllers
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
-            
+
             ReportesBL repBL = new ReportesBL();
             List<EntidadResponsableR_DTO> lstClientes = repBL.getFacturacionPorClientes(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
@@ -2529,7 +2529,7 @@ namespace BullardLibros.Controllers
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
-            
+
             string Entidad = IdTipoComprobante == 1 ? "Cliente" : "Entidad";
             string FechaEjecucion = IdTipoComprobante == 1 ? "Fecha Cobro" : "Fecha Pago";
 
@@ -2603,8 +2603,8 @@ namespace BullardLibros.Controllers
             ReportesBL repBL = new ReportesBL();
 
             CategoriaR_DTO catArbol = repBL.getDetalleIngresosYGastos_PorPartidaDePresupuesto(IdCategoria, objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
-            
-            if(catArbol == null)
+
+            if (catArbol == null)
                 return RedirectToAction("ReporteCategorias", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
@@ -2636,7 +2636,7 @@ namespace BullardLibros.Controllers
                 row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 row["Area(s)"] = obj.Areas;
                 row["Comentario"] = obj.Comentario;
-                
+
                 dt.Rows.Add(row);
             }
             PintarGastoPorPartidaPresupuesto(catArbol.Hijos.ToList(), dt);
@@ -2680,7 +2680,7 @@ namespace BullardLibros.Controllers
                 Response.End();
                 htw.Close();
                 sw.Close();
-            }   
+            }
         }
         private static void GenerarPdf2(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
         {
@@ -2769,12 +2769,12 @@ namespace BullardLibros.Controllers
             dt.Rows.Add(row1);
 
             foreach (var item in obj.lstClientes)
-	        {
-		        System.Data.DataRow row2 = dt.NewRow();
+            {
+                System.Data.DataRow row2 = dt.NewRow();
                 row2[1] = item.Nombre;
                 row2["Montos"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 dt.Rows.Add(row2);
-	        }
+            }
         }
         private static void PintarAreasIE(AreaDTO obj, System.Data.DataTable dt)
         {
@@ -2910,7 +2910,7 @@ namespace BullardLibros.Controllers
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
                 return RedirectToAction("Libros", "Admin");
             }
-            
+
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
@@ -2950,7 +2950,7 @@ namespace BullardLibros.Controllers
                 row["Documento"] = obj.NombreTipoDocumento;
                 row["Numero"] = obj.NroDocumento;
                 row[strEntidad] = obj.NombreEntidad;
-                if(idTipoComprobante == 1) { row["Proyecto"] = obj.NombreProyecto; }
+                if (idTipoComprobante == 1) { row["Proyecto"] = obj.NombreProyecto; }
                 row["Moneda"] = obj.SimboloMoneda;
                 row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
                 row["Partida de Presupuesto"] = obj.NombreCategoria;
@@ -3051,63 +3051,48 @@ namespace BullardLibros.Controllers
             int contPadre = 0;
             foreach (GridViewRow row in myTable.Rows)
             {
-                /*if (contPadre > 0)
+                if (cadenaPadre != row.Cells[0].Text)
                 {
-                    if (contPadre == 1 || contPadre == 2)
+                    if (!blancoActive)
                     {
-                        cadenaPadre = row.Cells[0].Text;
-                        cadenaSub = row.Cells[1].Text;
-                        for (int i = 1; i < row.Cells.Count; i++)
-                        {
-                            row.Cells[i].BackColor = System.Drawing.Color.FromArgb(229, 231, 235);
-                        }
+                        colorPadre = System.Drawing.Color.FromArgb(229, 231, 235);
+                        blancoActive = true;
                     }
                     else
-                    {*/
-                        if (cadenaPadre != row.Cells[0].Text)
+                    {
+                        colorPadre = System.Drawing.Color.FromArgb(255, 255, 255);
+                        blancoActive = false;
+                    }
+                    cadenaPadre = row.Cells[0].Text;
+                }
+                for (int i = 0; i < row.Cells.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        row.Cells[i].BackColor = colorPadre;
+                    }
+                    else
+                    {
+                        if (i == 1)
                         {
-                            if (!blancoActive)
+                            if (cadenaSub != row.Cells[i].Text)
                             {
-                                colorPadre = System.Drawing.Color.FromArgb(229, 231, 235);
-                                blancoActive = true;
-                            }
-                            else
-                            {
-                                colorPadre = System.Drawing.Color.FromArgb(255, 255, 255);
-                                blancoActive = false;
-                            }
-                            cadenaPadre = row.Cells[0].Text;
-                        }
-                        for (int i = 0; i < row.Cells.Count; i++)
-                        {
-                            if (i == 0)
-                            {
-                                row.Cells[i].BackColor = colorPadre;
-                            }
-                            else
-                            {
-                                if (i == 1)
+                                if (!blancoActive2)
                                 {
-                                    if (cadenaSub != row.Cells[i].Text)
-                                    {
-                                        if (!blancoActive2)
-                                        {
-                                            colorSub = System.Drawing.Color.FromArgb(229, 231, 235);
-                                            blancoActive2 = true;
-                                        }
-                                        else
-                                        {
-                                            colorSub = System.Drawing.Color.FromArgb(255, 255, 255);
-                                            blancoActive2 = false;
-                                        }
-                                        cadenaSub = row.Cells[i].Text;
-                                    }
+                                    colorSub = System.Drawing.Color.FromArgb(229, 231, 235);
+                                    blancoActive2 = true;
                                 }
-                                row.Cells[i].BackColor = colorSub;
+                                else
+                                {
+                                    colorSub = System.Drawing.Color.FromArgb(255, 255, 255);
+                                    blancoActive2 = false;
+                                }
+                                cadenaSub = row.Cells[i].Text;
                             }
                         }
-                    /*}
-                }*/
+                        row.Cells[i].BackColor = colorSub;
+                    }
+                }
                 contPadre++;
             }
         }
@@ -3157,24 +3142,22 @@ namespace BullardLibros.Controllers
                             row.Cells[i].BackColor = System.Drawing.Color.FromArgb(71, 229, 199);
                             row.Cells[i].Font.Bold = true;
                         }
-                        //row.BackColor = System.Drawing.Color.FromArgb(230, 126, 34);
                     }
                     if (cadena1 == "TOTAL :")
                     {
                         for (int i = 0; i < row.Cells.Count; i++)
                         {
-                            if(i == 0)
+                            if (i == 0)
                             {
                                 row.Cells[i].BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
                                 row.Cells[i].Font.Bold = true;
                             }
                             else
-                            { 
-                            row.Cells[i].BackColor = System.Drawing.Color.FromArgb(95, 174, 227);
-                            row.Cells[i].Font.Bold = true;
+                            {
+                                row.Cells[i].BackColor = System.Drawing.Color.FromArgb(95, 174, 227);
+                                row.Cells[i].Font.Bold = true;
                             }
                         }
-                        //row.BackColor = System.Drawing.Color.FromArgb(52, 152, 219);
                     }
                 }
             }
@@ -3235,9 +3218,9 @@ namespace BullardLibros.Controllers
         public string CambiarEmpresaSuperAdmin(int idEmpresa)
         {
             if (!this.currentUser() || !isSuperAdministrator()) { return "false"; }
-            
+
             UsuariosBL objBL = new UsuariosBL();
-            if(objBL.actualizarEmpresaSuperAdmin(getCurrentUser().IdUsuario, idEmpresa))
+            if (objBL.actualizarEmpresaSuperAdmin(getCurrentUser().IdUsuario, idEmpresa))
             {
                 System.Web.HttpContext.Current.Session["User"] = objBL.getUsuario(getCurrentUser().IdUsuario);
                 return "true";
@@ -3252,8 +3235,8 @@ namespace BullardLibros.Controllers
 
             EmpresaBL objBL = new EmpresaBL();
             UsuarioDTO miUsuario = getCurrentUser();
-            EmpresaDTO obj = new EmpresaDTO(){ IdEmpresa = miUsuario.IdEmpresa, TipoCambio = tipoCambio };
-            if(objBL.updateTipoCambio(obj))
+            EmpresaDTO obj = new EmpresaDTO() { IdEmpresa = miUsuario.IdEmpresa, TipoCambio = tipoCambio };
+            if (objBL.updateTipoCambio(obj))
             {
                 return "true";
             }
@@ -3281,7 +3264,7 @@ namespace BullardLibros.Controllers
         public void MenuNavBarSelected(int num, int? subNum = null)
         {
             navbar.clearAll();
-            if(num != 0) { navbar.lstOptions[num-1].cadena = "active"; }
+            if (num != 0) { navbar.lstOptions[num - 1].cadena = "active"; }
 
             if (subNum != null && subNum != 0)
             {
@@ -3290,7 +3273,7 @@ namespace BullardLibros.Controllers
                 {
                     item.cadena = "";
                 }
-                navbar.lstOptions.Last().lstOptions[subNum.GetValueOrDefault()-1].cadena = "active";
+                navbar.lstOptions.Last().lstOptions[subNum.GetValueOrDefault() - 1].cadena = "active";
             }
             ViewBag.navbar = navbar;
         }

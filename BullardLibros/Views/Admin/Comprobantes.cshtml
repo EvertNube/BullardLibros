@@ -148,7 +148,7 @@
                                                     {
                                                         foreach (var obj in Model[item.IdTipoComprobante - 1])
                                                         {
-                                                            var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                                            var classInactive = (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && !obj.Estado) ? "class='inactive'" : "";
                                                             <tr @Html.Raw(classInactive)>
                                                                 <td class="text-center" width="7%">@obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                                                 <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
