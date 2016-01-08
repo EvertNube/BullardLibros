@@ -51,6 +51,46 @@ namespace BullardLibros.Core.BL
                 return result;
             }
         }
+        public List<ComprobanteDTO> getComprobantesEnEmpresaPorTipo(int idEmpresa, int tipo)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == tipo).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    IdTipoComprobante = x.IdTipoComprobante,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa,
+                    NroDocumento = x.NroDocumento,
+                    Monto = x.Monto,
+                    IdArea = x.IdArea,
+                    IdResponsable = x.IdResponsable,
+                    IdCategoria = x.IdCategoria,
+                    IdProyecto = x.IdProyecto,
+                    FechaEmision = x.FechaEmision,
+                    FechaConclusion = x.FechaConclusion,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    Ejecutado = x.Ejecutado,
+                    IdHonorario = x.IdHonorario,
+                    NombreEntidad = x.EntidadResponsable.Nombre,
+                    NombreMoneda = x.Moneda.Nombre,
+                    NombreTipoComprobante = x.TipoComprobante.Nombre,
+                    NombreTipoDocumento = x.TipoDocumento.Nombre,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    MontoSinIGV = x.MontoSinIGV,
+                    TipoCambio = x.TipoCambio,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    NombreUsuario = x.Usuario.Cuenta,
+                    NombreCategoria = x.Categoria.Nombre,
+                    NombreProyecto = x.Proyecto.Nombre ?? "",
+                    FechaString = x.FechaEmision.Year + "/" + x.FechaEmision.Month + "/" + x.FechaEmision.Day
+                }).OrderBy(x => x.NroDocumento).ToList();
+                return result;
+            }
+        }
         public List<ComprobanteDTO> getComprobantesEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())

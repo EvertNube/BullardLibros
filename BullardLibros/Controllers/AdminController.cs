@@ -320,9 +320,19 @@ namespace BullardLibros.Controllers
         }
         private IPagedList<MovimientoDTO> BusquedaYPaginado_Movimiento(IList<MovimientoDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (!String.IsNullOrEmpty(searchString))
+            { searchString = searchString.ToLower(); }
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            ViewBag.vbFecha = sortOrder == "Fecha" ? "Fecha_desc" : "Fecha";
+            ViewBag.vbTipo = sortOrder == "Tipo" ? "Tipo_desc" : "Tipo";
+            ViewBag.vbDetalle = sortOrder == "Detalle" ? "Detalle_desc" : "Detalle";
+            ViewBag.vbMonto = sortOrder == "Monto" ? "Monto_desc" : "Monto";
+            ViewBag.vbCategoria = sortOrder == "Categoria" ? "Categoria_desc" : "Categoria";
+            ViewBag.vbEntidad = sortOrder == "Entidad" ? "Entidad_desc" : "Entidad";
+            ViewBag.vbDocumento = sortOrder == "Documento" ? "Documento_desc" : "Documento";
+            ViewBag.vbUsuario = sortOrder == "Usuario" ? "Usuario_desc" : "Usuario";
+            ViewBag.vbEstado = sortOrder == "Estado" ? "Estado_desc" : "Estado";
 
             if (searchString != null)
             {
@@ -334,53 +344,110 @@ namespace BullardLibros.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            //Comparador para fecha
+
+            string tipoDato = "cadena";
             DateTime pTiempo;
-            pTiempo = DateTime.TryParse(searchString, out pTiempo) ? Convert.ToDateTime(searchString) : DateTime.Now;
-            string sTiempo = pTiempo.ToShortDateString();
-            Decimal pDecimal;
-            pDecimal = Decimal.TryParse(searchString, out pDecimal) ? Convert.ToDecimal(searchString) : 0;
-            //DateTime.Compare(s.Fecha, pTiempo) <= 0
-            //|| s.Fecha.Year == pTiempo.Year && s.Fecha.Month == pTiempo.Month && s.Fecha.Day == pTiempo.Day
-            if(!String.IsNullOrEmpty(searchString))
+            if (DateTime.TryParse(searchString, out pTiempo))
             {
-                lista = lista.Where(s => (s.NroOperacion ?? "").Contains(searchString)
-                    || (s.NombreCategoria ?? "").Contains(searchString) || (s.NombreEntidadR ?? "").Contains(searchString)
-                    || (s.NumeroDocumento ?? "").Contains(searchString) || (s.NombreUsuario ?? "").Contains(searchString)
-                    || s.Fecha.Date == pTiempo.Date
-                    || s.Monto.ToString().Contains(pDecimal.ToString())).ToList();
+                tipoDato = "tiempo";
+                pTiempo = Convert.ToDateTime(searchString);
+            }
+
+            Decimal pDecimal;
+            if (Decimal.TryParse(searchString, out pDecimal))
+            {
+                tipoDato = "numerico";
+                pDecimal = Convert.ToDecimal(searchString);
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                IList<MovimientoDTO> listaP;
+                listaP = lista.Where(s => (s.NroOperacion.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreCategoria.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreEntidadR.ToLower() ?? "").Contains(searchString)
+                        || (s.NumeroDocumento.ToLower() ?? "").Contains(searchString)
+                        || (s.NombreUsuario.ToLower() ?? "").Contains(searchString)
+                        ).ToList();
+
+                switch (tipoDato)
+                {
+                    case "tiempo":
+                        lista = lista.Where(s => DateTime.Compare(s.Fecha, pTiempo) <= 0).ToList();
+                        lista = lista.Union(listaP).ToList();
+                        break;
+                    case "numerico":
+                        lista = lista.Where(s => s.Monto.ToString().Contains(pDecimal.ToString())).ToList();
+                        lista = lista.Union(listaP).ToList();
+                        break;
+                    default:
+                        lista = listaP;
+                        break;
+                }
             }
 
             switch(sortOrder)
             {
-                case "numero":
-                    lista = lista.OrderBy(s => s.NumeroDocumento).ToList();
+                case "Fecha":
+                    lista = lista.OrderBy(s => s.Fecha).ToList();
                     break;
-                case "operacion":
+                case "Tipo":
+                    lista = lista.OrderBy(s => s.IdTipoMovimiento).ToList();
+                    break;
+                case "Detalle":
                     lista = lista.OrderBy(s => s.NroOperacion).ToList();
                     break;
-                case "categoria":
+                case "Monto":
+                    lista = lista.OrderBy(s => s.Monto).ToList();
+                    break;
+                case "Categoria":
                     lista = lista.OrderBy(s => s.NombreCategoria).ToList();
                     break;
-                case "entidad":
+                case "Entidad":
                     lista = lista.OrderBy(s => s.NombreEntidadR).ToList();
                     break;
-                case "usuario":
+                case "Documento":
+                    lista = lista.OrderBy(s => s.NumeroDocumento).ToList();
+                    break;
+                case "Usuario":
                     lista = lista.OrderBy(s => s.NombreUsuario).ToList();
                     break;
-                case "fecha":
-                    lista = lista.OrderBy(s => s.Fecha).ToList();
+                case "Estado":
+                    lista = lista.OrderBy(s => s.IdEstadoMovimiento).ToList();
+                    break;
+                case "Fecha_desc":
+                    lista = lista.OrderByDescending(s => s.Fecha).ToList();
+                    break;
+                case "Tipo_desc":
+                    lista = lista.OrderByDescending(s => s.IdTipoMovimiento).ToList();
+                    break;
+                case "Detalle_desc":
+                    lista = lista.OrderByDescending(s => s.NroOperacion).ToList();
+                    break;
+                case "Monto_desc":
+                    lista = lista.OrderByDescending(s => s.Monto).ToList();
+                    break;
+                case "Categoria_desc":
+                    lista = lista.OrderByDescending(s => s.NombreCategoria).ToList();
+                    break;
+                case "Entidad_desc":
+                    lista = lista.OrderByDescending(s => s.NombreEntidadR).ToList();
+                    break;
+                case "Documento_desc":
+                    lista = lista.OrderByDescending(s => s.NumeroDocumento).ToList();
+                    break;
+                case "Usuario_desc":
+                    lista = lista.OrderByDescending(s => s.NombreUsuario).ToList();
+                    break;
+                case "Estado_desc":
+                    lista = lista.OrderByDescending(s => s.IdEstadoMovimiento).ToList();
                     break;
             }
 
-            int pageSize = 20;
+            int pageSize = 50;
             int pageNumber = (page ?? 1);
-            //Guardar Paginado
-            TempData["PagMovs"] = (page ?? 1);
 
             return lista.ToPagedList(pageNumber, pageSize);
-            //obj.listaMovimientoPL = obj.listaMovimiento.ToPagedList(pageNumber, pageSize);
-            //return lista;
         }
         [HttpPost]
         public ActionResult AddLibro(CuentaBancariaDTO dto)
@@ -849,15 +916,19 @@ namespace BullardLibros.Controllers
             UsuarioDTO currentUser = getCurrentUser();
 
             ComprobanteBL objBL = new ComprobanteBL();
-            List<ComprobanteDTO> listaComprobantes = new List<ComprobanteDTO>();
+            List<ComprobanteDTO> listaIngresos = new List<ComprobanteDTO>();
+            List<ComprobanteDTO> listaEgresos = new List<ComprobanteDTO>();
             ViewBag.lstTipoComprobantes = objBL.getTipoDeComprobantes();
             ViewBag.idTipoComprobante = idTipoComprobante;
 
             if (currentUser.IdEmpresa > 0)
             {
-                listaComprobantes = objBL.getComprobantesEnEmpresa(currentUser.IdEmpresa);
-                IPagedList<ComprobanteDTO> lista = BusquedaYPaginado_Comprobantes(listaComprobantes, sortOrder, currentFilter, searchString, page);
-                return View(lista);
+                listaIngresos = objBL.getComprobantesEnEmpresaPorTipo(currentUser.IdEmpresa, 1);
+                listaEgresos = objBL.getComprobantesEnEmpresaPorTipo(currentUser.IdEmpresa, 2);
+                List<IPagedList<ComprobanteDTO>> matrix = new List<IPagedList<ComprobanteDTO>>();
+                matrix.Add(BusquedaYPaginado_Comprobantes(listaIngresos, sortOrder, currentFilter, searchString, page));
+                matrix.Add(BusquedaYPaginado_Comprobantes(listaEgresos, sortOrder, currentFilter, searchString, page));
+                return View(matrix);
             }
             return View();
         }
@@ -867,13 +938,16 @@ namespace BullardLibros.Controllers
             { searchString = searchString.ToLower(); }
             ViewBag.CurrentSort = sortOrder;
 
+            ViewBag.vbFecha = sortOrder == "Fecha" ? "Fecha_desc" : "Fecha";
             ViewBag.vbDocumento = sortOrder == "Documento" ? "Documento_desc" : "Documento";
             ViewBag.vbNumero = sortOrder == "Numero" ? "Numero_desc" : "Numero";
-            ViewBag.vbCategoria = sortOrder == "Categoria" ? "Categoria_desc" : "Categoria";
             ViewBag.vbEntidad = sortOrder == "Entidad" ? "Entidad_desc" : "Entidad";
+            ViewBag.vbProyecto = sortOrder == "Proyecto" ? "Proyecto_desc" : "Proyecto";
             ViewBag.vbMontoSinIGV = sortOrder == "MontoSinIGV" ? "MontoSinIGV_desc" : "MontoSinIGV";
+            ViewBag.vbCategoria = sortOrder == "Categoria" ? "Categoria_desc" : "Categoria";
+            ViewBag.vbFechaFin = sortOrder == "FechaFin" ? "FechaFin_desc" : "FechaFin";
             ViewBag.vbUsuario = sortOrder == "Usuario" ? "Usuario_desc" : "Usuario";
-            ViewBag.vbFecha = sortOrder == "Fecha" ? "Fecha_desc" : "Fecha";
+            ViewBag.vbEstado = sortOrder == "Estado" ? "Estado_desc" : "Estado";
 
             if (searchString != null)
             {
@@ -951,6 +1025,12 @@ namespace BullardLibros.Controllers
                 case "Fecha":
                     lista = lista.OrderBy(s => s.FechaEmision).ToList();
                     break;
+                case "FechaFin":
+                    lista = lista.OrderBy(s => s.FechaConclusion).ToList();
+                    break;
+                case "Estado":
+                    lista = lista.OrderBy(s => s.Ejecutado).ToList();
+                    break;
                 case "Documento_desc":
                     lista = lista.OrderByDescending(s => s.NombreTipoDocumento).ToList();
                     break;
@@ -972,15 +1052,19 @@ namespace BullardLibros.Controllers
                 case "Fecha_desc":
                     lista = lista.OrderByDescending(s => s.FechaEmision).ToList();
                     break;
+                case "FechaFin_desc":
+                    lista = lista.OrderByDescending(s => s.FechaConclusion).ToList();
+                    break;
+                case "Estado_desc":
+                    lista = lista.OrderByDescending(s => s.Ejecutado).ToList();
+                    break;
                 default:
                     lista = lista.OrderByDescending(s => s.FechaEmision).ToList();
                     break;
             }
 
-            int pageSize = 20;
+            int pageSize = 50;
             int pageNumber = (page ?? 1);
-
-            TempData["PagMovs"] = (page ?? 1);
 
             return lista.ToPagedList(pageNumber, pageSize);
         }

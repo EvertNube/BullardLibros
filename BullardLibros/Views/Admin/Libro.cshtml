@@ -232,17 +232,17 @@
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <th class="text-center" width="7%">Fecha</th>
-                                                <th class="text-center" width="12%">Movimiento</th>
-                                                <th class="text-center" width="11%">Detalle</th>
+                                                <th class="text-center" width="7%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbFecha, currentFilter = ViewBag.CurrentFilter })">Fecha</a></th>
+                                                <th class="text-center" width="12%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbTipo, currentFilter = ViewBag.CurrentFilter })">Movimiento</a></th>
+                                                <th class="text-center" width="11%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbDetalle, currentFilter = ViewBag.CurrentFilter })">Detalle</a></th>
 
-                                                <th class="text-center" width="13%">Monto</th>
-                                                <th class="text-center" width="10%">Partida<br>Presupuesto&nbsp;</th>
-                                                <th class="text-center" width="10%">Entidad</th>
+                                                <th class="text-center" width="13%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbMonto, currentFilter = ViewBag.CurrentFilter })">Monto</a></th>
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbCategoria, currentFilter = ViewBag.CurrentFilter })">Partida<br>Presupuesto&nbsp;</a></th>
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbEntidad, currentFilter = ViewBag.CurrentFilter })">Entidad</a></th>
 
-                                                <th class="text-center" width="10%">Docum.&nbsp;</th>
-                                                <th class="text-center">E</th>
-                                                <th class="text-center" width="10%">Usuario</th>
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbDocumento, currentFilter = ViewBag.CurrentFilter })">Docum.&nbsp;</a></th>
+                                                <th class="text-center"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbEstado, currentFilter = ViewBag.CurrentFilter })">E</a></th>
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbUsuario, currentFilter = ViewBag.CurrentFilter })">Usuario</a></th>
 
                                                 <th class="text-center" width="7%">Opc.</th>
                                             </tr>
