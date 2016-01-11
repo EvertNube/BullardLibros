@@ -31,6 +31,9 @@ namespace BullardLibros.Core.DTO
         public string NombreEntidadR { get; set; }
         public string NombreCategoria { get; set; }
         public string NombreUsuario { get; set; }
+        //Variables del comprobante
+        public Decimal? cmpMontoPendiente { get; set; }
+        public bool cmpCancelado { get; set; }
 
         public string NumeroDocumento2 { get; set; }
 

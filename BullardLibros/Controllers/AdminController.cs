@@ -676,6 +676,24 @@ namespace BullardLibros.Controllers
             try
             {
                 MovimientoBL objBL = new MovimientoBL();
+                if(dto.IdComprobante != null && dto.cmpMontoPendiente != null)
+                {
+                    if(dto.cmpMontoPendiente < 0)
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, "<strong>Error.</strong> No se puede pagar un monto mayor al monto pendiente");
+                        dto.Monto = dto.IdMovimiento != 0 ? objBL.getMovimiento(dto.IdMovimiento).Monto : 0;
+                        TempData["Movimiento"] = dto;
+                        return RedirectToAction("Movimiento", new { id = 0, idLibro = dto.IdCuentaBancaria });
+                    }
+                    else if(dto.Monto == dto.cmpMontoPendiente)
+                    {
+                        ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true);
+                    }
+                    else
+                    {
+                        ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado);
+                    }
+                }
                 if (dto.IdMovimiento == 0)
                 {
                     if (objBL.add(dto))

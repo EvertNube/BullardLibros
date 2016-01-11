@@ -154,6 +154,7 @@
     </script>
 }
 @functions{
+    int nivelMax = 4;
     public string printTree(IList<BullardLibros.Core.DTO.CategoriaDTO> categorias, int nivel)
     {
         if (categorias != null && categorias.Count != 0)
@@ -164,7 +165,7 @@
             {
                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? " inactive" : "";
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
-                output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == 3 || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
+                output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == nivelMax || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
                 
                 output.Append("<div class='col-md-3 text-right'>");
                 if (obj.Hijos == null || obj.Hijos.Count == 0)
@@ -175,7 +176,7 @@
                 
                 output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");
                 if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-add' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
-                if (nivel < 4) { output.AppendFormat("<a class='btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
+                if (nivel < nivelMax) { output.AppendFormat("<a class='btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
                 output.Append("</div></div></div>");
                 if (obj.Hijos != null && obj.Hijos.Count != 0) { output.Append(printTree(obj.Hijos, nivel + 1)); }
                 output.Append("</li>");
