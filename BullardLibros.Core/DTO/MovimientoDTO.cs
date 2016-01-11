@@ -33,5 +33,6 @@ namespace BullardLibros.Core.DTO
         public string NombreUsuario { get; set; }
 
         public string NumeroDocumento2 { get; set; }
+
     }
 }

@@ -91,7 +91,7 @@
                                                         {
                                                             if (item.IdTipoEntidad == obj.IdTipoEntidad)
                                                             {
-                                                                var classInactive = (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && !obj.Estado) ? "class='inactive'" : "";
+                                                                var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
                                                                 <tr @Html.Raw(classInactive)>
                                                                     <td width="25%">@obj.Nombre</td>
                                                                     <td class="text-center">@(obj.NombreIdentificacion)</td>
