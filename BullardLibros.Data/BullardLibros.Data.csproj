@@ -158,6 +158,9 @@
     <Compile Include="SP_Rep_FacturacionPorCliente_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Rep_FacturacionPorHonorarios_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Rep_FacturacionPorVendedor_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

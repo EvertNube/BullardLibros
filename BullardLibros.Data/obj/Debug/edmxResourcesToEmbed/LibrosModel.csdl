@@ -1116,6 +1116,11 @@
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="SP_Rep_FacturacionPorHonorarios" ReturnType="Collection(LibrosDBModel.SP_Rep_FacturacionPorHonorarios_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1280,5 +1285,12 @@
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
     <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="SP_Rep_FacturacionPorHonorarios_Result">
+    <Property Type="Int32" Name="IdHonorario" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="150" />
+    <Property Type="Boolean" Name="Estado" Nullable="false" />
+    <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+    <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
 </Schema>

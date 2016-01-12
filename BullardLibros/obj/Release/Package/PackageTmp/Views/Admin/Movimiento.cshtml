@@ -84,24 +84,26 @@
         }
 
         function ActualizarMontoPendiente() {
-            if($('#IdComprobante').val() != 0 && $('#IdComprobante').val() != null)
-            {
+            if ($('#IdComprobante').val() != 0 && $('#IdComprobante').val() != null) {
                 var jmonto = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;
                 $('#cmpMonto').val((montoPen - jmonto).toFixed(2));
 
-                if($('#cmpMonto').val() == 0){$('#cmpCancelado').prop("checked", true);}
-                else {$('#cmpCancelado').prop("checked", false);}
+                if ($('#cmpMonto').val() == 0) { $('#cmpCancelado').prop("checked", true); }
+                else { $('#cmpCancelado').prop("checked", false); }
             }
         }
 
         function ListarComprobantesEntidadXTipoDoc(cambio) {
-            if ($('#IdEntidadResponsable').val() != 0 && $('#IdTipoDocumento').val() != 0) {
+            if ($('#IdEntidadResponsable').val() != '' && $('#IdTipoDocumento').val() != '') {
+                //if ('#IdTipoDocumento')
+
                 var identidad = parseInt($('#IdEntidadResponsable').val());
                 var idtdoc = parseInt($('#IdTipoDocumento').val());
                 //Se limpia el comprobante y la categoria si es que se cambia la entidad o el tipo de doc
                 if (cambio == 1) {
                     $('#IdComprobante').select2("val", "");
                     $('#IdCategoria').select2("val", "");
+                    $('#cmpMonto').val('');
                 } else {
                     if ($('#IdComprobante').val() != null && $('#IdComprobante').val() != 0) {
                         BuscarCategoria($('#IdComprobante').val(), false);
@@ -112,25 +114,24 @@
         }
 
         function GetComprobantesAjax(identidad, idtdoc) {
+            debugger;
             $.ajax({
                 type: "POST",
                 url: "/Admin/GetComprobantes",
-                //async: false,
                 cache: false,
                 data: { idEntidad: identidad, idTipoDoc: idtdoc },
                 dataType: 'json',
                 success: function (data) {
-                    //lstComps = data.listaComp;
                     $('#IdComprobante').select2({
                         data: data.listaComp
                     })
+                    //$('#cmpMonto').val('');
                 }
             });
         }
 
         function BuscarCategoria(sel, reset) {
-            if (reset == true)
-            {
+            if (reset == true) {
                 $('#Monto').val(0);
             }
 
@@ -156,7 +157,7 @@
                         montoMov = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;;
                     }
                     montoPen = data.comprobante.MontoIncompleto + montoMov;
-                    
+
                     $('#cmpMonto').val((data.comprobante.MontoIncompleto).toFixed(2));
                     $('#cmpCancelado').prop("checked", data.comprobante.Ejecutado);
                 }
@@ -165,12 +166,10 @@
 
         function ActualizarEjecucionDeComprobante() {
             var jMontoFaltante = $('#cmpMonto').val();
-            if (jMontoFaltante < 0)
-            {
+            if (jMontoFaltante < 0) {
                 alert("No se puede pagar un monto mayor al monto pendiente");
                 return false;
             }
-
             var jCheck = $('#cmpCancelado').prop("checked");
             var jIdComprobante = $('#IdComprobante').val();
 
@@ -280,12 +279,16 @@
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label>Monto Pendiente</label>
-                                                <input id="cmpMonto" type="text" class="form-control" placeholder="Monto del Comprobantes" readonly />
+                                                @Html.TextBoxFor(u => u.cmpMontoPendiente, new { @id = "cmpMonto", @class = "form-control rol-accs", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(u => u.cmpMontoPendiente)
+                                                @*<input id="cmpMonto" type="text" class="form-control" placeholder="Monto del Comprobante" readonly />*@
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label>Estado del comprobante</label>
                                                 <div class="checkbox">
-                                                    <label><input id="cmpCancelado" type="checkbox"> Cancelado</label>
+                                                    @Html.CheckBoxFor(u => u.cmpCancelado)
+                                                    @Html.ValidationMessageFor(u => u.cmpCancelado)
+                                                    @*<label><input id="cmpCancelado" type="checkbox"> Cancelado</label>*@
                                                 </div>
                                             </div>
                                         }
@@ -300,7 +303,7 @@
                                         @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Ingrese el comentario del movimiento", @type = "text", @cols = "3", @style = "resize:none;" })
                                         @Html.ValidationMessageFor(u => u.Comentario)
                                     </div>
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdMovimiento > 0)
+                                    @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdMovimiento > 0)
                                     {
                                         <div class="line line-dashed line-lg pull-in"></div>
                                         <div class="checkbox">
@@ -320,7 +323,10 @@
                                     @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<button type="submit" class="btn btn-sm btn-success" onclick="return ActualizarEjecucionDeComprobante();">@btnName </button>}
+                                    {
+                                        //onclick="return ActualizarEjecucionDeComprobante()"
+                                        <button type="submit" class="btn btn-sm btn-success">@btnName </button>
+                                    }
                                     <a class="btn btn-sm btn-danger" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Salir</a>
                                 </div>
                             </section>

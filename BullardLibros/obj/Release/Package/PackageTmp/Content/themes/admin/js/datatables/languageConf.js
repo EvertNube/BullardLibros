@@ -2,6 +2,7 @@
 
     $(function(){
         $('.dataTable').DataTable({
+            pageLength: 50,
             language: {
                 processing: "Procesando...",
                 search: "Buscar:",

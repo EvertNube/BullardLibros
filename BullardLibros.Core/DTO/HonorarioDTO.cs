@@ -13,5 +13,7 @@ namespace BullardLibros.Core.DTO
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
+
+        public Decimal Monto { get; set; }
     }
 }

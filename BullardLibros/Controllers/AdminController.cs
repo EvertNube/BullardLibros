@@ -676,12 +676,13 @@ namespace BullardLibros.Controllers
             try
             {
                 MovimientoBL objBL = new MovimientoBL();
+                MovimientoDTO dtoAnterior = objBL.getMovimiento(dto.IdMovimiento);
                 if(dto.IdComprobante != null && dto.cmpMontoPendiente != null)
                 {
                     if(dto.cmpMontoPendiente < 0)
                     {
                         createResponseMessage(CONSTANTES.ERROR, "<strong>Error.</strong> No se puede pagar un monto mayor al monto pendiente");
-                        dto.Monto = dto.IdMovimiento != 0 ? objBL.getMovimiento(dto.IdMovimiento).Monto : 0;
+                        dto.Monto = dto.IdMovimiento != 0 ? dtoAnterior.Monto : 0;
                         TempData["Movimiento"] = dto;
                         return RedirectToAction("Movimiento", new { id = 0, idLibro = dto.IdCuentaBancaria });
                     }
@@ -707,7 +708,12 @@ namespace BullardLibros.Controllers
                 {
                     if (objBL.update(dto))
                     {
-                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        //Si en la actualizacion se cambio el IdComprobante
+                        if (dtoAnterior.IdComprobante != null && dtoAnterior.IdComprobante != dto.IdComprobante)
+                        {
+                            ActualizarEjecucionComprobante(dtoAnterior.IdComprobante.GetValueOrDefault(), false);
+                        }
+
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
                     }
@@ -2661,6 +2667,49 @@ namespace BullardLibros.Controllers
 
             GenerarPdf2(dt, "Detalle de Ingresos y Gastos por Partida de Presupuesto", "DetalleIngresosYGastos_PartidaDePresupuestos", objEmpresa, FechaInicio, FechaFin, Response);
 
+            return RedirectToAction("ReporteCategorias", new { message = 2 });
+        }
+        public ActionResult GenerarRep_FacturacionPorHonorarios(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReporteCategorias", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<HonorarioDTO> lstHonorariosMontos = repBL.getHonorariosEnEmpresa(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
+
+            if (lstHonorariosMontos == null)
+                return RedirectToAction("ReporteCategorias", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Modalidad");
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Porcentaje");
+
+            Decimal SumaTotal = lstHonorariosMontos.Sum(x => x.Monto);
+
+            foreach (var obj in lstHonorariosMontos)
+            {
+                DataRow row = dt.NewRow();
+                row["Modalidad"] = obj.Nombre;
+                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
+                row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+            }
+
+            System.Data.DataRow rowFinal = dt.NewRow();
+            rowFinal[0] = "TOTAL";
+            rowFinal[2] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(rowFinal);
+
+            GenerarPdf(dt, "Facturaci&oacute;n por Modalidad de Pago", "FacturacionPorModalidadDePago", objEmpresa, FechaInicio, FechaFin, Response);
+            
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)

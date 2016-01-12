@@ -281,6 +281,25 @@ namespace BullardLibros.Core.BL
         }
         #endregion
 
+        #region Facturacion Modalidad de Pago
+        public List<HonorarioDTO> getHonorariosEnEmpresa(int idEmpresa, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Rep_FacturacionPorHonorarios(idEmpresa, fechaInicio, fechaFin).Select(x => new HonorarioDTO
+                {
+                    IdHonorario = x.IdHonorario,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa,
+                    Monto = x.Monto.GetValueOrDefault()
+                }).OrderBy(x => x.Nombre).ToList();
+
+                return result;
+            }
+        }
+        #endregion
+
         #region Exportacion de Detalles
         public List<CuentaBancariaDTO> getCuentasBancariasEnEmpresa(int idEmpresa, int idTipoCuenta, DateTime fechaInicio, DateTime fechaFin)
         {

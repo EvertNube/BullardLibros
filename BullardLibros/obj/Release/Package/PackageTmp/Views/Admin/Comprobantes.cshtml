@@ -1,7 +1,9 @@
 ﻿@using BullardLibros.Core.DTO
+@using PagedList;
+@using PagedList.Mvc;
 @using System.Globalization;
-@model IList<BullardLibros.Core.DTO.ComprobanteDTO>
-@{ 
+@model List<PagedList.IPagedList<BullardLibros.Core.DTO.ComprobanteDTO>>
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
@@ -32,6 +34,15 @@
             var FechaFin = $("#FechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
             return "/Admin/ExportarComprobantes/?idTipoComprobante=" + tipoComprobante + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+
+        function getSectionActive() {
+            $("li.titulo").each(function (index) {
+                if($(this).hasClass("active"))
+                {
+                    return index + 1;
+                }
+            });
         }
     </script>
 }
@@ -71,7 +82,6 @@
                                 { idnull2 = true; cadena2 = "active"; }
                                 <div class="tab-pane @cadena2" id="@item.Nombre">
                                     <section class="panel panel-default">
-
                                         <header class="panel-heading">
                                             <div class="row text-sm">
                                                 <div class="col-sm-8">
@@ -87,62 +97,99 @@
                                         </header>
 
                                         <div class="table-responsive">
-                                            <table class="table table-striped m-b-none dataTable no-footer">
+                                            <table class="table table-striped m-b-none no-footer">
                                                 <thead>
                                                     <tr>
+                                                        @{var columns = item.IdTipoComprobante == 1 ? 11 : 10;}
+                                                        <th colspan="@columns">
+                                                            <div class="row">
+                                                                @using (Html.BeginForm("Comprobantes", "Admin", FormMethod.Get, new { @class = "pull-right" }))
+                                                                {
+                                                                    <div class="input-group search datagrid-search">
+                                                                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
+                                                                        @Html.TextBox("idTipoComprobante", item.IdTipoComprobante, new { @value = item.IdTipoComprobante != 0 ? item.IdTipoComprobante.ToString() : "1", @type = "hidden" })
+                                                                        @Html.TextBox("sortOrder", "", new { @type = "hidden" })
+                                                                        @Html.TextBox("currentFilter", "", new { @type = "hidden" })
+                                                                        <div class="input-group-btn">
+                                                                            <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
+                                                                        </div>
+                                                                        @*<div class="input-group">
+                                                                            <input type="submit" value="Buscar" class="input-sm form-control" />
+                                                                        </div>*@
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
                                                         @{
-                                                    var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
-                                                    var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+                                                                var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
+                                                                var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
                                                         }
-                                                        <th class="text-center" width="7%">Fecha</th>
-                                                        <th class="text-center" width="10%">Docum.</th>
-                                                        <th class="text-center" width="10%">Numero</th>
-                                                        <th class="text-center" width="14%">@strEntidad</th>
+                                                        <th class="text-center" width="7%">@Html.ActionLink("Fecha", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbFecha, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="10%">@Html.ActionLink("Docum.", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbDocumento, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="10%">@Html.ActionLink("Numero", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbNumero, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="14%">@Html.ActionLink(strEntidad, "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbEntidad, currentFilter = ViewBag.CurrentFilter }, null)</th>
                                                         @if (item.IdTipoComprobante == 1)
                                                         {
-                                                        <th class="text-center" width="10%">Proy&nbsp;</th>}
-                                                        <th class="text-center" width="15%">Monto<br />&nbsp;Sin IGV</th>
-                                                        <th class="text-center" width="14%">Partida<br />&nbsp;Presupuesto</th>
-                                                        <th class="text-center" width="7%">Fecha<br />&nbsp;@rFechaFin &nbsp;</th>
-                                                        <th class="text-center" width="5%">Usuario</th>
-                                                        <th class="text-center" width="4%">E.</th>
+                                                            <th class="text-center" width="10%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbProyecto, currentFilter = ViewBag.CurrentFilter })">Proy</a></th>
+                                                        }
+                                                        @*<th class="text-center" width="15%">Monto<br />&nbsp;Sin IGV</th>*@
+                                                        <th class="text-center" width="15%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbMontoSinIGV, currentFilter = ViewBag.CurrentFilter })">Monto<br />&nbsp;Sin IGV</a></th>
+                                                        <th class="text-center" width="14%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbCategoria, currentFilter = ViewBag.CurrentFilter })">Partida<br />&nbsp;Presupuesto</a></th>
+                                                        <th class="text-center" width="7%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbFechaFin, currentFilter = ViewBag.CurrentFilter })">Fecha<br />&nbsp;@rFechaFin</a></th>
+                                                        <th class="text-center" width="5%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbUsuario, currentFilter = ViewBag.CurrentFilter })">Usuario</a></th>
+                                                        <th class="text-center" width="4%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbEstado, currentFilter = ViewBag.CurrentFilter })">E.</a></th>
                                                         <th class="text-center" width="4%">Opc.</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (Model != null)
+                                                    @if (Model.Count > 0)
                                                     {
-                                                        foreach (var obj in Model)
+                                                        foreach (var obj in Model[item.IdTipoComprobante - 1])
                                                         {
-                                                            if (item.IdTipoComprobante == obj.IdTipoComprobante)
-                                                            {
-                                                                var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                                                <tr @Html.Raw(classInactive)>
-                                                                    <td class="text-center" width="7%">@obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                                                    <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
-                                                                    <td class="text-center" width="10%">@obj.NroDocumento</td>
-                                                                    <td class="text-center" width="14%">@obj.NombreEntidad</td>
-                                                                    @if (item.IdTipoComprobante == 1)
-                                                                    {
+                                                            var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
+                                                            <tr @Html.Raw(classInactive)>
+                                                                <td class="text-center" width="7%">@obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                                <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
+                                                                <td class="text-center" width="10%">@obj.NroDocumento</td>
+                                                                <td class="text-center" width="14%">@obj.NombreEntidad</td>
+                                                                @if (item.IdTipoComprobante == 1)
+                                                                {
                                                                     <td class="text-center" width="10%">@(obj.NombreProyecto == null ? "N/A" : obj.NombreProyecto)</td>}
-                                                                    <td class="text-center" width="15%">@obj.SimboloMoneda @obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                                                    <td class="text-center" width="14%">@obj.NombreCategoria</td>
-                                                                    <td class="text-center" width="7%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
-                                                                    <td class="text-center" width="5%">@obj.NombreUsuario</td>
-                                                                    @if (!obj.Ejecutado)
-                                                                    {
-                                                                        <td class="text-center" width="4%" style="color:red">P</td>}
-                                                                    else
-                                                                    {
-                                                                        <td class="text-center" width="4%" style="color:#8EC100;">R</td> }
-                                                                    @*<td class="text-center" width="4%">@(obj.Ejecutado ? "O" : "X")</td>*@
-                                                                    @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
-                                                                    <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
-                                                                </tr>
-                                                            }
+                                                                <td class="text-center" width="15%">@obj.SimboloMoneda @obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                                <td class="text-center" width="14%">@obj.NombreCategoria</td>
+                                                                <td class="text-center" width="7%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
+                                                                <td class="text-center" width="5%">@obj.NombreUsuario</td>
+                                                                @if (!obj.Ejecutado)
+                                                                {
+                                                                    <td class="text-center" width="4%" style="color:red">P</td>}
+                                                                else
+                                                                {
+                                                                    <td class="text-center" width="4%" style="color:#8EC100;">R</td> }
+                                                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                                                <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
+                                                            </tr>
+                                                            //if (item.IdTipoComprobante == obj.IdTipoComprobante)
+                                                            //{}
                                                         }
                                                     }
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="@columns">
+                                                            <div class="row">
+                                                                <div class="col-sm-4"></div>
+                                                                <div class="col-sm-4 text-center">
+                                                                    <small class="text-muted inline m-t-sm m-b-sm">Página @(Model[item.IdTipoComprobante - 1].PageCount < Model[item.IdTipoComprobante - 1].PageNumber ? 0 : Model[item.IdTipoComprobante - 1].PageNumber) de @Model[item.IdTipoComprobante - 1].PageCount</small>
+                                                                </div>
+                                                                <div class="col-sm-4 text-right text-center-xs">
+                                                                    @Html.PagedListPager(Model[item.IdTipoComprobante - 1], page => Url.Action("Comprobantes", new { idTipoComprobante = item.IdTipoComprobante, page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </section>

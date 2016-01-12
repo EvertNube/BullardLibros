@@ -370,7 +370,7 @@
                                         @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Ingrese un comentario", @type = "text", @rows = "3", @style = "resize: none;" })
                                         @Html.ValidationMessageFor(u => u.Comentario)
                                     </div>
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
+                                    @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdEntidadResponsable > 0)
                                     {
                                         <div class="line line-dashed line-md pull-in"></div>
                                         <div class="checkbox">

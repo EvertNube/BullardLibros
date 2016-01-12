@@ -22,13 +22,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2014 16:13:32</publishTime>
     </File>
     <File Include="bin/BullardLibros.Core.dll">
-      <publishTime>12/28/2015 17:05:12</publishTime>
+      <publishTime>01/11/2016 18:14:41</publishTime>
     </File>
     <File Include="bin/BullardLibros.Data.dll">
       <publishTime>12/28/2015 17:05:11</publishTime>
     </File>
     <File Include="bin/BullardLibros.dll">
-      <publishTime>12/28/2015 17:05:13</publishTime>
+      <publishTime>01/11/2016 18:14:42</publishTime>
     </File>
     <File Include="bin/BullardLibros.Helpers.dll">
       <publishTime>12/21/2015 16:07:53</publishTime>
@@ -116,6 +116,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/themes/admin/css/app.css">
       <publishTime>12/03/2015 13:47:06</publishTime>
+    </File>
+    <File Include="Content/themes/admin/css/app.v1.css">
+      <publishTime>01/07/2016 14:20:27</publishTime>
     </File>
     <File Include="Content/themes/admin/css/bootstrap.css">
       <publishTime>12/03/2015 13:47:06</publishTime>
@@ -227,6 +230,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/themes/admin/js/app.plugin.js">
       <publishTime>12/03/2015 13:47:06</publishTime>
+    </File>
+    <File Include="Content/themes/admin/js/app.v1.js">
+      <publishTime>01/07/2016 14:51:14</publishTime>
     </File>
     <File Include="Content/themes/admin/js/apps/Admin.js">
       <publishTime>12/03/2015 13:47:06</publishTime>
@@ -1081,13 +1087,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/03/2015 13:47:06</publishTime>
     </File>
     <File Include="Content/themes/admin/js/datatables/languageConf.js">
-      <publishTime>12/03/2015 13:47:06</publishTime>
+      <publishTime>12/29/2015 15:32:28</publishTime>
     </File>
     <File Include="Content/themes/admin/js/datepicker/bootstrap-datepicker.js">
-      <publishTime>12/03/2015 13:47:06</publishTime>
+      <publishTime>12/28/2015 20:09:24</publishTime>
     </File>
     <File Include="Content/themes/admin/js/datepicker/datepicker.css">
-      <publishTime>12/03/2015 13:47:06</publishTime>
+      <publishTime>12/28/2015 20:09:24</publishTime>
     </File>
     <File Include="Content/themes/admin/js/fuelux/demo.datagrid.js">
       <publishTime>12/03/2015 13:47:06</publishTime>
@@ -2212,13 +2218,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/22/2015 18:26:15</publishTime>
     </File>
     <File Include="Views/Admin/Categorias.cshtml">
-      <publishTime>12/22/2015 18:26:11</publishTime>
+      <publishTime>01/11/2016 18:03:51</publishTime>
     </File>
     <File Include="Views/Admin/Comprobante.cshtml">
-      <publishTime>12/22/2015 18:26:08</publishTime>
+      <publishTime>01/11/2016 18:11:37</publishTime>
     </File>
     <File Include="Views/Admin/Comprobantes.cshtml">
-      <publishTime>12/22/2015 18:26:04</publishTime>
+      <publishTime>01/11/2016 12:34:34</publishTime>
     </File>
     <File Include="Views/Admin/Contacto.cshtml">
       <publishTime>12/28/2015 15:36:30</publishTime>
@@ -2227,10 +2233,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/22/2015 18:25:58</publishTime>
     </File>
     <File Include="Views/Admin/Entidad.cshtml">
-      <publishTime>12/28/2015 15:40:07</publishTime>
+      <publishTime>12/29/2015 16:28:07</publishTime>
     </File>
     <File Include="Views/Admin/Entidades.cshtml">
-      <publishTime>12/22/2015 18:25:46</publishTime>
+      <publishTime>01/11/2016 12:35:19</publishTime>
     </File>
     <File Include="Views/Admin/ForgotPassword.cshtml">
       <publishTime>12/28/2015 16:52:42</publishTime>
@@ -2248,16 +2254,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/28/2015 17:03:28</publishTime>
     </File>
     <File Include="Views/Admin/Libro.cshtml">
-      <publishTime>12/22/2015 18:26:41</publishTime>
+      <publishTime>01/11/2016 12:33:56</publishTime>
     </File>
     <File Include="Views/Admin/Libros.cshtml">
-      <publishTime>12/22/2015 18:26:36</publishTime>
+      <publishTime>01/07/2016 15:39:10</publishTime>
     </File>
     <File Include="Views/Admin/LibroVista.cshtml">
       <publishTime>12/03/2015 13:47:06</publishTime>
     </File>
     <File Include="Views/Admin/Movimiento.cshtml">
-      <publishTime>12/22/2015 14:57:01</publishTime>
+      <publishTime>01/11/2016 17:21:06</publishTime>
     </File>
     <File Include="Views/Admin/Movimientos.cshtml">
       <publishTime>12/22/2015 18:28:07</publishTime>
@@ -2305,7 +2311,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/03/2015 13:47:06</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutAdmin.cshtml">
-      <publishTime>12/21/2015 17:33:31</publishTime>
+      <publishTime>01/07/2016 14:55:16</publishTime>
     </File>
     <File Include="Views/Shared/_showAlertMessages.cshtml">
       <publishTime>12/03/2015 13:47:06</publishTime>
