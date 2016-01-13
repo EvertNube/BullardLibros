@@ -156,7 +156,7 @@ namespace BullardLibros.Core.BL
                             UsuarioCreacion = x.UsuarioCreacion,
                             FechaCreacion = x.FechaCreacion,
                             NombreEntidadR = x.EntidadResponsable.Nombre,
-                            NombreCategoria = x.Categoria.Nombre,
+                            NombreCategoria = x.Categoria.Nombre ?? "",
                             NombreUsuario = x.Usuario.Cuenta
                             //NumeroDocumento2 = x.NumeroDocumento
                         }).OrderByDescending(x => x.Fecha).ToList()

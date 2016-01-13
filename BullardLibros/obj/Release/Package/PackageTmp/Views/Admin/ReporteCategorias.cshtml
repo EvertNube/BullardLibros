@@ -73,6 +73,9 @@
                 case 10:
                     return "/Admin/GenerarRep_EgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
+                case 11:
+                    return "/Admin/GenerarRep_FacturacionPorHonorarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
                     /*case 3:
                         return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                         break;
@@ -158,11 +161,15 @@
                                     </div>
                                     <div class="line line-dashed line-lg pull-in"></div>
                                     <div class="form-group">
-                                        <label class="col-md-4 text-center">Status de Pago de Doc. de Ingresos</label>
+                                        <label class="col-md-2 text-center">Facturación por Modalidad de Pago</label>
+                                        <div class="col-md-2 text-center">
+                                            <a class="btn btn-sm btn-success reporte" data-idreporte="11">Generar Reporte</a>
+                                        </div>
+                                        <label class="col-md-2 text-center">Status de Pago de Doc. de Ingresos</label>
                                         <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="7">Generar Reporte</a>
                                         </div>
-                                        <label class="col-md-4 text-center">Status de Pago de Doc. de Egresos</label>
+                                        <label class="col-md-2 text-center">Status de Pago de Doc. de Egresos</label>
                                         <div class="col-md-2 text-center">
                                             <a class="btn btn-sm btn-success reporte" data-idreporte="8">Generar Reporte</a>
                                         </div>

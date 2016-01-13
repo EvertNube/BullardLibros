@@ -44,9 +44,8 @@ namespace BullardLibros.Core.BL
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
                     NombreUsuario = x.Usuario.Cuenta,
-                    NombreCategoria = x.Categoria.Nombre,
-                    NombreProyecto = x.Proyecto.Nombre ?? "",
-                    FechaString = x.FechaEmision.Year + "/" + x.FechaEmision.Month + "/" + x.FechaEmision.Day
+                    NombreCategoria = x.Categoria.Nombre ?? "",
+                    NombreProyecto = x.Proyecto.Nombre ?? ""
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -84,9 +83,8 @@ namespace BullardLibros.Core.BL
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
                     NombreUsuario = x.Usuario.Cuenta,
-                    NombreCategoria = x.Categoria.Nombre,
-                    NombreProyecto = x.Proyecto.Nombre ?? "",
-                    FechaString = x.FechaEmision.Year + "/" + x.FechaEmision.Month + "/" + x.FechaEmision.Day
+                    NombreCategoria = x.Categoria.Nombre ?? "",
+                    NombreProyecto = x.Proyecto.Nombre ?? ""
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -124,7 +122,7 @@ namespace BullardLibros.Core.BL
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
                     NombreUsuario = x.Usuario.Cuenta,
-                    NombreCategoria = x.Categoria.Nombre,
+                    NombreCategoria = x.Categoria.Nombre ?? "",
                     NombreProyecto = x.Proyecto.Nombre
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
@@ -164,7 +162,7 @@ namespace BullardLibros.Core.BL
                         TipoCambio = r.TipoCambio,
                         UsuarioCreacion = r.UsuarioCreacion,
                         NombreUsuario = r.Usuario.Cuenta,
-                        NombreCategoria = r.Categoria.Nombre,
+                        NombreCategoria = r.Categoria.Nombre ?? "",
                         NombreProyecto = r.Proyecto.Nombre,
                         lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO 
                         {
