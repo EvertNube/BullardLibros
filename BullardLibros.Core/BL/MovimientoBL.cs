@@ -152,6 +152,30 @@ namespace BullardLibros.Core.BL
             }
         }
 
+        public bool delete(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Movimiento.Where(x => x.IdMovimiento == id).SingleOrDefault();
+                    //Si el movimiento esta ligado a un comprobante le ponemos el estado EJECUTADO = FALSE
+                    if(row.IdComprobante != null && row.IdComprobante != 0)
+                    {
+                        var row2 = context.Comprobante.Where(x => x.IdComprobante == row.IdComprobante).SingleOrDefault();
+                        row2.Ejecutado = false;
+                    }
+                    context.Movimiento.Remove(row);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+        }
+
         public void ActualizarEstadoMovimiento(int id)
         {
             using (var context = getContext())

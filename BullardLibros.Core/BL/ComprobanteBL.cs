@@ -1,4 +1,5 @@
 ﻿using BullardLibros.Core.DTO;
+using BullardLibros.Core.BL;
 using BullardLibros.Data;
 using BullardLibros.Helpers;
 using System;
@@ -302,6 +303,37 @@ namespace BullardLibros.Core.BL
                         row.AreaPorComprobante.Add(novo);
                     }
 
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public bool delete(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Comprobante.Where(x => x.IdComprobante == id).SingleOrDefault();
+                    //Si el comprobante esta ligado a Movimientos primero se eliminan todos los Movimientos
+                    var allmovimientos = context.Movimiento.Where(x => x.IdComprobante == row.IdComprobante).ToList();
+                    MovimientoBL movBL = new MovimientoBL();
+                    foreach(var item in allmovimientos)
+                    {
+                        movBL.delete(item.IdMovimiento);
+                    }
+                    //Si el comprobante esta ligado a pagos por areas primero se eliminan todos sus montos AreasPorComprobantes
+                    var allmontos = context.AreaPorComprobante.Where(x => x.IdComprobante == row.IdComprobante).ToList();
+                    foreach(var item in allmontos)
+                    {
+                        row.AreaPorComprobante.Remove(item);
+                    }
+                    context.Comprobante.Remove(row);
                     context.SaveChanges();
                     return true;
                 }
