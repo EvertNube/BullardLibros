@@ -52,6 +52,11 @@
             <div class="col-xs-12">
                 <h2>Comprobantes</h2>
                 @Html.Partial("_showAlertMessages")
+                @*<div class="col-lg-12 no-padder">
+                    <ul class="breadcrumb">
+                        <li><label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label></li>
+                    </ul>
+                </div>*@
                 <section class="panel panel-default">
                     <header class="panel-heading bg-light">
                         <ul class="nav nav-tabs nav-justified">
@@ -84,12 +89,26 @@
                                     <section class="panel panel-default">
                                         <header class="panel-heading">
                                             <div class="row text-sm">
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-6 col-xs-6">
+                                                    @using (Html.BeginForm("Comprobantes", "Admin", FormMethod.Get, new { @class = "pull-right" }))
+                                                    {
+                                                        <div class="input-group search datagrid-search">
+                                                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
+                                                            @Html.TextBox("idTipoComprobante", item.IdTipoComprobante, new { @value = item.IdTipoComprobante != 0 ? item.IdTipoComprobante.ToString() : "1", @type = "hidden" })
+                                                            @Html.TextBox("sortOrder", "", new { @type = "hidden" })
+                                                            @Html.TextBox("currentFilter", "", new { @type = "hidden" })
+                                                            <div class="input-group-btn">
+                                                                <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-sm-3 col-xs-3 text-center">
                                                     <div class="btn-group">
-                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                        <label style="transform:translateY(20%)"><input class="btn-showInactive" type="checkbox" id="btn-showInactive@("-" + item.IdTipoComprobante)" /> Mostrar Inactivos</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3 col-xs-3">
                                                     @if (!ViewBag.EsUsuarioExterno)
                                                     {<a class="btn btn-sm btn-success pull-right" href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = item.IdTipoComprobante })"><i class="fa fa-plus"></i> Crear nuevo @item.Nombre</a>}
                                                 </div>
@@ -99,28 +118,7 @@
                                         <div class="table-responsive">
                                             <table class="table table-striped m-b-none no-footer">
                                                 <thead>
-                                                    <tr>
-                                                        @{var columns = item.IdTipoComprobante == 1 ? 11 : 10;}
-                                                        <th colspan="@columns">
-                                                            <div class="row">
-                                                                @using (Html.BeginForm("Comprobantes", "Admin", FormMethod.Get, new { @class = "pull-right" }))
-                                                                {
-                                                                    <div class="input-group search datagrid-search">
-                                                                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
-                                                                        @Html.TextBox("idTipoComprobante", item.IdTipoComprobante, new { @value = item.IdTipoComprobante != 0 ? item.IdTipoComprobante.ToString() : "1", @type = "hidden" })
-                                                                        @Html.TextBox("sortOrder", "", new { @type = "hidden" })
-                                                                        @Html.TextBox("currentFilter", "", new { @type = "hidden" })
-                                                                        <div class="input-group-btn">
-                                                                            <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
-                                                                        </div>
-                                                                        @*<div class="input-group">
-                                                                            <input type="submit" value="Buscar" class="input-sm form-control" />
-                                                                        </div>*@
-                                                                    </div>
-                                                                }
-                                                            </div>
-                                                        </th>
-                                                    </tr>
+                                                    @{var columns = item.IdTipoComprobante == 1 ? 11 : 10;}
                                                     <tr>
                                                         @{
                                                                 var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
@@ -170,8 +168,6 @@
                                                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                                 <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
                                                             </tr>
-                                                            //if (item.IdTipoComprobante == obj.IdTipoComprobante)
-                                                            //{}
                                                         }
                                                     }
                                                 </tbody>
