@@ -11,10 +11,11 @@
     @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
 }
-@section scripts{
+@section scripts{    
     @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
     @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+
     <script type="text/javascript">
         $(function () {
             $('.dataTable').DataTable();
@@ -26,7 +27,15 @@
                     { miURL = exportarDetalle(index + 1); }
                 })
                 this.href = miURL;
-            })
+            });
+
+            $('#modal-form').on('show.bs.modal', function (e) {
+                if (!data) return e.preventDefault()
+            });
+            //$('.open-modal').click(function (e) {
+            //    e.preventDefault();
+            //    $('#modal-form').dialog();
+            //});
         });
 
         function exportarDetalle(tipoComprobante) {
@@ -167,16 +176,19 @@
                                                                     <td class="text-center" width="4%" style="color:#8EC100;">R</td> }
                                                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                                 <td align="center">
-                                                                    <a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
-                                                                    @if (!ViewBag.EsUsuarioExterno)
+                                                                    <a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                                                    @*<a href="#" class="open-modal" data-id="@obj.IdComprobante"><i class="fa fa-times" title="Eliminar"></i></a>*@
+                                                                    <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdComprobante"><i class="fa fa-times" title="Eliminar"></i></a>
+                                                                    
+                                                                    @*@if (!ViewBag.EsUsuarioExterno)
                                                                     {
                                                                         using (Html.BeginForm("DeleteComprobante", "Admin", FormMethod.Post))
                                                                         {
                                                                             @Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })
                                                                             <button type="submit" class="fa fa-times"></button>
                                                                         }
-                                                                        @*<a href="@Url.Action("DeleteComprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-times" title="Eliminar"></i></a>*@
-                                                                    }
+                                                                        <a href="@Url.Action("DeleteComprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-times" title="Eliminar"></i></a>
+                                                                    }*@
                                                                 </td>
                                                             </tr>
                                                         }
@@ -226,3 +238,22 @@
         </div>
     </section>
 </section>
+
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento</h4>
+            </div>
+            <div class="modal-body">
+                <p>Estas a punto de eliminar este elemento, esto es un proceso irreversible.</p>
+                <p>¿Estás seguro de proseguir?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
