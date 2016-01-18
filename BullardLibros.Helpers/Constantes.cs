@@ -20,6 +20,7 @@ namespace BullardLibros.Helpers
         public static string SUCCESS_REPORT = "<strong>Generado.</strong> El reporte se ha generado con éxito.";
         public static string SUCCESS = "success";
         public static string SUCCESS_FILE = "<strong>Success.</strong> Archivo generado exitosamente";
+        public static string SUCCESS_DELETE = "<strong>Success.</strong> El elemento se ha eliminado exitosamente.";
         public static string ERROR = "error";
         public static string ERROR_UPDATE_MESSAGE = "<strong>Hubo un error al actualizar.</strong> Por favor, verifique la información a actualizar.";
         public static string ERROR_INSERT_MESSAGE = "<strong>Hubo un error al insertar.</strong> Por favor, verifique que la información ingresada.";
@@ -28,6 +29,8 @@ namespace BullardLibros.Helpers
         public static string ERROR_RECOVERY_PASSWORD = "<strong>La cuenta o correo ingresado no existe.</strong> Por favor, verifique la información.";
         public static string ERROR_FILE_DETAIL = "<strong>Error al generar el archivo.</strong> Por favor, verifique el rango de fechas.";
         public static string ERROR_EMPTY = "<strong>Error.</strong> No existe datos para exportar.";
+        public static string ERROR_DELETE = "<strong>Error.</strong> No se pudo eliminar el elemento.";
+        public static string ERROR_NO_DELETE = "<strong>Error.</strong> Se produjo un error mientras se intentaba eliminar el elemento.";
 
         public static string SUCCESS_RECOVERY_PASSWORD = "<strong>Se ha enviado un correo con la contraseña.</strong>";
 

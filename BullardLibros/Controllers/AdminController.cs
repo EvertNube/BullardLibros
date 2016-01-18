@@ -1183,7 +1183,31 @@ namespace BullardLibros.Controllers
             TempData["Comprobante"] = dto;
             return RedirectToAction("Comprobante");
         }
+        [HttpPost]
+        public ActionResult DeleteComprobante(int id)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Comprobantes", "Admin"); }
 
+            try
+            {
+                ComprobanteBL objBL = new ComprobanteBL();
+                if (objBL.delete(id))
+                {
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_DELETE);
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DELETE);
+                }
+            }
+            catch (Exception e)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_DELETE);
+                throw;
+            }
+            return RedirectToAction("Comprobantes", "Admin");
+        }
         public ActionResult Areas()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }

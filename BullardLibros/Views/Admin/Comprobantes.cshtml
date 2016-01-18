@@ -166,7 +166,18 @@
                                                                 {
                                                                     <td class="text-center" width="4%" style="color:#8EC100;">R</td> }
                                                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
-                                                                <td align="center"><a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
+                                                                <td align="center">
+                                                                    <a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
+                                                                    @if (!ViewBag.EsUsuarioExterno)
+                                                                    {
+                                                                        using (Html.BeginForm("DeleteComprobante", "Admin", FormMethod.Post))
+                                                                        {
+                                                                            @Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })
+                                                                            <button type="submit" class="fa fa-times"></button>
+                                                                        }
+                                                                        @*<a href="@Url.Action("DeleteComprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-times" title="Eliminar"></i></a>*@
+                                                                    }
+                                                                </td>
                                                             </tr>
                                                         }
                                                     }
