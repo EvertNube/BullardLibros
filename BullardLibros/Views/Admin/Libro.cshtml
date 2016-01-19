@@ -56,8 +56,8 @@
             });
 
             $("input#delete").click(function () {
-                var idelement = $('form.element').serialize();
-                var idCuenta = $('form.element[name=idCuentaBancaria]').val();
+                //var idelement = $('form.element').serialize();
+                //var idCuenta = $('form.element > input[name=idCuentaBancaria]').val();
                 $.ajax({
                     type: "POST",
                     url: "/Admin/DeleteMovimiento",
@@ -236,12 +236,12 @@
                                         </div>
                                         @if (!ViewBag.EsUsuarioExterno)
                                         {
-                                            <div class="col-sm-3 col-xs-3 text-center">
+                                            @*<div class="col-sm-3 col-xs-3 text-center">
                                                 <div class="btn-group">
                                                     <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-3 col-xs-3">
+                                            </div>*@
+                                            <div class="col-sm-6 col-xs-6">
                                                 <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
                                             </div>
 
@@ -272,8 +272,9 @@
                                             {
                                                 foreach (var obj in Model.listaMovimientoPL)
                                                 {
-                                                    var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
-                                                    <tr @Html.Raw(classInactive)>
+                                                    //var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
+                                                    @*<tr @Html.Raw(classInactive)>*@
+                                                    <tr>
                                                         <td class="text-center" width="7%">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                                         @if (obj.IdTipoMovimiento == 1)
                                                         {
