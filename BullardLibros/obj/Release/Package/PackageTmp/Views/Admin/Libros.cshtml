@@ -211,12 +211,12 @@
                                         {
                                         <header class="panel-heading">
                                             <div class="row text-sm">
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-8 col-xs-8">
                                                     <div class="btn-group">
-                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                        <label><input class="btn-showInactive" type="checkbox" id="btn-showInactive@("-" + item.IdTipoCuenta)" style="margin-left: 13px;" /> Mostrar Inactivos</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-4 col-xs-4">
                                                     <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Libro", "Admin", new { id = 0, idTipoCuenta = item.IdTipoCuenta })"><i class="fa fa-plus"></i> Crear nueva cuenta</a>
                                                 </div>
                                             </div>

@@ -11,7 +11,7 @@
     @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
     @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
 }
-@section scripts{    
+@section scripts{
     @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
     @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
     @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
@@ -30,7 +30,31 @@
             });
 
             $('#modal-form').on('show.bs.modal', function (e) {
-                if (!data) return e.preventDefault()
+                //if (!data) return e.preventDefault()
+                var button = $(e.relatedTarget);
+                var idElement = button.data('id');
+                var nroDocumento = button.data('nro');
+                var modal = $(this);
+                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+                modal.find('.modal-body input').val(idElement);
+            });
+
+            $("input#delete").click(function () {
+                var idelement = $('form.element').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeleteComprobante",
+                    data: $('form.element').serialize(),
+                    success: function (msg) {
+                        //$("#thanks").html(msg)
+                        $("#modal-form").modal('hide');
+                        window.location.href = "/Admin/Comprobantes";
+                        //window.location.reload();
+                    },
+                    error: function () {
+                        alert("failure");
+                    }
+                });
             });
             //$('.open-modal').click(function (e) {
             //    e.preventDefault();
@@ -47,8 +71,7 @@
 
         function getSectionActive() {
             $("li.titulo").each(function (index) {
-                if($(this).hasClass("active"))
-                {
+                if ($(this).hasClass("active")) {
                     return index + 1;
                 }
             });
@@ -62,10 +85,10 @@
                 <h2>Comprobantes</h2>
                 @Html.Partial("_showAlertMessages")
                 @*<div class="col-lg-12 no-padder">
-                    <ul class="breadcrumb">
-                        <li><label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label></li>
-                    </ul>
-                </div>*@
+                        <ul class="breadcrumb">
+                            <li><label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label></li>
+                        </ul>
+                    </div>*@
                 <section class="panel panel-default">
                     <header class="panel-heading bg-light">
                         <ul class="nav nav-tabs nav-justified">
@@ -130,8 +153,8 @@
                                                     @{var columns = item.IdTipoComprobante == 1 ? 11 : 10;}
                                                     <tr>
                                                         @{
-                                                                var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
-                                                                var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+                                                    var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
+                                                    var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
                                                         }
                                                         <th class="text-center" width="7%">@Html.ActionLink("Fecha", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbFecha, currentFilter = ViewBag.CurrentFilter }, null)</th>
                                                         <th class="text-center" width="10%">@Html.ActionLink("Docum.", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbDocumento, currentFilter = ViewBag.CurrentFilter }, null)</th>
@@ -178,17 +201,17 @@
                                                                 <td align="center">
                                                                     <a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                                                     @*<a href="#" class="open-modal" data-id="@obj.IdComprobante"><i class="fa fa-times" title="Eliminar"></i></a>*@
-                                                                    <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdComprobante"><i class="fa fa-times" title="Eliminar"></i></a>
-                                                                    
+                                                                    <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdComprobante" data-nro="@obj.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>
+
                                                                     @*@if (!ViewBag.EsUsuarioExterno)
-                                                                    {
-                                                                        using (Html.BeginForm("DeleteComprobante", "Admin", FormMethod.Post))
                                                                         {
-                                                                            @Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })
-                                                                            <button type="submit" class="fa fa-times"></button>
-                                                                        }
-                                                                        <a href="@Url.Action("DeleteComprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-times" title="Eliminar"></i></a>
-                                                                    }*@
+                                                                            using (Html.BeginForm("DeleteComprobante", "Admin", FormMethod.Post))
+                                                                            {
+                                                                                @Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })
+                                                                                <button type="submit" class="fa fa-times"></button>
+                                                                            }
+                                                                            <a href="@Url.Action("DeleteComprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-times" title="Eliminar"></i></a>
+                                                                        }*@
                                                                 </td>
                                                             </tr>
                                                         }
@@ -244,15 +267,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Eliminar Elemento</h4>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
             </div>
             <div class="modal-body">
-                <p>Estas a punto de eliminar este elemento, esto es un proceso irreversible.</p>
-                <p>¿Estás seguro de proseguir?</p>
+                <p>Estas a punto de eliminar este elemento. ¿Estás seguro de proseguir?</p>
+                <form class="element" name="element" >
+                    @*<label for="id-element" class="control-label">Elemento</label>*@
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+                @*@Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })*@
+
+                @*<button type="submit" class="fa fa-times"></button>*@
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok">Delete</a>
+                @*<a href="#" class="btn" data-dismiss="modal">Cancelar</a>*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+                @*<a id="delete" class="btn btn-danger btn-ok">Delete</a>*@
             </div>
         </div>
     </div>

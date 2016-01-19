@@ -144,6 +144,11 @@ a.btn-add i.fa{
 .inactive {
     display: none;
 }
+.btn-showInactive {
+    margin-top: 9px;
+    position: relative;
+    top: 2px;
+}
 #btn-showInactive {
     margin-top: 9px;
     margin-left: 13px;

@@ -223,8 +223,8 @@
                                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
                                         </div>
                                         <div class="form-group col-md-4">
-                                            @{var rCadenaOp = ViewBag.IdTipoCuenta != 2 ? "Número de movimiento" : "Descripción"; }
-                                            <label>@rCadenaOp</label>
+                                            @*@{var rCadenaOp = ViewBag.IdTipoCuenta != 2 ? "Número de movimiento" : "Descripción"; }*@
+                                            <label>Detalle</label>
                                             @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
                                             @Html.ValidationMessageFor(u => u.NroOperacion)
                                         </div>

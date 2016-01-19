@@ -188,18 +188,33 @@
 
                         @if (Model != null && Model.IdCuentaBancaria != 0)
                         {
+                            <h4>Movimientos</h4>
                             <section class="panel panel-default">
                                 <header class="panel-heading font-bold">
-                                    <div class="row">
-                                        <div class="col-md-4" style="transform: translateY(35%)">Movimientos</div>
+                                    <div class="row text-sm">
+                                        <div class="col-sm-6 col-xs-6">
+                                            @using (Html.BeginForm("Libro", "Admin", FormMethod.Get, new { @class = "pull-right" }))
+                                            {
+                                                <div class="input-group search datagrid-search">
+                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
+                                                    @Html.TextBox("idTipoCuenta", Model.IdTipoCuenta, new { @value = Model.IdTipoCuenta != 0 ? Model.IdTipoCuenta.ToString() : "", @type = "hidden" })
+                                                    @Html.TextBox("id", Model.IdCuentaBancaria, new { @value = Model.IdCuentaBancaria != 0 ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                                    @Html.TextBox("sortOrder", "", new { @type = "hidden" })
+                                                    @Html.TextBox("currentFilter", "", new { @type = "hidden" })
+                                                    <div class="input-group-btn">
+                                                        <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
                                         @if (!ViewBag.EsUsuarioExterno)
                                         {
-                                            <div class="col-md-4 text-sm">
+                                            <div class="col-sm-3 col-xs-3 text-center">
                                                 <div class="btn-group">
                                                     <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-sm-3 col-xs-3">
                                                 <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
                                             </div>
 
@@ -209,28 +224,6 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped m-b-none">
                                         <thead>
-                                            <tr>
-                                                <th colspan="10">
-                                                    <div class="row">
-                                                        @using (Html.BeginForm("Libro", "Admin", FormMethod.Get, new { @class = "pull-right" }))
-                                                        {
-                                                            <div class="input-group search datagrid-search col-md-12">
-                                                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
-                                                                @Html.TextBox("idTipoCuenta", Model.IdTipoCuenta, new { @value = Model.IdTipoCuenta != 0 ? Model.IdTipoCuenta.ToString() : "", @type = "hidden" })
-                                                                @Html.TextBox("id", Model.IdCuentaBancaria, new { @value = Model.IdCuentaBancaria != 0 ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
-                                                                @Html.TextBox("sortOrder", "", new { @type = "hidden" })
-                                                                @Html.TextBox("currentFilter", "", new { @type = "hidden" })
-                                                                <div class="input-group-btn">
-                                                                    <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
-                                                                </div>
-                                                                @*<div class="input-group-btn"> 
-                                                                    <button class="btn btn-default btn-sm" value="Search"><i class="fa fa-search"></i></button> 
-                                                                </div>*@
-                                                            </div>
-                                                        }
-                                                    </div>
-                                                </th>
-                                            </tr>
                                             <tr>
                                                 <th class="text-center" width="7%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbFecha, currentFilter = ViewBag.CurrentFilter })">Fecha</a></th>
                                                 <th class="text-center" width="12%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbTipo, currentFilter = ViewBag.CurrentFilter })">Movimiento</a></th>

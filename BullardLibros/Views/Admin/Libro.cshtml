@@ -37,16 +37,43 @@
                 var miURL = "/Admin/Libro/" + idCuenta;
                 miURL = exportarDetalle(idCuenta);
                 this.href = miURL;
-            })
+            });
 
             $('.mactivo').click(function () {
                 ActualizarEstadoEnMovimiento(this);
-                //alert($(this).data('id'));
-                //"red" : "#8EC100"
+            });
 
-                //$("i", this).toggleClass("fa-square-o fa-check-square-o").toggleClass("red green");
+            $('#modal-form').on('show.bs.modal', function (e) {
+                //if (!data) return e.preventDefault()
+                var button = $(e.relatedTarget);
+                var idElement = button.data('id');
+                var nroDocumento = button.data('nro');
+                var idCuentaBancaria = button.data('cuenta');
+                var modal = $(this);
+                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+                modal.find('.modal-body input#id-element').val(idElement);
+                modal.find('.modal-body input#id-cuenta').val(idCuentaBancaria);
+            });
 
-            })
+            $("input#delete").click(function () {
+                var idelement = $('form.element').serialize();
+                var idCuenta = $('form.element[name=idCuentaBancaria]').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeleteMovimiento",
+                    data: $('form.element').serialize(),
+                    success: function (msg) {
+                        //$("#thanks").html(msg)
+                        $("#modal-form").modal('hide');
+                        window.location.href = '@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria })';
+
+                        //window.location.reload();
+                    },
+                    error: function () {
+                        alert("failure");
+                    }
+                });
+            });
         });
 
         function ActualizarEstadoEnMovimiento(e) {
@@ -266,8 +293,10 @@
                                                         <td class="text-center"><a href="#" class="mactivo" data-id="@obj.IdMovimiento"><i class="fa @rEstado @rColor"></i></a></td>
                                                         <td class="text-center" width="10%">@obj.NombreUsuario</td>
                                                         @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
-                                                        <td class="text-center" width="7%"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a></td>
-
+                                                        <td class="text-center" width="7%">
+                                                            <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                                            <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-times" title="Eliminar"></i></a>
+                                                        </td>
                                                     </tr>
                                                 }
                                             }
@@ -306,12 +335,38 @@
                                 </footer>
                             </section>
                         }
-
                     </div>
                 </div>
-
             </div>
-
         </div>
     </section>
 </section>
+
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>Estas a punto de eliminar este elemento. ¿Estás seguro de proseguir?</p>
+                <form class="element" name="element">
+                    @*<label for="id-element" class="control-label">Elemento</label>*@
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                    <input type="hidden" class="form-control" name="idCuentaBancaria" id="id-cuenta"/>
+                </form>
+                @*@Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })*@
+
+                @*<button type="submit" class="fa fa-times"></button>*@
+
+            </div>
+            <div class="modal-footer">
+                @*<a href="#" class="btn" data-dismiss="modal">Cancelar</a>*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+                @*<a id="delete" class="btn btn-danger btn-ok">Delete</a>*@
+            </div>
+        </div>
+    </div>
+</div>

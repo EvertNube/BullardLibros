@@ -736,6 +736,32 @@ namespace BullardLibros.Controllers
             TempData["Movimiento"] = dto;
             return RedirectToAction("Movimiento");
         }
+
+        [HttpPost]
+        public ActionResult DeleteMovimiento(int id, int idCuentaBancaria)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Libro", "Admin", new { id = idCuentaBancaria }); }
+
+            try
+            {
+                MovimientoBL objBL = new MovimientoBL();
+                if (objBL.delete(id))
+                {
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_DELETE);
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DELETE);
+                }
+            }
+            catch (Exception e)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_DELETE);
+                throw;
+            }
+            return RedirectToAction("Libro", "Admin", new { id = idCuentaBancaria });
+        }
         public ActionResult Usuarios()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
