@@ -196,7 +196,8 @@
                                                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                                 <td align="center">
                                                                     <a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
-                                                                    <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdComprobante" data-nro="@obj.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>
+                                                                    @if (!ViewBag.EsUsuarioExterno)
+                                                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdComprobante" data-nro="@obj.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
                                                                 </td>
                                                             </tr>
                                                         }

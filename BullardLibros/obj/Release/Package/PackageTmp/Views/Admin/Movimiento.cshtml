@@ -114,7 +114,6 @@
         }
 
         function GetComprobantesAjax(identidad, idtdoc) {
-            debugger;
             $.ajax({
                 type: "POST",
                 url: "/Admin/GetComprobantes",
@@ -303,7 +302,7 @@
                                         @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Ingrese el comentario del movimiento", @type = "text", @cols = "3", @style = "resize:none;" })
                                         @Html.ValidationMessageFor(u => u.Comentario)
                                     </div>
-                                    @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdMovimiento > 0)
+                                    @*@if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdMovimiento > 0)
                                     {
                                         <div class="line line-dashed line-lg pull-in"></div>
                                         <div class="checkbox">
@@ -316,7 +315,9 @@
                                     else
                                     {
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                    }
+                                    }*@
+                                    <div class="line line-dashed line-md pull-in"></div>
+                                    @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdMovimiento, new { @value = Model != null ? Model.IdMovimiento.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })

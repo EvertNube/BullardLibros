@@ -237,10 +237,10 @@
                                         @if (!ViewBag.EsUsuarioExterno)
                                         {
                                             @*<div class="col-sm-3 col-xs-3 text-center">
-                                                <div class="btn-group">
-                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                                </div>
-                                            </div>*@
+                                                    <div class="btn-group">
+                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                    </div>
+                                                </div>*@
                                             <div class="col-sm-6 col-xs-6">
                                                 <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
                                             </div>
@@ -296,7 +296,8 @@
                                                         @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                                         <td class="text-center" width="7%">
                                                             <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
-                                                            <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-times" title="Eliminar"></i></a>
+                                                            @if (!ViewBag.EsUsuarioExterno)
+                                                            {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-times" title="Eliminar"></i></a>}
                                                         </td>
                                                     </tr>
                                                 }
@@ -355,7 +356,7 @@
                 <form class="element" name="element">
                     @*<label for="id-element" class="control-label">Elemento</label>*@
                     <input type="hidden" class="form-control" name="id" id="id-element">
-                    <input type="hidden" class="form-control" name="idCuentaBancaria" id="id-cuenta"/>
+                    <input type="hidden" class="form-control" name="idCuentaBancaria" id="id-cuenta" />
                 </form>
                 @*@Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })*@
 

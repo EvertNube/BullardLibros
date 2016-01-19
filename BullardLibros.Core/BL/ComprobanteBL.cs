@@ -352,6 +352,7 @@ namespace BullardLibros.Core.BL
                 {
                     var row = context.Comprobante.Where(x => x.IdComprobante == idComprobante && x.IdEmpresa == idEmpresa).SingleOrDefault();
                     row.Ejecutado = ejecutado;
+                    if (ejecutado) row.FechaConclusion = DateTime.Now;
                     context.SaveChanges();
                     return true;
                 }

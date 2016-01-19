@@ -2647,7 +2647,7 @@ namespace BullardLibros.Controllers
                     row["Partida de Presupuesto"] = obj.NombreCategoria;
                     row["Monto Pendiente"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
                     row[FechaEjecucion] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
-                    row["Dias Vencidos"] = obj.FechaConclusion != null ? (FechaActual - obj.FechaConclusion.GetValueOrDefault()).Days.ToString() : "N/A";
+                    row["Dias Vencidos"] = obj.Ejecutado ? "0" : obj.FechaConclusion != null ? (FechaActual - obj.FechaConclusion.GetValueOrDefault()).Days.ToString() : "N/A";
                     row["Comentarios"] = obj.Comentario;
                     dt.Rows.Add(row);
                 }

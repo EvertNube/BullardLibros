@@ -370,7 +370,7 @@
                                         @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Ingrese un comentario", @type = "text", @rows = "3", @style = "resize: none;" })
                                         @Html.ValidationMessageFor(u => u.Comentario)
                                     </div>
-                                    @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdEntidadResponsable > 0)
+                                    @*@if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdEntidadResponsable > 0)
                                     {
                                         <div class="line line-dashed line-md pull-in"></div>
                                         <div class="checkbox">
@@ -383,8 +383,9 @@
                                     else
                                     {
                                         @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                    }
+                                    }*@
                                     <div class="line line-dashed line-md pull-in"></div>
+                                    @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
                                     @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
