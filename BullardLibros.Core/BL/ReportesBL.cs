@@ -236,7 +236,7 @@ namespace BullardLibros.Core.BL
                         MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
                     }).ToList<ComprobanteDTO>();
 
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin && x.Estado).Select(x => new ComprobanteDTO
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && (x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin) && x.Estado).Select(x => new ComprobanteDTO
                 {
                     IdComprobante = x.IdComprobante,
                     IdTipoComprobante = x.IdTipoComprobante,

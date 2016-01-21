@@ -303,7 +303,7 @@ namespace BullardLibros.Controllers
             {
                 //Actualizar Saldo Disponible
                 objBL.updateSaldos((int)id);
-                obj = objBL.getCuentaBancaria((int)id);
+                obj = objBL.getCuentaBancariaEnEmpresa(miUsuario.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Index");
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
 
@@ -633,7 +633,11 @@ namespace BullardLibros.Controllers
             ViewBag.IdMovimiento = id;
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);
 
-            ViewBag.IdTipoCuenta = new CuentaBancariaBL().getCuentaBancariaSolo(idLibro.GetValueOrDefault()).IdTipoCuenta;
+            CuentaBancariaBL objCuentaBL = new CuentaBancariaBL();
+            CuentaBancariaDTO objLibro = objCuentaBL.getCuentaBancariaSoloEnEmpresa(miUsuario.IdEmpresa, idLibro.GetValueOrDefault());
+            if (objLibro == null) { return RedirectToAction("Index", "Admin"); }
+
+            ViewBag.IdTipoCuenta = objLibro.IdTipoCuenta;
             ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta != 2 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
 
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
@@ -662,6 +666,13 @@ namespace BullardLibros.Controllers
                 if (id != null)
                 {
                     MovimientoDTO obj = objBL.getMovimiento((int)id);
+                    if (obj == null) return RedirectToAction("Libro", "Admin", new { id = objLibro.IdCuentaBancaria });
+                    if (obj.IdCuentaBancaria != objLibro.IdCuentaBancaria) return RedirectToAction("Libro", "Admin", new { id = objLibro.IdCuentaBancaria });
+                    
+                    CuentaBancariaDTO objLibroMov = objCuentaBL.getCuentaBancariaEnEmpresa(miUsuario.IdEmpresa, obj.IdCuentaBancaria);
+                    if (objLibroMov == null) return RedirectToAction("Index", "Admin");
+                    if (objLibroMov.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index", "Admin");
+
                     obj.UsuarioCreacion = miUsuario.IdUsuario;
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoria.GetValueOrDefault());
                     return View(obj);
@@ -1143,9 +1154,9 @@ namespace BullardLibros.Controllers
             if (id != null && id != 0)
             {
                 obj = objBL.getComprobanteEnEmpresa((int)currentUser.IdEmpresa, (int)id);
-                obj.UsuarioCreacion = currentUser.IdUsuario;
                 if (obj == null) return RedirectToAction("Comprobantes");
                 if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Comprobantes");
+                obj.UsuarioCreacion = currentUser.IdUsuario;
                 ViewBag.Montos = obj.lstMontos;
 
                 return View(obj);

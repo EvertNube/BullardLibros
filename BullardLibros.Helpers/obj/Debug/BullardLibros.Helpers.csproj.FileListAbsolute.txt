@@ -163,3 +163,4 @@ C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Helpers\bin\
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Helpers\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Helpers\obj\Debug\BullardLibros.Helpers.csprojResolveAssemblyReference.cache

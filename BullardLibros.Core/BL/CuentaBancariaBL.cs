@@ -98,11 +98,11 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public CuentaBancariaDTO getCuentaBancariaSolo(int id)
+        public CuentaBancariaDTO getCuentaBancariaSoloEnEmpresa(int idEmpresa, int id)
         {
             using (var context = getContext())
             {
-                var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id)
+                var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id && x.IdEmpresa == idEmpresa)
                     .Select(r => new CuentaBancariaDTO
                     {
                         IdCuentaBancaria = r.IdCuentaBancaria,
@@ -121,11 +121,11 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public CuentaBancariaDTO getCuentaBancaria(int id)
+        public CuentaBancariaDTO getCuentaBancariaEnEmpresa(int idEmpresa, int id)
         {
             using (var context = getContext())
             {
-                var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id)
+                var result = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == id && x.IdEmpresa == idEmpresa)
                     .Select(r => new CuentaBancariaDTO
                     {
                         IdCuentaBancaria = r.IdCuentaBancaria,
