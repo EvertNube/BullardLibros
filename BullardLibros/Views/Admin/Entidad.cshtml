@@ -193,7 +193,7 @@
                                             {
                                                 foreach (var obj in Model.lstContactos)
                                                 {
-                                                    var classInactive = (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && !obj.Estado) ? "class='inactive'" : "";
+                                                    var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
                                                     <tr @Html.Raw(classInactive)>
                                                         <td>@obj.Nombre</td>
                                                         <td class="text-center">@obj.Email</td>
@@ -245,7 +245,7 @@
                                             {
                                                 foreach (var obj in Model.lstProyectos)
                                                 {
-                                                    var classInactive = (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && !obj.Estado) ? "class='inactive'" : "";
+                                                    var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
                                             <tr @Html.Raw(classInactive)>
                                                 <td width="20%">@obj.Nombre</td>
                                                 <td>@obj.Descripcion</td>

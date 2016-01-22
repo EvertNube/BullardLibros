@@ -1526,6 +1526,10 @@ namespace BullardLibros.Controllers
             ProyectoBL objBL = new ProyectoBL();
             ViewBag.IdProyecto = id;
 
+            EntidadResponsableBL objEntidadBL = new EntidadResponsableBL();
+            EntidadResponsableDTO objEntidad = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, idEntidad.GetValueOrDefault());
+            if (objEntidad == null) { return RedirectToAction("Entidades", "Admin"); }
+
             var objSent = TempData["Proyecto"];
             if (objSent != null) { TempData["Proyecto"] = null; return View(objSent); }
             if (id == 0 && idEntidad != null)
@@ -1540,6 +1544,14 @@ namespace BullardLibros.Controllers
                 if (id != null)
                 {
                     ProyectoDTO obj = objBL.getProyecto((int)id);
+
+                    if (obj == null) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
+                    if (obj.IdEntidadResponsable != objEntidad.IdEntidadResponsable) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
+
+                    EntidadResponsableDTO objEntidadProy = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, obj.IdEntidadResponsable);
+                    if (objEntidadProy == null) return RedirectToAction("Entidades", "Admin");
+                    if (objEntidadProy.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Entidades", "Admin");
+
                     return View(obj);
                 }
             }
@@ -1604,6 +1616,10 @@ namespace BullardLibros.Controllers
             ContactoBL objBL = new ContactoBL();
             ViewBag.IdContacto = id;
 
+            EntidadResponsableBL objEntidadBL = new EntidadResponsableBL();
+            EntidadResponsableDTO objEntidad = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, idEntidad.GetValueOrDefault());
+            if (objEntidad == null) { return RedirectToAction("Entidades", "Admin"); }
+
             var objSent = TempData["Contacto"];
             if (objSent != null) { TempData["Contacto"] = null; return View(objSent); }
             if (id == 0 && idEntidad != null)
@@ -1618,6 +1634,14 @@ namespace BullardLibros.Controllers
                 if (id != null)
                 {
                     ContactoDTO obj = objBL.getContacto((int)id);
+
+                    if (obj == null) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
+                    if (obj.IdEntidadResponsable != objEntidad.IdEntidadResponsable) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
+
+                    EntidadResponsableDTO objEntidadProy = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, obj.IdEntidadResponsable);
+                    if (objEntidadProy == null) return RedirectToAction("Entidades", "Admin");
+                    if (objEntidadProy.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Entidades", "Admin");
+
                     return View(obj);
                 }
             }
