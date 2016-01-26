@@ -7,24 +7,91 @@
 <html lang="es" class="bg-gray">
 <head>
     <meta charset="utf-8" />
-    <title>NubeBooks</title>
+    <title>NubeBooks | Login</title>
     <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    @Styles.Render("~/Content/themes/admin/css/bootstrap.css")
-    @Styles.Render("~/Content/themes/admin/css/animate.css")
-    @Styles.Render("~/Content/themes/admin/css/font-awesome.min.css")
-    @Styles.Render("~/Content/themes/admin/css/font.css")
-    @Styles.Render("~/Content/themes/admin/css/app.css")
-    @Styles.Render("~/Content/themes/admin/css/main.css")
 
-    <!--[if lt IE 9]>
-      @Scripts.Render("~/Content/themes/admin/js/html5shiv.js")
-      @Scripts.Render("~/Content/themes/admin/js/respond.min.js")
-      @Scripts.Render("~/Content/themes/admin/js/excanvas.js")
-    <![endif]-->
+    <link rel="stylesheet" href="~/Content/themes/admin-nb/libs/assets/animate.css/animate.css" type="text/css"/>
+    <link rel="stylesheet" href="~/Content/themes/admin-nb/libs/assets/font-awesome/css/font-awesome.min.css" type="text/css"/>
+    <link rel="stylesheet" href="~/Content/themes/admin-nb/libs/assets/font-awesome/css/font-awesome.min.css" type="text/css"/>
+    <link rel="stylesheet" href="~/Content/themes/admin-nb/libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+
+    <link rel="stylesheet" href="~/Content/themes/admin-nb/css/font.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/themes/admin-nb/css/app.css" type="text/css" />
 </head>
 <body>
     @Html.Partial("_showAlertMessages")
+
+    <div class="app app-header-fixed ">
+
+        <div class="container w-xxl w-auto-xs" ng-controller="SigninFormController" ng-init="app.settings.container = false;">
+            <div class="m-b-md">
+                <div class="wrapper text-center">
+                    <img src="img/logo-nubebooks.png" width="300">
+                </div>
+            </div>
+            <div class="m-b-sm">
+                <div class="wrapper text-center">
+                    <strong>Inicia sesión</strong>
+                </div>
+                <form name="form" class="form-validation">
+                    <div class="text-danger wrapper text-center" ng-show="authError">
+
+                    </div>
+                    <div class="list-group list-group-sm">
+                        <div class="list-group-item">
+                            <input type="text" placeholder="Empresa" class="form-control no-border" ng-model="user.company" required>
+                        </div>
+                        <div class="list-group-item">
+                            <input type="email" placeholder="Usuario" class="form-control no-border" ng-model="user.email" required>
+                        </div>
+                        <div class="list-group-item">
+                            <input type="password" placeholder="Contraseña" class="form-control no-border" ng-model="user.password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-info dker btn-block" ng-click="login()" ng-disabled='form.$invalid'>Ingresar</button>
+                    <div class="text-center m-t m-b"><a ui-sref="access.forgotpwd">¿Olvidaste tu contraseña?</a></div>
+                    <div class="line line-dashed"></div>
+                </form>
+                @using (Html.BeginForm("Login", "Admin", FormMethod.Post, new { @class = "panel-body wrapper-lg" }))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="list-group list-group-sm">
+                        <div class="list-group-item">
+                            <input type="text" placeholder="Empresa" class="form-control no-border" ng-model="user.company" required>
+                        </div>
+                        <div class="list-group-item">
+                            <input type="email" placeholder="Usuario" class="form-control no-border" ng-model="user.email" required>
+                        </div>
+                        <div class="list-group-item">
+                            <input type="password" placeholder="Contraseña" class="form-control no-border" ng-model="user.password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Empresa</label>
+                        @Html.TextBoxFor(u => u.codigoEmpresa, new { @class = "form-control no-border", @placeholder = "Código de la empresa", @type = "text", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Usuario</label>
+                        @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control no-border", @placeholder = "Ingrese el nombre de la cuenta", @type = "text", @required = "required" })
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Contraseña</label>
+                        @Html.TextBoxFor(u => u.Pass, new { @class = "form-control no-border", @placeholder = "Ingrese la contraseña", @type = "password", @required = "required" })
+                    </div>
+                    <button type="submit" class="btn btn-success">Ingresar</button>
+                    <a href="@Url.Action("ForgotPassword", "Admin")" class="pull-right m-t-xs"><small>Olvidaste la contraseña?</small></a>
+                }
+            </div>
+            <div class="text-center" ng-include="'tpl/blocks/page_footer.html'">
+                <p>
+                    <small class="text-muted">Nube Books 1.0<br>&copy; 2016. Todos los derechos reservados.</small>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
     <section id="content" class="m-t-lg wrapper-md animated fadeInUp">
         <div class="container aside-xxl">
             <a class="text-center block m-lg"><img src="@Url.Content("~/Content/themes/admin/images/logo.png")" style="width: 100%;"></a>
@@ -62,14 +129,17 @@
             </p>
         </div>
     </footer>
-    @Scripts.Render("~/Content/themes/admin/js/jquery.min.js")
+
+    <!-- Jquery -->
+    <script src="~/Content/themes/admin-nb/libs/jquery/jquery/dist/jquery.js"></script>
     <!-- Bootstrap -->
-    @Scripts.Render("~/Content/themes/admin/js/bootstrap.js")
+    <script src="~/Content/themes/admin-nb/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
     <!-- App -->
-    @Scripts.Render("~/Content/themes/admin/js/app.js")
-    @Scripts.Render("~/Content/themes/admin/js/app.plugin.js")
-    @Scripts.Render("~/Content/themes/admin/js/slimscroll/jquery.slimscroll.min.js")
-
-
+    <script src="~/Content/themes/admin-nb/js/ui-load.js"></script>
+    <script src="~/Content/themes/admin-nb/js/ui-jp.config.js"></script>
+    <script src="~/Content/themes/admin-nb/js/ui-jp.js"></script>
+    <script src="~/Content/themes/admin-nb/js/ui-nav.js"></script>
+    <script src="~/Content/themes/admin-nb/js/ui-toggle.js"></script>
+    <script src="~/Content/themes/admin-nb/js/ui-client.js"></script>
 </body>
 </html>
