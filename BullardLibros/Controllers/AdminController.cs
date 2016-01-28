@@ -168,7 +168,7 @@ namespace BullardLibros.Controllers
             createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_LOGIN);
             return RedirectToAction("Ingresar");
         }
-        public ActionResult Logout()
+        public ActionResult Logout() 
         {
             Session.Clear();
             return RedirectToAction("Ingresar");

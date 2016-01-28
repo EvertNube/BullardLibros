@@ -548,7 +548,7 @@ namespace BullardLibros.Core.BL
             string to = user.Email;
             string subject = "Recuperación de Contraseña";
             string body = "Sr(a). " + user.Nombre + " su contraseña es : " + passChange;
-            MailHandler.Send(to, "", subject, body);
+            MailHandler.Send(to, "", subject, body); 
         }
         public void SendMailResetPassword(UsuarioDTO user)
         {

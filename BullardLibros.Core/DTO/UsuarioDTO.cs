@@ -26,7 +26,7 @@ namespace BullardLibros.Core.DTO
         //public EmpresaDTO empresa { get; set; }
         public string nombreEmpresa { get; set; }
         public string codigoEmpresa { get; set; }
-
+         
         public string NombreRol { get; set; }
         
     }

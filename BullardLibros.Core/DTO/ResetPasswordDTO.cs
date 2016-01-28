@@ -12,6 +12,6 @@ namespace BullardLibros.Core.DTO
         public string rt { get; set; }
         public string emp { get; set; }
         public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } 
     }
 }
