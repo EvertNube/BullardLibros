@@ -32,6 +32,7 @@ namespace BullardLibros.Helpers
         public static string ERROR_DELETE = "<strong>Error.</strong> No se pudo eliminar el elemento.";
         public static string ERROR_NO_DELETE = "<strong>Error.</strong> Se produjo un error mientras se intentaba eliminar el elemento.";
 
+        public static string SUCCESS_MESSAGE_FOR_RECOVERY_PASSWORD = "<strong>Se ha enviado un mensaje a su correo electrónico.</strong>";
         public static string SUCCESS_RECOVERY_PASSWORD = "<strong>Se ha enviado un correo con la contraseña.</strong>";
 
         public static string STATUS_FIELD = "status";

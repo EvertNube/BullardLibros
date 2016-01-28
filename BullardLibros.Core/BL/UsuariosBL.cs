@@ -33,7 +33,8 @@ namespace BullardLibros.Core.BL
                                  NombreRol = r.Rol.Nombre,
                                  IdCargo = r.IdCargo,
                                  IdEmpresa = r.IdEmpresa,
-                                 nombreEmpresa = r.Empresa.Nombre ?? "N/A"
+                                 nombreEmpresa = r.Empresa.Nombre ?? "N/A",
+                                 Token = r.Token
                              };
                 return result.ToList<UsuarioDTO>();
             }
@@ -55,7 +56,8 @@ namespace BullardLibros.Core.BL
                                  Active = r.Estado,
                                  IdRol = r.IdRol, //?? 0
                                  IdCargo = r.IdCargo,
-                                 IdEmpresa = r.IdEmpresa
+                                 IdEmpresa = r.IdEmpresa,
+                                 Token = r.Token
                              };
                 return result.AsEnumerable<UsuarioDTO>().OrderByDescending(x => x.IdUsuario).ToList<UsuarioDTO>();
             }
@@ -77,7 +79,8 @@ namespace BullardLibros.Core.BL
                                  IdRol = r.IdRol, //?? 0
                                  NombreRol = r.Rol.Nombre,
                                  IdCargo = r.IdCargo,
-                                 IdEmpresa = r.IdEmpresa
+                                 IdEmpresa = r.IdEmpresa,
+                                 Token = r.Token
                              };
                 return result.ToList<UsuarioDTO>();//.AsEnumerable<UsuarioDTO>().OrderByDescending(x => x.Nombre).ToList<UsuarioDTO>();
             }
@@ -108,7 +111,8 @@ namespace BullardLibros.Core.BL
                                  Active = r.Estado,
                                  IdRol = r.IdRol, //?? 0
                                  IdCargo = r.IdCargo,
-                                 IdEmpresa = r.IdEmpresa
+                                 IdEmpresa = r.IdEmpresa,
+                                 Token = r.Token
                              };
                 return result.AsEnumerable<UsuarioDTO>().OrderByDescending(x => x.Nombre).ToList<UsuarioDTO>();
             }
@@ -191,7 +195,8 @@ namespace BullardLibros.Core.BL
                         Cuenta = x.Cuenta,
                         Token = x.Token,
                         IdRol = x.IdRol,
-                        IdEmpresa = x.IdEmpresa
+                        IdEmpresa = x.IdEmpresa,
+                        codigoEmpresa = x.Empresa.Codigo
                     }).FirstOrDefault();
                     if (result == null)
                     {
@@ -445,8 +450,17 @@ namespace BullardLibros.Core.BL
                 SendMailPassRecovery(user, newPassword);
                 return true;
             }
-            else
-                return false;
+            return false;
+        }
+        public bool generateTokenRecoverPassword(UsuarioDTO user)
+        {
+            if(user != null)
+            {
+                user.Token = updateTokenUser(user.IdUsuario);
+                SendMailResetPassword(user);
+                return true;
+            }
+            return false;
         }
         public bool recoverPassword(string CuentaOEmail)
         {
@@ -489,11 +503,61 @@ namespace BullardLibros.Core.BL
                 }
             }
         }
+
+        public bool resetPassword(UsuarioDTO user)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var usuario = context.Usuario.Where(x => x.Empresa.Codigo == user.codigoEmpresa && x.Token == user.Token).SingleOrDefault();
+                    if(usuario != null)
+                    { 
+                        usuario.Pass = Encrypt.GetCrypt(user.Pass);
+                        return true;
+                    }
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public string updateTokenUser(int id, bool nullToken = false)
+        {
+            using(var context = getContext())
+            {
+                try
+                {
+                    Usuario usuario = context.Usuario.Where(x => x.IdUsuario == id).SingleOrDefault();
+                    string token = Encrypt.GetCrypt(usuario.Cuenta);
+                    usuario.Token = (nullToken == true) ? null : token;
+                    context.SaveChanges();
+                    return token;
+                }
+                catch (Exception e)
+                {
+                    return "";
+                }
+            }
+        }
         public void SendMailPassRecovery(UsuarioDTO user, string passChange)
         {
             string to = user.Email;
             string subject = "Recuperación de Contraseña";
             string body = "Sr(a). " + user.Nombre + " su contraseña es : " + passChange;
+            MailHandler.Send(to, "", subject, body);
+        }
+        public void SendMailResetPassword(UsuarioDTO user)
+        {
+            string to = user.Email;
+            string subject = "Resetear contraseña";
+            //url.Action("ResetPassword", "Admin", new { rt = token })
+            string resetLink = MailHandler.ResetLink(user.Token, user.codigoEmpresa);
+
+            string body = "Sr(a). " + user.Nombre + "Si desea resetear su contraseña acceda al link: " + resetLink;
             MailHandler.Send(to, "", subject, body);
         }
 

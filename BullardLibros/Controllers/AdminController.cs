@@ -97,10 +97,6 @@ namespace BullardLibros.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            EmpresaBL objBL = new EmpresaBL();
-
-            ViewBag.lstEmpresas = objBL.getEmpresasViewBag();
-
             return View();
         }
         [HttpPost]
@@ -120,9 +116,10 @@ namespace BullardLibros.Controllers
             }
             else
             {
-                if (objBL.recoverPasswordNew(usuario))
+                //if (objBL.recoverPasswordNew(usuario))
+                if (objBL.generateTokenRecoverPassword(usuario))
                 {
-                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_RECOVERY_PASSWORD);
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_MESSAGE_FOR_RECOVERY_PASSWORD);
                 }
                 else
                 {
@@ -133,6 +130,31 @@ namespace BullardLibros.Controllers
 
             return RedirectToAction("Ingresar", "Admin");
         }
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string rt, string emp)
+        {
+            if(rt == null || emp == null)
+            {
+                return RedirectToAction("Ingresar", "Admin");
+            }
+
+            ResetPasswordDTO obj = new ResetPasswordDTO();
+            obj.rt = rt;
+            obj.emp = emp;
+            return View(obj);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordDTO obj)
+        {
+            UsuariosBL objBL = new UsuariosBL();
+            UsuarioDTO usuario = new UsuarioDTO() { Token = obj.rt, codigoEmpresa = obj.emp, Pass = obj.Password };
+            usuario = objBL.getUserByAcountOrEmail(usuario);
+            return RedirectToAction("Ingresar", "Admin");
+        }
+
 
         [HttpPost]
         public ActionResult Login(UsuarioDTO user)

@@ -93,6 +93,7 @@
     <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\PeriodoDTO.cs" />
     <Compile Include="DTO\ProyectoDTO.cs" />
+    <Compile Include="DTO\ResetPasswordDTO.cs" />
     <Compile Include="DTO\ResponsableDTO.cs" />
     <Compile Include="DTO\RolDTO.cs" />
     <Compile Include="DTO\Select2DTO.cs" />

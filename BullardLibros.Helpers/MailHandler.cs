@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using System.Web.Mvc;
 
 namespace BullardLibros.Helpers
 {
@@ -47,6 +48,19 @@ namespace BullardLibros.Helpers
                 //client.UseDefaultCredentials = false;
                 client.EnableSsl = true;
                 client.Send(mail);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static string ResetLink(string token, string codEmpresa)
+        {
+            try
+            {
+                UrlHelper url = new UrlHelper();
+                return "<a href='" + url.Action("ResetPassword", "Admin", new { rt = token, emp = codEmpresa }, "http") + "'>Reset Password Link</a>";
             }
             catch (Exception e)
             {
