@@ -452,15 +452,15 @@ namespace BullardLibros.Core.BL
             }
             return false;
         }
-        public bool generateTokenRecoverPassword(UsuarioDTO user)
+        public UsuarioDTO generateTokenRecoverPassword(UsuarioDTO user)
         {
             if(user != null)
             {
                 user.Token = updateTokenUser(user.IdUsuario);
-                SendMailResetPassword(user);
-                return true;
+                //SendMailResetPassword(user);
+                return user;
             }
-            return false;
+            return user;
         }
         public bool recoverPassword(string CuentaOEmail)
         {
@@ -504,7 +504,7 @@ namespace BullardLibros.Core.BL
             }
         }
 
-        public bool resetPassword(UsuarioDTO user)
+        public bool resetPasswordByTokenAndEmp(UsuarioDTO user)
         {
             using (var context = getContext())
             {
@@ -514,6 +514,8 @@ namespace BullardLibros.Core.BL
                     if(usuario != null)
                     { 
                         usuario.Pass = Encrypt.GetCrypt(user.Pass);
+                        usuario.Token = null;
+                        context.SaveChanges();
                         return true;
                     }
                     return false;
@@ -532,7 +534,9 @@ namespace BullardLibros.Core.BL
                 try
                 {
                     Usuario usuario = context.Usuario.Where(x => x.IdUsuario == id).SingleOrDefault();
-                    string token = Encrypt.GetCrypt(usuario.Cuenta);
+                    string tempPassword = Functions.GenerateRandomPassword(10);
+                    //string token = Encrypt.GetCrypt(usuario.Cuenta);
+                    string token = Encrypt.GetCrypt(tempPassword);
                     usuario.Token = (nullToken == true) ? null : token;
                     context.SaveChanges();
                     return token;
@@ -550,14 +554,14 @@ namespace BullardLibros.Core.BL
             string body = "Sr(a). " + user.Nombre + " su contraseña es : " + passChange;
             MailHandler.Send(to, "", subject, body); 
         }
-        public void SendMailResetPassword(UsuarioDTO user)
+        public void SendMailResetPassword(UsuarioDTO user, string link)
         {
             string to = user.Email;
             string subject = "Resetear contraseña";
             //url.Action("ResetPassword", "Admin", new { rt = token })
-            string resetLink = MailHandler.ResetLink(user.Token, user.codigoEmpresa);
+            //string resetLink = MailHandler.ResetLink(user.Token, user.codigoEmpresa);
 
-            string body = "Sr(a). " + user.Nombre + "Si desea resetear su contraseña acceda al link: " + resetLink;
+            string body = "Sr(a). " + user.Nombre + ". Si desea resetear su contraseña acceda al link: " + link;
             MailHandler.Send(to, "", subject, body);
         }
 

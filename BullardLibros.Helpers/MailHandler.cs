@@ -60,7 +60,8 @@ namespace BullardLibros.Helpers
             try
             {
                 UrlHelper url = new UrlHelper();
-                return "<a href='" + url.Action("ResetPassword", "Admin", new { rt = token, emp = codEmpresa }, "http") + "'>Reset Password Link</a>"; 
+                //string cadena = "<a href='" + url.Action("ResetPassword", "Admin", new { rt = token, emp = codEmpresa }, "http") + "'>Reset Password Link</a>";
+                return "hola";
             }
             catch (Exception e)
             {

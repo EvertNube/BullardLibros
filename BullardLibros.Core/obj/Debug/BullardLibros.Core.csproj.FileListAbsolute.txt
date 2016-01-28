@@ -118,6 +118,7 @@ C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Co
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.csprojResolveAssemblyReference.cache
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.dll
 C:\Archivos\NubeLabs\Books\BullardLibros_Empresas\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.pdb
+C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.csprojResolveAssemblyReference.cache
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\bin\Debug\BullardLibros.Core.dll.config
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\bin\Debug\BullardLibros.Core.dll
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\bin\Debug\BullardLibros.Core.pdb
@@ -143,6 +144,5 @@ C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\bin\Deb
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.Razor.xml
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\bin\Debug\System.Web.WebPages.Deployment.xml
-C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.csprojResolveAssemblyReference.cache
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.dll
 C:\Archivos\Personal_Pro\NubeLabs\Books\BullardLibros\BullardLibros.Core\obj\Debug\BullardLibros.Core.pdb

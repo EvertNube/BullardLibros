@@ -117,8 +117,11 @@ namespace BullardLibros.Controllers
             else
             {
                 //if (objBL.recoverPasswordNew(usuario))
-                if (objBL.generateTokenRecoverPassword(usuario))
+                usuario = objBL.generateTokenRecoverPassword(usuario);
+                if (usuario.Token != null)
                 {
+                    string link = "<a href='" + this.Url.Action("ResetPassword", "Admin", new { rt = usuario.Token, emp = usuario.codigoEmpresa }, this.Request.Url.Scheme) + "'>Reset Password</a>";
+                    objBL.SendMailResetPassword(usuario, link);
                     createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_MESSAGE_FOR_RECOVERY_PASSWORD);
                 }
                 else
@@ -149,10 +152,25 @@ namespace BullardLibros.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(ResetPasswordDTO obj)
         {
+            if(obj.rt == null || obj.emp == null || obj.Password == null || obj.Password == "")
+            {
+                return RedirectToAction("Ingresar", "Admin");
+            }
+            if(obj.Password != obj.ConfirmPassword)
+            {
+                createResponseMessage(CONSTANTES.ERROR, "<strong>Las contraseñas ingresadas tienen que coincidir.</strong>");
+                return View();
+            }
             UsuariosBL objBL = new UsuariosBL();
             UsuarioDTO usuario = new UsuarioDTO() { Token = obj.rt, codigoEmpresa = obj.emp, Pass = obj.Password };
-            usuario = objBL.getUserByAcountOrEmail(usuario);
-            return RedirectToAction("Ingresar", "Admin");
+            
+            if(objBL.resetPasswordByTokenAndEmp(usuario))
+            {
+                createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_PASSWORD_CHANGE);
+                return RedirectToAction("Ingresar", "Admin");
+            }
+            createResponseMessage(CONSTANTES.ERROR, "<strong>Usted no puede realizar esta acción o hubo un error al intentar cambiar la contraseña.</strong>");
+            return View();
         }
 
 

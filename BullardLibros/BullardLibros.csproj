@@ -1450,6 +1450,7 @@
     <Content Include="Views\Admin\Periodo.cshtml" />
     <Content Include="Views\Admin\ForgotPassword.cshtml" />
     <Content Include="Views\Admin\Contacto.cshtml" />
+    <Content Include="Views\Admin\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -34,6 +34,7 @@ namespace BullardLibros.Helpers
 
         public static string SUCCESS_MESSAGE_FOR_RECOVERY_PASSWORD = "<strong>Se ha enviado un mensaje a su correo electrónico.</strong>";
         public static string SUCCESS_RECOVERY_PASSWORD = "<strong>Se ha enviado un correo con la contraseña.</strong>";
+        public static string SUCCESS_PASSWORD_CHANGE = "<strong>Se ha cambiado la contraseña exitosamente.</strong>";
 
         public static string STATUS_FIELD = "status";
         public static string MESSAGE_FIELD = "message";
