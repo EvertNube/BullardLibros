@@ -871,6 +871,12 @@ namespace BullardLibros.Controllers
             try
             {
                 UsuariosBL usuariosBL = new UsuariosBL();
+                /*if (usuariosBL.validateUsuario(user))
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_DUPLICATE_USER);
+                    TempData["Usuario"] = user;
+                    return RedirectToAction("Usuario");
+                }*/
                 if (user.IdUsuario == 0 && usuariosBL.validateUsuario(user))
                 {
                     if (!this.isSuperAdministrator()) { return RedirectToAction("Index"); }
@@ -879,7 +885,7 @@ namespace BullardLibros.Controllers
                     createResponseMessage(CONSTANTES.SUCCESS);
                     return RedirectToAction("Usuarios");
                 }
-                else if (user.IdUsuario != 0)
+                else if (user.IdUsuario != 0 && usuariosBL.validateUsuarioNoDuplicado(user))
                 {
                     if (usuariosBL.update(user, passUser, passChange, this.getCurrentUser()))
                     {
@@ -901,7 +907,7 @@ namespace BullardLibros.Controllers
                 }
                 else
                 {
-                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_ACCOUNT);
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_DUPLICATE_USER);
                 }
             }
             catch

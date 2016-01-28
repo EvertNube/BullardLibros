@@ -169,7 +169,7 @@ namespace BullardLibros.Core.BL
                 if (user.Cuenta != null && user.Email != null)
                 {
                     var result = from r in context.Usuario
-                                 where r.Cuenta == user.Cuenta || r.Email == user.Email && r.IdEmpresa == user.IdEmpresa
+                                 where (r.Cuenta == user.Cuenta || r.Email == user.Email) && r.IdEmpresa == user.IdEmpresa
                                  select r;
                     if (result.FirstOrDefault<Usuario>() == null)
                     {
@@ -179,7 +179,24 @@ namespace BullardLibros.Core.BL
                 return false;
             }
         }
-        
+
+        public bool validateUsuarioNoDuplicado(UsuarioDTO user)
+        {
+            using (var context = getContext())
+            {
+                if (user.IdUsuario != null && user.Cuenta != null && user.Email != null)
+                {
+                    var element = context.Usuario.Where(x => x.IdUsuario == user.IdUsuario);
+                    var list = context.Usuario.Where(x => (x.Cuenta == user.Cuenta || x.Email == user.Email) && x.IdEmpresa == user.IdEmpresa).Except(element).ToList<Usuario>();
+
+                    if (list.Count == 0)
+                    { return true; }
+
+                    return false;
+                }
+                return false;
+            }
+        }
         public UsuarioDTO getUserByAcountOrEmail(UsuarioDTO user)
         {
             using (var context = getContext())
@@ -314,7 +331,7 @@ namespace BullardLibros.Core.BL
             using (var context = getContext())
             {
                 var result = from r in context.Usuario
-                             where r.Estado == true && r.Cuenta == user.Cuenta
+                             where r.Estado == true && r.Cuenta == user.Cuenta && r.Empresa.Codigo == user.codigoEmpresa
                              select new UsuarioDTO
                              {
                                  IdUsuario = r.IdUsuario,
@@ -341,10 +358,12 @@ namespace BullardLibros.Core.BL
 
             using (var context = getContext())
             {
-                var result = from r in context.Usuario
+                /*var result = from r in context.Usuario
                              where r.Estado == true && r.Cuenta == user.Cuenta && r.Empresa.Codigo == user.codigoEmpresa
-                             select r;
-                Usuario usuario = result.SingleOrDefault<Usuario>();
+                             select r;*/
+                var usuario = context.Usuario.Where(x => x.Estado == true && x.Cuenta == user.Cuenta && x.Empresa.Codigo == user.codigoEmpresa).SingleOrDefault<Usuario>();
+
+                //Usuario usuario = result.SingleOrDefault<Usuario>();
                 if (usuario != null)
                 {
                     if (Encrypt.comparetoCrypt(user.Pass, usuario.Pass))

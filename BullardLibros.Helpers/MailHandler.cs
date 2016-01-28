@@ -54,19 +54,5 @@ namespace BullardLibros.Helpers
                 throw e;
             }
         }
-
-        public static string ResetLink(string token, string codEmpresa)
-        {
-            try
-            {
-                UrlHelper url = new UrlHelper();
-                //string cadena = "<a href='" + url.Action("ResetPassword", "Admin", new { rt = token, emp = codEmpresa }, "http") + "'>Reset Password Link</a>";
-                return "hola";
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
     }
 }
