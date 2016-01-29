@@ -265,6 +265,7 @@
     <Content Include="Content\themes\admin-nb\img\bg.jpg" />
     <Content Include="Content\themes\admin-nb\img\c0.jpg" />
     <Content Include="Content\themes\admin-nb\img\c1.jpg" />
+    <Content Include="Content\themes\admin-nb\img\c1_b.png" />
     <Content Include="Content\themes\admin-nb\img\c2.jpg" />
     <Content Include="Content\themes\admin-nb\img\c3.jpg" />
     <Content Include="Content\themes\admin-nb\img\c4.jpg" />

@@ -553,7 +553,7 @@ namespace BullardLibros.Core.BL
                 try
                 {
                     Usuario usuario = context.Usuario.Where(x => x.IdUsuario == id).SingleOrDefault();
-                    string tempPassword = Functions.GenerateRandomPassword(10);
+                    string tempPassword = usuario.Cuenta + Functions.GenerateRandomPassword(7);
                     //string token = Encrypt.GetCrypt(usuario.Cuenta);
                     string token = Encrypt.GetCrypt(tempPassword);
                     usuario.Token = (nullToken == true) ? null : token;
