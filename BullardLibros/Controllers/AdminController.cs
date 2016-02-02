@@ -1058,7 +1058,6 @@ namespace BullardLibros.Controllers
                 List<ComprobanteDTO> lista = idTipoComprobante == 1 ? objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 1) : objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 2);
                 return View(lista);
             }
-            
             return View();
         }
 
