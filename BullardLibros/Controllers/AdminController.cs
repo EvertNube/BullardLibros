@@ -1039,6 +1039,29 @@ namespace BullardLibros.Controllers
             }
             return View();
         }
+
+        public ActionResult ComprobantesNuevo(int idTipoComprobante = 1)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            string tipo = idTipoComprobante == 1 ? "Ingreso" : "Egreso";
+            ViewBag.Title += " - Comprobantes de " + tipo;
+
+            MenuNavBarSelected(2);
+
+            UsuarioDTO user = getCurrentUser();
+
+            ComprobanteBL objBL = new ComprobanteBL();
+            ViewBag.idTipoComprobante = idTipoComprobante;
+
+            if(user.IdEmpresa > 0)
+            {
+                List<ComprobanteDTO> lista = idTipoComprobante == 1 ? objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 1) : objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 2);
+                return View(lista);
+            }
+            
+            return View();
+        }
+
         private IPagedList<ComprobanteDTO> BusquedaYPaginado_Comprobantes(IList<ComprobanteDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!String.IsNullOrEmpty(searchString))
