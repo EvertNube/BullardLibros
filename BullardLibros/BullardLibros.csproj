@@ -1452,6 +1452,7 @@
     <Content Include="Views\Admin\ForgotPassword.cshtml" />
     <Content Include="Views\Admin\Contacto.cshtml" />
     <Content Include="Views\Admin\ResetPassword.cshtml" />
+    <Content Include="Views\Admin\ComprobantesIE.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -151,7 +151,7 @@
                             </ul>
                         </li>
                         <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                            <a href="@Url.Action("Comprobantes", "Admin")" class="auto">
+                            <a href="@Url.Action("ComprobantesIE", "Admin")" class="auto">
                                 <span class="pull-right text-muted">
                                     <i class="fa fa-fw fa-angle-right text"></i>
                                     <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -161,17 +161,17 @@
                             </a>
                             <ul class="nav nav-sub dk">
                                 <li class="nav-sub-header">
-                                    <a href="@Url.Action("Comprobantes", "Admin")">
+                                    <a href="@Url.Action("ComprobantesIE", "Admin")">
                                         <span>Comprobantes</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                                    <a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = 1 })">
+                                    <a href="@Url.Action("ComprobantesIE", "Admin", new { idTipoComprobante = 1 })">
                                         <span>Ingresos</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                                    <a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = 2 })">
+                                    <a href="@Url.Action("ComprobantesIE", "Admin", new { idTipoComprobante = 2 })">
                                         <span>Egresos</span>
                                     </a>
                                 </li>

@@ -1040,7 +1040,7 @@ namespace BullardLibros.Controllers
             return View();
         }
 
-        public ActionResult ComprobantesNuevo(int idTipoComprobante = 1)
+        public ActionResult ComprobantesIE(int? idTipoComprobante = 1)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             string tipo = idTipoComprobante == 1 ? "Ingreso" : "Egreso";
