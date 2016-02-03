@@ -5,6 +5,16 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
+
 <div class="bg-light lter b-b wrapper-md">
     <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
     <button class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</button>
@@ -13,7 +23,7 @@
 <div class="wrapper-md">
     <div class="panel panel-default">
         <div class="table-responsive">
-            <table ui-jq="dataTable" class="table table-striped b-t b-b">
+            <table ui-jq="dataTable" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>
                         <th style="width:10%">Fecha</th>

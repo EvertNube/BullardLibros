@@ -1040,22 +1040,43 @@ namespace BullardLibros.Controllers
             return View();
         }
 
-        public ActionResult ComprobantesIE(int? idTipoComprobante = 1)
+        public ActionResult ComprobantesIngreso(int? idTipoComprobante = 1)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            string tipo = idTipoComprobante == 1 ? "Ingreso" : "Egreso";
-            ViewBag.Title += " - Comprobantes de " + tipo;
+            ViewBag.Title += " - Comprobantes de Ingreso";
 
             MenuNavBarSelected(2);
 
             UsuarioDTO user = getCurrentUser();
 
             ComprobanteBL objBL = new ComprobanteBL();
-            ViewBag.idTipoComprobante = idTipoComprobante;
+            int tipo = 1; //Ingresos
+            ViewBag.idTipoComprobante = tipo;
+
+            if (user.IdEmpresa > 0)
+            {
+                List<ComprobanteDTO> lista = objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, tipo);
+                return View(lista);
+            }
+            return View();
+        }
+
+        public ActionResult ComprobantesEgreso()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ViewBag.Title += " - Comprobantes de Egreso";
+
+            MenuNavBarSelected(2);
+
+            UsuarioDTO user = getCurrentUser();
+
+            ComprobanteBL objBL = new ComprobanteBL();
+            int tipo = 2; //Egresos
+            ViewBag.idTipoComprobante = tipo;
 
             if(user.IdEmpresa > 0)
             {
-                List<ComprobanteDTO> lista = idTipoComprobante == 1 ? objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 1) : objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 2);
+                List<ComprobanteDTO> lista = objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, tipo);
                 return View(lista);
             }
             return View();

@@ -151,7 +151,7 @@
                             </ul>
                         </li>
                         <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                            <a href="@Url.Action("ComprobantesIE", "Admin")" class="auto">
+                            <a href="@Url.Action("ComprobantesIngreso", "Admin")" class="auto">
                                 <span class="pull-right text-muted">
                                     <i class="fa fa-fw fa-angle-right text"></i>
                                     <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -161,17 +161,17 @@
                             </a>
                             <ul class="nav nav-sub dk">
                                 <li class="nav-sub-header">
-                                    <a href="@Url.Action("ComprobantesIE", "Admin")">
+                                    <a href="@Url.Action("ComprobantesIngreso", "Admin")">
                                         <span>Comprobantes</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                                    <a href="@Url.Action("ComprobantesIE", "Admin", new { idTipoComprobante = 1 })">
+                                    <a href="@Url.Action("ComprobantesIngreso", "Admin")">
                                         <span>Ingresos</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                                    <a href="@Url.Action("ComprobantesIE", "Admin", new { idTipoComprobante = 2 })">
+                                    <a href="@Url.Action("ComprobantesEgreso", "Admin")">
                                         <span>Egresos</span>
                                     </a>
                                 </li>
@@ -300,7 +300,7 @@
         </div>
     </aside>
     <!-- content -->
-    <div id="content" class="app-content" role="main">
+    <div id="content" class="app-content ng-scope" role="main">
         <div class="app-content-body ">
             @RenderBody()
         </div>
